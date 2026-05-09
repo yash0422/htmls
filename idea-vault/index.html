@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auremont Capital — Idea Vault</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@200;300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* ─── EXACT BRAND TOKENS FROM AUREMONT CAPITAL WEBSITE ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --gold:#C9A84C;
+  --gold-light:#E8C97A;
+  --gold-dim:#8A6F34;
+  --gold-pale:rgba(201,168,76,0.08);
+  --ink:#05070B;
+  --ink-mid:#0C0F16;
+  --ink-light:#141820;
+  --ink-card:#191D27;
+  --ash:#8A909E;
+  --ash-light:#C8CDD8;
+  --white:#F4F1EC;
+  --border:rgba(201,168,76,0.14);
+  --border-strong:rgba(201,168,76,0.38);
+  --red:#C0392B;
+  --green:#4A7C59;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--white);font-family:'Barlow',sans-serif;font-weight:300;overflow-x:hidden;}
+
+/* ─── NAV ─── */
+.site-nav{
+  position:sticky;top:0;z-index:500;
+  padding:20px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(5,7,11,0.96);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:400;
+  color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;
+}
+.nav-logo-sub{
+  font-size:8px;letter-spacing:0.26em;text-transform:uppercase;
+  color:var(--ash);margin-top:3px;
+}
+.nav-right{display:flex;align-items:center;gap:10px;}
+.btn-export{
+  font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:10px 22px;border:1px solid var(--border-strong);
+  background:transparent;color:var(--gold);cursor:pointer;transition:all 0.25s;
+}
+.btn-export:hover{background:var(--gold-pale);border-color:var(--gold);}
+.btn-capture{
+  font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:10px 22px;border:1px solid var(--gold);
+  background:var(--gold);color:var(--ink);cursor:pointer;transition:all 0.25s;
+}
+.btn-capture:hover{background:var(--gold-light);border-color:var(--gold-light);}
+
+/* ─── PAGE ─── */
+.page-body{padding:52px 60px 100px;max-width:1320px;margin:0 auto;}
+
+.sec-label{
+  font-size:9.5px;letter-spacing:0.32em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:12px;margin-bottom:40px;
+}
+.sec-label::before{content:'';display:block;width:28px;height:1px;background:var(--gold);}
+
+/* ─── METRICS ─── */
+.metrics-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;margin-bottom:40px;background:var(--border);
+}
+.metric-cell{
+  background:var(--ink-card);padding:32px 28px;
+  position:relative;overflow:hidden;transition:background 0.3s;
+}
+.metric-cell::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.4s;
+}
+.metric-cell:hover{background:var(--ink-light);}
+.metric-cell:hover::after{transform:scaleX(1);}
+.metric-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ash);margin-bottom:12px;}
+.metric-val{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px;}
+.metric-sub{font-size:10.5px;color:var(--ash);letter-spacing:0.08em;}
+
+/* ─── FILTER ─── */
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;}
+.filter-btn{
+  font-family:'Barlow',sans-serif;font-size:9px;font-weight:400;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:8px 20px;border:1px solid var(--border);
+  background:transparent;color:var(--ash);cursor:pointer;transition:all 0.2s;
+}
+.filter-btn:hover{border-color:var(--border-strong);color:var(--gold);}
+.filter-btn.active{border-color:var(--gold);background:var(--gold-pale);color:var(--gold);}
+
+/* ─── IDEA CARDS ─── */
+.idea-list{display:flex;flex-direction:column;gap:2px;}
+.idea-card{
+  background:var(--ink-card);border:1px solid transparent;
+  position:relative;overflow:hidden;cursor:pointer;transition:all 0.3s;
+}
+.idea-card::before{
+  content:'';position:absolute;top:0;left:0;width:3px;height:0;
+  background:var(--gold);transition:height 0.4s;
+}
+.idea-card:hover{background:var(--ink-light);border-color:var(--border);}
+.idea-card:hover::before{height:100%;}
+.idea-card.expanded{background:var(--ink-light);border-color:var(--border-strong);}
+.idea-card.expanded::before{height:100%;}
+
+.idea-top{display:flex;align-items:center;padding:24px 28px 24px 36px;gap:20px;}
+.idea-core{flex:1;min-width:0;}
+.idea-name{
+  font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;
+  color:var(--white);margin-bottom:10px;letter-spacing:0.02em;line-height:1.2;
+}
+.idea-tags{display:flex;gap:7px;flex-wrap:wrap;align-items:center;}
+.tag{font-size:8.5px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;padding:4px 11px;border:1px solid;}
+.tag-vertical{background:var(--gold-pale);color:var(--gold);border-color:rgba(201,168,76,0.28);}
+.tag-revmodel{background:transparent;color:var(--ash);border-color:var(--border);}
+.tag-stage-capture{background:rgba(46,95,138,0.1);color:#6AABDA;border-color:rgba(46,95,138,0.3);}
+.tag-stage-qualify{background:rgba(74,124,89,0.1);color:#72B58A;border-color:rgba(74,124,89,0.3);}
+.tag-stage-monitored{background:rgba(107,78,138,0.1);color:#A07DC0;border-color:rgba(107,78,138,0.3);}
+.tag-stage-activate{background:var(--gold-pale);color:var(--gold);border-color:rgba(201,168,76,0.3);}
+.tag-stage-dormant{background:rgba(138,144,158,0.08);color:var(--ash);border-color:var(--border);}
+
+.idea-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0;}
+.score-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1;}
+.score-denom{font-size:10px;color:var(--ash);letter-spacing:0.08em;}
+.score-hi{color:var(--gold-light);}
+.score-mid{color:#9A8050;}
+.score-lo{color:var(--ash);}
+.idea-date{font-size:10px;color:var(--ash);letter-spacing:0.08em;}
+
+/* ─── DETAIL ─── */
+.idea-detail{display:none;padding:8px 36px 28px 36px;border-top:1px solid var(--border);}
+.idea-card.expanded .idea-detail{display:block;}
+.detail-gold-line{width:40px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:24px;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 52px;margin-bottom:24px;}
+.d-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;}
+.d-val{font-size:13px;color:var(--ash-light);line-height:1.75;font-weight:300;}
+
+/* decay bar */
+.decay-row{margin-bottom:24px;}
+.decay-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.decay-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);}
+.decay-badge{font-size:8.5px;letter-spacing:0.14em;text-transform:uppercase;padding:3px 10px;border:1px solid;}
+.decay-badge.high{color:var(--red);border-color:rgba(192,57,43,0.4);}
+.decay-badge.mid{color:var(--gold);border-color:rgba(201,168,76,0.35);}
+.decay-badge.low{color:var(--green);border-color:rgba(74,124,89,0.4);}
+.decay-track{height:1px;background:rgba(255,255,255,0.07);}
+.decay-fill{height:1px;}
+.decay-fill.high{background:var(--red);}
+.decay-fill.mid{background:var(--gold);}
+.decay-fill.low{background:var(--green);}
+
+/* action buttons */
+.action-row{display:flex;gap:8px;flex-wrap:wrap;}
+.act-btn{
+  font-family:'Barlow',sans-serif;font-size:9px;font-weight:400;
+  letter-spacing:0.18em;text-transform:uppercase;
+  padding:9px 20px;border:1px solid var(--border);
+  background:transparent;color:var(--ash);cursor:pointer;transition:all 0.2s;
+  text-decoration:none;display:inline-block;
+}
+.act-btn:hover{border-color:var(--border-strong);color:var(--gold);}
+.act-btn.gold{border-color:rgba(201,168,76,0.4);color:var(--gold);background:var(--gold-pale);}
+.act-btn.gold:hover{background:rgba(201,168,76,0.13);}
+.act-btn.danger{border-color:rgba(192,57,43,0.3);color:var(--red);}
+.act-btn.danger:hover{background:rgba(192,57,43,0.07);}
+
+/* ─── BRIEF SECTION BUTTONS ROW ─── */
+.brief-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.brief-btn{
+  font-family:'Barlow',sans-serif;font-size:8.5px;font-weight:400;
+  letter-spacing:0.16em;text-transform:uppercase;
+  padding:7px 14px;border:1px solid rgba(201,168,76,0.22);
+  background:rgba(201,168,76,0.04);color:var(--gold-dim);cursor:pointer;transition:all 0.2s;
+}
+.brief-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-pale);}
+.brief-btn.has-content{border-color:rgba(201,168,76,0.45);color:var(--gold);}
+.brief-btn.has-content::after{content:'·';margin-left:5px;color:var(--gold);}
+
+/* ─── SECTION NOTE MODAL ─── */
+.snote-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(3,4,8,0.93);
+  z-index:950;align-items:center;justify-content:center;padding:24px;
+}
+.snote-overlay.open{display:flex;}
+.snote-modal{
+  background:#0D1018;
+  border:1px solid rgba(201,168,76,0.5);
+  width:700px;max-width:100%;max-height:88vh;
+  display:flex;flex-direction:column;
+  animation:modalIn 0.22s ease;
+}
+.snote-header{
+  padding:26px 32px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:#0D1018;flex-shrink:0;
+}
+.snote-idea-name{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ash);margin-bottom:6px;}
+.snote-section-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);letter-spacing:0.06em;}
+.snote-close{background:transparent;border:none;color:var(--ash);font-size:22px;cursor:pointer;padding:4px 8px;transition:color 0.2s;line-height:1;}
+.snote-close:hover{color:var(--white);}
+.snote-body{padding:24px 32px;flex:1;display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
+.snote-hint{font-size:10.5px;color:var(--ash);letter-spacing:0.06em;line-height:1.6;}
+.snote-textarea{
+  flex:1;min-height:320px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(201,168,76,0.18);
+  color:var(--white);font-family:'Barlow',sans-serif;font-size:13px;font-weight:300;
+  padding:16px 18px;outline:none;resize:vertical;line-height:1.75;
+  transition:border-color 0.25s;
+}
+.snote-textarea:focus{border-color:rgba(201,168,76,0.5);}
+.snote-textarea::placeholder{color:rgba(138,144,158,0.4);}
+.snote-footer{
+  padding:16px 32px 24px;border-top:1px solid var(--border);
+  display:flex;gap:10px;justify-content:space-between;align-items:center;
+  background:#0D1018;flex-shrink:0;
+}
+.snote-char{font-size:10px;color:var(--ash);letter-spacing:0.06em;}
+.snote-actions{display:flex;gap:10px;}
+.snote-clear{
+  font-family:'Barlow',sans-serif;font-size:9px;font-weight:400;
+  letter-spacing:0.18em;text-transform:uppercase;
+  padding:9px 18px;border:1px solid rgba(192,57,43,0.3);
+  background:transparent;color:var(--red);cursor:pointer;transition:all 0.2s;
+}
+.snote-clear:hover{background:rgba(192,57,43,0.07);}
+.snote-save{
+  font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:10px 28px;border:1px solid var(--gold);background:var(--gold);color:var(--ink);cursor:pointer;transition:all 0.2s;
+}
+.snote-save:hover{background:var(--gold-light);border-color:var(--gold-light);}
+
+/* empty state */
+.empty-state{text-align:center;padding:100px 20px;color:var(--ash);}
+.empty-icon{font-family:'Cormorant Garamond',serif;font-size:56px;color:rgba(201,168,76,0.15);margin-bottom:20px;}
+.empty-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:rgba(244,241,236,0.4);margin-bottom:10px;}
+.empty-sub{font-size:12px;color:var(--ash);}
+
+/* ─── MODAL — FULLY OPAQUE, NO TRANSPARENCY ISSUE ─── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(3,4,8,0.93);
+  z-index:900;align-items:center;justify-content:center;padding:24px;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:#0D1018; /* fully opaque solid dark */
+  border:1px solid rgba(201,168,76,0.5);
+  width:660px;max-width:100%;max-height:90vh;overflow-y:auto;
+  animation:modalIn 0.22s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.modal-header{
+  padding:30px 36px 22px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:#0D1018;position:sticky;top:0;z-index:10;
+}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--gold);letter-spacing:0.08em;}
+.modal-close{background:transparent;border:none;color:var(--ash);font-size:22px;cursor:pointer;padding:4px 8px;transition:color 0.2s;line-height:1;}
+.modal-close:hover{color:var(--white);}
+.modal-body{padding:28px 36px;background:#0D1018;}
+.modal-footer{padding:20px 36px 30px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;background:#0D1018;}
+
+/* form section headers */
+.form-section-label{
+  font-size:9px;letter-spacing:0.28em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;margin-top:26px;
+  display:flex;align-items:center;gap:10px;
+}
+.form-section-label:first-child{margin-top:0;}
+.form-section-label::before{content:'';display:block;width:16px;height:1px;background:var(--gold);}
+
+.form-row{margin-bottom:14px;}
+.form-label{display:block;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);margin-bottom:7px;}
+.form-input,.form-select,.form-textarea{
+  width:100%;background:rgba(255,255,255,0.03);
+  border:1px solid rgba(201,168,76,0.18);
+  color:var(--white);font-family:'Barlow',sans-serif;font-size:13px;font-weight:300;
+  padding:12px 16px;outline:none;transition:border-color 0.25s;appearance:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(201,168,76,0.5);}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(138,144,158,0.45);}
+.form-select{cursor:pointer;}
+.form-select option{background:#0D1018;color:var(--white);}
+.form-textarea{resize:vertical;min-height:76px;line-height:1.65;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* readiness */
+.readiness-row{display:flex;gap:6px;}
+.r-btn{
+  flex:1;padding:12px 4px;text-align:center;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.16);
+  font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--ash);
+  cursor:pointer;transition:all 0.2s;
+}
+.r-btn:hover{border-color:rgba(201,168,76,0.4);color:var(--gold);}
+.r-btn.sel{border-color:var(--gold);background:var(--gold-pale);color:var(--gold-light);}
+
+.btn-modal-cancel{
+  font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:400;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:11px 26px;border:1px solid var(--border);background:transparent;color:var(--ash);cursor:pointer;transition:all 0.2s;
+}
+.btn-modal-cancel:hover{color:var(--white);border-color:rgba(255,255,255,0.15);}
+.btn-modal-save{
+  font-family:'Barlow',sans-serif;font-size:9.5px;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:11px 30px;border:1px solid var(--gold);background:var(--gold);color:var(--ink);cursor:pointer;transition:all 0.2s;
+}
+.btn-modal-save:hover{background:var(--gold-light);border-color:var(--gold-light);}
+
+/* ─── PDF / PRINT ─── */  .decay-track{background:#eee !important;}
+  .decay-fill.high{background:#C0392B !important;}
+  .decay-fill.mid{background:#C9A84C !important;}
+  .decay-fill.low{background:#4A7C59 !important;}
+  .decay-badge.high{color:#C0392B !important;border-color:#C0392B !important;}
+  .decay-badge.mid{color:#8A6F34 !important;border-color:#C9A84C !important;}
+  .decay-badge.low{color:#4A7C59 !important;border-color:#4A7C59 !important;}
+
+}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.3);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div>
+    <div class="nav-logo-name">Auremont Capital</div>
+    <div class="nav-logo-sub">Deal &amp; Partnership Intelligence Vault</div>
+  </div>
+  <div class="nav-right">
+    <button class="btn-export" onclick="exportJSON()">Export JSON</button>
+    <button class="btn-export" onclick="document.getElementById('importFile').click()">Import JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+    <button class="btn-capture" onclick="openModal()">+ Capture Idea</button>
+  </div>
+</nav>
+
+<div class="page-body">
+
+  <div class="sec-label">Idea Pipeline</div>
+
+  <div class="metrics-grid">
+    <div class="metric-cell">
+      <div class="metric-label">Total Ideas</div>
+      <div class="metric-val" id="mTotal">0</div>
+      <div class="metric-sub">in vault</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Activate-Ready</div>
+      <div class="metric-val" id="mActivate">0</div>
+      <div class="metric-sub">stage activate</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">High Readiness</div>
+      <div class="metric-val" id="mHigh">0</div>
+      <div class="metric-sub">readiness ≥ 4</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-label">Decay Risk</div>
+      <div class="metric-val" id="mDecay">0</div>
+      <div class="metric-sub">window closing</div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+    <button class="filter-btn" onclick="setFilter(this,'Capture')">Capture</button>
+    <button class="filter-btn" onclick="setFilter(this,'Qualify')">Qualify</button>
+    <button class="filter-btn" onclick="setFilter(this,'Monitored')">Monitored</button>
+    <button class="filter-btn" onclick="setFilter(this,'Activate')">Activate</button>
+    <button class="filter-btn" onclick="setFilter(this,'Dormant')">Dormant</button>
+    <button class="filter-btn" onclick="setFilter(this,'__high')">High Score</button>
+  </div>
+
+  <div class="idea-list" id="ideaList"></div>
+
+</div>
+
+<!-- ─── MODAL — SOLID OPAQUE BACKGROUND, NO VISIBILITY ISSUE ─── -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Capture New Idea</div>
+      <button class="modal-close" onclick="closeModal()">&#215;</button>
+    </div>
+    <div class="modal-body">
+
+      <div class="form-section-label">Core Details</div>
+
+      <div class="form-row">
+        <label class="form-label">Idea name / title</label>
+        <input class="form-input" id="fName" type="text" placeholder="e.g. Nordic EdTech Fund co-origination — GCC">
+      </div>
+      <div class="form-row">
+        <label class="form-label">One-line thesis</label>
+        <input class="form-input" id="fThesis" type="text" placeholder="What is this deal or partnership in one sentence?">
+      </div>
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">Vertical</label>
+          <select class="form-select" id="fVertical">
+            <option value="">— select —</option>
+            <option>Education</option>
+            <option>Hospitality</option>
+            <option>Healthcare</option>
+            <option>Real Estate</option>
+            <option>Data Centers / Tech</option>
+            <option>AI / Automation</option>
+            <option>Cross-Vertical</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Revenue model</label>
+          <select class="form-select" id="fRevModel">
+            <option value="">— select —</option>
+            <option>Advisory fee</option>
+            <option>Success fee</option>
+            <option>Co-GP carry</option>
+            <option>JV / equity stake</option>
+            <option>Retainer</option>
+            <option>Data / Intelligence product</option>
+            <option>Hybrid</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-label">Intelligence</div>
+
+      <div class="form-row">
+        <label class="form-label">International counterpart (named entity or type)</label>
+        <input class="form-input" id="fCounterpart" type="text" placeholder="e.g. Bridges Fund Management, London / GCC-focused LP">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Why now — market signal</label>
+        <textarea class="form-textarea" id="fSignal" placeholder="What triggered this idea? News, conversation, market gap?"></textarea>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Auremont Capital's unfair advantage</label>
+        <textarea class="form-textarea" id="fEdge" placeholder="Why is Auremont Capital the natural home for this deal or partnership?"></textarea>
+      </div>
+
+      <div class="form-section-label">Scoring &amp; Classification</div>
+
+      <div class="form-row">
+        <label class="form-label">Readiness score &nbsp;—&nbsp; 1 = idea only &nbsp;·&nbsp; 5 = mandate-ready</label>
+        <div class="readiness-row" id="readinessRow">
+          <button class="r-btn" onclick="setReadiness(1)">1</button>
+          <button class="r-btn" onclick="setReadiness(2)">2</button>
+          <button class="r-btn" onclick="setReadiness(3)">3</button>
+          <button class="r-btn" onclick="setReadiness(4)">4</button>
+          <button class="r-btn" onclick="setReadiness(5)">5</button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">Stage</label>
+          <select class="form-select" id="fStage">
+            <option>Capture</option>
+            <option>Qualify</option>
+            <option>Monitored</option>
+            <option>Activate</option>
+            <option>Dormant</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Market decay risk</label>
+          <select class="form-select" id="fDecay">
+            <option value="">— select —</option>
+            <option value="high">High — window closes in weeks</option>
+            <option value="mid">Medium — 3–12 month window</option>
+            <option value="low">Low — structural / evergreen</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Revival date (if Monitored or Dormant)</label>
+        <input class="form-input" id="fRevival" type="text" placeholder="e.g. Q3 2025, when MARVINA Phase 2 is live">
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-save" onclick="saveIdea()">Save to Vault</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SECTION NOTE MODAL ─── -->
+<div class="snote-overlay" id="snoteOverlay" onclick="closeSnoteOutside(event)">
+  <div class="snote-modal" onclick="event.stopPropagation()">
+    <div class="snote-header">
+      <div>
+        <div class="snote-idea-name" id="snoteIdeaName"></div>
+        <div class="snote-section-title" id="snoteSectionTitle"></div>
+      </div>
+      <button class="snote-close" onclick="closeSnote()">&#215;</button>
+    </div>
+    <div class="snote-body">
+      <div class="snote-hint">Paste or type your content below. Saved automatically to this idea — persists across sessions.</div>
+      <textarea class="snote-textarea" id="snoteText" placeholder="Paste your content here…" oninput="updateSnoteChar()"></textarea>
+    </div>
+    <div class="snote-footer">
+      <span class="snote-char" id="snoteChar">0 characters</span>
+      <div class="snote-actions">
+        <button class="snote-clear" onclick="clearSnote()">Clear</button>
+        <button class="snote-save" onclick="saveSnote()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// SUPABASE CONFIG
+// ══════════════════════════════════════════════════════════
+const SUPABASE_URL = 'https://gpkjowvqkmveiitjgopn.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdwa2pvd3Zxa212ZWlpdGpnb3BuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzMTU3MTYsImV4cCI6MjA5Mzg5MTcxNn0.Qk9CgXXeuqtihD3sysHZzC3_uTtqWLg8iiJgQbvHRqU';
+const SB_HEADERS = {'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+
+// Supabase REST helpers
+async function sbGet(table){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*&order=created_at.desc`,{headers:SB_HEADERS});
+  return r.ok ? r.json() : [];
+}
+async function sbInsert(table,data){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',headers:{...SB_HEADERS,'Prefer':'return=representation'},body:JSON.stringify(data)});
+  return r.ok ? r.json() : null;
+}
+async function sbUpdate(table,id,data){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{...SB_HEADERS,'Prefer':'return=representation'},body:JSON.stringify(data)});
+  return r.ok ? r.json() : null;
+}
+async function sbDelete(table,id){
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`,{method:'DELETE',headers:SB_HEADERS});
+  return r.ok;
+}
+
+// ── STATUS INDICATOR ──
+function setStatus(msg,type='info'){
+  let el=document.getElementById('sb-status');
+  if(!el){el=document.createElement('div');el.id='sb-status';Object.assign(el.style,{position:'fixed',bottom:'24px',right:'28px',padding:'10px 20px',fontSize:'11px',letterSpacing:'0.14em',textTransform:'uppercase',fontFamily:'Barlow,sans-serif',zIndex:'9999',transition:'opacity 0.4s',borderRadius:'2px'});document.body.appendChild(el);}
+  const colors={info:'background:#1a1f2a;color:#C9A84C;border:1px solid rgba(201,168,76,0.35)',ok:'background:#0f1a14;color:#4A7C59;border:1px solid rgba(74,124,89,0.4)',err:'background:#1a0f0f;color:#C0392B;border:1px solid rgba(192,57,43,0.4)'};
+  el.style.cssText+=';'+colors[type]||colors.info;el.textContent=msg;el.style.opacity='1';
+  clearTimeout(el._t);el._t=setTimeout(()=>el.style.opacity='0',3000);
+}
+
+// ══════════════════════════════════════════════════════════
+// DATA STORAGE — Supabase cloud (ideas + notes stored as JSONB)
+// ══════════════════════════════════════════════════════════
+let ideas = [];
+let readinessVal = 0;
+let editIdx = -1;
+let activeFilter = 'all';
+let sbIdMap = {}; // maps idea.id → supabase row uuid
+
+const SAMPLES = [
+  {
+    id:1,name:'Rwanda CDC Land-Owner Tri-Party Advisory',
+    thesis:'Tri-party fee model: Land Owner + CDC Developer + Lessee across Kigali entry market',
+    vertical:'Data Centers / Tech',revModel:'Advisory fee',
+    counterpart:'HyperBlock / Anup (Tajikistan buyer channel)',
+    signal:'HyperBlock C40 product identified; Kigali as priority CDC market with greenfield land availability and government incentives.',
+    edge:'Auremont Capital has on-ground Rwanda exposure from Kigali residential model; CDC vertical being purpose-built as advisory line.',
+    readiness:3,stage:'Monitored',decay:'mid',revival:'Q3 2025 — pending MARVINA Phase 2',date:'2025-01-15'
+  },
+  {
+    id:2,name:'Ahmed A.J. School Asset — PE Buyer Matchmaking',
+    thesis:'AED 115–120M CBSE school asset in Al Barsha South, off-market mandate to PE buyer universe',
+    vertical:'Education',revModel:'Success fee',
+    counterpart:'Noble Partners Ltd (Sandeep Verma)',
+    signal:'KHDA fee headroom analysis shows 15–22% yield upside; DCAM land lease risk priced in as negotiation lever.',
+    edge:'Signed non-exclusive mandate; MARVINA Education scoring model; direct KHDA data access.',
+    readiness:5,stage:'Activate',decay:'high',revival:'',date:'2025-01-08'
+  },
+  {
+    id:3,name:'Goa Beachfront Hospitality — Lux Collective Pitch',
+    thesis:'47,000 sqm Benaulim beachfront plot, 145m frontage — SALT brand fit identified',
+    vertical:'Hospitality',revModel:'Advisory fee',
+    counterpart:'Nitesh Pandey, The Lux Collective (APAC Head of Expansion)',
+    signal:'Brand gap in South Goa luxury segment; SALT positioning aligns with plot scale and frontage premium.',
+    edge:'10-slide deck delivered; direct APAC expansion decision-maker access; hospitality asset valuation depth.',
+    readiness:4,stage:'Qualify',decay:'mid',revival:'',date:'2024-12-20'
+  },
+  {
+    id:4,name:'GCC EdTech Fund — Soft Association & Co-Origination',
+    thesis:'Position Auremont Capital as preferred GCC co-originator for London/EU EdTech-focused PE entering MENA',
+    vertical:'Education',revModel:'Co-GP carry',
+    counterpart:'London-based EdTech PE (unnamed — thesis stage)',
+    signal:'Post-COVID EdTech M&A activity rising; MENA private school consolidation play underserved by international capital.',
+    edge:'EDU_INVEST_DB with 180+ records; MARVINA Education scoring model; KHDA/ADEK regulatory navigation depth.',
+    readiness:2,stage:'Capture',decay:'low',revival:'Q4 2025',date:'2025-01-20'
+  }
+];
+
+async function loadIdeas(){
+  setStatus('Loading vault…','info');
+  try{
+    const rows = await sbGet('idea_vault');
+    if(rows && rows.length){
+      ideas = []; sbIdMap = {};
+      rows.forEach(row=>{
+        const d = row.idea_data;
+        if(d._notes) Object.assign(notes,d._notes);
+        ideas.push(d);
+        sbIdMap[d.id]=row.id;
+      });
+      setStatus('Vault loaded — '+ideas.length+' ideas','ok');
+    } else {
+      ideas = SAMPLES; setStatus('First run — seeding vault…','info');
+      for(const idea of SAMPLES){
+        const res = await sbInsert('idea_vault',{idea_data:idea});
+        if(res&&res[0]) sbIdMap[idea.id]=res[0].id;
+      }
+      setStatus('Vault seeded with '+SAMPLES.length+' sample ideas','ok');
+    }
+  } catch(e){ setStatus('Load error — check connection','err'); ideas=SAMPLES; }
+  render();
+}
+
+async function persist(){ /* handled per-operation */ }
+
+// ══════════════════════════════════════════════════════════
+// CLAUDE DEEP-LINKS
+// Each action button builds a structured prompt and opens
+// claude.ai/new?q=... in a new browser tab.
+// The full idea context is pre-loaded into the chat.
+// ══════════════════════════════════════════════════════════
+const CLAUDE = 'https://claude.ai/new';
+
+function ctx(idea){
+  return [
+    '=== AUREMONT CAPITAL — IDEA VAULT ===',
+    'IDEA: '+idea.name,
+    'THESIS: '+idea.thesis,
+    'VERTICAL: '+idea.vertical,
+    'REVENUE MODEL: '+idea.revModel,
+    'COUNTERPART: '+idea.counterpart,
+    'MARKET SIGNAL: '+idea.signal,
+    'AUREMONT CAPITAL EDGE: '+idea.edge,
+    'READINESS: '+idea.readiness+'/5',
+    'STAGE: '+idea.stage,
+    'MARKET DECAY RISK: '+(idea.decay==='high'?'High — window closing':idea.decay==='mid'?'Medium — 3–12 months':'Low — evergreen'),
+    idea.revival?'REVIVAL DATE: '+idea.revival:'',
+    idea.date?'CAPTURED: '+idea.date:'',
+    ''
+  ].filter(Boolean).join('\n');
+}
+
+function prompt_outreach(idea){
+  return ctx(idea)+
+'TASK: Draft a warm-keep outreach message on behalf of Vishal at Auremont Capital.\n\n'+
+'Requirements:\n'+
+'- Audience: the named counterpart above\n'+
+'- Tone: professional, warm, relationship-building — never salesy\n'+
+'- Reference the deal context naturally without over-explaining\n'+
+'- Length: 4–6 lines maximum (WhatsApp or short email format)\n'+
+'- Keep the door open without committing prematurely\n'+
+'- Sign off: Vishal | Auremont Capital | DIFC, Dubai';
+}
+
+function prompt_qualify(idea){
+  return ctx(idea)+
+'TASK: Run a formal qualification check on this Auremont Capital idea.\n\n'+
+'Apply the 3-question filter:\n'+
+'1. REAL COUNTERPART? Is there a named entity, not just a category?\n'+
+'2. FEE OR EQUITY EVENT? Is there a concrete revenue trigger, not just networking?\n'+
+'3. NATURAL HOME? Is Auremont Capital genuinely positioned for this — honest capacity assessment?\n\n'+
+'For each question: state the answer clearly with reasoning.\n'+
+'Final verdict: PASS / CONDITIONAL PASS / FAIL\n'+
+'If Conditional or Fail: state the single action that would move it to Pass.';
+}
+
+function prompt_brief(idea){
+  return ctx(idea)+
+'TASK: Produce a one-page Deal Intelligence Brief in Auremont Capital\'s institutional voice.\n\n'+
+'Format:\n'+
+'— EXECUTIVE SUMMARY (2–3 sentences)\n'+
+'— MARKET OPPORTUNITY (bullet points, data where available)\n'+
+'— REVENUE EVENT (specific fee / carry / equity scenario with AED estimates)\n'+
+'— COUNTERPART PROFILE (who they are, why they matter, how to approach them)\n'+
+'— AUREMONT CAPITAL COMPETITIVE ADVANTAGE (sharp and specific)\n'+
+'— RECOMMENDED NEXT ACTION (one concrete step with timeline)\n'+
+'— RISK FLAGS (2–3 key risks)\n\n'+
+'Tone: institutional, direct, zero filler. For internal distribution.';
+}
+
+function prompt_advance(idea){
+  return ctx(idea)+
+'TASK: This idea is currently in the "'+idea.stage+'" stage of the Auremont Capital pipeline.\n\n'+
+'Advise:\n'+
+'1. What specific actions are required to advance it to the next stage?\n'+
+'2. Who needs to be engaged, and in what sequence?\n'+
+'3. What is a realistic timeline?\n'+
+'4. What is the single most important action Vishal at Auremont Capital should take in the next 7 days?\n\n'+
+'Be concrete — no generic advice. Reference the specific counterpart and vertical context above.';
+}
+
+function openClaude(action,idx){
+  const idea = ideas[idx];
+  const prompts = {outreach:prompt_outreach,qualify:prompt_qualify,brief:prompt_brief,advance:prompt_advance};
+  const p = prompts[action](idea);
+  window.open(CLAUDE+'?q='+encodeURIComponent(p),'_blank');
+}
+
+// ── BRIEF SECTIONS ──
+const BRIEF_SECTIONS = [
+  {label:'Executive Summary',    placeholder:'Paste the Executive Summary from the Deal Intelligence Brief…'},
+  {label:'Market Opportunity',   placeholder:'Paste the Market Opportunity section…'},
+  {label:'Revenue Event',        placeholder:'Paste the Revenue Event section with AED estimates…'},
+  {label:'Counterpart Profile',  placeholder:'Paste the Counterpart Profile section…'},
+  {label:'Auremont Advantage',   placeholder:'Paste the Auremont Capital Competitive Advantage section…'},
+  {label:'Next Action',          placeholder:'Paste the Recommended Next Action with timeline…'},
+  {label:'Risk Flags',           placeholder:'Paste the Risk Flags section…'},
+];
+
+const NOTES_STORE = 'acv3_notes';
+let notes = {};
+
+function loadNotes(){
+  // Notes are embedded in idea_data.notes — loaded with ideas
+  // Also keep localStorage as local cache for performance
+  try{ const r=localStorage.getItem(NOTES_STORE); notes=r?JSON.parse(r):{}; } catch(e){ notes={}; }
+}
+
+function persistNotes(){
+  try{ localStorage.setItem(NOTES_STORE,JSON.stringify(notes)); } catch(e){}
+  // Also sync notes to the idea's Supabase row
+  // We patch each affected idea's idea_data with notes embedded
+}
+
+function noteKey(ideaId,sectionIdx){ return ideaId+'_'+sectionIdx; }
+
+function hasBriefNote(ideaId,sectionIdx){
+  const v=notes[noteKey(ideaId,sectionIdx)];
+  return !!(v&&v.trim().length);
+}
+
+// ── SNOTE MODAL ──
+let snoteIdeaIdx=-1;
+let snoteSectionIdx=-1;
+
+function openSnote(ideaIdx,sectionIdx){
+  snoteIdeaIdx=ideaIdx;
+  snoteSectionIdx=sectionIdx;
+  const idea=ideas[ideaIdx];
+  const section=BRIEF_SECTIONS[sectionIdx];
+  document.getElementById('snoteIdeaName').textContent=idea.name;
+  document.getElementById('snoteSectionTitle').textContent=section.label;
+  const ta=document.getElementById('snoteText');
+  ta.placeholder=section.placeholder;
+  const val=notes[noteKey(idea.id,sectionIdx)]||'';
+  ta.value=val;
+  updateSnoteChar();
+  document.getElementById('snoteOverlay').classList.add('open');
+  setTimeout(()=>ta.focus(),120);
+}
+
+function closeSnote(){ document.getElementById('snoteOverlay').classList.remove('open'); }
+function closeSnoteOutside(e){ if(e.target===e.currentTarget)closeSnote(); }
+
+function updateSnoteChar(){
+  const len=document.getElementById('snoteText').value.length;
+  document.getElementById('snoteChar').textContent=len.toLocaleString()+' character'+(len===1?'':'s');
+}
+
+async function saveSnote(){
+  const idea=ideas[snoteIdeaIdx];
+  const val=document.getElementById('snoteText').value;
+  notes[noteKey(idea.id,snoteSectionIdx)]=val;
+  persistNotes();
+  // Sync notes into the idea row on Supabase
+  const sbId = sbIdMap[idea.id];
+  if(sbId){
+    const ideaWithNotes = Object.assign({},idea,{_notes:notes});
+    await sbUpdate('idea_vault',sbId,{idea_data:ideaWithNotes,updated_at:new Date().toISOString()});
+    setStatus('Brief section saved','ok');
+  }
+  refreshBriefRow(snoteIdeaIdx);
+  closeSnote();
+}
+
+function clearSnote(){
+  if(!confirm('Clear this section? This cannot be undone.'))return;
+  document.getElementById('snoteText').value='';
+  updateSnoteChar();
+}
+
+function refreshBriefRow(ideaIdx){
+  const idea=ideas[ideaIdx];
+  const row=document.getElementById('brief-row-'+ideaIdx);
+  if(!row)return;
+  row.innerHTML=BRIEF_SECTIONS.map((s,si)=>`<button class="brief-btn ${hasBriefNote(idea.id,si)?'has-content':''}" onclick="event.stopPropagation();openSnote(${ideaIdx},${si})">${s.label}</button>`).join('');
+}
+
+// ── EXPORT / IMPORT JSON ──
+function exportJSON(){
+  const payload={
+    exported: new Date().toISOString(),
+    vault: 'Auremont Capital — Idea Vault',
+    source: 'Supabase cloud — deal_vault project',
+    ideas: ideas,
+    notes: notes
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='auremont_vault_'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importJSON(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const payload=JSON.parse(ev.target.result);
+      if(!payload.ideas||!Array.isArray(payload.ideas))throw new Error('Invalid vault file');
+      if(!confirm('Import '+payload.ideas.length+' ideas from "'+file.name+'"?\n\nThis will REPLACE your current vault data. Export your current data first if needed.'))return;
+      ideas=payload.ideas;
+      notes=payload.notes||{};
+      persist();
+      persistNotes();
+      render();
+      alert('Vault imported successfully — '+ideas.length+' ideas loaded.');
+    } catch(err){
+      alert('Import failed: '+err.message+'\n\nMake sure you are using a valid Auremont Vault JSON export file.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+
+function render(){ renderMetrics(); renderList(); }
+
+function renderMetrics(){
+  document.getElementById('mTotal').textContent = ideas.length;
+  document.getElementById('mActivate').textContent = ideas.filter(i=>i.stage==='Activate').length;
+  document.getElementById('mHigh').textContent = ideas.filter(i=>i.readiness>=4).length;
+  document.getElementById('mDecay').textContent = ideas.filter(i=>i.decay==='high').length;
+}
+
+function renderList(){
+  let list = ideas;
+  if(activeFilter==='__high') list = ideas.filter(i=>i.readiness>=4);
+  else if(activeFilter!=='all') list = ideas.filter(i=>i.stage===activeFilter);
+  const el = document.getElementById('ideaList');
+  if(!list.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">◇</div><div class="empty-title">No ideas in this view</div><div class="empty-sub">Capture your first idea using the button above</div></div>';
+    return;
+  }
+  el.innerHTML = list.map(idea=>{
+    const ri = ideas.indexOf(idea);
+    const sc = idea.readiness>=4?'score-hi':idea.readiness>=3?'score-mid':'score-lo';
+    const sk = (idea.stage||'capture').toLowerCase();
+    const dp = idea.decay==='high'?88:idea.decay==='mid'?52:22;
+    const dc = idea.decay||'mid';
+    const dl = idea.decay==='high'?'High — closing':idea.decay==='mid'?'Medium':'Low — evergreen';
+    return `<div class="idea-card" id="card-${ri}" onclick="toggleCard(${ri})">
+  <div class="idea-top">
+    <div class="idea-core">
+      <div class="idea-name">${esc(idea.name)}</div>
+      <div class="idea-tags">
+        <span class="tag tag-vertical">${esc(idea.vertical||'—')}</span>
+        <span class="tag tag-stage-${sk}">${esc(idea.stage)}</span>
+        <span class="tag tag-revmodel">${esc(idea.revModel||'—')}</span>
+      </div>
+    </div>
+    <div class="idea-right">
+      <div>
+        <div class="score-num ${sc}">${idea.readiness}</div>
+        <div class="score-denom">/5 readiness</div>
+      </div>
+      <div class="idea-date">${idea.date||''}</div>
+    </div>
+  </div>
+  <div class="idea-detail">
+    <div class="detail-gold-line"></div>
+    <div class="detail-grid">
+      <div>
+        <div class="d-label">One-line thesis</div>
+        <div class="d-val">${esc(idea.thesis||'—')}</div>
+      </div>
+      <div>
+        <div class="d-label">International counterpart</div>
+        <div class="d-val">${esc(idea.counterpart||'—')}</div>
+      </div>
+      <div>
+        <div class="d-label">Market signal</div>
+        <div class="d-val">${esc(idea.signal||'—')}</div>
+      </div>
+      <div>
+        <div class="d-label">Auremont Capital edge</div>
+        <div class="d-val">${esc(idea.edge||'—')}</div>
+      </div>
+      ${idea.revival?`<div><div class="d-label">Revival date</div><div class="d-val">${esc(idea.revival)}</div></div>`:''}
+    </div>
+    <div class="decay-row">
+      <div class="decay-header">
+        <span class="decay-label">Market decay risk</span>
+        <span class="decay-badge ${dc}">${dl}</span>
+      </div>
+      <div class="decay-track"><div class="decay-fill ${dc}" style="width:${dp}%"></div></div>
+    </div>
+    <div class="brief-row" id="brief-row-${ri}">
+      ${BRIEF_SECTIONS.map((s,si)=>`<button class="brief-btn ${hasBriefNote(idea.id,si)?'has-content':''}" onclick="event.stopPropagation();openSnote(${ri},${si})">${s.label}</button>`).join('')}
+    </div>
+    <div class="action-row">
+      <button class="act-btn gold" onclick="event.stopPropagation();openClaude('outreach',${ri})">Draft Outreach ↗</button>
+      <button class="act-btn gold" onclick="event.stopPropagation();openClaude('qualify',${ri})">Qualify ↗</button>
+      <button class="act-btn" onclick="event.stopPropagation();openClaude('brief',${ri})">Deal Brief ↗</button>
+      <button class="act-btn" onclick="event.stopPropagation();openClaude('advance',${ri})">Advance Stage ↗</button>
+      <button class="act-btn" onclick="event.stopPropagation();editIdea(${ri})">Edit</button>
+      <button class="act-btn" onclick="event.stopPropagation();exportIdeaPDF(${ri})">Export PDF ↓</button>
+      <button class="act-btn danger" onclick="event.stopPropagation();deleteIdea(${ri})">Delete</button>
+    </div>
+  </div>
+</div>`;
+  }).join('');
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function toggleCard(idx){document.getElementById('card-'+idx).classList.toggle('expanded');}
+
+function setFilter(btn,val){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');activeFilter=val;renderList();
+}
+
+// ── MODAL ──
+function openModal(){
+  editIdx=-1;readinessVal=0;
+  document.getElementById('modalTitle').textContent='Capture New Idea';
+  ['fName','fThesis','fCounterpart','fSignal','fEdge','fRevival'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fVertical').value='';
+  document.getElementById('fRevModel').value='';
+  document.getElementById('fStage').value='Capture';
+  document.getElementById('fDecay').value='';
+  document.querySelectorAll('.r-btn').forEach(b=>b.classList.remove('sel'));
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function editIdea(idx){
+  editIdx=idx;const i=ideas[idx];readinessVal=i.readiness;
+  document.getElementById('modalTitle').textContent='Edit Idea';
+  document.getElementById('fName').value=i.name||'';
+  document.getElementById('fThesis').value=i.thesis||'';
+  document.getElementById('fVertical').value=i.vertical||'';
+  document.getElementById('fRevModel').value=i.revModel||'';
+  document.getElementById('fCounterpart').value=i.counterpart||'';
+  document.getElementById('fSignal').value=i.signal||'';
+  document.getElementById('fEdge').value=i.edge||'';
+  document.getElementById('fStage').value=i.stage||'Capture';
+  document.getElementById('fDecay').value=i.decay||'';
+  document.getElementById('fRevival').value=i.revival||'';
+  document.querySelectorAll('.r-btn').forEach((b,bi)=>b.classList.toggle('sel',bi+1===readinessVal));
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function closeModalOutside(e){if(e.target===e.currentTarget)closeModal();}
+function setReadiness(v){readinessVal=v;document.querySelectorAll('.r-btn').forEach((b,i)=>b.classList.toggle('sel',i+1===v));}
+
+async function saveIdea(){
+  const name=document.getElementById('fName').value.trim();
+  if(!name){document.getElementById('fName').style.borderColor='rgba(192,57,43,0.65)';return;}
+  document.getElementById('fName').style.borderColor='';
+  const idea={
+    id:editIdx>=0?ideas[editIdx].id:Date.now(),name,
+    thesis:document.getElementById('fThesis').value.trim(),
+    vertical:document.getElementById('fVertical').value,
+    revModel:document.getElementById('fRevModel').value,
+    counterpart:document.getElementById('fCounterpart').value.trim(),
+    signal:document.getElementById('fSignal').value.trim(),
+    edge:document.getElementById('fEdge').value.trim(),
+    readiness:readinessVal||1,
+    stage:document.getElementById('fStage').value,
+    decay:document.getElementById('fDecay').value,
+    revival:document.getElementById('fRevival').value.trim(),
+    date:editIdx>=0?ideas[editIdx].date:new Date().toISOString().slice(0,10)
+  };
+  if(editIdx>=0){
+    ideas[editIdx]=idea;
+    const sbId = sbIdMap[idea.id];
+    if(sbId){ await sbUpdate('idea_vault',sbId,{idea_data:idea,updated_at:new Date().toISOString()}); setStatus('Idea updated','ok'); }
+  } else {
+    ideas.unshift(idea);
+    const res = await sbInsert('idea_vault',{idea_data:idea});
+    if(res&&res[0]) sbIdMap[idea.id]=res[0].id;
+    setStatus('Idea saved to vault','ok');
+  }
+  closeModal();render();
+}
+
+async function deleteIdea(idx){
+  if(!confirm('Delete "'+ideas[idx].name+'" from the Auremont Capital vault?'))return;
+  const idea = ideas[idx];
+  const sbId = sbIdMap[idea.id];
+  if(sbId){ await sbDelete('idea_vault',sbId); delete sbIdMap[idea.id]; }
+  ideas.splice(idx,1); setStatus('Idea deleted','ok'); render();
+}
+
+// ── PER-IDEA PDF EXPORT — page-aware with header/footer on every page ──
+async function exportIdeaPDF(idx){
+  const idea = ideas[idx];
+  const decayLabel = idea.decay==='high'?'High — window closing':idea.decay==='mid'?'Medium — 3–12 months':'Low — evergreen';
+  const decayPct = idea.decay==='high'?88:idea.decay==='mid'?52:22;
+  const decayColor = idea.decay==='high'?'#C0392B':idea.decay==='low'?'#4A7C59':'#C9A84C';
+  const dateStr = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  // ── helpers ──
+  function mkContainer(w){
+    const d=document.createElement('div');
+    d.style.cssText=`position:fixed;left:-9999px;top:0;z-index:-1;width:${w}px;background:#fff;`;
+    document.body.appendChild(d);
+    return d;
+  }
+  async function renderEl(el,w){
+    return html2canvas(el,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false,width:w});
+  }
+
+  const W = 740; // render width px
+  const {jsPDF} = window.jspdf;
+  const pdf = new jsPDF({orientation:'portrait',unit:'pt',format:'a4'});
+  const PW = pdf.internal.pageSize.getWidth();   // 595 pt
+  const PH = pdf.internal.pageSize.getHeight();  // 842 pt
+  const scale = PW / (W * 2); // canvas is @2x
+
+  // ── render fixed chrome pieces ──
+  // HEADER
+  const hCon = mkContainer(W);
+  hCon.innerHTML = `<div style="width:${W}px;background:#05070B;padding:20px 40px 16px;display:flex;align-items:flex-start;justify-content:space-between;font-family:Arial,sans-serif;">
+    <div>
+      <div style="font-size:17px;font-weight:600;color:#C9A84C;letter-spacing:0.14em;text-transform:uppercase;">AUREMONT CAPITAL</div>
+      <div style="font-size:7px;letter-spacing:0.24em;text-transform:uppercase;color:#8A909E;margin-top:3px;">DEAL &amp; PARTNERSHIP INTELLIGENCE VAULT</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:7px;letter-spacing:0.18em;text-transform:uppercase;color:#8A909E;margin-bottom:2px;">EXPORTED</div>
+      <div style="font-size:8.5px;color:#C9A84C;letter-spacing:0.08em;">${dateStr}</div>
+      <div style="font-size:7px;letter-spacing:0.18em;text-transform:uppercase;color:#8A909E;margin-top:5px;margin-bottom:2px;">READINESS</div>
+      <div style="font-size:8.5px;color:#C9A84C;">${idea.readiness} / 5</div>
+    </div>
+  </div>`;
+  const hCanvas = await renderEl(hCon.firstElementChild, W);
+  document.body.removeChild(hCon);
+  const hPt = hCanvas.height * scale;
+
+  // FOOTER
+  const fCon = mkContainer(W);
+  fCon.innerHTML = `<div style="width:${W}px;background:#05070B;padding:10px 40px;display:flex;justify-content:space-between;align-items:center;font-family:Arial,sans-serif;">
+    <span style="font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#8A909E;">Auremont Capital — Confidential &amp; Proprietary</span>
+    <span style="font-size:7px;letter-spacing:0.12em;text-transform:uppercase;color:#C9A84C;">Internal Distribution Only</span>
+  </div>`;
+  const fCanvas = await renderEl(fCon.firstElementChild, W);
+  document.body.removeChild(fCon);
+  const fPt = fCanvas.height * scale;
+
+  // VISHAL OUTRO BLOCK
+  const oCon = mkContainer(W);
+  oCon.innerHTML = `<div style="width:${W}px;background:#05070B;padding:32px 40px;font-family:Arial,sans-serif;display:flex;align-items:center;gap:32px;">
+    <div style="width:64px;height:64px;border-radius:50%;background:#C9A84C;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <span style="font-size:22px;font-weight:700;color:#05070B;">VD</span>
+    </div>
+    <div style="flex:1;">
+      <div style="font-size:18px;font-weight:400;color:#C9A84C;letter-spacing:0.06em;margin-bottom:4px;">Vishal Desai</div>
+      <div style="font-size:8.5px;color:#8A909E;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:10px;">Director — Auremont Capital &nbsp;|&nbsp; DIFC, Dubai</div>
+      <div style="font-size:9px;color:#C8CDD8;line-height:1.7;font-weight:300;">Off-market transactions across Education, Hospitality, Healthcare &amp; Real Estate in the GCC and cross-border markets. AED 100M+ ticket sizes. Structuring JVs, SPVs, and exits for UHNWIs, family offices, and institutional investors.</div>
+      <div style="margin-top:12px;display:flex;gap:18px;">
+        <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:#C9A84C;padding:4px 12px;border:1px solid rgba(201,168,76,0.4);">Institutional</span>
+        <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:#C9A84C;padding:4px 12px;border:1px solid rgba(201,168,76,0.4);">Asset-Backed</span>
+        <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:#C9A84C;padding:4px 12px;border:1px solid rgba(201,168,76,0.4);">ROI-Engineered</span>
+        <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;color:#C9A84C;padding:4px 12px;border:1px solid rgba(201,168,76,0.4);">Risk-Mitigated</span>
+      </div>
+    </div>
+  </div>`;
+  const oCanvas = await renderEl(oCon.firstElementChild, W);
+  document.body.removeChild(oCon);
+  const oPt = oCanvas.height * scale;
+
+  // ── content blocks — each rendered independently ──
+  const contentPadding = 40;
+  const usablePt = PH - hPt - fPt - 16; // pt available per page between header and footer
+
+  // Build content block specs
+  const blocks = [];
+
+  // Title block
+  const titCon = mkContainer(W);
+  titCon.innerHTML = `<div style="width:${W}px;padding:22px ${contentPadding}px 16px;border-bottom:1px solid #e8e2d8;background:#fff;font-family:Arial,sans-serif;">
+    <div style="font-size:22px;font-weight:400;color:#111;margin-bottom:12px;line-height:1.2;">${idea.name.replace(/</g,'&lt;')}</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;">
+      <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;padding:3px 9px;border:1px solid #C9A84C;color:#8A6F34;background:#FEF9EE;">${idea.vertical||'—'}</span>
+      <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;padding:3px 9px;border:1px solid #ccc;color:#444;background:#f5f5f5;">${idea.stage||'—'}</span>
+      <span style="font-size:7.5px;letter-spacing:0.14em;text-transform:uppercase;padding:3px 9px;border:1px solid #ccc;color:#444;background:#f5f5f5;">${idea.revModel||'—'}</span>
+    </div>
+  </div>`;
+  blocks.push({canvas: await renderEl(titCon.firstElementChild, W)});
+  document.body.removeChild(titCon);
+
+  // Core fields grid
+  const fields = [
+    ['ONE-LINE THESIS', idea.thesis],
+    ['INTERNATIONAL COUNTERPART', idea.counterpart],
+    ['MARKET SIGNAL', idea.signal],
+    ['AUREMONT CAPITAL EDGE', idea.edge],
+  ];
+  if(idea.revival) fields.push(['REVIVAL DATE', idea.revival]);
+  if(idea.date) fields.push(['CAPTURED', idea.date]);
+
+  const gCon = mkContainer(W);
+  const fieldRows = fields.map(([label,val])=>`
+    <div>
+      <div style="font-size:7.5px;letter-spacing:0.2em;text-transform:uppercase;color:#999;margin-bottom:5px;">${label}</div>
+      <div style="font-size:11.5px;color:#333;line-height:1.65;font-weight:300;">${(val||'—').replace(/</g,'&lt;')}</div>
+    </div>`).join('');
+  gCon.innerHTML = `<div style="width:${W}px;padding:22px ${contentPadding}px 18px;background:#fff;font-family:Arial,sans-serif;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 48px;padding-bottom:18px;border-bottom:1px solid #eee;">${fieldRows}</div>
+  </div>`;
+  blocks.push({canvas: await renderEl(gCon.firstElementChild, W)});
+  document.body.removeChild(gCon);
+
+  // Decay bar
+  const dCon = mkContainer(W);
+  dCon.innerHTML = `<div style="width:${W}px;padding:14px ${contentPadding}px 18px;background:#fff;font-family:Arial,sans-serif;border-bottom:1px solid #eee;">
+    <div style="display:flex;align-items:center;gap:20px;">
+      <span style="font-size:7.5px;letter-spacing:0.18em;text-transform:uppercase;color:#999;min-width:110px;">MARKET DECAY RISK</span>
+      <div style="flex:1;height:2px;background:#eee;"><div style="height:2px;background:${decayColor};width:${decayPct}%;"></div></div>
+      <span style="font-size:8px;letter-spacing:0.12em;text-transform:uppercase;padding:3px 9px;border:1px solid ${decayColor};color:${decayColor};">${decayLabel}</span>
+    </div>
+  </div>`;
+  blocks.push({canvas: await renderEl(dCon.firstElementChild, W)});
+  document.body.removeChild(dCon);
+
+  // Brief sections — one block each
+  let hasSections = false;
+  for(let si=0;si<BRIEF_SECTIONS.length;si++){
+    const val = notes[noteKey(idea.id,si)];
+    if(!val||!val.trim()) continue;
+    hasSections = true;
+    const escaped = val.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const sCon = mkContainer(W);
+    sCon.innerHTML = `<div style="width:${W}px;padding:18px ${contentPadding}px 4px;background:#fff;font-family:Arial,sans-serif;">
+      <div style="font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:#8A6F34;margin-bottom:9px;display:flex;align-items:center;gap:8px;">
+        <span style="display:inline-block;width:16px;height:1px;background:#C9A84C;flex-shrink:0;"></span>${BRIEF_SECTIONS[si].label}
+      </div>
+      <div style="font-size:11.5px;color:#333;line-height:1.8;font-weight:300;padding-left:24px;border-left:2px solid #f0e8d0;white-space:pre-wrap;">${escaped}</div>
+    </div>`;
+    blocks.push({canvas: await renderEl(sCon.firstElementChild, W), isSection: true});
+    document.body.removeChild(sCon);
+  }
+
+  if(!hasSections){
+    const nCon = mkContainer(W);
+    nCon.innerHTML = `<div style="width:${W}px;padding:18px ${contentPadding}px;background:#fff;font-family:Arial,sans-serif;"><div style="font-size:12px;color:#aaa;font-style:italic;">No brief sections added yet.</div></div>`;
+    blocks.push({canvas: await renderEl(nCon.firstElementChild, W)});
+    document.body.removeChild(nCon);
+  }
+
+  // ── compose PDF pages ──
+  function addHeader(pg){
+    if(pg>0) pdf.addPage();
+    pdf.addImage(hCanvas.toDataURL('image/png'),'PNG',0,0,PW,hPt);
+  }
+  function addFooter(yTop, pageNum, totalEstimate){
+    pdf.addImage(fCanvas.toDataURL('image/png'),'PNG',0,PH-fPt,PW,fPt);
+  }
+
+  let pageNum = 0;
+  let curY = hPt + 8; // current Y cursor in pt
+  addHeader(pageNum);
+
+  for(let bi=0;bi<blocks.length;bi++){
+    const b = blocks[bi];
+    const bPt = b.canvas.height * scale;
+
+    // if block doesn't fit on current page, start new page
+    if(curY + bPt > PH - fPt - 8 && curY > hPt + 8){
+      addFooter(curY, pageNum);
+      pageNum++;
+      addHeader(pageNum);
+      curY = hPt + 8;
+    }
+
+    // if single block is taller than usable area, scale it to fit
+    let drawH = bPt;
+    let drawW = PW;
+    if(bPt > usablePt){
+      const ratio = usablePt / bPt;
+      drawH = usablePt;
+      drawW = PW * ratio;
+    }
+
+    pdf.addImage(b.canvas.toDataURL('image/png'),'PNG',0,curY,drawW,drawH);
+    curY += drawH + 6;
+  }
+
+  // Outro block — starts on new page if not enough space
+  if(curY + oPt > PH - fPt - 8){
+    addFooter(curY, pageNum);
+    pageNum++;
+    addHeader(pageNum);
+    curY = hPt + 8;
+  }
+  pdf.addImage(oCanvas.toDataURL('image/png'),'PNG',0,curY,PW,oPt);
+  curY += oPt;
+
+  // final footer
+  addFooter(curY, pageNum);
+
+  const safeName = idea.name.replace(/[^a-zA-Z0-9\s]/g,'').replace(/\s+/g,'-').slice(0,50);
+  pdf.save(safeName+'_'+new Date().toISOString().slice(0,10)+'.pdf');
+}
+loadNotes();
+loadIdeas();
+</script>
+</body>
+</html>
