@@ -1,0 +1,17 @@
+STEPS TO HOST PAGES UNDER FOLDERS:
+
+1. You'll land on the repo homepage — click Add file → Upload files
+2. Create your folder structure by typing the path directly in the filename field — GitHub accepts it:
+Type htmls/oil-chart/index.html and it auto-creates the folders
+3. Drag and drop your HTML file
+4. Click Commit changes
+5. Go to Settings → Pages → Branch → main → Save
+6. Wait ~2 minutes, then your URL is live: https://yourusername.github.io/htmls/oil-chart/
+
+
+Your workflow going forward is just 3 steps:
+
+1. Click Add file → Create new file
+2. Type the path: oil-prices-2/index.html or school-asset/index.html etc.
+3. Paste your HTML → Commit changes
+- Live in ~2 minutes at https://yash0422.github.io/htmls/your-folder-name/
