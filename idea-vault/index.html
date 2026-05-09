@@ -538,24 +538,48 @@ body{background:var(--ink);color:var(--white);font-family:'Barlow',sans-serif;fo
 // ══════════════════════════════════════════════════════════
 const SUPABASE_URL = 'https://gpkjowvqkmveiitjgopn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdwa2pvd3Zxa212ZWlpdGpnb3BuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzMTU3MTYsImV4cCI6MjA5Mzg5MTcxNn0.Qk9CgXXeuqtihD3sysHZzC3_uTtqWLg8iiJgQbvHRqU';
-const SB_HEADERS = {'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY};
+const SB_HEADERS = {'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Accept':'application/json'};
 
 // Supabase REST helpers
 async function sbGet(table){
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*&order=created_at.desc`,{headers:SB_HEADERS});
-  return r.ok ? r.json() : [];
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*&order=created_at.desc`,{headers:SB_HEADERS});
+    if(!r.ok){ const e=await r.text(); console.error('sbGet error:',r.status,e); setStatus('Read error: '+r.status,'err'); return []; }
+    return r.json();
+  } catch(e){ console.error('sbGet fetch error:',e); setStatus('Network error','err'); return []; }
 }
 async function sbInsert(table,data){
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',headers:{...SB_HEADERS,'Prefer':'return=representation'},body:JSON.stringify(data)});
-  return r.ok ? r.json() : null;
+  try{
+    const body = JSON.stringify(data);
+    console.log('sbInsert payload:',body.slice(0,200));
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{
+      method:'POST',
+      headers:{...SB_HEADERS,'Prefer':'return=representation'},
+      body:body
+    });
+    if(!r.ok){ const e=await r.text(); console.error('sbInsert error:',r.status,e); setStatus('Save error '+r.status+': '+e.slice(0,80),'err'); return null; }
+    const result = await r.json();
+    console.log('sbInsert success:',result);
+    return result;
+  } catch(e){ console.error('sbInsert fetch error:',e); setStatus('Network error on save','err'); return null; }
 }
 async function sbUpdate(table,id,data){
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{...SB_HEADERS,'Prefer':'return=representation'},body:JSON.stringify(data)});
-  return r.ok ? r.json() : null;
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`,{
+      method:'PATCH',
+      headers:{...SB_HEADERS,'Prefer':'return=representation'},
+      body:JSON.stringify(data)
+    });
+    if(!r.ok){ const e=await r.text(); console.error('sbUpdate error:',r.status,e); setStatus('Update error: '+r.status,'err'); return null; }
+    return r.json();
+  } catch(e){ console.error('sbUpdate error:',e); return null; }
 }
 async function sbDelete(table,id){
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`,{method:'DELETE',headers:SB_HEADERS});
-  return r.ok;
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`,{method:'DELETE',headers:SB_HEADERS});
+    if(!r.ok){ const e=await r.text(); console.error('sbDelete error:',r.status,e); }
+    return r.ok;
+  } catch(e){ console.error('sbDelete error:',e); return false; }
 }
 
 // ── STATUS INDICATOR ──
