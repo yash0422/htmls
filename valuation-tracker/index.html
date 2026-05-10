@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valuation Prospect Tracker — Auremont Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{--ink:#0c0b09;--ink2:#161410;--ink3:#1e1c18;--gold:#c8a84b;--gold2:#e2c97e;--gold-line:rgba(200,168,75,0.2);--paper:#f0ebe0;--mist:rgba(240,235,224,0.55);--red:#c0392b;--red-dim:rgba(192,57,43,0.18);--amber:#d4920a;--amber-dim:rgba(212,146,10,0.18);--blue-dim:rgba(41,128,185,0.18);--grey-dim:rgba(240,235,224,0.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Syne',sans-serif;background:var(--ink);color:var(--paper);min-height:100vh;overflow-x:hidden;}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 60% 50% at 10% 0%,rgba(200,168,75,0.06) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 90% 100%,rgba(200,168,75,0.04) 0%,transparent 60%);}
+.bg::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 71px,rgba(200,168,75,0.025) 72px),repeating-linear-gradient(90deg,transparent,transparent 71px,rgba(200,168,75,0.025) 72px);}
+.shell{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 28px 100px;}
+
+/* HEADER */
+header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.header-left{display:flex;align-items:center;gap:18px;}
+.avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;}
+.brand-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:5px;}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:clamp(22px,3vw,32px);font-weight:700;color:var(--paper);line-height:1;letter-spacing:-0.5px;}
+.brand-name span{color:var(--gold);}
+.btn-add{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 22px;background:var(--gold);color:var(--ink);border:none;border-radius:3px;cursor:pointer;font-weight:500;transition:all 0.2s;white-space:nowrap;}
+.btn-add:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,168,75,0.25);}
+
+/* BUCKETS */
+.buckets{display:grid;grid-template-columns:repeat(6,1fr);border-left:1px solid var(--gold-line);}
+.bucket{padding:22px 20px 20px;border-right:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line);}
+.bucket-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:var(--gold);line-height:1;margin-bottom:6px;}
+.bucket-num.red{color:#e05545;}.bucket-num.mist{color:rgba(240,235,224,0.35);}.bucket-num.amber{color:var(--amber);}
+.bucket-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,235,224,0.4);line-height:1.4;}
+
+/* CONTROLS */
+.controls{display:flex;align-items:center;justify-content:space-between;padding:20px 0 16px;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--gold-line);}
+.filters{display:flex;gap:6px;flex-wrap:wrap;}
+.filter-btn{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;background:transparent;border:1px solid rgba(200,168,75,0.2);border-radius:2px;color:rgba(240,235,224,0.45);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold);}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:500;}
+.sort-wrap{display:flex;align-items:center;gap:10px;}
+.sort-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,235,224,0.3);white-space:nowrap;}
+.sort-select{font-family:'DM Mono',monospace;font-size:9.5px;background:var(--ink3);border:1px solid var(--gold-line);border-radius:2px;color:rgba(240,235,224,0.6);padding:7px 10px;outline:none;cursor:pointer;}
+.sort-select option{background:#1a1814;}
+
+/* LIST */
+.prospect-list{border-left:1px solid var(--gold-line);border-right:1px solid var(--gold-line);}
+
+/* ROW */
+.prospect-row{border-bottom:1px solid var(--gold-line);cursor:pointer;animation:fadeIn 0.35s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.prospect-row:hover .row-collapsed{background:rgba(200,168,75,0.04);}
+.prospect-row.open .row-collapsed{background:rgba(200,168,75,0.06);}
+.row-collapsed{display:grid;grid-template-columns:1fr 140px 130px 110px 110px auto 20px;align-items:center;gap:12px;padding:18px 24px;transition:background 0.2s;}
+.prospect-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--paper);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.prospect-company{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(240,235,224,0.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.col-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(240,235,224,0.28);margin-bottom:3px;}
+.col-value{font-size:12px;color:rgba(240,235,224,0.75);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rel-badge{display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;font-weight:500;}
+.rel-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.rel-Hot{background:var(--red-dim);color:#e05545;border:1px solid rgba(192,57,43,0.3);}
+.rel-Warm{background:var(--amber-dim);color:#e6a820;border:1px solid rgba(212,146,10,0.3);}
+.rel-Cold{background:var(--blue-dim);color:#5dade2;border:1px solid rgba(41,128,185,0.3);}
+.rel-Passive{background:var(--grey-dim);color:rgba(240,235,224,0.4);border:1px solid rgba(240,235,224,0.1);}
+.tags{display:flex;gap:5px;flex-wrap:wrap;align-items:center;}
+.tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border:1px solid var(--gold-line);border-radius:2px;color:rgba(240,235,224,0.4);white-space:nowrap;}
+.tag.auto{border-color:rgba(200,168,75,0.3);color:rgba(200,168,75,0.7);}
+.chevron{font-size:10px;color:rgba(200,168,75,0.4);transition:transform 0.25s;flex-shrink:0;width:16px;text-align:center;}
+.prospect-row.open .chevron{transform:rotate(180deg);}
+
+/* EXPANDED */
+.row-expanded{display:none;background:var(--ink2);border-top:1px solid var(--gold-line);padding:28px 24px 24px;}
+.prospect-row.open .row-expanded{display:block;}
+.expanded-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px 32px;margin-bottom:24px;}
+.exp-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.exp-value{font-size:13px;color:var(--mist);line-height:1.5;}
+.exp-section{margin-bottom:20px;padding-top:20px;border-top:1px solid rgba(200,168,75,0.1);}
+.exp-section-title{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.exp-section-title::after{content:'';flex:1;height:1px;background:rgba(200,168,75,0.12);}
+.exp-text{font-size:12.5px;color:rgba(240,235,224,0.6);line-height:1.8;}
+.pitch-box{background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.2);border-left:3px solid var(--gold);border-radius:3px;padding:16px 20px;font-size:12.5px;color:rgba(240,235,224,0.75);line-height:1.85;font-style:italic;}
+.pitch-empty{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(240,235,224,0.2);padding:16px 0;}
+.pitch-generating{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--gold);padding:16px 0;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.val-pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* ACTIONS */
+.action-row{display:flex;gap:10px;padding-top:20px;border-top:1px solid rgba(200,168,75,0.1);flex-wrap:wrap;}
+.act-btn{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 18px;border-radius:2px;border:none;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
+.act-generate{background:var(--gold);color:var(--ink);font-weight:500;}
+.act-generate:hover{background:var(--gold2);transform:translateY(-1px);}
+.act-generate:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.act-edit{background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.5);}
+.act-edit:hover{border-color:var(--gold);color:var(--gold);}
+.act-pdf{background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.5);}
+.act-pdf:hover{border-color:var(--gold);color:var(--gold);}
+.act-archive{background:transparent;border:1px solid rgba(192,57,43,0.25);color:rgba(192,57,43,0.6);margin-left:auto;}
+.act-archive:hover{border-color:var(--red);color:#e05545;}
+.act-restore{background:transparent;border:1px solid rgba(200,168,75,0.3);color:rgba(200,168,75,0.6);}
+.act-restore:hover{border-color:var(--gold);color:var(--gold);}
+
+/* EMPTY / LOADING */
+.empty-state{text-align:center;padding:80px 40px;border-left:1px solid var(--gold-line);border-right:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line);}
+.empty-icon{font-size:36px;margin-bottom:16px;opacity:0.3;}
+.empty-text{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(240,235,224,0.25);text-transform:uppercase;}
+.loading-state{text-align:center;padding:60px 40px;}
+.loading-text{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(200,168,75,0.5);text-transform:uppercase;animation:pulse 1.5s infinite;}
+
+/* ARCHIVE BANNER */
+.archive-banner{background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.15);padding:10px 16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(200,168,75,0.5);text-transform:uppercase;display:none;}
+.archive-banner.visible{display:block;}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;right:32px;z-index:999;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 20px;border-radius:3px;background:var(--ink3);border:1px solid var(--gold-line);color:var(--gold);opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.error{border-color:rgba(192,57,43,0.4);color:#e05545;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:100;background:rgba(12,11,9,0.88);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--ink2);border:1px solid var(--gold-line);border-radius:4px;width:100%;max-width:660px;max-height:90vh;overflow-y:auto;animation:modalIn 0.25s ease;}
+@keyframes modalIn{from{opacity:0;transform:scale(0.97) translateY(12px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-header{padding:24px 28px 20px;border-bottom:1px solid var(--gold-line);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--paper);}
+.modal-close{font-size:18px;color:rgba(240,235,224,0.3);cursor:pointer;background:none;border:none;padding:4px;transition:color 0.2s;}
+.modal-close:hover{color:var(--gold);}
+.modal-body{padding:24px 28px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-grid.single{grid-template-columns:1fr;}
+.form-divider{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(200,168,75,0.4);padding:8px 0 4px;border-top:1px solid rgba(200,168,75,0.1);margin-bottom:4px;}
+.field-group{display:flex;flex-direction:column;gap:6px;}
+.field-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,235,224,0.35);}
+.field-input,.field-select,.field-textarea{background:rgba(240,235,224,0.04);border:1px solid rgba(200,168,75,0.15);border-radius:3px;color:var(--paper);font-family:'Syne',sans-serif;font-size:12.5px;padding:9px 13px;outline:none;transition:border-color 0.2s;width:100%;color-scheme:dark;}
+.field-input::placeholder,.field-textarea::placeholder{color:rgba(240,235,224,0.18);}
+.field-input:focus,.field-select:focus,.field-textarea:focus{border-color:rgba(200,168,75,0.5);background:rgba(200,168,75,0.04);}
+.field-select option{background:#1a1814;}
+.field-textarea{resize:vertical;min-height:72px;}
+.modal-footer{padding:18px 28px 24px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--gold-line);}
+.btn-save{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;background:var(--gold);color:var(--ink);border:none;border-radius:3px;cursor:pointer;font-weight:500;transition:all 0.2s;}
+.btn-save:hover{background:var(--gold2);}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-cancel{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.4);border-radius:3px;cursor:pointer;transition:all 0.2s;}
+.btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--ink);}
+::-webkit-scrollbar-thumb{background:rgba(200,168,75,0.3);border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="shell">
+
+  <header>
+    <div class="header-left">
+      <img class="avatar" src="data:image/jpeg;base64,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" alt="Vishal Desai">
+      <div>
+        <div class="brand-eyebrow">Vishal Desai</div>
+        <div class="brand-name">Valuation <span>Prospect</span> Tracker</div>
+      </div>
+    </div>
+    <button class="btn-add" onclick="openModal()">+ Add Prospect</button>
+  </header>
+
+  <div class="buckets">
+    <div class="bucket"><div class="bucket-num" id="b-total">—</div><div class="bucket-label">Total<br>Prospects</div></div>
+    <div class="bucket"><div class="bucket-num red" id="b-hot">—</div><div class="bucket-label">Hot<br>Leads</div></div>
+    <div class="bucket"><div class="bucket-num mist" id="b-cold">—</div><div class="bucket-label">Cold &<br>Passive</div></div>
+    <div class="bucket"><div class="bucket-num amber" id="b-due">—</div><div class="bucket-label">Follow-Up<br>Due</div></div>
+    <div class="bucket"><div class="bucket-num mist" id="b-nodate">—</div><div class="bucket-label">No Follow-Up<br>Set</div></div>
+    <div class="bucket"><div class="bucket-num" style="color:rgba(200,168,75,0.5)" id="b-converted">—</div><div class="bucket-label">Converted</div></div>
+  </div>
+
+  <div class="controls">
+    <div class="filters" id="filterBtns">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="hot">🔴 Hot</button>
+      <button class="filter-btn" data-filter="warm">🟡 Warm</button>
+      <button class="filter-btn" data-filter="cold">🔵 Cold</button>
+      <button class="filter-btn" data-filter="due">Follow-Up Due</button>
+      <button class="filter-btn" data-filter="converted">Converted</button>
+      <button class="filter-btn" data-filter="archived">Archived</button>
+    </div>
+    <div class="sort-wrap">
+      <span class="sort-label">Sort</span>
+      <select class="sort-select" id="sortSelect" onchange="renderList()">
+        <option value="next_followup">Next Follow-Up ↑</option>
+        <option value="last_contacted">Last Contacted ↓</option>
+        <option value="name">Name A→Z</option>
+        <option value="relationship">Relationship Heat</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="archiveBanner" class="archive-banner">⚠ Viewing archived prospects — moved out of active pipeline</div>
+  <div class="prospect-list" id="prospectList">
+    <div class="loading-state"><div class="loading-text">Loading prospects...</div></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Add Prospect</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editId">
+      <div class="form-grid">
+        <div class="field-group"><label class="field-label">Prospect Name *</label><input class="field-input" id="f-name" type="text" placeholder="Mr. / Ms. Full Name"></div>
+        <div class="field-group"><label class="field-label">Company / Entity</label><input class="field-input" id="f-company" type="text" placeholder="N/A if individual"></div>
+      </div>
+      <div class="form-grid single">
+        <div class="field-group"><label class="field-label">Asset / Property</label><input class="field-input" id="f-asset" type="text" placeholder="e.g. Residential Building, Dubai Marina"></div>
+      </div>
+
+      <div class="form-divider">Valuation Set 01 — Primary</div>
+      <div class="form-grid">
+        <div class="field-group"><label class="field-label">Valuation Type 01</label>
+          <select class="field-select" id="f-val-type">
+            <option value="">Select type</option>
+            <option>Residential</option><option>Commercial</option><option>Industrial</option><option>Mixed-Use</option><option>Hospitality</option><option>Retail</option><option>Logistics / Warehouse</option><option>Plant & Machinery</option><option>Business / Brand</option><option>Land</option>
+          </select>
+        </div>
+        <div class="field-group"><label class="field-label">Valuation Trigger 01</label>
+          <select class="field-select" id="f-trigger">
+            <option value="">Select trigger</option>
+            <option>Corporate Tax</option><option>Sale / Disposal</option><option>Mortgage / Loan</option><option>Golden Visa</option><option>Gifting / Hiba</option><option>Investment / Portfolio</option><option>Financial Reporting</option><option>Litigation / Expert Witness</option><option>Insurance</option><option>Family Restructuring</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-divider">Valuation Set 02 — Secondary (optional)</div>
+      <div class="form-grid">
+        <div class="field-group"><label class="field-label">Valuation Type 02</label>
+          <select class="field-select" id="f-val-type2">
+            <option value="">None</option>
+            <option>Residential</option><option>Commercial</option><option>Industrial</option><option>Mixed-Use</option><option>Hospitality</option><option>Retail</option><option>Logistics / Warehouse</option><option>Plant & Machinery</option><option>Business / Brand</option><option>Land</option>
+          </select>
+        </div>
+        <div class="field-group"><label class="field-label">Valuation Trigger 02</label>
+          <select class="field-select" id="f-trigger2">
+            <option value="">None</option>
+            <option>Corporate Tax</option><option>Sale / Disposal</option><option>Mortgage / Loan</option><option>Golden Visa</option><option>Gifting / Hiba</option><option>Investment / Portfolio</option><option>Financial Reporting</option><option>Litigation / Expert Witness</option><option>Insurance</option><option>Family Restructuring</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field-group"><label class="field-label">Relationship *</label>
+          <select class="field-select" id="f-relationship"><option value="">Select</option><option>Hot</option><option>Warm</option><option>Cold</option><option>Passive</option></select>
+        </div>
+        <div class="field-group"><label class="field-label">Status *</label>
+          <select class="field-select" id="f-status"><option value="">Select</option><option>Active</option><option>Follow-Up Pending</option><option>Paused</option><option>Converted</option></select>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="field-group"><label class="field-label">Last Contacted</label><input class="field-input" id="f-last" type="date"></div>
+        <div class="field-group"><label class="field-label">Next Follow-Up</label><input class="field-input" id="f-next" type="date"></div>
+      </div>
+      <div class="form-grid single">
+        <div class="field-group"><label class="field-label">Custom Tags (comma separated)</label><input class="field-input" id="f-tags" type="text" placeholder="e.g. Marina, High Priority, Referred"></div>
+      </div>
+      <div class="form-grid single">
+        <div class="field-group"><label class="field-label">Notes</label><textarea class="field-textarea" id="f-notes" placeholder="Context, meeting notes, how you know them..."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" id="btnSave" onclick="saveProspect()">Save Prospect</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL  = 'https://otumtcdixrwjbntmnbje.supabase.co';
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90dW10Y2RpeHJ3amJudG1uYmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzODU4NjgsImV4cCI6MjA5Mzk2MTg2OH0.GjZbuYH6dyQJXap_YJURYa6p80LQDgJKBjZy3fNZpxk';
+const ANTHROPIC_KEY = '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';
+const MAIN_TABLE    = 'valuation_prospects';
+const ARCHIVE_TABLE = 'valuation_archive';
+
+let allProspects = [], archivedProspects = [], currentFilter = 'all', viewingArchive = false;
+
+async function sbFetch(table, method='GET', body=null, filters='') {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${filters}`, {
+    method,
+    headers: {'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':method==='PATCH'?'return=representation':''},
+    body: body ? JSON.stringify(body) : undefined
+  });
+  if (!res.ok) throw new Error(await res.text());
+  if (method==='DELETE') return null;
+  const t = await res.text(); return t ? JSON.parse(t) : null;
+}
+
+async function loadProspects() {
+  try {
+    allProspects      = await sbFetch(MAIN_TABLE,    'GET', null, '?order=created_at.desc') || [];
+    archivedProspects = await sbFetch(ARCHIVE_TABLE, 'GET', null, '?order=archived_at.desc') || [];
+    updateBuckets(); renderList();
+  } catch(e) {
+    document.getElementById('prospectList').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">Could not connect to database<br>${e.message}</div></div>`;
+  }
+}
+
+function updateBuckets() {
+  const today = new Date(); today.setHours(0,0,0,0); const p = allProspects;
+  document.getElementById('b-total').textContent     = p.length;
+  document.getElementById('b-hot').textContent       = p.filter(x=>x.relationship==='Hot').length;
+  document.getElementById('b-cold').textContent      = p.filter(x=>x.relationship==='Cold'||x.relationship==='Passive').length;
+  document.getElementById('b-due').textContent       = p.filter(x=>x.next_followup && new Date(x.next_followup)<=today).length;
+  document.getElementById('b-nodate').textContent    = p.filter(x=>!x.next_followup).length;
+  document.getElementById('b-converted').textContent = p.filter(x=>x.status==='Converted').length;
+}
+
+function getFiltered() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (viewingArchive) return archivedProspects;
+  const list = [...allProspects];
+  switch(currentFilter) {
+    case 'hot':       return list.filter(x=>x.relationship==='Hot');
+    case 'warm':      return list.filter(x=>x.relationship==='Warm');
+    case 'cold':      return list.filter(x=>x.relationship==='Cold'||x.relationship==='Passive');
+    case 'due':       return list.filter(x=>x.next_followup && new Date(x.next_followup)<=today);
+    case 'converted': return list.filter(x=>x.status==='Converted');
+    default:          return list;
+  }
+}
+
+function getSorted(list) {
+  const sort = document.getElementById('sortSelect').value;
+  return [...list].sort((a,b)=>{
+    if (sort==='next_followup') { if(!a.next_followup)return 1; if(!b.next_followup)return -1; return new Date(a.next_followup)-new Date(b.next_followup); }
+    if (sort==='last_contacted') { if(!a.last_contacted)return 1; if(!b.last_contacted)return -1; return new Date(b.last_contacted)-new Date(a.last_contacted); }
+    if (sort==='name') return (a.name||'').localeCompare(b.name||'');
+    if (sort==='relationship') { const o={Hot:0,Warm:1,Cold:2,Passive:3}; return (o[a.relationship]??4)-(o[b.relationship]??4); }
+    return 0;
+  });
+}
+
+function renderList() {
+  document.getElementById('archiveBanner').classList.toggle('visible', viewingArchive);
+  const list = getSorted(getFiltered());
+  const el = document.getElementById('prospectList');
+  if (!list.length) { el.innerHTML = `<div class="empty-state"><div class="empty-icon">◇</div><div class="empty-text">No prospects found</div></div>`; return; }
+  el.innerHTML = list.map(renderRow).join('');
+}
+
+function fmt(d) {
+  if (!d) return 'Not set';
+  return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function isOverdue(d) {
+  if (!d) return false;
+  const today = new Date(); today.setHours(0,0,0,0);
+  return new Date(d) <= today;
+}
+
+function renderRow(p) {
+  const autoTagArr = [p.valuation_type, p.valuation_trigger, p.valuation_type_2, p.valuation_trigger_2].filter(Boolean);
+  const ctArr = p.custom_tags || [];
+  const tagsHtml = [...autoTagArr.map(t=>`<span class="tag auto">${t}</span>`), ...ctArr.map(t=>`<span class="tag">${t}</span>`)].join('');
+  const overdue = isOverdue(p.next_followup);
+  const isArch = viewingArchive;
+
+  const valPairs = `
+    <div class="val-pair-grid">
+      <div><div class="exp-label">Type 01</div><div class="exp-value">${p.valuation_type||'—'}</div></div>
+      <div><div class="exp-label">Trigger 01</div><div class="exp-value">${p.valuation_trigger||'—'}</div></div>
+      ${p.valuation_type_2 ? `<div><div class="exp-label">Type 02</div><div class="exp-value">${p.valuation_type_2}</div></div>` : ''}
+      ${p.valuation_trigger_2 ? `<div><div class="exp-label">Trigger 02</div><div class="exp-value">${p.valuation_trigger_2}</div></div>` : ''}
+    </div>`;
+
+  const pitchHtml = p.pitch_script ? `<div class="pitch-box">${p.pitch_script}</div>` : `<div class="pitch-empty">No pitch generated yet — click Generate Pitch</div>`;
+
+  const actionBtns = isArch
+    ? `<button class="act-btn act-restore" onclick="restoreProspect('${p.id}',event)">↩ Restore to Active</button>`
+    : `<button class="act-btn act-generate" onclick="generatePitch('${p.id}',event)">⚡ Generate Pitch</button>
+       <button class="act-btn act-edit" onclick="editProspect('${p.id}',event)">✎ Edit</button>
+       <button class="act-btn act-pdf" onclick="exportPDF('${p.id}',event)">↓ Export PDF</button>
+       <button class="act-btn act-archive" onclick="archiveProspect('${p.id}',event)">Archive →</button>`;
+
+  return `<div class="prospect-row" id="row-${p.id}" onclick="toggleRow(this)">
+    <div class="row-collapsed">
+      <div><div class="prospect-name">${p.name}</div><div class="prospect-company">${p.company||'N/A'}</div></div>
+      <div><div class="col-label">Val. Type</div><div class="col-value">${p.valuation_type||'—'}${p.valuation_type_2?' + '+p.valuation_type_2:''}</div></div>
+      <div><div class="col-label">Relationship</div><div><span class="rel-badge rel-${p.relationship||'Passive'}"><span class="rel-dot"></span>${p.relationship||'—'}</span></div></div>
+      <div><div class="col-label">Last Contact</div><div class="col-value">${fmt(p.last_contacted)}</div></div>
+      <div><div class="col-label">Next Follow-Up</div><div class="col-value" style="${overdue?'color:#e05545;':!p.next_followup?'color:rgba(240,235,224,0.3);':''}">${fmt(p.next_followup)}</div></div>
+      <div class="tags">${tagsHtml}</div>
+      <div class="chevron">▼</div>
+    </div>
+    <div class="row-expanded">
+      <div class="expanded-grid">
+        <div><div class="exp-label">Asset / Property</div><div class="exp-value">${p.asset||'—'}</div></div>
+        <div><div class="exp-label">Valuation Sets</div>${valPairs}</div>
+        <div><div class="exp-label">Status</div><div class="exp-value">${p.status||'—'}</div></div>
+      </div>
+      ${p.notes?`<div class="exp-section"><div class="exp-section-title">Notes</div><div class="exp-text">${p.notes}</div></div>`:''}
+      ${p.why_now?`<div class="exp-section"><div class="exp-section-title">Why They Need a Valuation Now</div><div class="exp-text">${p.why_now}</div></div>`:''}
+      <div class="exp-section"><div class="exp-section-title">Pitch Script</div><div id="pitch-${p.id}">${pitchHtml}</div></div>
+      <div class="action-row">${actionBtns}</div>
+    </div>
+  </div>`;
+}
+
+function toggleRow(row) { if(event.target.closest('.act-btn'))return; row.classList.toggle('open'); }
+
+function openModal(p=null) {
+  document.getElementById('modalTitle').textContent = p ? 'Edit Prospect' : 'Add Prospect';
+  document.getElementById('editId').value            = p?.id||'';
+  document.getElementById('f-name').value            = p?.name||'';
+  document.getElementById('f-company').value         = p?.company||'';
+  document.getElementById('f-asset').value           = p?.asset||'';
+  document.getElementById('f-val-type').value        = p?.valuation_type||'';
+  document.getElementById('f-trigger').value         = p?.valuation_trigger||'';
+  document.getElementById('f-val-type2').value       = p?.valuation_type_2||'';
+  document.getElementById('f-trigger2').value        = p?.valuation_trigger_2||'';
+  document.getElementById('f-relationship').value    = p?.relationship||'';
+  document.getElementById('f-status').value          = p?.status||'';
+  document.getElementById('f-last').value            = p?.last_contacted||'';
+  document.getElementById('f-next').value            = p?.next_followup||'';
+  document.getElementById('f-tags').value            = (p?.custom_tags||[]).join(', ');
+  document.getElementById('f-notes').value           = p?.notes||'';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function handleOverlayClick(e) { if(e.target===document.getElementById('modalOverlay'))closeModal(); }
+
+async function saveProspect() {
+  const id = document.getElementById('editId').value;
+  const name = document.getElementById('f-name').value.trim();
+  if (!name) { showToast('Name is required',true); return; }
+  const rawTags = document.getElementById('f-tags').value;
+  const customTags = rawTags.split(',').map(t=>t.trim()).filter(Boolean);
+  const vt1 = document.getElementById('f-val-type').value;
+  const tr1 = document.getElementById('f-trigger').value;
+  const vt2 = document.getElementById('f-val-type2').value;
+  const tr2 = document.getElementById('f-trigger2').value;
+  const autoTagsArr = [vt1,tr1,vt2,tr2].filter(Boolean);
+  const payload = {
+    name, company: document.getElementById('f-company').value.trim()||'N/A',
+    asset: document.getElementById('f-asset').value.trim(),
+    valuation_type: vt1, valuation_trigger: tr1,
+    valuation_type_2: vt2||null, valuation_trigger_2: tr2||null,
+    relationship: document.getElementById('f-relationship').value,
+    status: document.getElementById('f-status').value,
+    last_contacted: document.getElementById('f-last').value||null,
+    next_followup: document.getElementById('f-next').value||null,
+    custom_tags: customTags, auto_tags: autoTagsArr,
+    notes: document.getElementById('f-notes').value.trim(),
+    updated_at: new Date().toISOString()
+  };
+  const btn = document.getElementById('btnSave');
+  btn.disabled=true; btn.textContent='Saving...';
+  try {
+    if (id) await sbFetch(MAIN_TABLE,'PATCH',payload,`?id=eq.${id}`);
+    else await sbFetch(MAIN_TABLE,'POST',payload);
+    showToast(id?'Prospect updated':'Prospect added');
+    closeModal(); await loadProspects();
+  } catch(e) { showToast('Error: '+e.message,true); }
+  finally { btn.disabled=false; btn.textContent='Save Prospect'; }
+}
+
+function editProspect(id,e) { e.stopPropagation(); openModal(allProspects.find(x=>x.id===id)); }
+
+async function archiveProspect(id,e) {
+  e.stopPropagation();
+  if (!confirm('Move this prospect to archive?')) return;
+  const p = allProspects.find(x=>x.id===id); if(!p)return;
+  try {
+    const ap = {...p, original_id:p.id, archived_at:new Date().toISOString()}; delete ap.id;
+    await sbFetch(ARCHIVE_TABLE,'POST',ap);
+    await sbFetch(MAIN_TABLE,'DELETE',null,`?id=eq.${id}`);
+    showToast('Prospect archived'); await loadProspects();
+  } catch(e) { showToast('Error: '+e.message,true); }
+}
+
+async function restoreProspect(id,e) {
+  e.stopPropagation();
+  const p = archivedProspects.find(x=>x.id===id); if(!p)return;
+  try {
+    const rp = {...p, updated_at:new Date().toISOString()}; delete rp.id; delete rp.original_id; delete rp.archived_at;
+    await sbFetch(MAIN_TABLE,'POST',rp);
+    await sbFetch(ARCHIVE_TABLE,'DELETE',null,`?id=eq.${id}`);
+    showToast('Prospect restored'); await loadProspects();
+  } catch(e) { showToast('Error: '+e.message,true); }
+}
+
+async function generatePitch(id,e) {
+  e.stopPropagation();
+  const p = allProspects.find(x=>x.id===id); if(!p)return;
+  const pitchEl = document.getElementById(`pitch-${id}`);
+  const btn = document.querySelector(`#row-${id} .act-generate`);
+  pitchEl.innerHTML = `<div class="pitch-generating">⚡ Generating pitch...</div>`;
+  if(btn){btn.disabled=true;btn.textContent='Generating...';}
+  const valSets = [
+    p.valuation_type&&`Set 01: ${p.valuation_type} / ${p.valuation_trigger||'—'}`,
+    p.valuation_type_2&&`Set 02: ${p.valuation_type_2} / ${p.valuation_trigger_2||'—'}`
+  ].filter(Boolean).join('\n');
+  const prompt = `You are Vishal Desai, Founder of Auremont Capital — a DIFC-based capital advisory firm in Dubai with 20 years of deal experience across UAE, GCC, Africa, and APAC.\n\nWrite a short, sharp, personalized valuation pitch for this prospect. Tone: confident, relationship-driven, compliance-aware — not salesy. Reference their specific assets and valuation triggers. If there are two valuation sets, weave both naturally. End with a soft CTA for a call or meeting.\n\nProspect: ${p.name}\nCompany: ${p.company||'Individual'}\nAsset: ${p.asset||'Not specified'}\nValuation Sets:\n${valSets}\nRelationship: ${p.relationship}\nNotes: ${p.notes||'None'}\n\nOutput ONLY the pitch text. No labels, no headers. Max 5 sentences.`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-client-side-allow':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:350,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const pitch = data.content?.[0]?.text?.trim();
+    if(!pitch)throw new Error('No pitch returned');
+    const whyNow = await generateWhyNow(p);
+    await sbFetch(MAIN_TABLE,'PATCH',{pitch_script:pitch,why_now:whyNow,updated_at:new Date().toISOString()},`?id=eq.${id}`);
+    const idx = allProspects.findIndex(x=>x.id===id);
+    if(idx>-1){allProspects[idx].pitch_script=pitch;allProspects[idx].why_now=whyNow;}
+    pitchEl.innerHTML = `<div class="pitch-box">${pitch}</div>`;
+    showToast('Pitch generated & saved');
+  } catch(err) {
+    pitchEl.innerHTML = `<div class="pitch-empty">Error — check Anthropic API key</div>`;
+    showToast('Error: '+err.message,true);
+  } finally { if(btn){btn.disabled=false;btn.textContent='⚡ Generate Pitch';} }
+}
+
+async function generateWhyNow(p) {
+  const sets = [p.valuation_type&&`${p.valuation_type} (${p.valuation_trigger})`, p.valuation_type_2&&`${p.valuation_type_2} (${p.valuation_trigger_2})`].filter(Boolean).join(' and ');
+  const prompt = `In 2-3 sentences, explain why ${p.name} needs a professional valuation for their ${sets} asset(s) right now, in the UAE context. Be specific, compliance-aware. Output only the explanation.`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-client-side-allow':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:150,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    return data.content?.[0]?.text?.trim()||'';
+  } catch{return '';}
+}
+
+function exportPDF(id,e) {
+  e.stopPropagation();
+  const p = allProspects.find(x=>x.id===id); if(!p)return;
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({unit:'pt',format:'letter'});
+  const W=612,H=792,gold=[200,168,75],ink=[13,13,13],mid=[107,102,96];
+  doc.setFillColor(...ink); doc.rect(0,0,W,72,'F');
+  doc.setFillColor(...gold); doc.rect(0,0,4,72,'F');
+  doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(...gold);
+  doc.text('CAPITAL ADVISORY & VALUATION INTELLIGENCE',24,36);
+  doc.setFontSize(9);doc.text('PROSPECT BRIEF',W-28,30,{align:'right'});
+  doc.setFontSize(7.5);doc.setFont('helvetica','normal');doc.setTextColor(100,96,90);
+  doc.text('CONFIDENTIAL  ·  FOR INTERNAL USE ONLY',W-28,44,{align:'right'});
+  doc.setDrawColor(...gold);doc.setLineWidth(0.5);doc.line(0,73,W,73);
+  let y=104;
+  doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(...ink);doc.text(p.name||'',40,y);
+  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(...mid);doc.text(p.company||'N/A',40,y+16);
+  y+=36;doc.setDrawColor(...gold);doc.setLineWidth(0.4);doc.line(40,y,W-40,y);
+  y+=18;
+  const rows=[['ASSET / PROPERTY',p.asset||'—'],['VALUATION TYPE 01',p.valuation_type||'—'],['TRIGGER 01',p.valuation_trigger||'—']];
+  if(p.valuation_type_2)rows.push(['VALUATION TYPE 02',p.valuation_type_2]);
+  if(p.valuation_trigger_2)rows.push(['TRIGGER 02',p.valuation_trigger_2]);
+  rows.push(['STATUS',p.status||'—'],['LAST CONTACTED',fmt(p.last_contacted)],['NEXT FOLLOW-UP',fmt(p.next_followup)]);
+  rows.forEach(([l,v],i)=>{
+    const ry=y+i*20;
+    if(i%2===0){doc.setFillColor(240,236,226);doc.rect(38,ry-5,W-76,18,'F');}
+    doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(...gold);doc.text(l,44,ry+4);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...ink);doc.text(v,200,ry+4);
+  });
+  y+=rows.length*20+14;
+  const sec=(title,text)=>{
+    if(!text)return;
+    doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(...gold);doc.text(title,40,y);
+    doc.setDrawColor(...gold);doc.setLineWidth(0.3);doc.line(40,y+3,W-40,y+3);y+=16;
+    doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...mid);
+    const lines=doc.splitTextToSize(text,W-80);doc.text(lines,40,y);y+=lines.length*12+12;
+  };
+  sec('NOTES',p.notes);sec('WHY THEY NEED A VALUATION NOW',p.why_now);
+  if(p.pitch_script){
+    doc.setFillColor(...ink);doc.rect(38,y-4,W-76,18,'F');
+    doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...gold);doc.text('PITCH SCRIPT',44,y+6);y+=14;
+    const pl=doc.splitTextToSize(p.pitch_script,W-100);const bh=pl.length*13+16;
+    doc.setFillColor(247,243,235);doc.setDrawColor(...gold);doc.setLineWidth(0.5);doc.rect(38,y,W-76,bh,'FD');
+    doc.setFillColor(...gold);doc.rect(38,y,3,bh,'F');y+=10;
+    doc.setFont('helvetica','italic');doc.setFontSize(8.8);doc.setTextColor(...ink);doc.text(pl,48,y);
+  }
+  doc.setDrawColor(...gold);doc.setLineWidth(0.4);doc.line(40,H-52,W-40,H-52);
+  doc.setFont('helvetica','normal');doc.setFontSize(7);doc.setTextColor(...mid);
+  doc.text('Confidential & Proprietary',40,H-38);
+  doc.text('Vishal Desai  \xb7  +971 55 389 8410',W-40,H-38,{align:'right'});
+  doc.save(`${(p.name||'Prospect').replace(/\s+/g,'_')}_Brief.pdf`);
+  showToast('PDF exported');
+}
+
+document.getElementById('filterBtns').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn'); if(!btn)return;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter=btn.dataset.filter; viewingArchive=currentFilter==='archived'; renderList();
+});
+
+function showToast(msg,error=false){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.className='toast'+(error?' error':'');t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+loadProspects();
+</script>
+</body>
+</html>
