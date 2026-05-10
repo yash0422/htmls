@@ -15,7 +15,6 @@ body{font-family:'Syne',sans-serif;background:var(--ink);color:var(--paper);min-
 .bg::after{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 71px,rgba(200,168,75,0.025) 72px),repeating-linear-gradient(90deg,transparent,transparent 71px,rgba(200,168,75,0.025) 72px);}
 .shell{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 28px 100px;}
 
-/* HEADER */
 header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex;align-items:center;justify-content:space-between;gap:20px;}
 .header-left{display:flex;align-items:center;gap:18px;}
 .avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;}
@@ -25,14 +24,12 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .btn-add{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:11px 22px;background:var(--gold);color:var(--ink);border:none;border-radius:3px;cursor:pointer;font-weight:500;transition:all 0.2s;white-space:nowrap;}
 .btn-add:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(200,168,75,0.25);}
 
-/* BUCKETS */
 .buckets{display:grid;grid-template-columns:repeat(6,1fr);border-left:1px solid var(--gold-line);}
 .bucket{padding:22px 20px 20px;border-right:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line);}
 .bucket-num{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;color:var(--gold);line-height:1;margin-bottom:6px;}
 .bucket-num.red{color:#e05545;}.bucket-num.mist{color:rgba(240,235,224,0.35);}.bucket-num.amber{color:var(--amber);}
 .bucket-label{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:rgba(240,235,224,0.4);line-height:1.4;}
 
-/* CONTROLS */
 .controls{display:flex;align-items:center;justify-content:space-between;padding:20px 0 16px;gap:16px;flex-wrap:wrap;border-bottom:1px solid var(--gold-line);}
 .filters{display:flex;gap:6px;flex-wrap:wrap;}
 .filter-btn{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;background:transparent;border:1px solid rgba(200,168,75,0.2);border-radius:2px;color:rgba(240,235,224,0.45);cursor:pointer;transition:all 0.18s;white-space:nowrap;}
@@ -43,10 +40,7 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .sort-select{font-family:'DM Mono',monospace;font-size:9.5px;background:var(--ink3);border:1px solid var(--gold-line);border-radius:2px;color:rgba(240,235,224,0.6);padding:7px 10px;outline:none;cursor:pointer;}
 .sort-select option{background:#1a1814;}
 
-/* LIST */
 .prospect-list{border-left:1px solid var(--gold-line);border-right:1px solid var(--gold-line);}
-
-/* ROW */
 .prospect-row{border-bottom:1px solid var(--gold-line);cursor:pointer;animation:fadeIn 0.35s ease both;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .prospect-row:hover .row-collapsed{background:rgba(200,168,75,0.04);}
@@ -68,7 +62,6 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .chevron{font-size:10px;color:rgba(200,168,75,0.4);transition:transform 0.25s;flex-shrink:0;width:16px;text-align:center;}
 .prospect-row.open .chevron{transform:rotate(180deg);}
 
-/* EXPANDED */
 .row-expanded{display:none;background:var(--ink2);border-top:1px solid var(--gold-line);padding:28px 24px 24px;}
 .prospect-row.open .row-expanded{display:block;}
 .expanded-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px 32px;margin-bottom:24px;}
@@ -78,18 +71,35 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .exp-section-title{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
 .exp-section-title::after{content:'';flex:1;height:1px;background:rgba(200,168,75,0.12);}
 .exp-text{font-size:12.5px;color:rgba(240,235,224,0.6);line-height:1.8;}
-.pitch-box{background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.2);border-left:3px solid var(--gold);border-radius:3px;padding:16px 20px;font-size:12.5px;color:rgba(240,235,224,0.75);line-height:1.85;font-style:italic;}
-.pitch-empty{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(240,235,224,0.2);padding:16px 0;}
-.pitch-generating{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--gold);padding:16px 0;animation:pulse 1.5s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 .val-pair-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+
+/* PITCH SECTION */
+.pitch-display{background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.2);border-left:3px solid var(--gold);border-radius:3px;padding:16px 20px;font-size:12.5px;color:rgba(240,235,224,0.75);line-height:1.85;font-style:italic;margin-bottom:10px;}
+.pitch-empty-msg{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(240,235,224,0.2);padding:12px 0 8px;}
+.pitch-edit-area{width:100%;background:rgba(240,235,224,0.04);border:1px solid rgba(200,168,75,0.3);border-radius:3px;color:var(--paper);font-family:'Syne',sans-serif;font-size:12.5px;padding:14px 16px;outline:none;resize:vertical;min-height:100px;line-height:1.8;display:none;}
+.pitch-edit-area:focus{border-color:var(--gold);background:rgba(200,168,75,0.04);}
+.pitch-edit-area.visible{display:block;}
+.pitch-action-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center;}
+.pitch-hint{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1px;color:rgba(240,235,224,0.2);flex:1;}
+
+/* PROMPT MODAL */
+.prompt-modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(12,11,9,0.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;}
+.prompt-modal-overlay.open{display:flex;}
+.prompt-modal{background:var(--ink2);border:1px solid var(--gold-line);border-radius:4px;width:100%;max-width:680px;max-height:85vh;overflow-y:auto;animation:modalIn 0.25s ease;}
+.prompt-modal-header{padding:20px 24px 16px;border-bottom:1px solid var(--gold-line);display:flex;align-items:center;justify-content:space-between;}
+.prompt-modal-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.prompt-modal-body{padding:20px 24px;}
+.prompt-instruction{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;color:rgba(240,235,224,0.4);text-transform:uppercase;margin-bottom:12px;line-height:1.6;}
+.prompt-box{background:rgba(240,235,224,0.04);border:1px solid rgba(200,168,75,0.15);border-radius:3px;padding:16px;font-size:12px;color:rgba(240,235,224,0.7);line-height:1.8;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow-y:auto;margin-bottom:16px;}
+.prompt-modal-footer{padding:16px 24px 20px;border-top:1px solid var(--gold-line);display:flex;gap:10px;justify-content:space-between;align-items:center;}
+.copy-confirm{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(200,168,75,0.5);opacity:0;transition:opacity 0.3s;}
+.copy-confirm.show{opacity:1;}
 
 /* ACTIONS */
 .action-row{display:flex;gap:10px;padding-top:20px;border-top:1px solid rgba(200,168,75,0.1);flex-wrap:wrap;}
 .act-btn{font-family:'DM Mono',monospace;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;padding:9px 18px;border-radius:2px;border:none;cursor:pointer;transition:all 0.18s;white-space:nowrap;}
-.act-generate{background:var(--gold);color:var(--ink);font-weight:500;}
-.act-generate:hover{background:var(--gold2);transform:translateY(-1px);}
-.act-generate:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.act-prompt{background:var(--gold);color:var(--ink);font-weight:500;}
+.act-prompt:hover{background:var(--gold2);transform:translateY(-1px);}
 .act-edit{background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.5);}
 .act-edit:hover{border-color:var(--gold);color:var(--gold);}
 .act-pdf{background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.5);}
@@ -98,6 +108,10 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .act-archive:hover{border-color:var(--red);color:#e05545;}
 .act-restore{background:transparent;border:1px solid rgba(200,168,75,0.3);color:rgba(200,168,75,0.6);}
 .act-restore:hover{border-color:var(--gold);color:var(--gold);}
+.act-save-pitch{background:transparent;border:1px solid rgba(200,168,75,0.4);color:var(--gold);font-size:9px;}
+.act-save-pitch:hover{background:rgba(200,168,75,0.1);}
+.act-clear-pitch{background:transparent;border:1px solid rgba(240,235,224,0.1);color:rgba(240,235,224,0.3);font-size:9px;}
+.act-clear-pitch:hover{border-color:rgba(192,57,43,0.4);color:#e05545;}
 
 /* EMPTY / LOADING */
 .empty-state{text-align:center;padding:80px 40px;border-left:1px solid var(--gold-line);border-right:1px solid var(--gold-line);border-bottom:1px solid var(--gold-line);}
@@ -105,12 +119,11 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .empty-text{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:rgba(240,235,224,0.25);text-transform:uppercase;}
 .loading-state{text-align:center;padding:60px 40px;}
 .loading-text{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(200,168,75,0.5);text-transform:uppercase;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 
-/* ARCHIVE BANNER */
 .archive-banner{background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.15);padding:10px 16px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(200,168,75,0.5);text-transform:uppercase;display:none;}
 .archive-banner.visible{display:block;}
 
-/* TOAST */
 .toast{position:fixed;bottom:32px;right:32px;z-index:999;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 20px;border-radius:3px;background:var(--ink3);border:1px solid var(--gold-line);color:var(--gold);opacity:0;transform:translateY(8px);transition:all 0.3s;pointer-events:none;}
 .toast.show{opacity:1;transform:translateY(0);}
 .toast.error{border-color:rgba(192,57,43,0.4);color:#e05545;}
@@ -136,10 +149,10 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 .field-select option{background:#1a1814;}
 .field-textarea{resize:vertical;min-height:72px;}
 .modal-footer{padding:18px 28px 24px;display:flex;gap:10px;justify-content:flex-end;border-top:1px solid var(--gold-line);}
-.btn-save{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;background:var(--gold);color:var(--ink);border:none;border-radius:3px;cursor:pointer;font-weight:500;transition:all 0.2s;}
+.btn-save{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;background:var(--gold);color:var(--ink);border:none;border-radius:3px;cursor:pointer;font-weight:500;}
 .btn-save:hover{background:var(--gold2);}
 .btn-save:disabled{opacity:0.5;cursor:not-allowed;}
-.btn-cancel{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.4);border-radius:3px;cursor:pointer;transition:all 0.2s;}
+.btn-cancel{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;background:transparent;border:1px solid var(--gold-line);color:rgba(240,235,224,0.4);border-radius:3px;cursor:pointer;}
 .btn-cancel:hover{border-color:var(--gold);color:var(--gold);}
 
 ::-webkit-scrollbar{width:4px;}
@@ -198,7 +211,7 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
   </div>
 </div>
 
-<!-- MODAL -->
+<!-- ADD/EDIT MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-header">
@@ -214,39 +227,24 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
       <div class="form-grid single">
         <div class="field-group"><label class="field-label">Asset / Property</label><input class="field-input" id="f-asset" type="text" placeholder="e.g. Residential Building, Dubai Marina"></div>
       </div>
-
       <div class="form-divider">Valuation Set 01 — Primary</div>
       <div class="form-grid">
         <div class="field-group"><label class="field-label">Valuation Type 01</label>
-          <select class="field-select" id="f-val-type">
-            <option value="">Select type</option>
-            <option>Residential</option><option>Commercial</option><option>Industrial</option><option>Mixed-Use</option><option>Hospitality</option><option>Retail</option><option>Logistics / Warehouse</option><option>Plant & Machinery</option><option>Business / Brand</option><option>Land</option>
-          </select>
+          <select class="field-select" id="f-val-type"><option value="">Select type</option><option>Residential</option><option>Commercial</option><option>Industrial</option><option>Mixed-Use</option><option>Hospitality</option><option>Retail</option><option>Logistics / Warehouse</option><option>Plant & Machinery</option><option>Business / Brand</option><option>Land</option></select>
         </div>
         <div class="field-group"><label class="field-label">Valuation Trigger 01</label>
-          <select class="field-select" id="f-trigger">
-            <option value="">Select trigger</option>
-            <option>Corporate Tax</option><option>Sale / Disposal</option><option>Mortgage / Loan</option><option>Golden Visa</option><option>Gifting / Hiba</option><option>Investment / Portfolio</option><option>Financial Reporting</option><option>Litigation / Expert Witness</option><option>Insurance</option><option>Family Restructuring</option>
-          </select>
+          <select class="field-select" id="f-trigger"><option value="">Select trigger</option><option>Corporate Tax</option><option>Sale / Disposal</option><option>Mortgage / Loan</option><option>Golden Visa</option><option>Gifting / Hiba</option><option>Investment / Portfolio</option><option>Financial Reporting</option><option>Litigation / Expert Witness</option><option>Insurance</option><option>Family Restructuring</option></select>
         </div>
       </div>
-
       <div class="form-divider">Valuation Set 02 — Secondary (optional)</div>
       <div class="form-grid">
         <div class="field-group"><label class="field-label">Valuation Type 02</label>
-          <select class="field-select" id="f-val-type2">
-            <option value="">None</option>
-            <option>Residential</option><option>Commercial</option><option>Industrial</option><option>Mixed-Use</option><option>Hospitality</option><option>Retail</option><option>Logistics / Warehouse</option><option>Plant & Machinery</option><option>Business / Brand</option><option>Land</option>
-          </select>
+          <select class="field-select" id="f-val-type2"><option value="">None</option><option>Residential</option><option>Commercial</option><option>Industrial</option><option>Mixed-Use</option><option>Hospitality</option><option>Retail</option><option>Logistics / Warehouse</option><option>Plant & Machinery</option><option>Business / Brand</option><option>Land</option></select>
         </div>
         <div class="field-group"><label class="field-label">Valuation Trigger 02</label>
-          <select class="field-select" id="f-trigger2">
-            <option value="">None</option>
-            <option>Corporate Tax</option><option>Sale / Disposal</option><option>Mortgage / Loan</option><option>Golden Visa</option><option>Gifting / Hiba</option><option>Investment / Portfolio</option><option>Financial Reporting</option><option>Litigation / Expert Witness</option><option>Insurance</option><option>Family Restructuring</option>
-          </select>
+          <select class="field-select" id="f-trigger2"><option value="">None</option><option>Corporate Tax</option><option>Sale / Disposal</option><option>Mortgage / Loan</option><option>Golden Visa</option><option>Gifting / Hiba</option><option>Investment / Portfolio</option><option>Financial Reporting</option><option>Litigation / Expert Witness</option><option>Insurance</option><option>Family Restructuring</option></select>
         </div>
       </div>
-
       <div class="form-grid">
         <div class="field-group"><label class="field-label">Relationship *</label>
           <select class="field-select" id="f-relationship"><option value="">Select</option><option>Hot</option><option>Warm</option><option>Cold</option><option>Passive</option></select>
@@ -273,12 +271,32 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
   </div>
 </div>
 
+<!-- PROMPT MODAL -->
+<div class="prompt-modal-overlay" id="promptModalOverlay" onclick="handlePromptOverlayClick(event)">
+  <div class="prompt-modal">
+    <div class="prompt-modal-header">
+      <div class="prompt-modal-title">⚡ Pitch Prompt — Ready to Copy</div>
+      <button class="modal-close" onclick="closePromptModal()">✕</button>
+    </div>
+    <div class="prompt-modal-body">
+      <div class="prompt-instruction">1. Copy the prompt below → 2. Paste in Claude → 3. Copy output → 4. Paste back in the Pitch Script box on the card</div>
+      <div class="prompt-box" id="promptBox"></div>
+    </div>
+    <div class="prompt-modal-footer">
+      <span class="copy-confirm" id="copyConfirm">✓ Copied to clipboard</span>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-cancel" onclick="closePromptModal()">Close</button>
+        <button class="btn-save" onclick="copyPrompt()">Copy Prompt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const SUPABASE_URL  = 'https://otumtcdixrwjbntmnbje.supabase.co';
 const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im90dW10Y2RpeHJ3amJudG1uYmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgzODU4NjgsImV4cCI6MjA5Mzk2MTg2OH0.GjZbuYH6dyQJXap_YJURYa6p80LQDgJKBjZy3fNZpxk';
-const ANTHROPIC_KEY = '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';
 const MAIN_TABLE    = 'valuation_prospects';
 const ARCHIVE_TABLE = 'valuation_archive';
 
@@ -287,7 +305,7 @@ let allProspects = [], archivedProspects = [], currentFilter = 'all', viewingArc
 async function sbFetch(table, method='GET', body=null, filters='') {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${filters}`, {
     method,
-    headers: {'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':method==='PATCH'?'return=representation':''},
+    headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':method==='POST'?'return=representation':method==='PATCH'?'return=representation':''},
     body: body ? JSON.stringify(body) : undefined
   });
   if (!res.ok) throw new Error(await res.text());
@@ -301,7 +319,7 @@ async function loadProspects() {
     archivedProspects = await sbFetch(ARCHIVE_TABLE, 'GET', null, '?order=archived_at.desc') || [];
     updateBuckets(); renderList();
   } catch(e) {
-    document.getElementById('prospectList').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">Could not connect to database<br>${e.message}</div></div>`;
+    document.getElementById('prospectList').innerHTML = `<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">Could not connect — ${e.message}</div></div>`;
   }
 }
 
@@ -332,10 +350,10 @@ function getFiltered() {
 function getSorted(list) {
   const sort = document.getElementById('sortSelect').value;
   return [...list].sort((a,b)=>{
-    if (sort==='next_followup') { if(!a.next_followup)return 1; if(!b.next_followup)return -1; return new Date(a.next_followup)-new Date(b.next_followup); }
-    if (sort==='last_contacted') { if(!a.last_contacted)return 1; if(!b.last_contacted)return -1; return new Date(b.last_contacted)-new Date(a.last_contacted); }
+    if (sort==='next_followup'){if(!a.next_followup)return 1;if(!b.next_followup)return -1;return new Date(a.next_followup)-new Date(b.next_followup);}
+    if (sort==='last_contacted'){if(!a.last_contacted)return 1;if(!b.last_contacted)return -1;return new Date(b.last_contacted)-new Date(a.last_contacted);}
     if (sort==='name') return (a.name||'').localeCompare(b.name||'');
-    if (sort==='relationship') { const o={Hot:0,Warm:1,Cold:2,Passive:3}; return (o[a.relationship]??4)-(o[b.relationship]??4); }
+    if (sort==='relationship'){const o={Hot:0,Warm:1,Cold:2,Passive:3};return (o[a.relationship]??4)-(o[b.relationship]??4);}
     return 0;
   });
 }
@@ -344,7 +362,7 @@ function renderList() {
   document.getElementById('archiveBanner').classList.toggle('visible', viewingArchive);
   const list = getSorted(getFiltered());
   const el = document.getElementById('prospectList');
-  if (!list.length) { el.innerHTML = `<div class="empty-state"><div class="empty-icon">◇</div><div class="empty-text">No prospects found</div></div>`; return; }
+  if (!list.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">◇</div><div class="empty-text">No prospects found</div></div>`;return;}
   el.innerHTML = list.map(renderRow).join('');
 }
 
@@ -353,32 +371,36 @@ function fmt(d) {
   return new Date(d+'T00:00:00').toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
 }
 
-function isOverdue(d) {
-  if (!d) return false;
-  const today = new Date(); today.setHours(0,0,0,0);
-  return new Date(d) <= today;
-}
-
 function renderRow(p) {
-  const autoTagArr = [p.valuation_type, p.valuation_trigger, p.valuation_type_2, p.valuation_trigger_2].filter(Boolean);
-  const ctArr = p.custom_tags || [];
-  const tagsHtml = [...autoTagArr.map(t=>`<span class="tag auto">${t}</span>`), ...ctArr.map(t=>`<span class="tag">${t}</span>`)].join('');
-  const overdue = isOverdue(p.next_followup);
+  const autoTagArr = [p.valuation_type,p.valuation_trigger,p.valuation_type_2,p.valuation_trigger_2].filter(Boolean);
+  const ctArr = p.custom_tags||[];
+  const tagsHtml = [...autoTagArr.map(t=>`<span class="tag auto">${t}</span>`),...ctArr.map(t=>`<span class="tag">${t}</span>`)].join('');
+  const overdue = p.next_followup && new Date(p.next_followup+'T00:00:00') <= new Date();
   const isArch = viewingArchive;
 
-  const valPairs = `
-    <div class="val-pair-grid">
-      <div><div class="exp-label">Type 01</div><div class="exp-value">${p.valuation_type||'—'}</div></div>
-      <div><div class="exp-label">Trigger 01</div><div class="exp-value">${p.valuation_trigger||'—'}</div></div>
-      ${p.valuation_type_2 ? `<div><div class="exp-label">Type 02</div><div class="exp-value">${p.valuation_type_2}</div></div>` : ''}
-      ${p.valuation_trigger_2 ? `<div><div class="exp-label">Trigger 02</div><div class="exp-value">${p.valuation_trigger_2}</div></div>` : ''}
-    </div>`;
+  const valPairs = `<div class="val-pair-grid">
+    <div><div class="exp-label">Type 01</div><div class="exp-value">${p.valuation_type||'—'}</div></div>
+    <div><div class="exp-label">Trigger 01</div><div class="exp-value">${p.valuation_trigger||'—'}</div></div>
+    ${p.valuation_type_2?`<div><div class="exp-label">Type 02</div><div class="exp-value">${p.valuation_type_2}</div></div>`:''}
+    ${p.valuation_trigger_2?`<div><div class="exp-label">Trigger 02</div><div class="exp-value">${p.valuation_trigger_2}</div></div>`:''}
+  </div>`;
 
-  const pitchHtml = p.pitch_script ? `<div class="pitch-box">${p.pitch_script}</div>` : `<div class="pitch-empty">No pitch generated yet — click Generate Pitch</div>`;
+  const pitchSection = p.pitch_script
+    ? `<div class="pitch-display" id="pitch-display-${p.id}">${p.pitch_script}</div>
+       <textarea class="pitch-edit-area" id="pitch-edit-${p.id}" placeholder="Paste your pitch here...">${p.pitch_script}</textarea>`
+    : `<div class="pitch-empty-msg" id="pitch-display-${p.id}">No pitch yet — click Copy Prompt, paste in Claude, then paste the output below.</div>
+       <textarea class="pitch-edit-area visible" id="pitch-edit-${p.id}" placeholder="Paste Claude's pitch output here..."></textarea>`;
+
+  const pitchActions = isArch ? '' : `
+    <div class="pitch-action-row">
+      <span class="pitch-hint">Paste Claude's output above → Save</span>
+      <button class="act-btn act-save-pitch" onclick="savePitch('${p.id}',event)">↑ Save Pitch</button>
+      ${p.pitch_script?`<button class="act-btn act-clear-pitch" onclick="clearPitch('${p.id}',event)">✕ Clear</button>`:''}
+    </div>`;
 
   const actionBtns = isArch
     ? `<button class="act-btn act-restore" onclick="restoreProspect('${p.id}',event)">↩ Restore to Active</button>`
-    : `<button class="act-btn act-generate" onclick="generatePitch('${p.id}',event)">⚡ Generate Pitch</button>
+    : `<button class="act-btn act-prompt" onclick="showPrompt('${p.id}',event)">⚡ Copy Prompt</button>
        <button class="act-btn act-edit" onclick="editProspect('${p.id}',event)">✎ Edit</button>
        <button class="act-btn act-pdf" onclick="exportPDF('${p.id}',event)">↓ Export PDF</button>
        <button class="act-btn act-archive" onclick="archiveProspect('${p.id}',event)">Archive →</button>`;
@@ -400,17 +422,101 @@ function renderRow(p) {
         <div><div class="exp-label">Status</div><div class="exp-value">${p.status||'—'}</div></div>
       </div>
       ${p.notes?`<div class="exp-section"><div class="exp-section-title">Notes</div><div class="exp-text">${p.notes}</div></div>`:''}
-      ${p.why_now?`<div class="exp-section"><div class="exp-section-title">Why They Need a Valuation Now</div><div class="exp-text">${p.why_now}</div></div>`:''}
-      <div class="exp-section"><div class="exp-section-title">Pitch Script</div><div id="pitch-${p.id}">${pitchHtml}</div></div>
+      <div class="exp-section">
+        <div class="exp-section-title">Pitch Script</div>
+        ${pitchSection}
+        ${pitchActions}
+      </div>
       <div class="action-row">${actionBtns}</div>
     </div>
   </div>`;
 }
 
-function toggleRow(row) { if(event.target.closest('.act-btn'))return; row.classList.toggle('open'); }
+function toggleRow(row) {
+  if(event.target.closest('.act-btn')||event.target.closest('textarea'))return;
+  row.classList.toggle('open');
+  // Show edit area if pitch exists
+  const id = row.id.replace('row-','');
+  const p = allProspects.find(x=>x.id===id);
+  if(p&&p.pitch_script&&row.classList.contains('open')){
+    const ea = document.getElementById(`pitch-edit-${id}`);
+    if(ea) ea.classList.remove('visible');
+  }
+}
 
+// SHOW PROMPT MODAL
+function showPrompt(id, e) {
+  e.stopPropagation();
+  const p = allProspects.find(x=>x.id===id); if(!p)return;
+  const valSets = [
+    p.valuation_type&&`Set 01: ${p.valuation_type} / Trigger: ${p.valuation_trigger||'—'}`,
+    p.valuation_type_2&&`Set 02: ${p.valuation_type_2} / Trigger: ${p.valuation_trigger_2||'—'}`
+  ].filter(Boolean).join('\n');
+
+  const prompt = `You are Vishal Desai, Founder of Auremont Capital — a DIFC-based capital advisory firm in Dubai with 20 years of deal experience across UAE, GCC, Africa, and APAC.
+
+Write a short, sharp, personalized valuation pitch for this prospect. Tone: confident, relationship-driven, compliance-aware — not salesy. Reference their specific assets and valuation triggers. If there are two valuation sets, weave both naturally into the pitch. End with a soft CTA for a call or meeting.
+
+Prospect: ${p.name}
+Company / Entity: ${p.company||'Individual'}
+Asset / Property: ${p.asset||'Not specified'}
+Valuation Sets:
+${valSets}
+Relationship: ${p.relationship}
+Notes: ${p.notes||'None'}
+
+Output ONLY the pitch text. No labels, no headers, no preamble. Max 5 sentences.`;
+
+  document.getElementById('promptBox').textContent = prompt;
+  document.getElementById('promptModalOverlay').classList.add('open');
+}
+
+function copyPrompt() {
+  const text = document.getElementById('promptBox').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const c = document.getElementById('copyConfirm');
+    c.classList.add('show');
+    setTimeout(()=>c.classList.remove('show'),2500);
+    showToast('Prompt copied — paste in Claude');
+  });
+}
+
+function closePromptModal() { document.getElementById('promptModalOverlay').classList.remove('open'); }
+function handlePromptOverlayClick(e) { if(e.target===document.getElementById('promptModalOverlay'))closePromptModal(); }
+
+// SAVE PITCH
+async function savePitch(id, e) {
+  e.stopPropagation();
+  const textarea = document.getElementById(`pitch-edit-${id}`);
+  const pitch = textarea?.value?.trim();
+  if(!pitch){showToast('Paste the pitch first',true);return;}
+  try {
+    await sbFetch(MAIN_TABLE,'PATCH',{pitch_script:pitch,updated_at:new Date().toISOString()},`?id=eq.${id}`);
+    const idx = allProspects.findIndex(x=>x.id===id);
+    if(idx>-1) allProspects[idx].pitch_script = pitch;
+    showToast('Pitch saved ✓');
+    // Update display without full re-render
+    const disp = document.getElementById(`pitch-display-${id}`);
+    if(disp){disp.className='pitch-display';disp.textContent=pitch;}
+    textarea.classList.remove('visible');
+  } catch(err){showToast('Error: '+err.message,true);}
+}
+
+async function clearPitch(id, e) {
+  e.stopPropagation();
+  if(!confirm('Clear saved pitch?'))return;
+  try {
+    await sbFetch(MAIN_TABLE,'PATCH',{pitch_script:null,updated_at:new Date().toISOString()},`?id=eq.${id}`);
+    const idx = allProspects.findIndex(x=>x.id===id);
+    if(idx>-1) allProspects[idx].pitch_script = null;
+    showToast('Pitch cleared');
+    await loadProspects();
+  } catch(err){showToast('Error: '+err.message,true);}
+}
+
+// MODAL
 function openModal(p=null) {
-  document.getElementById('modalTitle').textContent = p ? 'Edit Prospect' : 'Add Prospect';
+  document.getElementById('modalTitle').textContent = p?'Edit Prospect':'Add Prospect';
   document.getElementById('editId').value            = p?.id||'';
   document.getElementById('f-name').value            = p?.name||'';
   document.getElementById('f-company').value         = p?.company||'';
@@ -427,124 +533,75 @@ function openModal(p=null) {
   document.getElementById('f-notes').value           = p?.notes||'';
   document.getElementById('modalOverlay').classList.add('open');
 }
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function handleOverlayClick(e) { if(e.target===document.getElementById('modalOverlay'))closeModal(); }
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function handleOverlayClick(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
 
 async function saveProspect() {
   const id = document.getElementById('editId').value;
   const name = document.getElementById('f-name').value.trim();
-  if (!name) { showToast('Name is required',true); return; }
-  const rawTags = document.getElementById('f-tags').value;
-  const customTags = rawTags.split(',').map(t=>t.trim()).filter(Boolean);
-  const vt1 = document.getElementById('f-val-type').value;
-  const tr1 = document.getElementById('f-trigger').value;
-  const vt2 = document.getElementById('f-val-type2').value;
-  const tr2 = document.getElementById('f-trigger2').value;
-  const autoTagsArr = [vt1,tr1,vt2,tr2].filter(Boolean);
-  const payload = {
-    name, company: document.getElementById('f-company').value.trim()||'N/A',
-    asset: document.getElementById('f-asset').value.trim(),
-    valuation_type: vt1, valuation_trigger: tr1,
-    valuation_type_2: vt2||null, valuation_trigger_2: tr2||null,
-    relationship: document.getElementById('f-relationship').value,
-    status: document.getElementById('f-status').value,
-    last_contacted: document.getElementById('f-last').value||null,
-    next_followup: document.getElementById('f-next').value||null,
-    custom_tags: customTags, auto_tags: autoTagsArr,
-    notes: document.getElementById('f-notes').value.trim(),
-    updated_at: new Date().toISOString()
+  if(!name){showToast('Name is required',true);return;}
+  const vt1=document.getElementById('f-val-type').value, tr1=document.getElementById('f-trigger').value;
+  const vt2=document.getElementById('f-val-type2').value, tr2=document.getElementById('f-trigger2').value;
+  const rawTags=document.getElementById('f-tags').value;
+  const payload={
+    name, company:document.getElementById('f-company').value.trim()||'N/A',
+    asset:document.getElementById('f-asset').value.trim(),
+    valuation_type:vt1, valuation_trigger:tr1,
+    valuation_type_2:vt2||null, valuation_trigger_2:tr2||null,
+    relationship:document.getElementById('f-relationship').value,
+    status:document.getElementById('f-status').value,
+    last_contacted:document.getElementById('f-last').value||null,
+    next_followup:document.getElementById('f-next').value||null,
+    custom_tags:rawTags.split(',').map(t=>t.trim()).filter(Boolean),
+    auto_tags:[vt1,tr1,vt2,tr2].filter(Boolean),
+    notes:document.getElementById('f-notes').value.trim(),
+    updated_at:new Date().toISOString()
   };
-  const btn = document.getElementById('btnSave');
-  btn.disabled=true; btn.textContent='Saving...';
+  const btn=document.getElementById('btnSave');
+  btn.disabled=true;btn.textContent='Saving...';
   try {
-    if (id) await sbFetch(MAIN_TABLE,'PATCH',payload,`?id=eq.${id}`);
+    if(id) await sbFetch(MAIN_TABLE,'PATCH',payload,`?id=eq.${id}`);
     else await sbFetch(MAIN_TABLE,'POST',payload);
     showToast(id?'Prospect updated':'Prospect added');
     closeModal(); await loadProspects();
-  } catch(e) { showToast('Error: '+e.message,true); }
-  finally { btn.disabled=false; btn.textContent='Save Prospect'; }
+  } catch(e){showToast('Error: '+e.message,true);}
+  finally{btn.disabled=false;btn.textContent='Save Prospect';}
 }
 
-function editProspect(id,e) { e.stopPropagation(); openModal(allProspects.find(x=>x.id===id)); }
+function editProspect(id,e){e.stopPropagation();openModal(allProspects.find(x=>x.id===id));}
 
 async function archiveProspect(id,e) {
   e.stopPropagation();
-  if (!confirm('Move this prospect to archive?')) return;
-  const p = allProspects.find(x=>x.id===id); if(!p)return;
+  if(!confirm('Move this prospect to archive?'))return;
+  const p=allProspects.find(x=>x.id===id);if(!p)return;
   try {
-    const ap = {...p, original_id:p.id, archived_at:new Date().toISOString()}; delete ap.id;
+    const ap={...p,original_id:p.id,archived_at:new Date().toISOString()};delete ap.id;
     await sbFetch(ARCHIVE_TABLE,'POST',ap);
     await sbFetch(MAIN_TABLE,'DELETE',null,`?id=eq.${id}`);
-    showToast('Prospect archived'); await loadProspects();
-  } catch(e) { showToast('Error: '+e.message,true); }
+    showToast('Prospect archived');await loadProspects();
+  } catch(e){showToast('Error: '+e.message,true);}
 }
 
 async function restoreProspect(id,e) {
   e.stopPropagation();
-  const p = archivedProspects.find(x=>x.id===id); if(!p)return;
+  const p=archivedProspects.find(x=>x.id===id);if(!p)return;
   try {
-    const rp = {...p, updated_at:new Date().toISOString()}; delete rp.id; delete rp.original_id; delete rp.archived_at;
+    const rp={...p,updated_at:new Date().toISOString()};delete rp.id;delete rp.original_id;delete rp.archived_at;
     await sbFetch(MAIN_TABLE,'POST',rp);
     await sbFetch(ARCHIVE_TABLE,'DELETE',null,`?id=eq.${id}`);
-    showToast('Prospect restored'); await loadProspects();
-  } catch(e) { showToast('Error: '+e.message,true); }
+    showToast('Prospect restored');await loadProspects();
+  } catch(e){showToast('Error: '+e.message,true);}
 }
 
-async function generatePitch(id,e) {
-  e.stopPropagation();
-  const p = allProspects.find(x=>x.id===id); if(!p)return;
-  const pitchEl = document.getElementById(`pitch-${id}`);
-  const btn = document.querySelector(`#row-${id} .act-generate`);
-  pitchEl.innerHTML = `<div class="pitch-generating">⚡ Generating pitch...</div>`;
-  if(btn){btn.disabled=true;btn.textContent='Generating...';}
-  const valSets = [
-    p.valuation_type&&`Set 01: ${p.valuation_type} / ${p.valuation_trigger||'—'}`,
-    p.valuation_type_2&&`Set 02: ${p.valuation_type_2} / ${p.valuation_trigger_2||'—'}`
-  ].filter(Boolean).join('\n');
-  const prompt = `You are Vishal Desai, Founder of Auremont Capital — a DIFC-based capital advisory firm in Dubai with 20 years of deal experience across UAE, GCC, Africa, and APAC.\n\nWrite a short, sharp, personalized valuation pitch for this prospect. Tone: confident, relationship-driven, compliance-aware — not salesy. Reference their specific assets and valuation triggers. If there are two valuation sets, weave both naturally. End with a soft CTA for a call or meeting.\n\nProspect: ${p.name}\nCompany: ${p.company||'Individual'}\nAsset: ${p.asset||'Not specified'}\nValuation Sets:\n${valSets}\nRelationship: ${p.relationship}\nNotes: ${p.notes||'None'}\n\nOutput ONLY the pitch text. No labels, no headers. Max 5 sentences.`;
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-client-side-allow':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:350,messages:[{role:'user',content:prompt}]})
-    });
-    const data = await res.json();
-    const pitch = data.content?.[0]?.text?.trim();
-    if(!pitch)throw new Error('No pitch returned');
-    const whyNow = await generateWhyNow(p);
-    await sbFetch(MAIN_TABLE,'PATCH',{pitch_script:pitch,why_now:whyNow,updated_at:new Date().toISOString()},`?id=eq.${id}`);
-    const idx = allProspects.findIndex(x=>x.id===id);
-    if(idx>-1){allProspects[idx].pitch_script=pitch;allProspects[idx].why_now=whyNow;}
-    pitchEl.innerHTML = `<div class="pitch-box">${pitch}</div>`;
-    showToast('Pitch generated & saved');
-  } catch(err) {
-    pitchEl.innerHTML = `<div class="pitch-empty">Error — check Anthropic API key</div>`;
-    showToast('Error: '+err.message,true);
-  } finally { if(btn){btn.disabled=false;btn.textContent='⚡ Generate Pitch';} }
-}
-
-async function generateWhyNow(p) {
-  const sets = [p.valuation_type&&`${p.valuation_type} (${p.valuation_trigger})`, p.valuation_type_2&&`${p.valuation_type_2} (${p.valuation_trigger_2})`].filter(Boolean).join(' and ');
-  const prompt = `In 2-3 sentences, explain why ${p.name} needs a professional valuation for their ${sets} asset(s) right now, in the UAE context. Be specific, compliance-aware. Output only the explanation.`;
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':ANTHROPIC_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-client-side-allow':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:150,messages:[{role:'user',content:prompt}]})
-    });
-    const data = await res.json();
-    return data.content?.[0]?.text?.trim()||'';
-  } catch{return '';}
-}
-
+// PDF EXPORT
 function exportPDF(id,e) {
   e.stopPropagation();
-  const p = allProspects.find(x=>x.id===id); if(!p)return;
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({unit:'pt',format:'letter'});
+  const p=allProspects.find(x=>x.id===id);if(!p)return;
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({unit:'pt',format:'letter'});
   const W=612,H=792,gold=[200,168,75],ink=[13,13,13],mid=[107,102,96];
-  doc.setFillColor(...ink); doc.rect(0,0,W,72,'F');
-  doc.setFillColor(...gold); doc.rect(0,0,4,72,'F');
+  doc.setFillColor(...ink);doc.rect(0,0,W,72,'F');
+  doc.setFillColor(...gold);doc.rect(0,0,4,72,'F');
   doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(...gold);
   doc.text('CAPITAL ADVISORY & VALUATION INTELLIGENCE',24,36);
   doc.setFontSize(9);doc.text('PROSPECT BRIEF',W-28,30,{align:'right'});
@@ -554,8 +611,7 @@ function exportPDF(id,e) {
   let y=104;
   doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(...ink);doc.text(p.name||'',40,y);
   doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(...mid);doc.text(p.company||'N/A',40,y+16);
-  y+=36;doc.setDrawColor(...gold);doc.setLineWidth(0.4);doc.line(40,y,W-40,y);
-  y+=18;
+  y+=36;doc.setDrawColor(...gold);doc.setLineWidth(0.4);doc.line(40,y,W-40,y);y+=18;
   const rows=[['ASSET / PROPERTY',p.asset||'—'],['VALUATION TYPE 01',p.valuation_type||'—'],['TRIGGER 01',p.valuation_trigger||'—']];
   if(p.valuation_type_2)rows.push(['VALUATION TYPE 02',p.valuation_type_2]);
   if(p.valuation_trigger_2)rows.push(['TRIGGER 02',p.valuation_trigger_2]);
@@ -564,7 +620,7 @@ function exportPDF(id,e) {
     const ry=y+i*20;
     if(i%2===0){doc.setFillColor(240,236,226);doc.rect(38,ry-5,W-76,18,'F');}
     doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(...gold);doc.text(l,44,ry+4);
-    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...ink);doc.text(v,200,ry+4);
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(...ink);doc.text(String(v),200,ry+4);
   });
   y+=rows.length*20+14;
   const sec=(title,text)=>{
@@ -574,7 +630,7 @@ function exportPDF(id,e) {
     doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...mid);
     const lines=doc.splitTextToSize(text,W-80);doc.text(lines,40,y);y+=lines.length*12+12;
   };
-  sec('NOTES',p.notes);sec('WHY THEY NEED A VALUATION NOW',p.why_now);
+  sec('NOTES',p.notes);
   if(p.pitch_script){
     doc.setFillColor(...ink);doc.rect(38,y-4,W-76,18,'F');
     doc.setFont('helvetica','bold');doc.setFontSize(8);doc.setTextColor(...gold);doc.text('PITCH SCRIPT',44,y+6);y+=14;
@@ -592,10 +648,10 @@ function exportPDF(id,e) {
 }
 
 document.getElementById('filterBtns').addEventListener('click',e=>{
-  const btn=e.target.closest('.filter-btn'); if(!btn)return;
+  const btn=e.target.closest('.filter-btn');if(!btn)return;
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  currentFilter=btn.dataset.filter; viewingArchive=currentFilter==='archived'; renderList();
+  currentFilter=btn.dataset.filter;viewingArchive=currentFilter==='archived';renderList();
 });
 
 function showToast(msg,error=false){
