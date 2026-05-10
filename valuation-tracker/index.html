@@ -175,7 +175,6 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
 @media(max-width:768px){
   .shell{padding:0 14px 80px;}
 
-  /* Header */
   header{padding:20px 0 18px;gap:12px;}
   .header-left{gap:12px;}
   .avatar{width:40px;height:40px;}
@@ -183,13 +182,11 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
   .brand-name{font-size:18px;line-height:1.15;}
   .btn-add{font-size:9px;padding:9px 12px;letter-spacing:1px;}
 
-  /* Buckets — 3x2 */
   .buckets{grid-template-columns:repeat(3,1fr);}
   .bucket{padding:12px 10px 10px;}
   .bucket-num{font-size:26px;}
   .bucket-label{font-size:7px;letter-spacing:1px;}
 
-  /* Controls */
   .controls{flex-direction:column;align-items:flex-start;padding:14px 0 12px;gap:10px;}
   .filters{gap:5px;}
   .filter-btn{font-size:8.5px;padding:6px 10px;letter-spacing:1px;}
@@ -200,83 +197,69 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
   .row-collapsed{
     display:grid !important;
     grid-template-columns:1fr auto !important;
-    grid-template-rows:auto !important;
+    grid-template-rows:auto auto auto !important;
     gap:0 !important;
     padding:14px 14px !important;
     align-items:start !important;
-    position:relative !important;
   }
 
-  /* Name block — top left, spans both cols */
-  .col-name{
-    grid-column:1 !important;
-    grid-row:1 !important;
-    padding-right:8px;
-    margin-bottom:10px;
-  }
+  /* Row 1: Name left, HOT badge right */
+  .col-name{grid-column:1 !important;grid-row:1 !important;padding-right:8px;margin-bottom:10px;}
   .prospect-name{font-size:16px !important;white-space:normal !important;line-height:1.25 !important;}
   .prospect-company{font-size:8.5px !important;}
-
-  /* Relationship badge — top right */
-  .col-rel{
-    grid-column:2 !important;
-    grid-row:1 !important;
-    display:flex !important;
-    align-items:flex-start !important;
-    justify-content:flex-end !important;
-  }
+  .col-rel{grid-column:2 !important;grid-row:1 !important;display:flex !important;align-items:flex-start !important;justify-content:flex-end !important;}
   .col-rel .col-label{display:none !important;}
 
-  /* Meta block — val type, last contact, next followup stacked in left col */
+  /* Row 2: Val Type left, Last Contact + Next Follow-Up stacked right */
   .col-valtype{
     grid-column:1 !important;
     grid-row:2 !important;
-    margin-bottom:8px;
+    display:block !important;
+    margin-bottom:10px;
   }
   .col-last{
-    grid-column:1 !important;
-    grid-row:3 !important;
-    display:block !important;
-    margin-bottom:8px;
-  }
-  .col-next{
-    grid-column:1 !important;
-    grid-row:4 !important;
-    display:block !important;
-    margin-bottom:8px;
-  }
-
-  /* Chevron — bottom right */
-  .chevron{
     grid-column:2 !important;
     grid-row:2 !important;
-    display:flex !important;
-    align-items:flex-start !important;
-    justify-content:flex-end !important;
-    padding-top:2px;
+    display:block !important;
+    margin-bottom:6px;
+  }
+  .col-next{
+    grid-column:2 !important;
+    grid-row:3 !important;
+    display:block !important;
   }
 
-  /* Tags — full width, last row */
+  /* Row 4: Chevron left + Tags right */
+  .chevron{
+    grid-column:1 !important;
+    grid-row:4 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    font-size:10px !important;
+    padding-top:8px;
+    width:20px;
+  }
   .col-tags{
     grid-column:1/-1 !important;
-    grid-row:5 !important;
-    padding-top:8px !important;
-    border-top:1px solid rgba(200,168,75,0.1) !important;
-    margin-top:4px !important;
+    grid-row:4 !important;
+    display:flex !important;
+    flex-wrap:wrap !important;
     gap:5px !important;
+    padding-top:8px !important;
+    padding-left:24px !important;
+    border-top:none !important;
+    margin-top:8px !important;
+    border-top:1px solid rgba(200,168,75,0.1) !important;
   }
-  .tag{font-size:7.5px !important;padding:3px 7px !important;}
 
-  /* Label + value styling on mobile */
   .col-label{font-size:8px !important;letter-spacing:1.5px !important;margin-bottom:2px !important;}
   .col-value{font-size:12px !important;white-space:normal !important;overflow:visible !important;text-overflow:unset !important;}
+  .tag{font-size:7.5px !important;padding:3px 7px !important;}
 
   /* ── EXPANDED ── */
   .row-expanded{padding:14px !important;}
-  .expanded-grid{
-    grid-template-columns:1fr 1fr !important;
-    gap:14px 16px !important;
-  }
+  .expanded-grid{grid-template-columns:1fr 1fr !important;gap:14px 16px !important;}
   .exp-asset{grid-column:1 !important;grid-row:1 !important;}
   .exp-status{grid-column:2 !important;grid-row:1 !important;}
   .exp-valsets{grid-column:1/-1 !important;grid-row:2 !important;}
@@ -286,17 +269,14 @@ header{padding:36px 0 28px;border-bottom:1px solid var(--gold-line);display:flex
   .exp-text{font-size:12px !important;}
   .exp-section{padding-top:12px !important;margin-bottom:12px !important;}
 
-  /* Actions */
   .action-row{gap:6px !important;flex-wrap:wrap !important;}
   .act-btn{font-size:8.5px !important;padding:8px 12px !important;letter-spacing:1px !important;}
   .act-archive{margin-left:0 !important;}
 
-  /* Pitch */
   .pitch-display,.pitch-edit-area{font-size:12px !important;padding:12px !important;}
   .pitch-action-row{flex-wrap:wrap !important;gap:6px !important;}
   .pitch-hint{font-size:8px !important;width:100% !important;}
 
-  /* Modals */
   .modal,.prompt-modal{margin:10px !important;max-height:95vh !important;}
   .modal-body,.prompt-modal-body{padding:16px 18px !important;}
   .form-grid{grid-template-columns:1fr !important;}
