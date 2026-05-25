@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Rio Babasac — Investor Intelligence Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C96A;
+  --gold-dim: #7A5E20;
+  --ink: #0A0C0F;
+  --ink-2: #141720;
+  --ink-3: #1C2030;
+  --slate: #3A4155;
+  --mist: #8B95A8;
+  --fog: #C8CDD8;
+  --white: #F4F2EE;
+  --green: #27AE60;
+  --amber: #E67E22;
+  --red: #C0392B;
+  --pad: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,12,15,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: var(--mist); text-decoration: none; text-transform: uppercase;
+  padding: 14px 14px; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s; flex-shrink: 0;
+}
+.nav a:hover, .nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── HERO ── */
+.hero {
+  padding: 48px var(--pad) 40px;
+  background: linear-gradient(160deg, #0A0C0F 0%, #141720 60%, #0F1118 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 90% 60% at 80% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    repeating-linear-gradient(rgba(201,168,76,0.02) 0px, rgba(201,168,76,0.02) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(90deg, rgba(201,168,76,0.02) 0px, rgba(201,168,76,0.02) 1px, transparent 1px, transparent 60px);
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 640px; }
+.hero-conf {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9px; font-weight: 700; letter-spacing: 3px;
+  color: var(--gold-dim); border: 1px solid rgba(201,168,76,0.2);
+  padding: 4px 10px; text-transform: uppercase; margin-bottom: 20px;
+}
+.hero-eye {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 14px;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 9vw, 68px);
+  font-weight: 300; line-height: 1.05;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); display: block; }
+.hero-sub {
+  margin-top: 16px; font-size: 14px; font-weight: 300;
+  color: var(--mist); max-width: 480px; line-height: 1.6;
+}
+.hero-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; margin-top: 32px;
+  border: 1px solid rgba(201,168,76,0.15);
+}
+.hero-stat {
+  padding: 16px 14px;
+  border-right: 1px solid rgba(201,168,76,0.1);
+  border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.hero-stat:nth-child(2n) { border-right: none; }
+.hero-stat:nth-last-child(-n+2) { border-bottom: none; }
+.hs-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
+  color: var(--mist); text-transform: uppercase; margin-bottom: 6px;
+}
+.hs-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 600; color: var(--white); line-height: 1.1;
+}
+.hero-divider {
+  margin-top: 32px; height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(201,168,76,0.1) 70%, transparent);
+}
+
+/* ── LAYOUT ── */
+.main { max-width: 960px; margin: 0 auto; padding: 0 var(--pad) 60px; }
+
+/* ── SECTION ── */
+.section { margin-top: 56px; }
+.sec-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 9px; font-weight: 700; letter-spacing: 3.5px;
+  color: var(--gold); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.sec-tag::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); flex-shrink: 0; }
+.sec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 5vw, 34px); font-weight: 400; margin-bottom: 4px;
+}
+.sec-sub { font-size: 13px; color: var(--mist); font-weight: 300; margin-bottom: 24px; }
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px; margin-bottom: 24px;
+  border: 1px solid rgba(201,168,76,0.12);
+}
+.kpi-grid.col3 { grid-template-columns: repeat(2, 1fr); }
+.kpi-grid.col5 { grid-template-columns: repeat(2, 1fr); }
+
+@media (min-width: 600px) {
+  .kpi-grid.col3 { grid-template-columns: repeat(3, 1fr); }
+  .kpi-grid.col5 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 800px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .kpi-grid.col5 { grid-template-columns: repeat(5, 1fr); }
+}
+
+.kpi-card {
+  background: var(--ink-2); padding: 18px 14px;
+  position: relative; overflow: hidden;
+}
+.kpi-card.gold { background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03)); border-left: 2px solid var(--gold); }
+.kpi-lbl { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2px; color: var(--mist); text-transform: uppercase; margin-bottom: 8px; }
+.kpi-val { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--gold-light); line-height: 1; }
+.kpi-card.gold .kpi-val { color: var(--gold); font-size: 30px; }
+.kpi-unit { font-size: 12px; color: var(--mist); margin-top: 4px; }
+.kpi-note { font-size: 11px; color: var(--gold-dim); margin-top: 6px; font-style: italic; line-height: 1.4; }
+.kpi-note.big { font-size: 15px; color: var(--gold-light); font-family: 'Cormorant Garamond'; font-weight: 600; font-style: normal; }
+
+/* ── PROSE ── */
+.prose {
+  background: var(--ink-2);
+  border-left: 2px solid rgba(201,168,76,0.3);
+  padding: 20px 18px; margin-bottom: 16px;
+}
+.prose p { color: var(--fog); font-size: 14px; line-height: 1.75; font-weight: 300; margin-bottom: 12px; }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--white); font-weight: 500; }
+
+/* ── HIGHLIGHT ── */
+.hl-box {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.02));
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 18px 16px; margin-bottom: 16px;
+}
+.hl-box h4 {
+  font-family: 'Cormorant Garamond'; font-size: 18px;
+  color: var(--gold); margin-bottom: 8px; font-style: italic;
+}
+.hl-box p { font-size: 13px; color: var(--fog); line-height: 1.65; }
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 640px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 700px) {
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+}
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 16px; }
+.tbl-wrap table { min-width: 480px; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+thead tr { background: rgba(201,168,76,0.07); border-bottom: 1px solid rgba(201,168,76,0.2); }
+thead th {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 9px;
+  font-weight: 700; letter-spacing: 2px; color: var(--gold);
+  text-transform: uppercase; padding: 12px 12px; text-align: left;
+}
+tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+tbody td { padding: 11px 12px; color: var(--fog); vertical-align: middle; }
+tbody td:first-child { color: var(--white); font-weight: 500; }
+tfoot td {
+  padding: 12px 12px; font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 12px; letter-spacing: 1px; color: var(--gold);
+  background: rgba(201,168,76,0.06); border-top: 1px solid rgba(201,168,76,0.25);
+}
+.vg { color: var(--gold-light); font-weight: 600; }
+.vbig { color: var(--gold); font-family: 'Cormorant Garamond'; font-size: 16px; font-weight: 600; }
+
+/* ── CHART WRAP ── */
+.chart-wrap {
+  background: var(--ink-2); border: 1px solid rgba(201,168,76,0.1);
+  padding: 18px 14px; margin-bottom: 16px;
+}
+.chart-title {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 10px;
+  font-weight: 700; letter-spacing: 2.5px; color: var(--gold);
+  text-transform: uppercase; margin-bottom: 16px;
+}
+canvas { max-height: 260px; width: 100% !important; }
+
+/* ── MAP SVG ── */
+.map-wrap { background: var(--ink-2); border: 1px solid rgba(201,168,76,0.1); padding: 18px 14px; margin-bottom: 16px; }
+.map-wrap svg { width: 100%; height: auto; display: block; }
+
+/* ── TIMELINE ── */
+.timeline { position: relative; padding-left: 22px; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 0; width: 1px; background: linear-gradient(180deg, var(--gold), rgba(201,168,76,0.05)); }
+.tl-item { position: relative; margin-bottom: 22px; }
+.tl-item::before { content: ''; position: absolute; left: -19px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--ink); border: 2px solid var(--gold); }
+.tl-yr { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+.tl-ev { font-size: 13px; color: var(--fog); margin-top: 2px; line-height: 1.5; }
+
+/* ── OWNERSHIP BOXES ── */
+.own-box {
+  background: var(--ink-3); border: 1px solid rgba(201,168,76,0.2);
+  padding: 14px 16px; text-align: center; margin-bottom: 2px;
+}
+.own-box.top { border-color: var(--gold); }
+.own-lbl { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; letter-spacing: 2px; color: var(--mist); text-transform: uppercase; margin-bottom: 4px; }
+.own-name { font-size: 14px; color: var(--white); font-weight: 500; }
+.own-pct { font-family: 'Cormorant Garamond'; font-size: 28px; color: var(--gold); }
+.own-arrow { text-align: center; padding: 4px; color: rgba(201,168,76,0.35); font-size: 18px; }
+.own-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+
+/* ── BADGES ── */
+.badge { display: inline-block; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; }
+.bg { background: rgba(39,174,96,0.12); color: #27AE60; border: 1px solid rgba(39,174,96,0.3); }
+.ba { background: rgba(201,168,76,0.1); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.bw { background: rgba(230,126,34,0.1); color: var(--amber); border: 1px solid rgba(230,126,34,0.3); }
+.br { background: rgba(192,57,43,0.1); color: var(--red); border: 1px solid rgba(192,57,43,0.3); }
+
+/* ── RISK ROWS ── */
+.risk-list { border: 1px solid rgba(201,168,76,0.12); overflow: hidden; }
+.risk-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); background: var(--ink-2); }
+.risk-row:last-child { border-bottom: none; }
+.ri { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.ri.h { background: var(--red); box-shadow: 0 0 6px rgba(192,57,43,0.5); }
+.ri.m { background: var(--amber); box-shadow: 0 0 6px rgba(230,126,34,0.5); }
+.ri.l { background: var(--green); box-shadow: 0 0 6px rgba(39,174,96,0.5); }
+.rk-lbl { font-weight: 600; font-size: 13px; color: var(--white); margin-bottom: 3px; }
+.rk-desc { font-size: 12px; color: var(--mist); line-height: 1.5; }
+
+/* ── FORMATION LAYERS ── */
+.formation { margin-bottom: 8px; }
+.f-row { display: flex; align-items: stretch; gap: 0; margin-bottom: 3px; }
+.f-depth { width: 48px; flex-shrink: 0; background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.1); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed'; font-size: 9px; letter-spacing: 1px; color: var(--mist); }
+.f-bar { flex: 1; display: flex; align-items: center; padding: 10px 12px; font-size: 12px; color: var(--fog); border: 1px solid rgba(255,255,255,0.04); border-left: none; }
+.f-badge { margin-left: auto; flex-shrink: 0; }
+
+/* ── SUMMARY TABLE ── */
+.sum-table { width: 100%; border-collapse: collapse; }
+.sum-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; vertical-align: top; }
+.sum-table td:first-child { color: var(--white); font-weight: 500; width: 40%; }
+.sum-table td:last-child { color: var(--gold-light); }
+
+/* ── CHECKLIST ── */
+.checklist { font-size: 13px; line-height: 2.0; color: var(--fog); }
+.checklist span { display: block; }
+
+/* ── PERMIT TABLE ── */
+.permit-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); background: var(--ink-2); gap: 8px; }
+.permit-row:last-child { border-bottom: none; }
+.permit-name { font-size: 13px; color: var(--fog); flex: 1; }
+.permit-auth { font-size: 11px; color: var(--mist); margin-top: 2px; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 60px; padding: 28px var(--pad);
+  border-top: 1px solid rgba(201,168,76,0.15);
+  background: rgba(10,12,15,0.9);
+}
+.footer-title { font-family: 'Cormorant Garamond'; font-size: 22px; color: var(--gold); font-weight: 300; }
+.footer-sub { font-size: 12px; color: var(--mist); margin-top: 4px; line-height: 1.6; }
+
+/* ── PRINT / DESKTOP TWEAKS ── */
+@media (min-width: 768px) {
+  :root { --pad: 40px; }
+  .hero { padding: 60px 40px 50px; }
+  .hero-stats { grid-template-columns: repeat(4, 1fr); }
+  .hero-stat { border-bottom: none; }
+  .hero-stat:nth-last-child(-n+2) { border-bottom: none; }
+  .hero-stat:nth-child(4n) { border-right: none; }
+  canvas { max-height: 300px; }
+}
+@media (min-width: 960px) {
+  :root { --pad: 60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-conf">Strictly Confidential</div>
+    <div class="hero-eye">Investor Intelligence Brief — Project Rio</div>
+    <h1 class="hero-title">
+      Rio Babasac<br>
+      <em>Placer Gold Mine</em>
+      Concession
+    </h1>
+    <p class="hero-sub">A 100%-owned gold placer concession in the Canyon of Gold, Sonora, Mexico — with drilled reserves, clean title, and substantial indicated resource potential.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hs-label">Jurisdiction</div>
+        <div class="hs-val">Imuris, Sonora</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-label">Concession Area</div>
+        <div class="hs-val">9.8M m² / 2,400 ac</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-label">Resource Type</div>
+        <div class="hs-val">Alluvial Placer Gold</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-label">Document Date</div>
+        <div class="hs-val">January 2011</div>
+      </div>
+    </div>
+    <div class="hero-divider"></div>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="#overview">Overview</a>
+  <a href="#geology">Geology</a>
+  <a href="#reserves">Reserves</a>
+  <a href="#drilling">Drilling</a>
+  <a href="#ownership">Ownership</a>
+  <a href="#permits">Permits</a>
+  <a href="#macro">Macro</a>
+  <a href="#risks">Risks</a>
+  <a href="#thesis">Thesis</a>
+</nav>
+
+<div class="main">
+
+<!-- ── 01 OVERVIEW ── -->
+<div class="section" id="overview">
+  <div class="sec-tag">01 — Executive Overview</div>
+  <h2 class="sec-title">Project Rio at a Glance</h2>
+  <p class="sec-sub">Rio Babasac Placer Mining Concession, Imuris, Sonora — complete asset summary</p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card gold">
+      <div class="kpi-lbl">Proven Reserve (Drilled)</div>
+      <div class="kpi-val">890,000</div>
+      <div class="kpi-unit">troy ounces of gold</div>
+      <div class="kpi-note big">$2.94B @ current price</div>
+      <div class="kpi-note">$1.157B @ 2011 basis ($1,300/oz)</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-lbl">Indicated Life-of-Mine Reserve</div>
+      <div class="kpi-val">31.98M</div>
+      <div class="kpi-unit">troy ounces of gold</div>
+      <div class="kpi-note big">$105B @ current price</div>
+      <div class="kpi-note">$41.6B @ 2011 basis ($1,300/oz)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Concession Dimensions</div>
+      <div class="kpi-val">10 × 1 km</div>
+      <div class="kpi-unit">9.9 km long × 0.99 km wide</div>
+      <div class="kpi-note">Entirely on dry river bed</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Ownership</div>
+      <div class="kpi-val">100%</div>
+      <div class="kpi-unit">Miningsoft de Mexico S.A. de C.V.</div>
+      <div class="kpi-note">Free & clear, Mining Registry confirmed</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Drill Holes Completed</div>
+      <div class="kpi-val">8 / 10</div>
+      <div class="kpi-unit">IMR001-99 through IMR008-99</div>
+      <div class="kpi-note">80 ft depth each, to bedrock</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Gold Price Uplift (2011→2026)</div>
+      <div class="kpi-val">2.5×</div>
+      <div class="kpi-unit">$1,300 → ~$3,300/oz</div>
+      <div class="kpi-note">Every 2011 value multiplies accordingly</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="prose">
+      <p><strong>Background:</strong> Presented to Principal Akbar Verjee (Dubai) in March 2007 by a Vancouver corporate broker. Following expert consultation, Pillsbury Winthrop (San Diego) was engaged as legal counsel and a global co-investor search commenced.</p>
+      <p>In January 2008, <strong>Merrill Lynch New York</strong> (Latin & Central America Natural Resources team) conducted due diligence and offered to fund all exploration costs for 25% of the concession, with a minimum <strong>$100M PIK loan facility</strong> for production and lead IPO sponsorship. This deal collapsed due to the Global Financial Crisis in late 2008.</p>
+      <p>On <strong>24 August 2009</strong>, Miningsoft de Mexico S.A. de C.V. became the 100% sole owner of the concession, held through UAE and BVI holding vehicles. This proposal was circulated January 2011.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-yr">March 2007</div>
+        <div class="tl-ev">Investment first presented to Akbar Verjee. 10% acquisition proposed.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">Late 2007</div>
+        <div class="tl-ev">Pillsbury Winthrop (San Diego) engaged. Global co-investor search launched.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">January 2008</div>
+        <div class="tl-ev">Merrill Lynch NY enters JV negotiations. White & Case acts for ML. $100M+ PIK + IPO mandate proposed.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">Late 2008</div>
+        <div class="tl-ev">GFC destroys ML deal. ML acquired by Bank of America; mandate withdrawn Jan 2009.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">August 2009</div>
+        <div class="tl-ev">MSM incorporated. 100% ownership consolidated via UAE/BVI holding structure. Tapia Robles (Mexican counsel) engaged.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-yr">January 2011</div>
+        <div class="tl-ev">Title confirmed by Mexican Public Registry of Mining. This proposal circulated to investors.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 02 GEOLOGY ── -->
+<div class="section" id="geology">
+  <div class="sec-tag">02 — Location & Geology</div>
+  <h2 class="sec-title">Property Description & Geological Context</h2>
+  <p class="sec-sub">Sonora's "Canyon of Gold" — Mexico's most prolific placer gold corridor</p>
+
+  <div class="grid-2">
+    <div class="map-wrap">
+      <div class="chart-title">Location Map — Sonora, Mexico</div>
+      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="480" height="380" fill="#0A0C0F"/>
+        <!-- Mexico shape -->
+        <path d="M75,38 L190,28 L270,48 L330,68 L390,78 L430,118 L448,175 L436,225 L406,275 L368,322 L308,362 L248,372 L190,352 L132,312 L94,262 L66,210 L52,155 L58,95 Z" fill="#1E2230" stroke="rgba(201,168,76,0.2)" stroke-width="1"/>
+        <!-- Sonora highlight -->
+        <path d="M75,38 L190,28 L210,58 L200,116 L180,155 L152,174 L114,162 L85,132 L66,95 L66,65 Z" fill="rgba(201,168,76,0.11)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+        <text x="118" y="104" fill="#C9A84C" font-size="12" font-family="Barlow Condensed" font-weight="700" letter-spacing="2">SONORA</text>
+        <!-- USA border -->
+        <line x1="66" y1="38" x2="270" y2="38" stroke="rgba(200,205,216,0.25)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="130" y="27" fill="rgba(200,205,216,0.4)" font-size="9" font-family="Barlow" letter-spacing="1">USA / MEXICO BORDER</text>
+        <!-- Highway 15 -->
+        <line x1="158" y1="38" x2="150" y2="195" stroke="rgba(230,126,34,0.55)" stroke-width="2"/>
+        <text x="164" y="85" fill="rgba(230,126,34,0.75)" font-size="9" font-family="Barlow Condensed" font-weight="600">HWY 15</text>
+        <!-- Nogales -->
+        <circle cx="158" cy="50" r="4" fill="#E8C96A" opacity="0.8"/>
+        <text x="166" y="54" fill="#E8C96A" font-size="10" font-family="Barlow">Nogales</text>
+        <!-- Hermosillo -->
+        <circle cx="122" cy="168" r="5" fill="rgba(200,205,216,0.6)"/>
+        <text x="131" y="172" fill="rgba(200,205,216,0.7)" font-size="10" font-family="Barlow">Hermosillo</text>
+        <!-- Mine location -->
+        <circle cx="150" cy="98" r="14" fill="none" stroke="#C9A84C" stroke-width="1.5" opacity="0.4">
+          <animate attributeName="r" values="10;20;10" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.4;0;0.4" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="150" cy="98" r="7" fill="#C9A84C" opacity="0.95"/>
+        <text x="162" y="103" fill="#E8C96A" font-size="11" font-family="Barlow Condensed" font-weight="700">BABASAC MINE</text>
+        <!-- Canyon label -->
+        <text x="76" y="88" fill="rgba(201,168,76,0.65)" font-size="9" font-family="Barlow Condensed" font-style="italic">"Cañada el Oro"</text>
+        <text x="76" y="99" fill="rgba(201,168,76,0.65)" font-size="9" font-family="Barlow Condensed" font-style="italic">(Canyon of Gold)</text>
+        <!-- Legend -->
+        <rect x="290" y="28" width="174" height="116" fill="rgba(20,23,32,0.92)" stroke="rgba(201,168,76,0.2)" stroke-width="1" rx="2"/>
+        <text x="302" y="48" fill="#C9A84C" font-size="9" font-family="Barlow Condensed" font-weight="700" letter-spacing="2">LEGEND</text>
+        <circle cx="310" cy="62" r="5" fill="#C9A84C"/>
+        <text x="322" y="66" fill="#F4F2EE" font-size="10" font-family="Barlow">Mine Concession</text>
+        <circle cx="310" cy="80" r="4" fill="rgba(200,205,216,0.6)"/>
+        <text x="322" y="84" fill="#F4F2EE" font-size="10" font-family="Barlow">State Capital</text>
+        <line x1="304" y1="98" x2="318" y2="98" stroke="rgba(230,126,34,0.55)" stroke-width="2"/>
+        <text x="322" y="102" fill="#F4F2EE" font-size="10" font-family="Barlow">Federal Hwy 15</text>
+        <rect x="304" y="114" width="13" height="9" fill="rgba(201,168,76,0.1)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
+        <text x="322" y="123" fill="#F4F2EE" font-size="10" font-family="Barlow">Sonora State</text>
+        <!-- Distance notes -->
+        <text x="66" y="306" fill="rgba(200,205,216,0.45)" font-size="9" font-family="Barlow">~40 mi south of US border</text>
+        <text x="66" y="320" fill="rgba(200,205,216,0.45)" font-size="9" font-family="Barlow">~100 mi south of Tucson, AZ</text>
+        <text x="66" y="334" fill="rgba(200,205,216,0.45)" font-size="9" font-family="Barlow">2 hrs drive from Hermosillo</text>
+      </svg>
+    </div>
+    <div>
+      <div class="prose">
+        <p><strong>Location:</strong> The concession sits on the dry bed of the Babasac River in Imuris, Sonora — within the <strong>"Cañada el Oro" (Canyon of Gold)</strong>. Gold has been mined here for centuries, predominantly by hand.</p>
+        <p><strong>Access:</strong> 2 hours by car from Hermosillo via Federal Highway 15. ~40 miles south of the US/Mexico border at Nogales. Site was verified accessible by field team in February 2010.</p>
+        <p><strong>Terrain:</strong> Flat dry riverbed — ideal for hydraulic dredge extraction, the lowest-cost, highest-efficiency method for alluvial placer deposits. No blasting, no open-pit — just dredging.</p>
+      </div>
+      <div class="hl-box">
+        <h4>Why Sonora Matters</h4>
+        <p>Sonora is Mexico's "Golden Triangle" — one of the world's highest-density gold-producing regions. The Babasac concession sits at its centre. Drilling confirms substantial unextracted placer gold, consistent with the low extraction penetration typical of the region's artisanal history.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formation profile -->
+  <div class="chart-wrap">
+    <div class="chart-title">Geological Formation Profile — Drill Core (0–80 ft)</div>
+    <div class="formation">
+      <div class="f-row"><div class="f-depth">0–25 ft</div><div class="f-bar" style="background:rgba(101,120,180,0.18);">Grava Gruesa (Coarse Gravel) — gold-bearing alluvial layer<div class="f-badge"><span class="badge ba">Gold-bearing</span></div></div></div>
+      <div class="f-row"><div class="f-depth">25–55 ft</div><div class="f-bar" style="background:rgba(101,160,100,0.18);">Grava Fina (Fine Gravel) — highest gold concentration zone<div class="f-badge"><span class="badge bg">Peak yield</span></div></div></div>
+      <div class="f-row"><div class="f-depth">55–75 ft</div><div class="f-bar" style="background:rgba(160,130,70,0.18);">Grava Gruesa (Coarse Gravel) — continued mineralisation<div class="f-badge"><span class="badge ba">Gold-bearing</span></div></div></div>
+      <div class="f-row"><div class="f-depth">75–80 ft</div><div class="f-bar" style="background:rgba(80,80,80,0.25);">Roca Dura y Conglomerado — terminal bedrock layer<div class="f-badge"><span class="badge bw">Bedrock</span></div></div></div>
+    </div>
+    <p style="font-size:11px;color:var(--mist);margin-top:10px;">Formation belongs to the Baucarit Conglomerate (Miocene) of the Sierra Madre Occidental — the classic host rock for alluvial placer gold in Sonora. Water table at 35 ft depth.</p>
+  </div>
+</div>
+
+<!-- ── 03 RESERVES ── -->
+<div class="section" id="reserves">
+  <div class="sec-tag">03 — Reserve Analysis</div>
+  <h2 class="sec-title">Gold Reserve Potential & Valuation</h2>
+  <p class="sec-sub">Exploration by Eng. Luis Palafox Torres (ASELEGMIN), Dec 1998 – Jul 1999</p>
+
+  <div class="kpi-grid col3">
+    <div class="kpi-card gold">
+      <div class="kpi-lbl">Proven (Drilled Block)</div>
+      <div class="kpi-val">890K oz</div>
+      <div class="kpi-note big">$2.94B at $3,300/oz</div>
+      <div class="kpi-note">$1.157B at $1,300/oz (2011)</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-lbl">Indicated Life-of-Mine</div>
+      <div class="kpi-val">31.98M oz</div>
+      <div class="kpi-note big">~$105B at $3,300/oz</div>
+      <div class="kpi-note">$41.6B at $1,300/oz (2011)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Gold Price — May 2026</div>
+      <div class="kpi-val">~$3,300</div>
+      <div class="kpi-unit">USD per troy ounce</div>
+      <div class="kpi-note">2.5× the 2011 valuation basis</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Drill Hole</th>
+          <th>Volume (Y³)</th>
+          <th>MGS/Y³</th>
+          <th>Ounces</th>
+          <th>@ $1,300/oz</th>
+          <th>@ $3,300/oz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>IMR001-99</td><td>1,481,016</td><td>3,798</td><td class="vg">183,920</td><td>$239M</td><td class="vg">$607M</td></tr>
+        <tr><td>IMR002-99</td><td>1,481,016</td><td>2,142</td><td class="vg">103,671</td><td>$135M</td><td class="vg">$342M</td></tr>
+        <tr><td>IMR003-99</td><td>925,496</td><td>2,025</td><td class="vg">61,246</td><td>$80M</td><td class="vg">$202M</td></tr>
+        <tr><td>IMR004-99</td><td>1,481,016</td><td>1,935</td><td class="vg">93,652</td><td>$122M</td><td class="vg">$309M</td></tr>
+        <tr><td>IMR005-99</td><td>925,496</td><td>2,558</td><td class="vg">77,366</td><td>$101M</td><td class="vg">$255M</td></tr>
+        <tr><td>IMR006-99</td><td>1,388,800</td><td>3,484</td><td class="vg">158,123</td><td>$206M</td><td class="vg">$522M</td></tr>
+        <tr><td>IMR007-99</td><td>1,203,256</td><td>1,788</td><td class="vg">70,307</td><td>$91M</td><td class="vg">$232M</td></tr>
+        <tr><td>IMR008-99</td><td>1,573,788</td><td>1,736</td><td class="vg">89,284</td><td>$116M</td><td class="vg">$295M</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>TOTAL (8 holes)</td><td>—</td><td>—</td><td>837,569 oz</td><td><span class="vbig">$1.09B</span></td><td><span class="vbig">$2.76B</span></td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <p style="font-size:11px;color:var(--mist);margin-bottom:20px;">Gross in-situ values. No metallurgical recovery or processing cost adjustment applied. IMR009/010 incomplete.</p>
+
+  <div class="grid-2">
+    <div class="chart-wrap">
+      <div class="chart-title">Ounces Per Drill Hole</div>
+      <canvas id="drillChart"></canvas>
+    </div>
+    <div class="chart-wrap">
+      <div class="chart-title">Value Sensitivity to Gold Price (Proven 890K oz)</div>
+      <canvas id="sensitivityChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ── 04 DRILLING ── -->
+<div class="section" id="drilling">
+  <div class="sec-tag">04 — Drilling Programme</div>
+  <h2 class="sec-title">Exploration & Drill Data</h2>
+  <p class="sec-sub">Led by Eng. Luis Palafox Torres (ASELEGMIN) — 7-month supervised programme</p>
+
+  <div class="kpi-grid col3">
+    <div class="kpi-card">
+      <div class="kpi-lbl">Lead Geologist</div>
+      <div class="kpi-val" style="font-size:16px;line-height:1.3;">Ing. Luis Palafox Torres</div>
+      <div class="kpi-note">President, ASELEGMIN, Hermosillo — highly respected in Sonora region</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Programme Duration</div>
+      <div class="kpi-val">7 months</div>
+      <div class="kpi-note">Under strict supervision, detailed drill log maintained throughout</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-lbl">Borehole Depth</div>
+      <div class="kpi-val">80 ft</div>
+      <div class="kpi-note">To bedrock (Roca Dura y Conglomerado) every hole</div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">Gold Distribution by Depth — IMR001-99 (Highest-Yield Hole)</div>
+    <canvas id="depthChart"></canvas>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Depth (ft)</th>
+          <th>No. Colors</th>
+          <th>Gold (MGS)</th>
+          <th>Formation</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>5–10</td><td>0</td><td>0</td><td>Arena negra</td><td>Oro fino</td></tr>
+        <tr><td>10–15</td><td>3</td><td>60 mgs</td><td>Grava gruesa</td><td>Oro fino</td></tr>
+        <tr><td>15–20</td><td>1</td><td>22 mgs</td><td>Grava gruesa</td><td>Oro fino</td></tr>
+        <tr><td>20–25</td><td>12</td><td class="vg">175 mgs</td><td>Grava gruesa</td><td>Oro fino</td></tr>
+        <tr><td>35–40</td><td>8</td><td>45 mgs</td><td>Grava gruesa</td><td>Oro grueso</td></tr>
+        <tr><td>40–45</td><td>3</td><td class="vg">172 mgs</td><td>Grava fina</td><td>Oro grueso</td></tr>
+        <tr><td>55–60</td><td>2</td><td class="vg">180 mgs</td><td>Grava fina</td><td>Oro grueso</td></tr>
+        <tr><td>65–70</td><td>3</td><td class="vg">160 mgs</td><td>Grava fina</td><td>Oro grueso</td></tr>
+        <tr><td>70–75</td><td>3</td><td class="vg">160 mgs</td><td>Grava fina</td><td>Oro grueso</td></tr>
+        <tr><td>75–80</td><td>2</td><td class="vg">320 mgs</td><td>Grava fina</td><td>Oro grueso</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="2">Total IMR001-99</td><td>1,666 mgs</td><td colspan="2">3,798 mgs/Y³ | 183,920 oz | Water @ 35ft</td></tr>
+      </tfoot>
+    </table>
+  </div>
+  <p style="font-size:11px;color:var(--mist);margin-bottom:20px;">Black sands (arenas negras) contribute additional 600 MGS/Y³ of fine gold across all holes. IMR001 commenced Jan 13 / completed Jan 21, 1999.</p>
+</div>
+
+<!-- ── 05 OWNERSHIP ── -->
+<div class="section" id="ownership">
+  <div class="sec-tag">05 — Ownership Structure</div>
+  <h2 class="sec-title">Corporate & Title Structure</h2>
+  <p class="sec-sub">Clean title confirmed by Mexican Public Registry of Mining — January 2011</p>
+
+  <div class="grid-2">
+    <div>
+      <div class="own-box top">
+        <div class="own-lbl">Ultimate Beneficial Owner</div>
+        <div class="own-name" style="font-size:16px;color:var(--gold);">Akbar Verjee</div>
+        <div class="own-lbl" style="margin-top:6px;">Park Hyatt Residences, Dubai Creek Golf & Yacht Club, UAE</div>
+        <div style="margin-top:8px;"><span class="badge ba">Sole Administrator</span></div>
+      </div>
+      <div class="own-arrow">▼</div>
+      <div class="own-row">
+        <div class="own-box">
+          <div class="own-lbl">90% Shareholder</div>
+          <div class="own-name">Hotels Home LLC</div>
+          <div class="own-pct">90%</div>
+          <div class="own-lbl">UAE Entity</div>
+        </div>
+        <div class="own-box">
+          <div class="own-lbl">10% Shareholder</div>
+          <div class="own-name">Miningsoft Limited</div>
+          <div class="own-pct">10%</div>
+          <div class="own-lbl">BVI Entity</div>
+        </div>
+      </div>
+      <div class="own-arrow">▼</div>
+      <div class="own-box" style="border-color:var(--gold);">
+        <div class="own-lbl">Operating Entity — Concession Owner</div>
+        <div class="own-name" style="color:var(--gold);font-size:15px;">Miningsoft de Mexico S.A. de C.V. (MSM)</div>
+        <div class="own-lbl" style="margin-top:6px;">Sole owner since 24 August 2009</div>
+        <div style="margin-top:8px;"><span class="badge bg">Free &amp; Clear</span> <span class="badge ba" style="margin-left:4px;">Mining Registry</span></div>
+      </div>
+      <div class="own-arrow">▼</div>
+      <div class="own-box">
+        <div class="own-lbl">Asset</div>
+        <div class="own-name" style="color:var(--gold);">Rio Babasac Placer Mining Concession</div>
+        <div class="own-lbl" style="margin-top:4px;">Municipality of Imuris, Sonora, Mexico</div>
+      </div>
+    </div>
+    <div>
+      <div class="prose">
+        <p><strong>Legal Confirmation:</strong> Letter dated 18 January 2011 from <strong>Tapia, Robles, Cabrera y Moreno S.C.</strong> (Hermosillo; US correspondent: Munger Chadwick P.L.C., Tucson, AZ) confirms the concession is recorded with the Public Registry of Mining (Mexico City) as fully owned, free and clear, by MSM.</p>
+        <p><strong>Management:</strong> Jameel Verjee (General Manager) and Akbar Verjee (Sole Administrator) both hold unlimited powers of attorney on behalf of MSM.</p>
+        <p><strong>All property fees and taxes are fully paid</strong> as of the document date. No encumbrances, liens, or legal disputes disclosed.</p>
+      </div>
+      <div class="hl-box">
+        <h4>Due Diligence Note</h4>
+        <p>The ownership chain runs UAE (90%) + BVI (10%) → Mexican operating entity (MSM). Acquisition can be structured as either a share purchase of MSM or an acquisition of the holding companies. Fresh Mexican mining law opinion from Tapia Robles or equivalent is recommended prior to any offer.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 06 PERMITS ── -->
+<div class="section" id="permits">
+  <div class="sec-tag">06 — Permits & Regulatory</div>
+  <h2 class="sec-title">Permitting Status</h2>
+  <p class="sec-sub">SEMARNAT, CONAGUA, Mexican Mining Law — all filed and granted</p>
+
+  <div class="grid-2">
+    <div style="border:1px solid rgba(201,168,76,0.12); overflow:hidden;">
+      <div class="permit-row">
+        <div><div class="permit-name">Mining Concession Registration</div><div class="permit-auth">Mexican Public Registry of Mining</div></div>
+        <span class="badge bg">Confirmed</span>
+      </div>
+      <div class="permit-row">
+        <div><div class="permit-name">Water Use Permit (CONAGUA)</div><div class="permit-auth">National Water Commission</div></div>
+        <span class="badge bg">Granted</span>
+      </div>
+      <div class="permit-row">
+        <div><div class="permit-name">Environmental Impact Assessment</div><div class="permit-auth">SEMARNAT — Ministry of Environment</div></div>
+        <span class="badge bg">Approved</span>
+      </div>
+      <div class="permit-row">
+        <div><div class="permit-name">Environmental Risk Study</div><div class="permit-auth">SEMARNAT</div></div>
+        <span class="badge bg">Approved</span>
+      </div>
+      <div class="permit-row">
+        <div><div class="permit-name">Property Fees & Taxes</div><div class="permit-auth">Mexican Federal / Municipal</div></div>
+        <span class="badge bg">Fully Paid</span>
+      </div>
+      <div class="permit-row">
+        <div><div class="permit-name">No Ejido Claims — Drill Zone</div><div class="permit-auth">Confirmed, field visit Feb 2010</div></div>
+        <span class="badge bg">Confirmed</span>
+      </div>
+    </div>
+    <div class="prose">
+      <p><strong>SEMARNAT</strong> requires an Environmental Impact Assessment and Environmental Risk Study before any mining activity commences. Both were filed and approved under the "Proyecto de Exploración Río Babasac" (Sep–Dec 2010).</p>
+      <p><strong>CONAGUA</strong> (water rights) — critical for placer washing operations. Permit submitted and granted.</p>
+      <p><strong>No ejido (communal land) claims</strong> in the core drilling area. The eastern portion contains ejido ranches, but the primary mineralised zone (yellow band in field maps) is unencumbered.</p>
+      <p><strong>Note:</strong> Moving to production will require new production permits and an expanded EIA. Mexico's mining law is generally investor-friendly with broad foreign ownership rights and constitutional protections.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── 07 MACRO ── -->
+<div class="section" id="macro">
+  <div class="sec-tag">07 — Macro Context</div>
+  <h2 class="sec-title">Mexico Economic Environment</h2>
+  <p class="sec-sub">Economist Intelligence Unit Country Report — January 2011 (included in proposal)</p>
+
+  <div class="kpi-grid col5">
+    <div class="kpi-card"><div class="kpi-lbl">GDP Growth 2010</div><div class="kpi-val">5.0%</div><div class="kpi-note">Post-GFC recovery</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">Industrial Production</div><div class="kpi-val">6.3%</div><div class="kpi-note">2010 actual</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">Inflation 2010</div><div class="kpi-val">4.1%</div><div class="kpi-note">CPI average</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">Exchange Rate</div><div class="kpi-val">12.64</div><div class="kpi-note">MXN/USD avg 2010</div></div>
+    <div class="kpi-card"><div class="kpi-lbl">Lending Rate</div><div class="kpi-val">5.4%</div><div class="kpi-note">2010 average</div></div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="chart-title">Mexico GDP & Industrial Production — EIU Forecast (2010–2015)</div>
+    <canvas id="macroChart"></canvas>
+  </div>
+
+  <div class="prose">
+    <p><strong>Gold Price Context:</strong> The proposal uses $1,300/oz (2011 market price). As of May 2026, gold trades at approximately <strong>$3,300/oz</strong> — 2.5× the valuation basis in this document. At current prices, proven reserve gross value rises from $1.157B to approximately <strong>$2.94B</strong>, and the LOM indicated value from $41.6B to <strong>~$105B</strong>.</p>
+    <p><strong>Mexico as a mining jurisdiction:</strong> Mexico is among the world's top 5 gold producers. Sonora has a long history of commercial mining — Peñoles, Newmont, First Majestic Silver all operate in the region. Mexico's Mining Law grants broad rights to concession holders including foreign-owned entities, with constitutional protections for subsurface resource rights.</p>
+  </div>
+</div>
+
+<!-- ── 08 RISKS ── -->
+<div class="section" id="risks">
+  <div class="sec-tag">08 — Risk Matrix</div>
+  <h2 class="sec-title">Investment Risk Assessment</h2>
+  <p class="sec-sub">Principal risks to be assessed by any acquirer or investor</p>
+
+  <div class="grid-2">
+    <div class="risk-list">
+      <div class="risk-row"><div class="ri m"></div><div><div class="rk-lbl">Resource Classification Gap <span class="badge bw" style="margin-left:6px;">Medium</span></div><div class="rk-desc">Not NI 43-101 or JORC certified. An independent bankable feasibility study is required before institutional financing. IMR009 and IMR010 remain undrilled.</div></div></div>
+      <div class="risk-row"><div class="ri m"></div><div><div class="rk-lbl">Document Age <span class="badge bw" style="margin-left:6px;">Medium</span></div><div class="rk-desc">Core data from 1998/1999; proposal 2011. 15+ years elapsed. Fresh geological survey, updated environmental baseline, and current permit verification required.</div></div></div>
+      <div class="risk-row"><div class="ri h"></div><div><div class="rk-lbl">No Recovery Rate Stated <span class="badge br" style="margin-left:6px;">High</span></div><div class="rk-desc">Gross in-situ values only. Alluvial placer recovery typically 60–90% depending on processing method. Metallurgical testwork needed for bankable NPV.</div></div></div>
+      <div class="risk-row"><div class="ri l"></div><div><div class="rk-lbl">Title & Legal Status <span class="badge bg" style="margin-left:6px;">Low</span></div><div class="rk-desc">Clean title confirmed by Mexican law firm. Free and clear, fully registered. UAE/BVI structure is standard. Fresh legal opinion recommended at close.</div></div></div>
+      <div class="risk-row"><div class="ri m"></div><div><div class="rk-lbl">Community & Political Risk <span class="badge bw" style="margin-left:6px;">Medium</span></div><div class="rk-desc">Ejido ranches in eastern concession area (not in drill zone). Community consultation required pre-production. Sonora security environment needs monitoring.</div></div></div>
+      <div class="risk-row"><div class="ri l"></div><div><div class="rk-lbl">Access & Infrastructure <span class="badge bg" style="margin-left:6px;">Low</span></div><div class="rk-desc">Excellent — Hwy 15, electrical grid visible, cement structures, Hermosillo airport 2 hrs away. Water table at 35 ft depth confirmed in drill logs.</div></div></div>
+      <div class="risk-row"><div class="ri l"></div><div><div class="rk-lbl">Gold Price Upside <span class="badge bg" style="margin-left:6px;">Positive</span></div><div class="rk-desc">Report uses $1,300/oz. Current ~$3,300/oz = 2.5× all stated valuations. Structural bull cycle driven by dedollarisation, central bank accumulation, geopolitical premia.</div></div></div>
+    </div>
+
+    <div>
+      <div class="chart-wrap">
+        <div class="chart-title">Reserve Value — Gold Price Scenarios</div>
+        <canvas id="priceChart"></canvas>
+      </div>
+      <div class="hl-box" style="margin-top:0;">
+        <h4>Pre-Close Checklist</h4>
+        <div class="checklist">
+          <span>☐ &nbsp;Independent NI 43-101 / JORC resource classification</span>
+          <span>☐ &nbsp;Fresh geological survey + updated drill programme</span>
+          <span>☐ &nbsp;Metallurgical testwork and processing cost study</span>
+          <span>☐ &nbsp;Legal title verification (Mexican mining counsel)</span>
+          <span>☐ &nbsp;Current permit status (SEMARNAT, CONAGUA)</span>
+          <span>☐ &nbsp;Concession expiry/renewal date confirmation</span>
+          <span>☐ &nbsp;Community consultation and ejido mapping</span>
+          <span>☐ &nbsp;Feasibility study for dredge operation</span>
+          <span>☐ &nbsp;UBO verification and AML/KYC on sellers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 09 THESIS ── -->
+<div class="section" id="thesis">
+  <div class="sec-tag">09 — Investment Thesis</div>
+  <h2 class="sec-title">Why This Opportunity is Compelling</h2>
+  <p class="sec-sub">A considered framing for the qualified investor or acquirer</p>
+
+  <div class="grid-3">
+    <div class="hl-box">
+      <h4>1. Proven Ground</h4>
+      <p>The Sonora Golden Triangle is not speculative — it is one of the most documented gold-bearing corridors in the Americas. Eight boreholes confirm economically significant gold concentration at every depth interval. No exploration risk in the drilled zone.</p>
+    </div>
+    <div class="hl-box">
+      <h4>2. Gold Price Tailwind</h4>
+      <p>Every figure in this document is based on $1,300/oz. At $3,300/oz current market, the same asset is 2.5× more valuable. A buyer today acquires at a structurally discounted cost-basis in a sustained gold bull cycle.</p>
+    </div>
+    <div class="hl-box">
+      <h4>3. Dredge-Optimal Terrain</h4>
+      <p>Flat dry riverbed = hydraulic dredge extraction — the lowest-capex, highest-throughput method for alluvial placer. Materially lower capex than underground or open-pit hard rock mining of equivalent grade.</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:16px;">
+    <div class="prose">
+      <p><strong>Scale of Opportunity:</strong> 9.8M m² along a 10 km proven gold river bed is exceptional. The 8 drilled holes cover only the northeast quadrant. The 31.98M oz indicated reserve extrapolates the confirmed drill density across the full concession — standard placer methodology.</p>
+      <p><strong>Institutional Precedent:</strong> Merrill Lynch's Latin America Natural Resources team — post-GFC, one of the most rigorous commodity DD teams globally — cleared full due diligence and offered $100M+ PIK plus IPO mandate. It failed due to the GFC, not geology or title.</p>
+      <p><strong>Acquisition pathways:</strong> (a) direct operator/developer, (b) royalty acquisition, (c) JV with a listed mining company, (d) reverse merger into a TSX-V, ASX, or AIM listing vehicle — fully consistent with the Merrill Lynch IPO pathway originally contemplated.</p>
+    </div>
+    <div>
+      <div class="chart-wrap">
+        <div class="chart-title">Proven 890K oz — Valuation at Key Gold Price Points</div>
+        <canvas id="valuationChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap" style="margin-top:20px;">
+    <table class="sum-table">
+      <thead><tr><th>Parameter</th><th>Stated in Document (2011)</th><th>Updated Context (2026)</th></tr></thead>
+      <tbody>
+        <tr><td>Proven Reserve</td><td>890,000 troy oz</td><td class="vg">Unchanged — geological fact</td></tr>
+        <tr><td>Indicated Reserve (LOM)</td><td>31,980,000 troy oz</td><td class="vg">Unchanged — geological fact</td></tr>
+        <tr><td>Gold Price Basis</td><td>$1,300 / oz</td><td class="vg">~$3,300 / oz (May 2026)</td></tr>
+        <tr><td>Proven Reserve Gross Value</td><td>$1.157 Billion</td><td class="vg">~$2.94 Billion</td></tr>
+        <tr><td>LOM Indicated Gross Value</td><td>$41.574 Billion</td><td class="vg">~$105.5 Billion</td></tr>
+        <tr><td>Ownership</td><td>100% MSM — clean title</td><td class="vg">Verify current status</td></tr>
+        <tr><td>Resource Standard</td><td>Internal — no NI 43-101 / JORC</td><td class="vg">Independent study required</td></tr>
+        <tr><td>Precedent Transaction</td><td>Merrill Lynch $100M PIK + IPO</td><td class="vg">Institutional-grade validation</td></tr>
+        <tr><td>Extraction Method</td><td>Dredge (flat dry river bed)</td><td class="vg">Lowest-capex placer method</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<footer>
+  <div class="footer-title">Rio Babasac — Imuris, Sonora, Mexico</div>
+  <div class="footer-sub">
+    Source: Babasac Placer Proposal — Miningsoft de Mexico S.A. de C.V. (January 2011)<br>
+    Analysis for investor presentation purposes. All reserve figures are gross in-situ values. Independent verification required before any investment decision.
+  </div>
+</footer>
+
+<script>
+Chart.defaults.color = '#8B95A8';
+Chart.defaults.borderColor = 'rgba(201,168,76,0.1)';
+const gold = '#C9A84C', goldL = '#E8C96A', goldD = 'rgba(201,168,76,0.45)';
+
+// Drill holes
+new Chart(document.getElementById('drillChart'), {
+  type: 'bar',
+  data: {
+    labels: ['001','002','003','004','005','006','007','008'],
+    datasets: [{ label: 'oz', data: [183920,103671,61246,93652,77366,158123,70307,89284], backgroundColor: [goldL,goldD,goldD,goldD,goldD,gold,goldD,goldD], borderColor: gold, borderWidth: 1 }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => (v/1000).toFixed(0)+'K' } }, x: { grid: { display: false }, title: { display: true, text: 'IMR0XX-99', color: '#8B95A8', font: { size: 10 } } } } }
+});
+
+// Sensitivity
+new Chart(document.getElementById('sensitivityChart'), {
+  type: 'line',
+  data: {
+    labels: ['$800','$1,300','$2,000','$2,500','$3,300','$4,000'],
+    datasets: [{ label: 'Gross Value (Proven 890K oz)', data: [0.71,1.16,1.78,2.23,2.94,3.56], borderColor: gold, backgroundColor: 'rgba(201,168,76,0.08)', tension: 0.4, fill: true, pointRadius: 4 }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => '$'+v+'B' } }, x: { grid: { display: false } } } }
+});
+
+// Depth chart
+new Chart(document.getElementById('depthChart'), {
+  type: 'bar',
+  data: {
+    labels: ['5-10','10-15','15-20','20-25','25-30','30-35','35-40','40-45','45-50','50-55','55-60','60-65','65-70','70-75','75-80'],
+    datasets: [{ label: 'Gold (mgs)', data: [0,60,22,175,74,13,45,172,70,75,180,140,160,160,320], backgroundColor: 'rgba(201,168,76,0.5)', borderColor: gold, borderWidth: 1 }]
+  },
+  options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => v+'mg' } }, y: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+});
+
+// Macro
+new Chart(document.getElementById('macroChart'), {
+  type: 'line',
+  data: {
+    labels: ['2010A','2011F','2012F','2013F','2014F','2015F'],
+    datasets: [
+      { label: 'Real GDP Growth (%)', data: [5.0,3.5,3.3,3.7,3.7,3.5], borderColor: gold, backgroundColor: 'rgba(201,168,76,0.07)', tension: 0.4, fill: true, pointRadius: 4 },
+      { label: 'Industrial Production (%)', data: [6.3,4.0,4.8,4.5,5.0,5.2], borderColor: 'rgba(139,149,168,0.7)', backgroundColor: 'rgba(139,149,168,0.03)', tension: 0.4, borderDash: [4,3], pointRadius: 4 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top', labels: { font: { size: 10 }, boxWidth: 12 } } }, scales: { y: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => v+'%' } }, x: { grid: { display: false } } } }
+});
+
+// Price scenarios bar
+new Chart(document.getElementById('priceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['$281/oz\n1999','$1,300/oz\n2011','$2,000/oz','$3,300/oz\n2026'],
+    datasets: [{ label: 'Gross Value (8 holes)', data: [0.235,1.09,1.68,2.76], backgroundColor: ['rgba(139,149,168,0.35)','rgba(201,168,76,0.5)','rgba(201,168,76,0.65)','rgba(201,168,76,0.85)'], borderColor: ['rgba(139,149,168,0.5)',gold,gold,goldL], borderWidth: 1 }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(201,168,76,0.06)' }, ticks: { callback: v => '$'+v+'B' } }, x: { grid: { display: false } } } }
+});
+
+// Valuation donut
+new Chart(document.getElementById('valuationChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['@$1,300/oz','@$2,000/oz incremental','@$3,300/oz incremental'],
+    datasets: [{ data: [1.16, 0.62, 1.16], backgroundColor: ['rgba(201,168,76,0.85)','rgba(201,168,76,0.45)','rgba(201,168,76,0.15)'], borderColor: '#0A0C0F', borderWidth: 3 }]
+  },
+  options: { responsive: true, cutout: '62%', plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 10 } }, tooltip: { callbacks: { label: ctx => '$'+ctx.raw+'B gross' } } } }
+});
+
+// Nav active highlight
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const a = document.querySelector(`.nav a[href="#${e.target.id}"]`);
+      if (a) { a.classList.add('active'); a.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); }
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
