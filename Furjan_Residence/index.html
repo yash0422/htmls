@@ -1,1 +1,448 @@
 
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body,html{font-size:16px;-webkit-text-size-adjust:100%;}
+.rpt{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1a1a;background:#fff;width:100%;max-width:100%;}
+
+/* COVER */
+.cover{background:#0D1B2A;padding:clamp(20px,5vw,40px);position:relative;overflow:hidden;}
+.cover::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;border:28px solid rgba(184,151,42,0.1);}
+.ctag{font-size:clamp(9px,2vw,11px);font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#E8D48A;border:0.5px solid rgba(232,212,138,0.4);display:inline-block;padding:4px 12px;border-radius:2px;margin-bottom:16px;}
+.ctitle{font-size:clamp(20px,5vw,28px);font-weight:700;color:#fff;line-height:1.2;margin-bottom:6px;}
+.csub{font-size:clamp(12px,3vw,14px);color:rgba(255,255,255,0.5);margin-bottom:22px;font-weight:300;}
+.cmeta{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:0.5px solid rgba(255,255,255,0.12);padding-top:18px;}
+.cml{font-size:clamp(9px,2vw,10px);color:rgba(255,255,255,0.4);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.cmv{font-size:clamp(12px,3vw,14px);color:rgba(255,255,255,0.9);font-weight:500;}
+
+/* SECTIONS */
+.sec{padding:clamp(18px,4vw,28px);border-bottom:0.5px solid #e8e8e8;}
+.sec:last-child{border-bottom:none;}
+.slbl{font-size:clamp(9px,2vw,10px);font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#8B6914;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.slbl::after{content:'';flex:1;height:0.5px;background:rgba(139,105,20,0.25);}
+.stitle{font-size:clamp(16px,4vw,20px);font-weight:600;color:#1a1a1a;margin-bottom:6px;line-height:1.3;}
+.sdesc{font-size:clamp(13px,3vw,14px);color:#444;line-height:1.7;margin-bottom:16px;}
+
+/* KPI GRID */
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.kpi{background:#f4f4f2;border-radius:10px;padding:14px 12px;}
+.klbl{font-size:clamp(10px,2.5vw,11px);color:#666;margin-bottom:6px;line-height:1.3;}
+.kval{font-size:clamp(16px,4vw,20px);font-weight:600;color:#1a1a1a;line-height:1.1;}
+.kval.gold{color:#7A5A10;}
+.kval.grn{color:#1A5C35;}
+.ksub{font-size:clamp(10px,2.5vw,11px);color:#888;margin-top:3px;}
+
+/* INSIGHT BOXES */
+.ibox{border-left:3px solid #8B6914;background:#FBF5E4;padding:14px 16px;border-radius:0 8px 8px 0;margin-bottom:12px;}
+.ibox.navy{border-left-color:#185FA5;background:#E8F2FC;}
+.ibox.grn{border-left-color:#1A5C35;background:#E4F3EB;}
+.ilbl{font-size:clamp(9px,2vw,10px);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.ibox .ilbl{color:#5C3D08;}
+.ibox.navy .ilbl{color:#0C407A;}
+.ibox.grn .ilbl{color:#145028;}
+.itxt{font-size:clamp(12px,3vw,13px);color:#1a1a1a;line-height:1.7;}
+
+/* UNIT CARDS */
+.ugrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+.ucard{border:1px solid #e4e4e4;border-radius:10px;padding:12px 10px;background:#fff;}
+.uchead{font-size:clamp(9px,2vw,10px);font-weight:600;color:#444;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:5px;}
+.urow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:0.5px solid #f0f0f0;font-size:clamp(11px,2.5vw,12px);}
+.urow:last-child{border-bottom:none;}
+.urlbl{color:#666;}
+.urval{font-weight:600;color:#1a1a1a;}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* OCC BAR */
+.obar{display:flex;height:32px;border-radius:6px;overflow:hidden;margin:8px 0;}
+.oseg{display:flex;align-items:center;justify-content:center;font-size:clamp(9px,2vw,11px);font-weight:600;color:#fff;}
+.oleg{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;}
+.olegitem{display:flex;align-items:center;gap:5px;font-size:clamp(10px,2.5vw,12px);color:#555;}
+.olegsq{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+
+/* TABLES */
+.twrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:14px;}
+.itable{width:100%;border-collapse:collapse;font-size:clamp(11px,2.5vw,13px);min-width:400px;}
+.itable th{text-align:left;font-size:clamp(9px,2vw,10px);font-weight:600;color:#888;letter-spacing:1px;text-transform:uppercase;padding:8px 8px;border-bottom:1px solid #e4e4e4;white-space:nowrap;}
+.itable td{padding:9px 8px;border-bottom:0.5px solid #f0f0f0;color:#1a1a1a;vertical-align:middle;}
+.itable tr:last-child td{border-bottom:none;}
+.itable .trow td{font-weight:600;background:#f4f4f2;}
+.itable .hrow td{color:#1A5C35;}
+.itable td:last-child,.itable th:last-child{text-align:right;}
+.pill{display:inline-block;font-size:clamp(9px,2vw,10px);padding:3px 8px;border-radius:4px;font-weight:600;white-space:nowrap;}
+.pg{background:#d4edda;color:#155724;}
+.pa{background:#fff3cd;color:#7A5A10;}
+.ps{background:#e9ecef;color:#495057;}
+
+/* WATERFALL */
+.wfrow{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.wflbl{font-size:clamp(10px,2.5vw,12px);color:#555;width:clamp(120px,35vw,160px);flex-shrink:0;text-align:right;}
+.wfbwrap{flex:1;height:24px;min-width:0;}
+.wfbar{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:clamp(9px,2vw,11px);font-weight:600;white-space:nowrap;overflow:hidden;}
+.wftot{background:#0D1B2A;color:#fff;}
+.wfpay{background:#fde8e8;border:1px solid #f5a5a5;color:#7A1E1E;}
+.wfkeep{background:#e4f3eb;border:1px solid #7FC49A;color:#1A5C35;}
+.wfv{font-size:clamp(10px,2.5vw,11px);font-weight:600;width:clamp(75px,20vw,90px);text-align:right;flex-shrink:0;}
+
+/* SPREAD GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;}
+
+/* TERMS */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.trow2{background:#f4f4f2;border-radius:8px;padding:12px;}
+.tlbl{font-size:clamp(9px,2vw,10px);color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;font-weight:500;}
+.tval{font-size:clamp(12px,3vw,14px);font-weight:600;color:#1a1a1a;}
+
+/* LISTINGS */
+.lsec{margin-bottom:16px;}
+.lsec-title{font-size:clamp(10px,2.5vw,11px);font-weight:600;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding-bottom:5px;border-bottom:1px solid #e4e4e4;display:flex;align-items:center;flex-wrap:wrap;gap:6px;}
+.listing{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 0;border-bottom:0.5px solid #f0f0f0;gap:8px;}
+.listing:last-child{border-bottom:none;}
+.linfo{flex:1;min-width:0;}
+.lname{font-size:clamp(12px,3vw,13px);font-weight:600;color:#1a1a1a;margin-bottom:2px;display:flex;align-items:center;flex-wrap:wrap;gap:4px;}
+.lmeta{font-size:clamp(10px,2.5vw,11px);color:#666;}
+.lright{text-align:right;flex-shrink:0;}
+.lprice{font-size:clamp(12px,3vw,13px);font-weight:600;color:#1A5C35;white-space:nowrap;}
+.llink{font-size:clamp(10px,2.5vw,11px);color:#185FA5;text-decoration:none;display:flex;align-items:center;gap:2px;justify-content:flex-end;margin-top:3px;}
+.lbadge{font-size:clamp(9px,2vw,9px);padding:2px 6px;border-radius:3px;font-weight:600;}
+.pf-badge{background:#E8F0FA;color:#185FA5;}
+.bay-badge{background:#FFF0E0;color:#994D00;}
+.mr-badge{background:#E8F0FA;color:#185FA5;font-size:clamp(9px,2vw,10px);padding:2px 8px;border-radius:3px;font-weight:600;}
+
+.divl{height:0.5px;background:#e8e8e8;margin:14px 0;}
+.ptag{display:inline-block;font-size:clamp(10px,2.5vw,11px);font-weight:600;padding:4px 10px;border-radius:4px;margin-right:5px;margin-bottom:5px;}
+.gbadge{display:inline-flex;align-items:center;gap:3px;background:#fff3cd;color:#7A5A10;font-size:clamp(10px,2.5vw,11px);font-weight:600;padding:3px 8px;border-radius:3px;white-space:nowrap;}
+
+.footer{padding:clamp(14px,3vw,20px) clamp(18px,4vw,28px);background:#f4f4f2;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.ftl{font-size:clamp(10px,2.5vw,11px);color:#666;line-height:1.6;}
+.fbrand{font-size:clamp(12px,3vw,14px);font-weight:600;color:#7A5A10;}
+
+/* ── TRANSACTION ENQUIRIES SECTION ── */
+.te-sec{background:#05070B;padding:clamp(20px,4vw,32px) clamp(18px,4vw,28px);}
+.te-slbl{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.te-slbl::after{content:'';flex:1;height:0.5px;background:rgba(201,168,76,0.3);}
+.te-card{background:#0E1118;border:0.5px solid rgba(201,168,76,0.25);border-radius:6px;padding:clamp(18px,3vw,26px) clamp(16px,3vw,28px);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.te-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.6),transparent);}
+.te-left{display:flex;align-items:center;gap:18px;flex:1;min-width:240px;}
+.te-avatar{width:58px;height:58px;border-radius:50%;border:1.5px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(201,168,76,0.06);}
+.te-initials{font-size:18px;font-weight:600;color:#C9A84C;letter-spacing:0.05em;}
+.te-name{font-size:clamp(18px,4vw,22px);font-weight:600;color:#F4F1EC;margin-bottom:3px;letter-spacing:0.01em;}
+.te-tagline{font-size:clamp(10px,2vw,11px);color:#8A909E;letter-spacing:0.04em;margin-bottom:12px;line-height:1.5;}
+.te-links{display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+.te-link{display:flex;align-items:center;gap:6px;text-decoration:none;font-size:clamp(10px,2.5vw,12px);color:#8A909E;transition:color 0.2s;}
+.te-link:hover{color:#C9A84C;}
+.te-link-icon{width:22px;height:22px;border-radius:50%;border:0.5px solid rgba(201,168,76,0.25);display:flex;align-items:center;justify-content:center;font-size:10px;color:#C9A84C;background:rgba(201,168,76,0.06);flex-shrink:0;}
+.te-ctas{display:flex;flex-direction:column;gap:9px;align-items:flex-end;flex-shrink:0;}
+.te-btn{display:inline-block;text-decoration:none;font-size:clamp(9px,2vw,10px);font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:10px 20px;min-width:clamp(150px,28vw,186px);text-align:center;border-radius:3px;transition:all 0.2s;}
+.te-btn-gold{background:#C9A84C;color:#05070B;border:1px solid #C9A84C;}
+.te-btn-gold:hover{background:#E8C97A;border-color:#E8C97A;}
+.te-btn-ghost{background:transparent;color:#C9A84C;border:1px solid rgba(201,168,76,0.35);}
+.te-btn-ghost:hover{background:rgba(201,168,76,0.1);border-color:#C9A84C;}
+.te-nda{font-size:10px;color:#5a6070;text-align:right;margin-top:2px;letter-spacing:0.05em;}
+
+/* ── FLOATING BUTTON ── */
+.te-float{position:fixed;bottom:22px;right:20px;z-index:999;display:flex;align-items:center;gap:8px;text-decoration:none;font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:12px 20px;background:#C9A84C;color:#05070B;border-radius:3px;box-shadow:0 4px 20px rgba(201,168,76,0.3);transition:all 0.2s;}
+.te-float:hover{background:#E8C97A;transform:translateY(-2px);box-shadow:0 6px 26px rgba(201,168,76,0.4);}
+@media(max-width:480px){.te-float{bottom:14px;right:14px;font-size:9px;padding:10px 16px;}}
+</style>
+
+<div class="rpt">
+
+<!-- COVER -->
+<div class="cover">
+  <div class="ctag">Confidential &middot; Master Lease Opportunity</div>
+  <div class="ctitle">Residence 2 &mdash; Al Furjan, Dubai</div>
+  <div class="csub">Master Leasing Proposal &middot; AED 8.5M Guaranteed Annual Income</div>
+  <div class="cmeta">
+    <div><div class="cml">Total Units</div><div class="cmv">107 Apartments</div></div>
+    <div><div class="cml">Commercial</div><div class="cmv">1 Shop &middot; 350 sqm</div></div>
+    <div><div class="cml">Full Potential</div><div class="cmv">AED 10,469,500</div></div>
+    <div><div class="cml">Prepared by</div><div class="cmv">Vishal Desai</div></div>
+  </div>
+</div>
+
+<!-- S01 EXEC SUMMARY -->
+<div class="sec">
+  <div class="slbl">01 &middot; Executive Summary</div>
+  <div class="stitle">A stabilised asset with immediate yield upside</div>
+  <div class="sdesc">Residence 2, Al Furjan is a 107-unit residential building currently generating AED 4.6M p.a. from 77 active units. The owner is offering a Master Lease at AED 8.5M per annum, allowing a Master Leasing Company to absorb the existing income, activate 30 vacant units, and optimise the STR portfolio for a projected total collection of AED 10.47M, delivering a net spread of approximately AED 1.97M.</div>
+  <div class="kgrid">
+    <div class="kpi"><div class="klbl">Owner's Guaranteed Ask</div><div class="kval gold">AED 8.5M</div><div class="ksub">Per annum</div></div>
+    <div class="kpi"><div class="klbl">Full Asset Potential</div><div class="kval">AED 10.47M</div><div class="ksub">At optimisation</div></div>
+    <div class="kpi"><div class="klbl">Operator Net Spread</div><div class="kval grn">~AED 1.97M</div><div class="ksub">~18.8% margin</div></div>
+    <div class="kpi"><div class="klbl">Current Occupancy</div><div class="kval">72%</div><div class="ksub">77 of 107 units</div></div>
+  </div>
+  <div class="ibox grn">
+    <div class="ilbl">Margin Opportunity</div>
+    <div class="itxt">Current rented units average AED 59,740 &mdash; below Al Furjan market benchmarks of AED 68,000 (1BR) and AED 95,000 (2BR). Rate normalisation across the 77 occupied units alone adds an estimated AED 1.6M to top-line revenue, before activating a single vacant unit.</div>
+  </div>
+</div>
+
+<!-- S02 PORTFOLIO -->
+<div class="sec">
+  <div class="slbl">02 &middot; Asset Portfolio Breakdown</div>
+  <div class="stitle">Unit composition &amp; occupancy matrix</div>
+  <div class="ugrid">
+    <div class="ucard">
+      <div class="uchead"><span class="dot" style="background:#185FA5;"></span>Annual</div>
+      <div class="urow"><span class="urlbl">1 BR</span><span class="urval">9</span></div>
+      <div class="urow"><span class="urlbl">2 BR</span><span class="urval">26</span></div>
+      <div class="urow"><span class="urlbl">Total</span><span class="urval" style="color:#185FA5;">35</span></div>
+    </div>
+    <div class="ucard">
+      <div class="uchead"><span class="dot" style="background:#BA7517;"></span>STR</div>
+      <div class="urow"><span class="urlbl">1 BR</span><span class="urval">7</span></div>
+      <div class="urow"><span class="urlbl">2 BR</span><span class="urval">35</span></div>
+      <div class="urow"><span class="urlbl">Total</span><span class="urval" style="color:#BA7517;">42</span></div>
+    </div>
+    <div class="ucard">
+      <div class="uchead"><span class="dot" style="background:#888;"></span>Vacant</div>
+      <div class="urow"><span class="urlbl">1 BR</span><span class="urval">7</span></div>
+      <div class="urow"><span class="urlbl">2 BR</span><span class="urval">23</span></div>
+      <div class="urow"><span class="urlbl">Total</span><span class="urval" style="color:#888;">30</span></div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Occupancy Profile &mdash; 107 Total Units</div>
+  <div class="obar">
+    <div class="oseg" style="width:32.7%;background:#185FA5;">Annual 35</div>
+    <div class="oseg" style="width:39.3%;background:#BA7517;">STR 42</div>
+    <div class="oseg" style="width:28%;background:#888;">Vacant 30</div>
+  </div>
+  <div class="oleg">
+    <div class="olegitem"><div class="olegsq" style="background:#185FA5;"></div>Annual / Ejari (32.7%)</div>
+    <div class="olegitem"><div class="olegsq" style="background:#BA7517;"></div>Short-Term (39.3%)</div>
+    <div class="olegitem"><div class="olegsq" style="background:#888;"></div>Vacant (28.0%)</div>
+  </div>
+  <div class="divl"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div class="ucard">
+      <div class="uchead"><span class="dot" style="background:#1A5C35;"></span>Commercial</div>
+      <div class="urow"><span class="urlbl">Area</span><span class="urval">350 sqm</span></div>
+      <div class="urow"><span class="urlbl">Annual</span><span class="urval" style="color:#1A5C35;">AED 900K</span></div>
+    </div>
+    <div class="ucard">
+      <div class="uchead"><span class="dot" style="background:#534AB7;"></span>Parking</div>
+      <div class="urow"><span class="urlbl">Bays</span><span class="urval">51</span></div>
+      <div class="urow"><span class="urlbl">Annual</span><span class="urval" style="color:#534AB7;">AED 25.5K</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- S03 INCOME ANALYSIS -->
+<div class="sec">
+  <div class="slbl">03 &middot; Income Analysis</div>
+  <div class="stitle">Current vs. market-rate revenue</div>
+  <div class="twrap">
+    <table class="itable">
+      <thead>
+        <tr><th>Asset Type</th><th>Units</th><th>Rate (AED)</th><th>Annual (AED)</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 Bedroom (market rate)</td><td style="color:#888;">23</td><td style="color:#888;">68,000</td><td>1,564,000</td><td><span class="pill pa">Benchmark</span></td></tr>
+        <tr><td>2 Bedroom (market rate)</td><td style="color:#888;">84</td><td style="color:#888;">95,000</td><td>7,980,000</td><td><span class="pill pa">Benchmark</span></td></tr>
+        <tr class="trow"><td>Total Apartments (full)</td><td>107</td><td>&mdash;</td><td>9,544,000</td><td></td></tr>
+        <tr><td>Commercial shop</td><td style="color:#888;">1</td><td style="color:#888;">900,000</td><td>900,000</td><td><span class="pill pg">Active</span></td></tr>
+        <tr><td>Extra parking (51 bays)</td><td style="color:#888;">51</td><td style="color:#888;">500</td><td>25,500</td><td><span class="pill ps">Available</span></td></tr>
+        <tr class="trow hrow"><td><strong>Full asset potential</strong></td><td>&mdash;</td><td>&mdash;</td><td><strong>10,469,500</strong></td><td></td></tr>
+        <tr><td>Currently collected (77 units)</td><td style="color:#888;">77</td><td style="color:#888;">59,740 avg</td><td>4,600,000</td><td><span class="pill pg">Active</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ibox navy">
+    <div class="ilbl">Rate Gap Alert</div>
+    <div class="itxt">The current blended average of AED 59,740 across 77 occupied units is well below the Al Furjan market benchmark of AED 89,196 per unit. This gap of ~AED 29,456 per unit represents unrealised annual income of ~AED 2.27M on the occupied portfolio alone &mdash; before activating any of the 30 vacant units.</div>
+  </div>
+</div>
+
+<!-- S04 MARKET EVIDENCE -->
+<div class="sec">
+  <div class="slbl">04 &middot; Market Evidence &mdash; Live Listings</div>
+  <div class="stitle">Al Furjan rental benchmarks, May 2026</div>
+  <div class="sdesc">Active listings on Property Finder and Bayut confirm AED 68,000&ndash;85,000 for 1BR and AED 95,000&ndash;120,000 for 2BR in Al Furjan, validating the feasibility rates in this proposal.</div>
+
+  <div class="lsec">
+    <div class="lsec-title">1 Bedroom <span class="mr-badge">Market Range: AED 65K&ndash;85K</span></div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Azizi Residence, Al Furjan <span class="lbadge pf-badge">PropertyFinder</span></div><div class="lmeta">1 BR &middot; 780 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 68,000/yr</div><a class="llink" href="https://www.propertyfinder.ae/en/rent/dubai/1-bedroom-apartments-for-rent-al-furjan.html" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Pearlz by Danube, Al Furjan <span class="lbadge pf-badge">PropertyFinder</span></div><div class="lmeta">1 BR &middot; 850 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 70,000/yr</div><a class="llink" href="https://www.propertyfinder.ae/en/rent/dubai/1-bedroom-apartments-for-rent-al-furjan.html" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Shaista Azizi, Al Furjan <span class="lbadge pf-badge">PropertyFinder</span></div><div class="lmeta">1 BR &middot; 898 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 72,000/yr</div><a class="llink" href="https://www.propertyfinder.ae/en/rent/dubai/1-bedroom-apartments-for-rent-al-furjan.html" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">East 40, Al Furjan <span class="lbadge bay-badge">Bayut</span></div><div class="lmeta">1 BR &middot; 820 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 70,000/yr</div><a class="llink" href="https://www.bayut.com/to-rent/apartments/dubai/al-furjan/" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Samia Azizi, Al Furjan <span class="lbadge bay-badge">Bayut</span></div><div class="lmeta">1 BR &middot; 760 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 75,000/yr</div><a class="llink" href="https://www.bayut.com/to-rent/apartments/dubai/al-furjan/" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Starz by Danube, Al Furjan <span class="lbadge bay-badge">Bayut</span></div><div class="lmeta">1 BR &middot; 810 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 80,000/yr</div><a class="llink" href="https://www.bayut.com/to-rent/apartments/dubai/al-furjan/" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+  </div>
+
+  <div class="lsec">
+    <div class="lsec-title">2 Bedroom <span class="mr-badge">Market Range: AED 95K&ndash;120K</span></div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Starz Tower 2, Al Furjan <span class="lbadge pf-badge">PropertyFinder</span></div><div class="lmeta">2 BR &middot; 988 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 100,000/yr</div><a class="llink" href="https://www.propertyfinder.ae/en/rent/dubai/2-bedroom-apartments-for-rent-al-furjan.html" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Azizi Liatris, Al Furjan <span class="lbadge pf-badge">PropertyFinder</span></div><div class="lmeta">2 BR &middot; 1,415 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 100,000/yr</div><a class="llink" href="https://www.propertyfinder.ae/en/rent/dubai/2-bedroom-apartments-for-rent-al-furjan.html" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Phase 3, Al Furjan <span class="lbadge pf-badge">PropertyFinder</span></div><div class="lmeta">2 BR &middot; 1,100 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 95,000/yr</div><a class="llink" href="https://www.propertyfinder.ae/en/rent/dubai/2-bedroom-apartments-for-rent-al-furjan.html" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Masakin Al Furjan <span class="lbadge bay-badge">Bayut</span></div><div class="lmeta">2 BR &middot; 1,250 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 95,000/yr</div><a class="llink" href="https://www.bayut.com/to-rent/apartments/dubai/al-furjan/" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Candace Acacia, Al Furjan <span class="lbadge bay-badge">Bayut</span></div><div class="lmeta">2 BR &middot; 1,180 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 100,000/yr</div><a class="llink" href="https://www.bayut.com/to-rent/apartments/dubai/al-furjan/" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+    <div class="listing">
+      <div class="linfo"><div class="lname">Azizi Feirouz, Al Furjan <span class="lbadge bay-badge">Bayut</span></div><div class="lmeta">2 BR &middot; 1,320 sqft &middot; Unfurnished &middot; Annual</div></div>
+      <div class="lright"><div class="lprice">AED 110,000/yr</div><a class="llink" href="https://www.bayut.com/to-rent/apartments/dubai/al-furjan/" target="_blank"><i class="ti ti-external-link"></i> View</a></div>
+    </div>
+  </div>
+
+  <div class="ibox">
+    <div class="ilbl">Market Validation</div>
+    <div class="itxt">All 12 comparable listings confirm that AED 68,000 (1BR) and AED 95,000 (2BR) are conservative entry-level benchmarks, not ceiling prices. The current building average of AED 59,740 represents a 12&ndash;37% discount to live market rates, highlighting the repricing opportunity for the Master Leasing operator.</div>
+  </div>
+</div>
+
+<!-- S05 P&L -->
+<div class="sec">
+  <div class="slbl">05 &middot; Master Lease P&amp;L &mdash; Operator View</div>
+  <div class="stitle">Income waterfall for the Master Leasing Company</div>
+  <div style="margin:8px 0 16px;">
+    <div class="wfrow">
+      <div class="wflbl">Full asset potential</div>
+      <div class="wfbwrap"><div class="wfbar wftot" style="width:100%;">AED 10,469,500</div></div>
+      <div class="wfv" style="color:#1a1a1a;"></div>
+    </div>
+    <div class="wfrow">
+      <div class="wflbl">(&minus;) Owner guarantee</div>
+      <div class="wfbwrap"><div class="wfbar wfpay" style="width:81.2%;">AED 8,500,000</div></div>
+      <div class="wfv" style="color:#7A1E1E;">&minus;8,500,000</div>
+    </div>
+    <div class="wfrow">
+      <div class="wflbl">Net operator spread</div>
+      <div class="wfbwrap"><div class="wfbar wfkeep" style="width:18.8%;">~AED 1.97M</div></div>
+      <div class="wfv" style="color:#1A5C35;">+1,969,500</div>
+    </div>
+  </div>
+  <div class="sgrid">
+    <div class="kpi"><div class="klbl">Owner receives</div><div class="kval" style="font-size:clamp(14px,3.5vw,18px);">AED 8.5M</div><div class="ksub">Guaranteed</div></div>
+    <div class="kpi"><div class="klbl">Operator collects</div><div class="kval" style="font-size:clamp(14px,3.5vw,18px);">AED 10.47M</div><div class="ksub">Full optimisation</div></div>
+    <div class="kpi"><div class="klbl">Gross margin</div><div class="kval grn" style="font-size:clamp(14px,3.5vw,18px);">18.8%</div><div class="ksub">~AED 1.97M p.a.</div></div>
+  </div>
+  <div class="ibox">
+    <div class="ilbl">Upside Scenario</div>
+    <div class="itxt">Repricing the 77 occupied units to Al Furjan benchmarks and filling the 30 vacant units at market rates drives total collection to AED 10.47M+. The shop (AED 900K) and parking (AED 25.5K) are included. Further upside exists through STR yield management on the 42 short-term units.</div>
+  </div>
+</div>
+
+<!-- S06 RATE BENCHMARKING -->
+<div class="sec">
+  <div class="slbl">06 &middot; Rate Benchmarking</div>
+  <div class="stitle">Existing vs. market-rate opportunity</div>
+  <div class="twrap">
+    <table class="itable">
+      <thead>
+        <tr><th>Unit Type</th><th>Market Rate</th><th>Current Avg</th><th>Gap / Unit</th><th>Annual Upside</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 Bedroom</td><td>AED 68,000</td><td style="color:#888;">~59,740</td><td><span class="gbadge">+AED 8,260</span></td><td>AED 132,160</td></tr>
+        <tr><td>2 Bedroom</td><td>AED 95,000</td><td style="color:#888;">~59,740</td><td><span class="gbadge">+AED 35,260</span></td><td>AED 2,150,860</td></tr>
+        <tr class="trow hrow"><td colspan="4"><strong>Total rate-normalisation upside (77 units)</strong></td><td><strong>~AED 2.28M</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="ibox grn">
+    <div class="ilbl">Strategic Note</div>
+    <div class="itxt">The 2BR rate gap of AED 35,260 per unit is the primary lever. With 61 of 77 rented units being 2BR, capturing even 50% of this gap adds over AED 1M to the operator's top line. The 30 vacant units at market rates represent an additional AED 2.04M in untapped annual income.</div>
+  </div>
+</div>
+
+<!-- S07 TERMS -->
+<div class="sec">
+  <div class="slbl">07 &middot; Proposed Terms</div>
+  <div class="stitle">Master lease structure overview</div>
+  <div class="tgrid">
+    <div class="trow2"><div class="tlbl">Guaranteed annual payment</div><div class="tval">AED 8,500,000</div></div>
+    <div class="trow2"><div class="tlbl">Commercial shop (included)</div><div class="tval">AED 900,000 / yr</div></div>
+    <div class="trow2"><div class="tlbl">Total residential units</div><div class="tval">107 apartments</div></div>
+    <div class="trow2"><div class="tlbl">Existing tenant handover</div><div class="tval">77 units (active)</div></div>
+    <div class="trow2"><div class="tlbl">Vacant units at handover</div><div class="tval">30 units (ready)</div></div>
+    <div class="trow2"><div class="tlbl">Parking upside</div><div class="tval">51 bays &middot; AED 500/yr</div></div>
+  </div>
+  <div style="margin-bottom:8px;font-size:10px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Key Advantages for Operator</div>
+  <div>
+    <span class="ptag" style="background:#E4F3EB;color:#1A5C35;">Immediate income: AED 4.6M</span>
+    <span class="ptag" style="background:#E4F3EB;color:#1A5C35;">30 vacant &mdash; instant activation</span>
+    <span class="ptag" style="background:#fff3cd;color:#7A5A10;">STR yield upside</span>
+    <span class="ptag" style="background:#f4f4f2;color:#444;">Fixed cost &middot; variable upside</span>
+    <span class="ptag" style="background:#f4f4f2;color:#444;">No capex required</span>
+  </div>
+</div>
+
+<!-- TRANSACTION ENQUIRIES -->
+<div class="te-sec">
+  <div class="te-slbl">Transaction Enquiries</div>
+  <div class="te-card">
+    <div class="te-left">
+      <div class="te-avatar">
+        <span class="te-initials">VD</span>
+      </div>
+      <div>
+        <div class="te-name">Vishal Desai</div>
+        <div class="te-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare &nbsp;|&nbsp; Tech &amp; AI &nbsp;|&nbsp; Tokenization &amp; Blockchain</div>
+        <div class="te-links">
+          <a class="te-link" href="mailto:datascience.scout@gmail.com">
+            <div class="te-link-icon">&#x2709;</div>
+            datascience.scout@gmail.com
+          </a>
+          <a class="te-link" href="https://wa.me/971553898410" target="_blank">
+            <div class="te-link-icon">&#x1F4F1;</div>
+            +971 55 389 8410
+          </a>
+          <a class="te-link" href="https://www.linkedin.com/in/vishal-desai" target="_blank">
+            <div class="te-link-icon" style="font-size:9px;font-weight:700;">in</div>
+            linkedin.com/in/vishal-desai
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="te-ctas">
+      <a class="te-btn te-btn-gold" href="mailto:datascience.scout@gmail.com?subject=SEPCO%20III%20Residence%202%20%E2%80%94%20Info%20Pack%20Request">Request Info Pack</a>
+      <a class="te-btn te-btn-ghost" href="https://wa.me/971553898410?text=Hi%20Vishal%2C%20I%20am%20interested%20in%20the%20SEPCO%20III%20Residence%202%20master%20lease%20opportunity." target="_blank">WhatsApp Directly</a>
+      <div class="te-nda">Off-market mandate &middot; NDA on request</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="ftl">Confidential. Prepared for discussion purposes only.<br>All figures in AED. May 2026.</div>
+  <div class="fbrand">Vishal Desai</div>
+</div>
+
+</div>
+
+<!-- FLOATING BUTTON -->
+<a class="te-float" href="mailto:datascience.scout@gmail.com?subject=SEPCO%20III%20Residence%202%20%E2%80%94%20Info%20Pack%20Request">
+  &#x2709; &nbsp;Request Info Pack
+</a>
+
