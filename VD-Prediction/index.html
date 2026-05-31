@@ -1,1 +1,729 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dual System Numerology · Vishal Desai · Chaldean + Pythagorean</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080810;--bg2:#0e0e18;--bg3:#13131e;
+  --surface:#191928;--surface2:#1f1f32;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);
+  --text:#e6e2da;--text2:#9896a3;--text3:#52505f;
+  --gold:#c8a44a;--gold2:#e6c668;--gold-dim:rgba(200,164,74,0.13);
+  --green:#47aa7a;--green-dim:rgba(71,170,122,0.11);
+  --blue:#5488ce;--blue-dim:rgba(84,136,206,0.11);
+  --purple:#8870d0;--purple-dim:rgba(136,112,208,0.11);
+  --red:#c05050;--red-dim:rgba(192,80,80,0.1);
+  --teal:#3fa8a0;--teal-dim:rgba(63,168,160,0.11);
+  --agree:#2a3d28;--agree-border:rgba(71,170,122,0.3);
+  --diff:#2a2838;--diff-border:rgba(136,112,208,0.3);
+  --peak-bg:rgba(200,164,74,0.08);--peak-border:rgba(200,164,74,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;font-weight:300;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.012) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0;}
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:3rem 2rem 6rem;}
+
+/* HEADER */
+.hdr{border-bottom:1px solid var(--border2);padding-bottom:2rem;margin-bottom:2.5rem;}
+.hdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;gap:1rem;}
+.hdr-name{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;letter-spacing:0.02em;line-height:1;}
+.hdr-sub{font-size:0.58rem;color:var(--text3);letter-spacing:0.2em;text-transform:uppercase;margin-top:6px;}
+.hdr-right{text-align:right;}
+.hdr-title{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--gold);margin-bottom:4px;}
+.hdr-period{font-size:0.58rem;color:var(--text3);letter-spacing:0.13em;text-transform:uppercase;}
+
+/* NUMBER COMPARISON TABLE */
+.sec-lbl{font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--text3);margin-bottom:1.25rem;display:flex;align-items:center;gap:12px;}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.num-compare{width:100%;border-collapse:collapse;margin-bottom:2rem;}
+.num-compare thead tr{border-bottom:1px solid var(--border2);}
+.num-compare th{font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);padding:8px 12px;text-align:left;font-weight:400;}
+.num-compare th.center{text-align:center;}
+.num-compare td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:0.72rem;color:var(--text2);vertical-align:middle;}
+.num-compare td:first-child{color:var(--text);font-size:0.68rem;}
+.num-compare td.center{text-align:center;}
+.num-compare tr.agree-row{background:rgba(71,170,122,0.05);}
+.num-compare tr.diff-row{background:rgba(136,112,208,0.04);}
+.num-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;line-height:1;}
+.nv-pyth{color:var(--blue);}
+.nv-chal{color:var(--gold2);}
+.badge{display:inline-block;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;border-radius:1px;}
+.badge.agree{background:var(--agree);color:var(--green);border:1px solid var(--agree-border);}
+.badge.diff{background:var(--diff);color:var(--purple);border:1px solid var(--diff-border);}
+.badge.high{background:var(--gold-dim);color:var(--gold2);border:1px solid rgba(200,164,74,0.3);}
+
+/* KEY INSIGHT BOX */
+.insight-banner{background:var(--bg2);border:1px solid var(--border2);border-radius:2px;padding:1.25rem 1.5rem;margin-bottom:2rem;}
+.insight-banner .ib-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold2);margin-bottom:10px;}
+.insight-banner .ib-text{font-size:0.7rem;color:var(--text2);line-height:1.75;}
+.insight-banner .ib-text strong{color:var(--text);font-weight:400;}
+
+/* DESTINY DEEP DIVE */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.5rem;}
+.col-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:1rem 1.25rem;}
+.col-box .cb-head{font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.col-box .cb-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;line-height:1;margin-bottom:6px;}
+.col-box .cb-label{font-size:0.65rem;font-style:italic;font-family:'Cormorant Garamond',serif;margin-bottom:8px;}
+.col-box .cb-text{font-size:0.67rem;color:var(--text2);line-height:1.7;}
+
+/* MONTHLY FORECAST */
+.phase-bar{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-bottom:1rem;height:24px;}
+.ps{border-radius:1px;display:flex;align-items:center;justify-content:center;font-size:0.46rem;letter-spacing:0.05em;text-transform:uppercase;}
+.ps.hold{background:rgba(82,80,95,0.22);color:var(--text3);}
+.ps.build{background:rgba(84,136,206,0.16);color:var(--blue);}
+.ps.strong{background:rgba(71,170,122,0.16);color:var(--green);}
+.ps.peak{background:rgba(200,164,74,0.2);color:var(--gold);}
+
+.conf-bar{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-bottom:1.5rem;height:16px;}
+.cb{border-radius:1px;display:flex;align-items:center;justify-content:center;font-size:0.42rem;letter-spacing:0.04em;text-transform:uppercase;}
+.cb.c1{background:rgba(192,80,80,0.2);color:var(--red);}
+.cb.c2{background:rgba(200,164,74,0.16);color:var(--gold);}
+.cb.c3{background:rgba(71,170,122,0.22);color:var(--green);}
+
+.legend{display:flex;gap:1.25rem;flex-wrap:wrap;margin-bottom:0.75rem;}
+.leg{display:flex;align-items:center;gap:6px;font-size:0.56rem;color:var(--text3);letter-spacing:0.07em;text-transform:uppercase;}
+.ld{width:7px;height:7px;border-radius:50%;}
+
+/* MONTH CARDS */
+.mc{background:var(--bg2);border:1px solid var(--border);border-radius:2px;margin-bottom:8px;overflow:hidden;}
+.mc:hover{border-color:var(--border2);}
+.mc.peak{border-color:var(--peak-border);}
+.mc.conf-high{border-left:3px solid var(--green);}
+.mc.conf-med{border-left:3px solid var(--gold);}
+.mc.conf-low{border-left:3px solid var(--red);}
+
+.mh{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:1rem;padding:0.9rem 1.25rem;cursor:pointer;user-select:none;}
+.ml .mon{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--text2);line-height:1;}
+.ml .yr{font-size:0.5rem;color:var(--text3);letter-spacing:0.1em;margin-top:2px;}
+.ml.hi .mon{color:var(--gold2);}
+
+.mi .hl{font-size:0.75rem;color:var(--text);margin-bottom:3px;}
+.mi .tg{font-size:0.6rem;color:var(--text3);}
+.mi .conf-tag{display:inline-block;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;padding:1px 6px;border-radius:1px;margin-bottom:4px;}
+.conf-tag.high{background:var(--agree);color:var(--green);border:1px solid var(--agree-border);}
+.conf-tag.med{background:var(--gold-dim);color:var(--gold2);border:1px solid rgba(200,164,74,0.3);}
+.conf-tag.low{background:var(--red-dim);color:var(--red);border:1px solid rgba(192,80,80,0.25);}
+.best-tag{display:inline-block;background:var(--gold-dim);border:1px solid rgba(200,164,74,0.28);color:var(--gold2);font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;padding:2px 7px;margin-bottom:4px;}
+
+.mr2{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.pr{display:flex;align-items:center;gap:3px;}
+.pl{font-size:0.5rem;color:var(--text3);letter-spacing:0.05em;width:26px;text-align:right;}
+.pip{width:6px;height:6px;border-radius:50%;background:var(--surface2);}
+.pip.j{background:var(--blue);}
+.pip.d{background:var(--green);}
+.pip.m{background:var(--gold);}
+.chv{font-size:0.56rem;color:var(--text3);margin-left:8px;transition:transform 0.22s;display:inline-block;}
+.chv.op{transform:rotate(180deg);}
+
+.mb{display:none;border-top:1px solid var(--border);padding:1.25rem;}
+.mb.op{display:block;}
+
+/* Three column body */
+.bg3c{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1rem;}
+.bc .ch{font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid var(--border);}
+.bc .ct{font-size:0.66rem;color:var(--text2);line-height:1.7;}
+.bc.job .ch{color:var(--blue);}
+.bc.deal .ch{color:var(--green);}
+.bc.money .ch{color:var(--gold);}
+
+/* Dual system block */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem;}
+.sys-box{border-radius:2px;padding:8px 12px;}
+.sys-box.pyth{background:var(--blue-dim);border:1px solid rgba(84,136,206,0.2);}
+.sys-box.chal{background:var(--gold-dim);border:1px solid rgba(200,164,74,0.2);}
+.sys-box .sh{font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:4px;}
+.sys-box.pyth .sh{color:var(--blue);}
+.sys-box.chal .sh{color:var(--gold);}
+.sys-box .st{font-size:0.65rem;color:var(--text2);line-height:1.65;}
+
+.agree-box{background:rgba(71,170,122,0.06);border:1px solid rgba(71,170,122,0.18);border-radius:2px;padding:8px 12px;margin-bottom:1rem;}
+.agree-box .at{font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.agree-box .ac{font-size:0.66rem;color:var(--text2);line-height:1.65;}
+
+.ar{background:var(--surface);border:1px solid var(--border);border-radius:2px;padding:9px 13px;display:flex;gap:9px;align-items:flex-start;}
+.ar .aw{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1rem;flex-shrink:0;margin-top:-1px;}
+.ar .at2{font-size:0.65rem;color:var(--text2);line-height:1.65;}
+
+.footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:0.56rem;color:var(--text3);line-height:1.75;letter-spacing:0.03em;}
+@media(max-width:600px){.bg3c,.two-col,.dual{grid-template-columns:1fr;}.hdr-top{flex-direction:column;}.hdr-right{text-align:left;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-name">Vishal Desai</div>
+      <div class="hdr-sub">Dual System Numerology · Chaldean + Pythagorean · DOB 23 June 1981</div>
+    </div>
+    <div class="hdr-right">
+      <div class="hdr-title">Where both systems agree, trust it.</div>
+      <div class="hdr-period">May 2026 – April 2027 · Monthly Forecast</div>
+    </div>
+  </div>
+</div>
+
+<!-- CORE NUMBERS COMPARISON -->
+<div class="sec-lbl">Core numbers — both systems compared</div>
+
+<table class="num-compare">
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th class="center">Pythagorean</th>
+      <th class="center">Chaldean</th>
+      <th class="center">Verdict</th>
+      <th>What it means for you</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="agree-row">
+      <td>Life Path</td>
+      <td class="center"><span class="num-val nv-pyth">3</span></td>
+      <td class="center"><span class="num-val nv-chal">3</span></td>
+      <td class="center"><span class="badge agree">Both agree</span></td>
+      <td>The Communicator / Deal-maker. You are built to influence, connect, and close through the power of words and presence. Both systems confirm this 100%.</td>
+    </tr>
+    <tr class="agree-row">
+      <td>Birthday</td>
+      <td class="center"><span class="num-val nv-pyth">23/5</span></td>
+      <td class="center"><span class="num-val nv-chal">23/5</span></td>
+      <td class="center"><span class="badge agree">Both agree</span></td>
+      <td>The Royal Star — one of the most fortunate birthday numbers. Cross-cultural adaptability, recovery instinct, charm that works across all types of people.</td>
+    </tr>
+    <tr class="diff-row">
+      <td>Destiny</td>
+      <td class="center"><span class="num-val nv-pyth">7</span></td>
+      <td class="center"><span class="num-val nv-chal">1</span></td>
+      <td class="center"><span class="badge diff">Different</span></td>
+      <td>Pythagorean says Analyst/Expert. Chaldean says Pioneer/Leader. Together: you are the expert who leads — not a consultant who advises from behind the curtain.</td>
+    </tr>
+    <tr class="diff-row">
+      <td>Soul Urge</td>
+      <td class="center"><span class="num-val nv-pyth">5</span></td>
+      <td class="center"><span class="num-val nv-chal">8</span></td>
+      <td class="center"><span class="badge diff">Different</span></td>
+      <td>Pythagorean: freedom drives you. Chaldean: power and legacy drive you. Both are partially true — you want freedom AND authority. The 8 is the deeper truth.</td>
+    </tr>
+    <tr class="agree-row">
+      <td>Personality</td>
+      <td class="center"><span class="num-val nv-pyth">2</span></td>
+      <td class="center"><span class="num-val nv-chal">2</span></td>
+      <td class="center"><span class="badge agree">Both agree</span></td>
+      <td>Diplomatic, trustworthy, non-threatening exterior. People confide in you. You close deals others cannot because counterparties feel safe, not sold to.</td>
+    </tr>
+    <tr class="diff-row">
+      <td>Maturity</td>
+      <td class="center"><span class="num-val nv-pyth">1</span></td>
+      <td class="center"><span class="num-val nv-chal">4</span></td>
+      <td class="center"><span class="badge diff">Different</span></td>
+      <td>Pythagorean: independent leader. Chaldean: master builder of lasting structures. Both point toward building something institutional — not just being good at a job.</td>
+    </tr>
+    <tr class="agree-row">
+      <td>Personal Year 2026</td>
+      <td class="center"><span class="num-val nv-pyth">3</span></td>
+      <td class="center"><span class="num-val nv-chal">3</span></td>
+      <td class="center"><span class="badge high">Both agree — high confidence</span></td>
+      <td>Year of expression, communication, visibility, and new connections arriving through people. Both systems fully confirm 2026 as a year to be seen and heard — not to wait quietly.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- KEY INSIGHT -->
+<div class="insight-banner">
+  <div class="ib-title">The most important finding from this dual analysis</div>
+  <div class="ib-text">
+    Both systems produce an <strong>identical Personal Year (3)</strong> for 2026 — which means both systems produce <strong>identical Personal Month numbers</strong> for every single month from May 2026 to April 2027. This is rare and significant. It means the monthly timing predictions in this forecast carry the highest possible confidence level in numerology — both ancient systems are pointing at the same windows simultaneously. When this aligns with your Vedic Dasha periods (Saturn–Mercury antardasha from mid-2026), you have <strong>three independent systems confirming the same timing.</strong> October 2026 and March 2027 are flagged as peak windows by Pythagorean numerology, Chaldean numerology, AND Vedic astrology. That triple convergence is as high a probability signal as these systems can produce.
+  </div>
+</div>
+
+<!-- DESTINY DEEP DIVE -->
+<div class="sec-lbl">What changes with Chaldean — your deeper truth</div>
+<div class="two-col">
+  <div class="col-box">
+    <div class="cb-head" style="color:var(--purple)">Chaldean Destiny 1 — The Pioneer</div>
+    <div class="cb-num" style="color:var(--gold2)">1</div>
+    <div class="cb-label" style="color:var(--gold)">Originator · First mover · The one who builds what didn't exist before</div>
+    <div class="cb-text">Chaldean Destiny 1 is the most entrepreneurial of all numbers. Your life purpose is not to perfect an existing system — it is to originate something new. You are not meant to be employee number 4 at an institution someone else built. You are meant to be the person who puts their name on the door. Auremont Capital is not a side project. It is your destiny number made physical.</div>
+  </div>
+  <div class="col-box">
+    <div class="cb-head" style="color:var(--gold)">Chaldean Soul Urge 8 — Wealth & Authority</div>
+    <div class="cb-num" style="color:var(--gold2)">8</div>
+    <div class="cb-label" style="color:var(--gold)">Power · Legacy · Institutional weight · Generational wealth</div>
+    <div class="cb-text">This changes the previous reading significantly. Pythagorean said your soul craves freedom (5). Chaldean says your soul craves authority and legacy (8). The truth is probably both — but the 8 is the deeper driver. You do not just want financial independence. You want to build something that carries institutional weight. Something that outlasts you. A platform, not just a career.</div>
+  </div>
+</div>
+
+<!-- CONFIDENCE MAP -->
+<div class="sec-lbl">Monthly confidence map — where both systems agree most strongly</div>
+
+<div style="margin-bottom:6px;">
+  <div style="font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Energy phase (both systems identical)</div>
+  <div class="phase-bar">
+    <div class="ps hold">May</div><div class="ps build">Jun</div><div class="ps hold">Jul</div><div class="ps build">Aug</div>
+    <div class="ps strong">Sep</div><div class="ps peak">Oct</div><div class="ps strong">Nov</div><div class="ps build">Dec</div>
+    <div class="ps strong">Jan</div><div class="ps strong">Feb</div><div class="ps peak">Mar</div><div class="ps strong">Apr</div>
+  </div>
+</div>
+
+<div style="margin-bottom:6px;">
+  <div style="font-size:0.56rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;">Prediction confidence (numerology + Vedic dasha convergence)</div>
+  <div class="conf-bar">
+    <div class="cb c2">Med</div><div class="cb c2">Med</div><div class="cb c1">Low</div><div class="cb c2">Med</div>
+    <div class="cb c3">High</div><div class="cb c3">High</div><div class="cb c3">High</div><div class="cb c2">Med</div>
+    <div class="cb c3">High</div><div class="cb c3">High</div><div class="cb c3">High</div><div class="cb c3">High</div>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="ld" style="background:var(--red)"></div>Lower confidence</div>
+  <div class="leg"><div class="ld" style="background:var(--gold)"></div>Medium confidence</div>
+  <div class="leg"><div class="ld" style="background:var(--green)"></div>High confidence — 3 systems agree</div>
+</div>
+<div class="legend" style="margin-top:-0.5rem;margin-bottom:1.5rem">
+  <div class="leg"><div class="ld" style="background:var(--blue)"></div>Job chances</div>
+  <div class="leg"><div class="ld" style="background:var(--green)"></div>Deal momentum</div>
+  <div class="leg"><div class="ld" style="background:var(--gold)"></div>Money coming in</div>
+</div>
+
+<!-- MONTHLY CARDS -->
+
+<!-- MAY 2026 -->
+<div class="mc conf-med" id="c-may">
+  <div class="mh" onclick="tog('may')">
+    <div class="ml"><div class="mon">May</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag med">Medium confidence</div>
+      <div class="hl">Hold position — both systems say patience</div>
+      <div class="tg">Personal Month 8 (both systems) · Friction, testing, pressure</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-may">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-may">
+    <div class="agree-box">
+      <div class="at">Both systems agree — month 8 vibration</div>
+      <div class="ac">Number 8 in a year of 3 creates a power struggle between your natural creative-communication energy and heavy institutional resistance. Both Chaldean and Pythagorean flag this as a month to endure, not push. The Chaldean 8 specifically links to financial power themes — the pressure is real, but so is the eventual reward for those who hold their position without breaking.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">Applications go into silence. No breakthrough this month. Keep the pipeline warm but do not measure your worth by May's response rate. The 8 month is testing endurance, not rewarding effort.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Deals stuck remain stuck in first half. Last week of May: someone who went quiet may resurface. Hold your terms. Offer no new concessions under pressure — the 8 month rewards whoever holds their position longest.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Lean month. Your best shot at any income is chasing a receivable from a past assignment. Follow up this week — not next week. No new income likely.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Send a short, factual status note to your top 3 active deals. Not chasing — just presence. The 8 month rewards those who stay visible without appearing desperate.</div></div>
+  </div>
+</div>
+
+<!-- JUN 2026 -->
+<div class="mc conf-med" id="c-jun">
+  <div class="mh" onclick="tog('jun')">
+    <div class="ml hi"><div class="mon">Jun</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag med">Medium confidence</div>
+      <div class="hl">First real signal — old cycle completes</div>
+      <div class="tg">Personal Month 9 (both systems) · Endings unlock new beginnings</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-jun">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-jun">
+    <div class="agree-box">
+      <div class="at">Both systems agree — month 9 vibration</div>
+      <div class="ac">Number 9 is the completion and release vibration. Both Chaldean and Pythagorean agree: June closes what needs closing and opens what has been waiting. In Chaldean specifically, 9 is the sacred number — it carries spiritual and karmic energy. Things that complete in June do so for a reason. New connections that appear in June are not random.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">First genuine possibility of an interview call. A recruiter may reach out — not the other way around. Refresh your LinkedIn in the first week of June. Focus on investment and capital advisory roles in KSA and UAE.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Active month. At least one slow deal will have a decision-maker ready to talk again. Meet in person — June favors face-to-face strongly. Your Life Path 3 (confirmed by both systems) is at full power in rooms, not on screens.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">A partial payment or token amount is possible. Small but real. The 9 signals the end of one phase. Even a small payment in June is telling you the tap is opening — pay attention to that signal.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Book 3 face-to-face meetings with decision-makers who already know you and have a live deal on the table. In-person contact in a month 9 carries more weight than 20 WhatsApp messages.</div></div>
+  </div>
+</div>
+
+<!-- JUL 2026 -->
+<div class="mc conf-low" id="c-jul">
+  <div class="mh" onclick="tog('jul')">
+    <div class="ml"><div class="mon">Jul</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag low">Lower confidence — use for building, not measuring</div>
+      <div class="hl">Summer quiet — GCC market, numerology, Vedic all say the same</div>
+      <div class="tg">Personal Month 1 (both systems) · Invisible seeds, new cycle begins</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-jul">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-jul">
+    <div class="agree-box">
+      <div class="at">Both systems agree — month 1 vibration</div>
+      <div class="ac">Month 1 is new beginnings — but the energy is planted underground, not visible yet. Chaldean 1 is specifically about the pioneer energy gathering itself before it moves. Think of it as a compressed spring. Nothing appears to be happening. Everything is being loaded. The "lower confidence" rating here is not danger — it means outcomes are genuinely unpredictable, not negative.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">July is dead for GCC hiring. Decision-makers are away. Do not measure your worth by July's silence. Keep applications going to KSA firms that stay active through summer. Any response in July is a bonus, not an expectation.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Deals pause, not die. Any momentum from June waits here. Use this month to clean all deal documentation, term sheets, and your investor database — so you can move fast the moment September opens.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Tight. Conservation mode only. Protect whatever June gave you. Month 1 is a breath before a sprint — not a sprint itself.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Reach out to 10 contacts in KSA or India you haven't spoken to in 6+ months. No agenda. Just reconnect. These plant seeds that become Q4 deals.</div></div>
+  </div>
+</div>
+
+<!-- AUG 2026 -->
+<div class="mc conf-med" id="c-aug">
+  <div class="mh" onclick="tog('aug')">
+    <div class="ml"><div class="mon">Aug</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag med">Medium confidence</div>
+      <div class="hl">Background builds — partnership energy activates quietly</div>
+      <div class="tg">Personal Month 2 (both systems) · Patience, partnership, preparation</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-aug">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-aug">
+    <div class="agree-box">
+      <div class="at">Both systems agree — month 2 vibration</div>
+      <div class="ac">Month 2 is the partnership and patience vibration. Your Personality Number 2 (confirmed by both systems) is actually your strongest card this month — your natural ability to listen, build trust, and create safe space for the other party is what advances things in a month 2. Not aggressive outreach. Not pitch decks. Conversations.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">Mid-August, companies begin preparing Q4 headcount. Reach out to MD and Partner-level contacts — not to ask for a job, but for a genuine industry conversation. These conversations convert September onward. Plant now, harvest in Q4.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">The deal running longest may show a small sign of life in mid-August. Do not over-react — it is not closing yet. But it is alive. Respond quickly and professionally when it surfaces. Month 2 rewards quiet diligence.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Slightly better than July. A small consulting call or delayed payment possible. Month 2 specifically supports joint or partnership-based income — consider a co-advisory structure on one active deal.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Publish 2 LinkedIn posts — one on education asset investing, one on GCC deal dynamics. Your Personal Year 3 (both systems) means visibility now creates inbound calls in October.</div></div>
+  </div>
+</div>
+
+<!-- SEP 2026 -->
+<div class="mc conf-high" id="c-sep">
+  <div class="mh" onclick="tog('sep')">
+    <div class="ml hi"><div class="mon">Sep</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag high">High confidence — 3 systems agree</div>
+      <div class="hl">Market wakes up — your natural frequency returns</div>
+      <div class="tg">Personal Month 3 (both systems) · Your Life Path number — peak communication and deal energy</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-sep">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-sep">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 3 unlocks your Life Path energy. Expression and communication are at full power. This is the month your words land differently — in interviews, in deal rooms, in pitches. People respond to you this month in a way they don't in other months.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 3 in Chaldean activates your Destiny 1 pioneer energy. September is when you stop waiting for permission and start acting like the principal you are meant to be. Go first. Initiate. Don't wait to be called.</div>
+      </div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">Genuine breakthrough window. Post-summer, hiring managers are active and budgets are approved. This month you are operating at your natural frequency — your communication advantage is working. If you get an interview, preparation matters more than luck here.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Your strongest deal month so far. Focus entirely on the deal closest to signing — not the most exciting new one. High-confidence signal: a deal dragging for months will suddenly have a decision-maker who wants to move. Go meet them in person.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Real money becomes possible — a fee, a retainer, a milestone payment. This is the first month your income irregularity starts breaking. When it comes in, bank it immediately — do not roll it into expenses.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Rank your active deals by probability of closing in 90 days. Work backwards from the top 2 only. Everything else is maintenance mode this month.</div></div>
+  </div>
+</div>
+
+<!-- OCT 2026 — PEAK -->
+<div class="mc peak conf-high" id="c-oct">
+  <div class="mh" onclick="tog('oct')">
+    <div class="ml hi"><div class="mon">Oct</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="best-tag">Triple convergence — numerology + Vedic all agree</div>
+      <div class="conf-tag high">Highest confidence of the year</div>
+      <div class="hl">A deal closes. A job offer lands. Be fully present Oct 1–20.</div>
+      <div class="tg">Personal Month 4 (both systems) · Structure locks in — the month of signatures</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-oct">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-oct">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 4 is the structure number — deals that were fluid become formal. LOIs become SPAs. Job interviews become offer letters. The energy that has been building since September now crystallises into something written, signed, and legally binding.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 4 in Chaldean activates your Maturity Number 4 — the Master Builder. In Chaldean tradition, this creates a rare resonance where your monthly vibration matches your long-term destiny number. Opportunities that appear this month are not random. They are structurally aligned with where you are meant to be.</div>
+      </div>
+    </div>
+    <div class="agree-box">
+      <div class="at">Additionally — Vedic astrology confirms October 2026</div>
+      <div class="ac">Your Saturn–Mercury antardasha begins mid-2026. Mercury rules communication, negotiations, and deal closure in Vedic astrology. Both numerology systems flag month 4 as the structure/closure month. Mercury Antardasha in Vedic adds negotiation energy. Three independent systems. Same window. This is the highest-probability event window in this entire 12-month forecast.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">Highest probability of a job offer of the year. If in a process from September — this is where it converts. If not, go aggressive Oct 1–5: target PE firms, family offices, alternative asset managers in Dubai and Riyadh. A Director-level role with base plus carry is genuinely attainable this month.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Highest deal-closing probability of the year. If a deal needs a final nudge — a meeting, a revised term sheet, a site visit — do it now. The window is October 1–20 specifically. Do not wait for November. What is not signed by Oct 20 risks slipping to Q1 2027.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Your first month of meaningful, real income. Whether from a deal fee, a job advance, or a retainer — money moves in October. This is not a single event. It is the beginning of a new pattern. The cash crunch starts breaking here permanently.</div></div>
+    </div>
+    <div class="ar" style="border-color:rgba(200,164,74,0.3)"><div class="aw">→</div><div class="at2">Critical: Do not travel unnecessarily Oct 1–20. Stay present, reachable, and responsive within hours. Three systems agree this window exists. What you do with it is entirely up to you.</div></div>
+  </div>
+</div>
+
+<!-- NOV 2026 -->
+<div class="mc conf-high" id="c-nov">
+  <div class="mh" onclick="tog('nov')">
+    <div class="ml hi"><div class="mon">Nov</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag high">High confidence</div>
+      <div class="hl">Close what October opened — momentum continues</div>
+      <div class="tg">Personal Month 5 (both systems) · Change energy reinforces forward motion</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-nov">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-nov">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 5 brings change and forward momentum. Your Soul Urge 5 (Pythagorean) means this month vibrates with your deepest inner drive — freedom and movement. The things that open in November feel natural, not forced.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 5 activates your Birthday number energy (23/5). In Chaldean tradition, when the personal month matches your Birthday essence, your natural charm and adaptability are at peak effectiveness. People are drawn to you. Use it.</div>
+      </div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">If October gave you an offer or final round, November is where you negotiate and sign. Do not undersell yourself — both systems confirm the energy supports asking for more this month. Negotiate for deal upside and carry, not just base salary.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">November closes what October opened. If a deal went to LOI in October, push it to SPA or first payment stage now. Do not introduce complexity or new parties. Keep it clean and simple. Momentum in a month 5 can go either way — structure it toward closure.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Second consecutive month of real income. Two consecutive earning months changes your psychology. Use the mental clarity that comes with this to plan Q1 2027 proactively — write a 90-day financial plan this month.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: By Nov 15, write one page — exactly where each deal stands and what single action closes it. Give each a deadline. Deals without deadlines do not close.</div></div>
+  </div>
+</div>
+
+<!-- DEC 2026 -->
+<div class="mc conf-med" id="c-dec">
+  <div class="mh" onclick="tog('dec')">
+    <div class="ml"><div class="mon">Dec</div><div class="yr">2026</div></div>
+    <div class="mi">
+      <div class="conf-tag med">Medium confidence</div>
+      <div class="hl">Protect your wins — don't let December undo November</div>
+      <div class="tg">Personal Month 6 (both systems) · Stability, consolidation, family energy</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-dec">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-dec">
+    <div class="agree-box">
+      <div class="at">Both systems agree — month 6 vibration</div>
+      <div class="ac">Month 6 is responsibility, home, and stability. Both Chaldean and Pythagorean agree: December is a month to consolidate and protect what you built, not to expand aggressively. In Chaldean numerology, month 6 also has a strong family and obligation theme — December is a good month to reconnect with family, which matters after a difficult year of pressure.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">December hiring is slow globally and in GCC. If you have an offer, sign it. If not, use December to prepare your January push — research target firms, update materials, warm up contacts for Jan 2–5 outreach. The early birds in January win.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Deals slow but don't die. Keep engagement warm and professional. If a deal is at contract stage, push for a Dec 15 signing target — after that, year-end complexity risks a January restart of the whole conversation.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Third consecutive month of income, though smaller than November. Year-end bonuses in the market can free capital that reaches your deals. Receive what arrives. Protect what you have. Plan January.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: By Dec 20, have your January 2027 action plan written and ready. The first week of January is the most underused business week in Dubai. Strike before everyone else wakes up.</div></div>
+  </div>
+</div>
+
+<!-- JAN 2027 -->
+<div class="mc conf-high" id="c-jan">
+  <div class="mh" onclick="tog('jan')">
+    <div class="ml hi"><div class="mon">Jan</div><div class="yr">2027</div></div>
+    <div class="mi">
+      <div class="conf-tag high">High confidence</div>
+      <div class="hl">Fresh year — new budgets, new doors, your expertise in demand</div>
+      <div class="tg">Personal Month 4 (both systems) · Structure energy returns — second closing window</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-jan">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-jan">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 4 again — same structure energy as October. What October opened and November pushed through, January can now formalise for those who weren't ready in Q4. A second, strong closing window for deals and job offers.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 4 in Chaldean resonates again with your Maturity Number 4. January 2027 is specifically powerful for formalising arrangements that carry institutional weight — retainer agreements, advisory mandates, employment contracts with defined upside.</div>
+      </div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">Very strong second job window. Fresh Q1 budgets, open headcount, hiring managers who didn't act in Q4 now must. Get applications in the first 10 days of January — the early applicant advantage in January hiring is structural, not anecdotal.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Fresh introductions arrive. Someone from a Q4 event comes back with a concrete ask. Also — a deal that paused in December restarts. Be ready to move within 24 hours when it surfaces. Month 4 energy rewards rapid, structured responses.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Fourth consecutive month of real income. By January the zero-month pattern is permanently broken. You are now planning in quarters, not surviving month-to-month. This mental shift is as important as the money itself.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Attend at least one major real estate or investment event in Jan–Feb 2027. One room, one conversation can open a deal that closes mid-year and redefines your 2027.</div></div>
+  </div>
+</div>
+
+<!-- FEB 2027 -->
+<div class="mc conf-high" id="c-feb">
+  <div class="mh" onclick="tog('feb')">
+    <div class="ml hi"><div class="mon">Feb</div><div class="yr">2027</div></div>
+    <div class="mi">
+      <div class="conf-tag high">High confidence</div>
+      <div class="hl">Negotiate up — authority energy is at your back</div>
+      <div class="tg">Personal Month 5 (both systems) · Your Birthday essence activates — peak personal power</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-feb">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-feb">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 5 brings change and forward movement — same as November. What you could not close in November because timing was slightly off may close in February. The energy is nearly identical, but with added maturity from 3 months of consecutive momentum behind you.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 5 matches your Birthday 23/5 essence. In Chaldean tradition, when your personal month matches your Birthday number, your natural magnetism and cross-cultural ability — your single greatest professional asset — is operating at its absolute peak. This is your highest personal power month of this forecast.</div>
+      </div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">If a January process went to round 2, February is your offer month. Both systems confirm: negotiate confidently. Ask for more than the first number offered. Your Chaldean Soul Urge 8 (wealth and authority) is fully activated this month — use it consciously.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">A deal that started in January hits its decision point. The other party either commits or walks. Stay composed. Do not show desperation. Your Personality Number 2 (both systems) is your greatest negotiation tool — use your ability to make the other party feel safe, not pressured.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">February is potentially your highest single-month earnings of this entire forecast period. A fee, an advance, or a salary start date lands here. Treat this as the beginning of a new financial era — not a peak to celebrate and relax.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">One action: Open a separate savings account and move 20% of whatever comes in this month into it. Touch it only for genuine emergencies. This habit, built in February, compounds for the rest of your career.</div></div>
+  </div>
+</div>
+
+<!-- MAR 2027 — PEAK -->
+<div class="mc peak conf-high" id="c-mar">
+  <div class="mh" onclick="tog('mar')">
+    <div class="ml hi"><div class="mon">Mar</div><div class="yr">2027</div></div>
+    <div class="mi">
+      <div class="best-tag">Second triple convergence — all systems agree</div>
+      <div class="conf-tag high">Highest confidence — second peak of the year</div>
+      <div class="hl">Go bigger than you think — largest deals arrive through unexpected people</div>
+      <div class="tg">Personal Month 6 (both systems) · Responsibility and harmony — relationship-based deals peak</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-mar">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-mar">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 6 is the harmony and responsibility vibration. Deals that are relationship-based — where trust is the deciding factor, not just financial terms — are most likely to close in a month 6. Your Personality 2 combined with Life Path 3 means people who have watched you through this difficult year will now want to do business with you.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 6 in Chaldean carries Venus energy — beauty, value, and large-ticket transactions. The Chaldean 6 specifically amplifies deals involving real assets — property, education assets, hospitality — exactly your domain. March 2027 is Chaldean's strongest month for your specific deal type.</div>
+      </div>
+    </div>
+    <div class="agree-box">
+      <div class="at">Additionally — Vedic astrology confirms March 2027</div>
+      <div class="ac">Your Saturn–Ketu antardasha through late 2026 into early 2027 creates sudden, unexpected openings — Ketu is known for bringing what you did not plan for. Both numerology systems point to March. Vedic adds an element of the unexpected — the deal or opportunity that arrives in March 2027 may come from a direction you did not anticipate. Keep your eyes open to introductions that seem left-field.</div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job search</div><div class="ct">If still searching, aim higher — CIO, Head of Investments, MD-level. Your Chaldean Destiny 1 (Pioneer/Leader) and Maturity 4 (Builder) are both saying: do not apply downward. A role that requires you to build something — not just manage something already built — is your strongest fit and highest success probability.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Second-best deal month of the year. Chaldean specifically amplifies real asset transactions this month. A brand new, larger-than-usual deal may arrive through someone unexpected — not through your existing pipeline. Keep your ears open to left-field introductions. The Vedic Ketu influence makes the unexpected the most likely source.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">Strong month. Pattern now confirmed — you are in a new financial era. Start thinking in quarters. Begin releasing the cash-crunch mindset consciously in March. The scarcity thinking is now the last obstacle, not the circumstances.</div></div>
+    </div>
+    <div class="ar" style="border-color:rgba(200,164,74,0.3)"><div class="aw">→</div><div class="at2">One action: Write one page — what does Auremont Capital look like in 12 months? Revenue streams, mandates, team, data products. The act of writing it in March 2027, when all three systems are at their most aligned with your ambition, makes it structurally more likely to materialise.</div></div>
+  </div>
+</div>
+
+<!-- APR 2027 -->
+<div class="mc conf-high" id="c-apr">
+  <div class="mh" onclick="tog('apr')">
+    <div class="ml hi"><div class="mon">Apr</div><div class="yr">2027</div></div>
+    <div class="mi">
+      <div class="conf-tag high">High confidence</div>
+      <div class="hl">One full year later — a completely different chapter</div>
+      <div class="tg">Personal Month 7 (both systems) · Wisdom, analysis, new cycle — you are not who you were</div>
+    </div>
+    <div class="mr2">
+      <div class="pr"><span class="pl">Job</span><div class="pip j"></div><div class="pip j"></div><div class="pip j"></div><div class="pip"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Deal</span><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip d"></div><div class="pip"></div></div>
+      <div class="pr"><span class="pl">Money</span><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip m"></div><div class="pip"></div></div>
+      <span class="chv" id="cv-apr">▼</span>
+    </div>
+  </div>
+  <div class="mb" id="b-apr">
+    <div class="dual">
+      <div class="sys-box pyth">
+        <div class="sh">Pythagorean says</div>
+        <div class="st">Month 7 is the Pythagorean wisdom and analysis number — and also your Pythagorean Destiny number. April 2027 is when you begin operating fully in your Pythagorean purpose: the deep expert whose analysis others seek out, whose name carries credibility in rooms you couldn't access in April 2026.</div>
+      </div>
+      <div class="sys-box chal">
+        <div class="sh">Chaldean says</div>
+        <div class="st">Month 7 in Chaldean is the number of reflection and inner wisdom — but also of spiritual completion. In Chaldean tradition, April 2027 marks the completion of a 12-month cycle that was about rebuilding your foundation. What you built this year is real. It does not disappear in May.</div>
+      </div>
+    </div>
+    <div class="bg3c">
+      <div class="bc job"><div class="ch">Job or advisory</div><div class="ct">By April 2027, the job-vs-advisory question has largely answered itself through lived experience, not theory. Either a role is going well, or advisory momentum has made the question irrelevant. Both outcomes are valid. You now have options. April 2026 Vishal did not have options.</div></div>
+      <div class="bc deal"><div class="ch">Deals</div><div class="ct">Your deal flow in April 2027 looks fundamentally different from April 2026. More relationships, a track record of closings, and deals beginning to arrive through referral rather than cold outreach. That referral-driven shift is the sign the platform is working.</div></div>
+      <div class="bc money"><div class="ch">Money</div><div class="ct">April 2027 marks the definitive end of the cash crunch era. Not wealthy overnight — but stable, consistent, and now compounding. The zero-month pattern is a distant memory. Personal Month 7 is a moment of quiet recognition: you made it through. What comes next is built on what you did not quit.</div></div>
+    </div>
+    <div class="ar"><div class="aw">→</div><div class="at2">Reflect and reset: Look back at what you wrote in March. How much of it came true? Then write the next 12 months — because both systems show compounding momentum from here, and your Vedic Mercury Mahadasha (beginning 2032) is the biggest era of your professional life. April 2027 is you arriving at the launch pad.</div></div>
+  </div>
+</div>
+
+<div class="footer">
+  Pythagorean system: sequential letter values A=1 through I/R=9. Chaldean system: sound-vibration letter values (ancient Babylonian). Both systems applied independently to Vishal Mohan Desai, DOB 23 June 1981, Pune, India. Personal months calculated by adding Personal Year number (3, confirmed by both systems) to each calendar month's digit and reducing to single digit. High-confidence predictions reflect agreement between Pythagorean numerology, Chaldean numerology, and Vimshottari Dasha periods from the attached Vedic Kundali. Numerology and astrology provide probability maps — not certainties. Your actions, sustained effort, and decisions remain the primary determinants of outcomes. Generated May 2026 · Auremont Capital advisory context.
+</div>
+
+</div>
+<script>
+function tog(id){
+  var b=document.getElementById('b-'+id);
+  var c=document.getElementById('cv-'+id);
+  var isOpen=b.classList.contains('op');
+  document.querySelectorAll('.mb').forEach(function(x){x.classList.remove('op');});
+  document.querySelectorAll('.chv').forEach(function(x){x.classList.remove('op');});
+  if(!isOpen){
+    b.classList.add('op');c.classList.add('op');
+    setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'nearest'});},60);
+  }
+}
+</script>
+</body>
+</html>
