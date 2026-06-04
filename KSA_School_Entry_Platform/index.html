@@ -1,1 +1,1458 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KSA Education Expansion Platform | Vishal Desai</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070A0F;
+    --bg2: #0C1018;
+    --bg3: #111520;
+    --gold: #C9A84C;
+    --gold-light: #E2C87A;
+    --gold-dim: rgba(201,168,76,0.15);
+    --gold-border: rgba(201,168,76,0.25);
+    --blue: #5B9BD5;
+    --blue-dim: rgba(91,155,213,0.15);
+    --text: #E8E4DC;
+    --text-dim: rgba(232,228,220,0.55);
+    --text-muted: rgba(232,228,220,0.35);
+    --white: #FFFFFF;
+    --card: rgba(255,255,255,0.03);
+    --card-hover: rgba(255,255,255,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── PASSWORD GATE ── */
+  #gate {
+    position: fixed; inset: 0; z-index: 9999;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .gate-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .gate-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 300;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  .gate-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .gate-divider {
+    width: 60px; height: 1px;
+    background: var(--gold-border);
+  }
+
+  .gate-input-wrap {
+    position: relative;
+    width: 320px;
+  }
+
+  .gate-input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--gold-border);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.15em;
+    padding: 1rem 1.5rem;
+    outline: none;
+    transition: border-color 0.3s;
+    text-align: center;
+  }
+
+  .gate-input:focus { border-color: var(--gold); }
+  .gate-input::placeholder { color: var(--text-muted); letter-spacing: 0.1em; }
+
+  .gate-btn {
+    width: 320px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .gate-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  .gate-error {
+    font-size: 0.78rem;
+    color: #E05C5C;
+    letter-spacing: 0.1em;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .gate-error.show { opacity: 1; }
+
+  .gate-confidential {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main { display: none; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(7,10,15,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gold-border);
+    padding: 0 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    border: 1px solid var(--gold-border);
+    padding: 0.3rem 0.8rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.04) 0%, transparent 65%),
+                radial-gradient(ellipse at 10% 80%, rgba(91,155,213,0.04) 0%, transparent 50%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 1200px; width: 100%; }
+
+  .hero-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+  }
+
+  .hero-pills {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 4rem;
+  }
+
+  .pill {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--gold-border);
+    border: 1px solid var(--gold-border);
+    max-width: 600px;
+  }
+
+  .hero-stat {
+    background: var(--bg2);
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 5%; }
+
+  .section-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .section-tag::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+
+  .section-desc {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+    max-width: 640px;
+    margin-bottom: 4rem;
+  }
+
+  /* ── WLT SECTION ── */
+  .wlt-section { background: var(--bg2); }
+
+  .wlt-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--gold-border);
+    border: 1px solid var(--gold-border);
+    margin-top: 3rem;
+  }
+
+  .wlt-card {
+    background: var(--bg);
+    padding: 3rem;
+  }
+
+  .wlt-card-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 1rem;
+  }
+
+  .wlt-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .wlt-card p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  .wlt-mechanics {
+    margin-top: 3rem;
+    border: 1px solid var(--gold-border);
+    padding: 2.5rem 3rem;
+    background: var(--gold-dim);
+  }
+
+  .wlt-mechanics-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+
+  .mechanics-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .mechanic-item { }
+
+  .mechanic-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .mechanic-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* ── MARKET SECTION ── */
+  .market-cards {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .market-card {
+    background: var(--card);
+    border: 1px solid var(--gold-border);
+    padding: 2.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .market-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .market-card:hover { background: var(--card-hover); }
+  .market-card:hover::before { opacity: 1; }
+
+  .market-card-icon {
+    width: 40px; height: 40px;
+    border: 1px solid var(--gold-border);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+  }
+
+  .market-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .market-card p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  /* ── STRUCTURE SECTION ── */
+  .structure-section { background: var(--bg2); }
+
+  .structure-flow {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 3rem;
+    position: relative;
+  }
+
+  .flow-step {
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--gold-border);
+    border-right: none;
+    position: relative;
+    background: var(--bg);
+    transition: background 0.3s;
+  }
+
+  .flow-step:last-child { border-right: 1px solid var(--gold-border); }
+  .flow-step:hover { background: var(--card-hover); }
+
+  .flow-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold-border);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .flow-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.75rem;
+  }
+
+  .flow-desc {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── PARTNERSHIP MODELS ── */
+  .models-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .model-card {
+    border: 1px solid var(--gold-border);
+    padding: 2.5rem;
+    position: relative;
+    background: var(--card);
+    transition: all 0.3s;
+  }
+
+  .model-card.featured {
+    border-color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  .model-card:hover { background: var(--card-hover); }
+  .model-card.featured:hover { background: rgba(201,168,76,0.2); }
+
+  .model-badge {
+    position: absolute; top: -1px; right: 1.5rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+  }
+
+  .model-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .model-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+
+  .model-items { list-style: none; }
+
+  .model-items li {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .model-items li::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ── FINANCIAL MODEL ── */
+  .financial-section { background: var(--bg2); }
+
+  .fin-controls {
+    background: var(--bg3);
+    border: 1px solid var(--gold-border);
+    padding: 2.5rem 3rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .fin-controls-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+
+  .controls-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .control-group label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .control-group input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 2px;
+    background: var(--gold-border);
+    outline: none;
+    margin-bottom: 0.5rem;
+  }
+
+  .control-group input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px; height: 14px;
+    background: var(--gold);
+    cursor: pointer;
+    border-radius: 0;
+  }
+
+  .control-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+  }
+
+  .control-select {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--gold-border);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .fin-output {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--gold-border);
+    border: 1px solid var(--gold-border);
+    margin-bottom: 2rem;
+  }
+
+  .fin-metric {
+    background: var(--bg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  .fin-metric-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .fin-metric-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .fin-chart-area {
+    border: 1px solid var(--gold-border);
+    padding: 2.5rem;
+    background: var(--bg);
+  }
+
+  .chart-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .bar-chart { display: flex; align-items: flex-end; gap: 1rem; height: 200px; }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    height: 100%;
+  }
+
+  .bar-wrap {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 180px;
+  }
+
+  .bar {
+    flex: 1;
+    transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 2px;
+  }
+
+  .bar-income { background: var(--gold); }
+  .bar-cost { background: var(--blue); opacity: 0.6; }
+  .bar-profit { background: #4CAF50; opacity: 0.8; }
+
+  .bar-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+
+  .chart-legend {
+    display: flex; gap: 2rem; margin-top: 1.5rem;
+  }
+
+  .legend-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem; color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  .legend-dot {
+    width: 10px; height: 10px;
+    flex-shrink: 0;
+  }
+
+  /* ── TRANSACTION PROCESS ── */
+  .tx-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .tx-card {
+    border: 1px solid var(--gold-border);
+    padding: 2rem;
+    background: var(--card);
+    position: relative;
+    transition: all 0.3s;
+  }
+
+  .tx-card:hover { background: var(--card-hover); }
+
+  .tx-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: var(--gold-border);
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+    line-height: 1;
+  }
+
+  .tx-stage {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .tx-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .tx-items { list-style: none; }
+
+  .tx-items li {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    padding: 0.35rem 0;
+    display: flex; align-items: flex-start; gap: 0.5rem;
+  }
+
+  .tx-items li::before {
+    content: '·';
+    color: var(--gold);
+    font-size: 1.2rem;
+    line-height: 1.1;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline-section { background: var(--bg2); }
+
+  .timeline {
+    display: flex;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 20px; left: 0; right: 0;
+    height: 1px;
+    background: var(--gold-border);
+  }
+
+  .tl-step {
+    flex: 1;
+    padding-top: 3rem;
+    padding-right: 2rem;
+    position: relative;
+  }
+
+  .tl-dot {
+    position: absolute;
+    top: 14px; left: 0;
+    width: 13px; height: 13px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  .tl-phase {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 0.5rem;
+  }
+
+  .tl-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+
+  .tl-desc {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    border-top: 1px solid var(--gold-border);
+    text-align: center;
+    padding: 80px 5%;
+  }
+
+  .contact-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .contact-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .contact-divider {
+    width: 60px; height: 1px;
+    background: var(--gold-border);
+    margin: 2rem auto;
+  }
+
+  .contact-sectors {
+    display: flex; justify-content: center; gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-sector {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  .contact-sector + .contact-sector::before {
+    content: '·';
+    margin-right: 2rem;
+    color: var(--gold-border);
+  }
+
+  .contact-note {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up { animation: fadeUp 0.8s ease forwards; }
+  .delay-1 { animation-delay: 0.1s; opacity: 0; }
+  .delay-2 { animation-delay: 0.25s; opacity: 0; }
+  .delay-3 { animation-delay: 0.4s; opacity: 0; }
+  .delay-4 { animation-delay: 0.55s; opacity: 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 60px 5%; }
+    .hero { padding: 100px 5% 60px; }
+    .wlt-grid, .market-cards, .models-grid, .structure-flow,
+    .tx-grid, .controls-grid, .fin-output, .mechanics-grid { grid-template-columns: 1fr; }
+    .flow-step { border-right: 1px solid var(--gold-border); border-bottom: none; }
+    .flow-step:last-child { border-bottom: 1px solid var(--gold-border); }
+    .hero-stats { grid-template-columns: 1fr; }
+    .timeline { flex-direction: column; }
+    .timeline::before { display: none; }
+    .tl-step { padding-top: 1rem; padding-left: 2rem; border-left: 1px solid var(--gold-border); margin-bottom: 2rem; }
+    .tl-dot { left: -7px; top: 1rem; }
+    .gate-input-wrap, .gate-btn { width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE -->
+<div id="gate">
+  <div class="gate-logo">Vishal Desai · Confidential</div>
+  <div class="gate-title">KSA Education<br>Expansion Platform</div>
+  <div class="gate-subtitle">Build-to-Lease School Partnership</div>
+  <div class="gate-divider"></div>
+  <div class="gate-input-wrap">
+    <input type="password" class="gate-input" id="pwInput" placeholder="Enter access code" onkeydown="if(event.key==='Enter')checkPw()">
+  </div>
+  <button class="gate-btn" onclick="checkPw()">Access Document</button>
+  <div class="gate-error" id="pwError">Incorrect access code. Please try again.</div>
+  <div class="gate-confidential">Confidential · For Authorized Recipients Only</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-brand">KSA Edu Expansion</div>
+    <ul class="nav-links">
+      <li><a href="#wlt">White Land Tax</a></li>
+      <li><a href="#market">Market</a></li>
+      <li><a href="#structure">Structure</a></li>
+      <li><a href="#financial">Financial Model</a></li>
+      <li><a href="#process">Process</a></li>
+    </ul>
+    <div class="nav-badge">Confidential</div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag fade-up">Strategic Entry · Saudi Arabia · 2025</div>
+      <h1 class="hero-title fade-up delay-1">
+        Build-to-Lease<br><em>School Partnership</em>
+      </h1>
+      <div class="hero-sub fade-up delay-2">Developer-Funded International School Entry Model</div>
+      <div class="hero-pills fade-up delay-3">
+        <span class="pill">Zero Capex Entry</span>
+        <span class="pill">WLT-Driven Urgency</span>
+        <span class="pill">Indexed Lease</span>
+        <span class="pill">Flexible JV Structure</span>
+        <span class="pill">Vision 2030 Aligned</span>
+      </div>
+      <div class="hero-stats fade-up delay-4">
+        <div class="hero-stat">
+          <span class="hero-stat-num">2.5%</span>
+          <div class="hero-stat-label">WLT Initial Levy</div>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">10%</span>
+          <div class="hero-stat-label">Max Escalation</div>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">V2030</span>
+          <div class="hero-stat-label">Policy Driver</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHITE LAND TAX -->
+  <section id="wlt" class="wlt-section">
+    <div class="section-tag">Policy Context</div>
+    <h2 class="section-title">White Land Tax</h2>
+    <p class="section-desc">A forced capital activation mechanism introduced by the Saudi government to eliminate speculative land banking and accelerate urban supply. The tax creates immediate, motivated developer partners for school operators.</p>
+
+    <div class="wlt-grid">
+      <div class="wlt-card">
+        <div class="wlt-card-label">Financial Liability</div>
+        <div class="wlt-card-title">Pressing Need to Activate</div>
+        <p>The White Land Tax imposes an annual levy on undeveloped urban land, creating a pressing need for landowners to activate their holdings into profitable assets promptly. Idle land is now a liability — not an asset.</p>
+      </div>
+      <div class="wlt-card">
+        <div class="wlt-card-label">Development Compliance</div>
+        <div class="wlt-card-title">Schools Qualify as Exempt</div>
+        <p>Developing educational facilities qualifies as compliant land activation under the tax regulations, incentivizing stakeholders to convert idle land into functional spaces that generate revenue and benefit communities.</p>
+      </div>
+    </div>
+
+    <div class="wlt-mechanics">
+      <div class="wlt-mechanics-title">Core Mechanics</div>
+      <div class="mechanics-grid">
+        <div class="mechanic-item">
+          <div class="mechanic-num">2.5%</div>
+          <div class="mechanic-label">Initial annual levy on market value of undeveloped urban land — not acquisition cost</div>
+        </div>
+        <div class="mechanic-item">
+          <div class="mechanic-num">→10%</div>
+          <div class="mechanic-label">Levy can escalate up to 10% depending on compliance phase and non-development timeline</div>
+        </div>
+        <div class="mechanic-item">
+          <div class="mechanic-num">MV</div>
+          <div class="mechanic-label">Tax basis = current market value of land, making appreciation a direct cost driver for landowners</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION MARKET -->
+  <section id="market">
+    <div class="section-tag">Opportunity</div>
+    <h2 class="section-title">Education Market</h2>
+    <p class="section-desc">Saudi Arabia's education sector presents one of the most compelling private investment opportunities in the GCC, underpinned by demographic momentum and direct policy support under Vision 2030.</p>
+
+    <div class="market-cards">
+      <div class="market-card">
+        <div class="market-card-icon">◈</div>
+        <div class="market-card-title">Vision 2030 Mandate</div>
+        <p>Saudi Arabia's Vision 2030 prioritizes the expansion of private education, fostering a competitive landscape for international schools and enhancing the quality and accessibility of education across all regions.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-card-icon">◈</div>
+        <div class="market-card-title">Demand Surge</div>
+        <p>Increasing expatriate and Saudi middle-income families are driving demand for premium schooling, creating significant opportunities for international school operators to meet the needs of a rapidly growing population.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-card-icon">◈</div>
+        <div class="market-card-title">Supply Gap</div>
+        <p>The current supply of quality international schools remains insufficient relative to demand in major urban centers including Riyadh, Jeddah, and NEOM-adjacent corridors — creating first-mover advantage.</p>
+      </div>
+      <div class="market-card">
+        <div class="market-card-icon">◈</div>
+        <div class="market-card-title">Regulatory Tailwinds</div>
+        <p>The Ministry of Education's liberalization of school licensing for international curricula (British, American, IB) provides a clear regulatory pathway for new operators entering the market.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERSHIP STRUCTURE -->
+  <section id="structure" class="structure-section">
+    <div class="section-tag">Deal Architecture</div>
+    <h2 class="section-title">Partnership Structure</h2>
+    <p class="section-desc">The Build-to-Lease model creates a clean separation of roles — developer builds and owns, operator educates and grows. Flexible capital participation allows the structure to be tailored to each operator's balance sheet strategy.</p>
+
+    <div class="structure-flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-title">MOU & Pre-Lease</div>
+        <div class="flow-desc">Operator signs a pre-lease agreement, demonstrating commitment while establishing the framework for partnership and operational expectations.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-title">Campus Design</div>
+        <div class="flow-desc">Developer funds and manages architectural design to operator's curriculum specifications, ensuring both functionality and regulatory compliance.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-title">Construction</div>
+        <div class="flow-desc">Developer bears all construction risk, cost overruns, and timeline management. Operator has zero exposure to build-phase risk.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-title">Long-Term Lease</div>
+        <div class="flow-desc">Indexed lease commences upon handover. Annual increases aligned to CPI or agreed escalators. Operator focuses exclusively on education delivery.</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <div class="section-tag">Capital Flexibility</div>
+      <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--white); margin-bottom: 2rem;">Three Partnership Models</h3>
+      <div class="models-grid">
+        <div class="model-card">
+          <div class="model-label">Model A</div>
+          <div class="model-title">Pure Lease</div>
+          <ul class="model-items">
+            <li>Developer funds 100% of construction</li>
+            <li>Operator signs long-term indexed lease</li>
+            <li>Zero operator capex or construction exposure</li>
+            <li>Full lease obligation from day one of operations</li>
+            <li>Fastest market entry path</li>
+          </ul>
+        </div>
+        <div class="model-card featured">
+          <div class="model-badge">Recommended</div>
+          <div class="model-label">Model B</div>
+          <div class="model-title">Equity + Reduced Lease</div>
+          <ul class="model-items">
+            <li>Operator contributes equity (e.g. 25–50% of build cost)</li>
+            <li>Lease obligation reduces proportionally to contribution</li>
+            <li>Operator gains partial asset ownership angle</li>
+            <li>Improved unit economics & faster EBITDA breakeven</li>
+            <li>Scalable across multiple locations</li>
+          </ul>
+        </div>
+        <div class="model-card">
+          <div class="model-label">Model C</div>
+          <div class="model-title">Full JV / Co-Investment</div>
+          <ul class="model-items">
+            <li>Structured as a true co-investment vehicle</li>
+            <li>Shared ownership of the education asset</li>
+            <li>Developer retains operational lease income rights</li>
+            <li>Operator participates in asset appreciation</li>
+            <li>Suitable for multi-campus platform ambitions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINANCIAL MODEL -->
+  <section id="financial" class="financial-section">
+    <div class="section-tag">Interactive Financial Model</div>
+    <h2 class="section-title">Financial Projections</h2>
+    <p class="section-desc">Adjust the parameters below to model returns across different capital contribution scenarios, enrollment ramp-ups, and fee structures. All figures are indicative and for discussion purposes only.</p>
+
+    <div class="fin-controls">
+      <div class="fin-controls-title">Model Parameters — Adjust to Explore Scenarios</div>
+      <div class="controls-grid">
+        <div class="control-group">
+          <label>Annual Lease (SAR M)</label>
+          <input type="range" id="leaseSlider" min="5" max="20" step="0.5" value="10" oninput="updateModel()">
+          <div class="control-value" id="leaseVal">SAR 10M</div>
+        </div>
+        <div class="control-group">
+          <label>Operator Equity Contribution (%)</label>
+          <input type="range" id="equitySlider" min="0" max="50" step="5" value="0" oninput="updateModel()">
+          <div class="control-value" id="equityVal">0% (Pure Lease)</div>
+        </div>
+        <div class="control-group">
+          <label>Enrollment Capacity (Students)</label>
+          <input type="range" id="enrollSlider" min="500" max="3000" step="100" value="1500" oninput="updateModel()">
+          <div class="control-value" id="enrollVal">1,500</div>
+        </div>
+        <div class="control-group">
+          <label>Average Annual Fee (SAR)</label>
+          <input type="range" id="feeSlider" min="20000" max="80000" step="5000" value="45000" oninput="updateModel()">
+          <div class="control-value" id="feeVal">SAR 45,000</div>
+        </div>
+        <div class="control-group">
+          <label>Occupancy at Steady State (%)</label>
+          <input type="range" id="occupSlider" min="50" max="95" step="5" value="80" oninput="updateModel()">
+          <div class="control-value" id="occupVal">80%</div>
+        </div>
+        <div class="control-group">
+          <label>Construction Cost (SAR M)</label>
+          <input type="range" id="buildSlider" min="30" max="150" step="5" value="60" oninput="updateModel()">
+          <div class="control-value" id="buildVal">SAR 60M</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fin-output" id="finOutput">
+      <div class="fin-metric">
+        <span class="fin-metric-val" id="metricRevenue">—</span>
+        <div class="fin-metric-label">Gross Revenue (SAR M)</div>
+      </div>
+      <div class="fin-metric">
+        <span class="fin-metric-val" id="metricLease">—</span>
+        <div class="fin-metric-label">Effective Annual Lease</div>
+      </div>
+      <div class="fin-metric">
+        <span class="fin-metric-val" id="metricEBITDA">—</span>
+        <div class="fin-metric-label">Est. EBITDA Margin</div>
+      </div>
+      <div class="fin-metric">
+        <span class="fin-metric-val" id="metricYield">—</span>
+        <div class="fin-metric-label">Developer Yield on Cost</div>
+      </div>
+    </div>
+
+    <div class="fin-chart-area">
+      <div class="chart-title">5-Year Revenue vs. Operating Cost vs. EBITDA Projection (SAR M)</div>
+      <div class="bar-chart" id="barChart"></div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>Revenue</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--blue);opacity:0.6"></div>Operating Costs</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4CAF50;opacity:0.8"></div>EBITDA</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSACTION PROCESS -->
+  <section id="process">
+    <div class="section-tag">Execution</div>
+    <h2 class="section-title">Transaction Process</h2>
+    <p class="section-desc">A structured six-stage execution framework from initial engagement through closing. Each stage has defined deliverables and documentation requirements.</p>
+
+    <div class="tx-grid">
+      <div class="tx-card">
+        <div class="tx-num">1</div>
+        <div class="tx-stage">Initial Engagement</div>
+        <div class="tx-title">Expression of Interest</div>
+        <ul class="tx-items">
+          <li>EOI submission</li>
+          <li>Introductory discussions</li>
+          <li>Asset overview sharing</li>
+        </ul>
+      </div>
+      <div class="tx-card">
+        <div class="tx-num">2</div>
+        <div class="tx-stage">Confidentiality Stage</div>
+        <div class="tx-title">NDA & Information Access</div>
+        <ul class="tx-items">
+          <li>Non-Disclosure Agreement</li>
+          <li>Information memorandum access</li>
+          <li>Preliminary evaluation</li>
+        </ul>
+      </div>
+      <div class="tx-card">
+        <div class="tx-num">3</div>
+        <div class="tx-stage">Commercial Alignment</div>
+        <div class="tx-title">LOI & Term Sheet</div>
+        <ul class="tx-items">
+          <li>Letter of Intent</li>
+          <li>High-level term sheet</li>
+          <li>Operator / Developer alignment</li>
+        </ul>
+      </div>
+      <div class="tx-card">
+        <div class="tx-num">4</div>
+        <div class="tx-stage">Due Diligence</div>
+        <div class="tx-title">Verification & Assessment</div>
+        <ul class="tx-items">
+          <li>Financial review</li>
+          <li>Technical assessment</li>
+          <li>Legal verification</li>
+        </ul>
+      </div>
+      <div class="tx-card">
+        <div class="tx-num">5</div>
+        <div class="tx-stage">Transaction Structuring</div>
+        <div class="tx-title">Definitive Agreements</div>
+        <ul class="tx-items">
+          <li>Final definitive agreements</li>
+          <li>Lease / Sale / Management structure</li>
+          <li>Final commercial negotiation</li>
+        </ul>
+      </div>
+      <div class="tx-card">
+        <div class="tx-num">6</div>
+        <div class="tx-stage">Closing & Execution</div>
+        <div class="tx-title">Agreement & Handover</div>
+        <ul class="tx-items">
+          <li>Agreement execution</li>
+          <li>Operator onboarding</li>
+          <li>Transaction completion</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEVELOPMENT TIMELINE -->
+  <section class="timeline-section">
+    <div class="section-tag">Delivery</div>
+    <h2 class="section-title">Development Timeline</h2>
+    <p class="section-desc">From pre-lease signing to school launch, the process is milestone-driven and aligned to the academic intake cycle.</p>
+
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 1</div>
+        <div class="tl-title">Pre-Lease Signing</div>
+        <div class="tl-desc">Finalize lease terms and secure operator commitment to move forward. Earnest deposit confirms prioritization.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 2</div>
+        <div class="tl-title">Design Finalization</div>
+        <div class="tl-desc">Complete architectural designs to operator's curriculum specifications. Obtain all necessary regulatory permits for construction.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 3</div>
+        <div class="tl-title">Construction Phase</div>
+        <div class="tl-desc">Execute construction with scheduled milestones. Developer manages all contractor relationships, costs, and timelines.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Phase 4</div>
+        <div class="tl-title">School Launch</div>
+        <div class="tl-desc">Prepare for opening aligned with the academic intake cycle. Handover, fit-out, staff onboarding, and enrollment commencement.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section">
+    <div class="contact-tag">Next Steps</div>
+    <div class="contact-name">Vishal Desai</div>
+    <div class="contact-title">Principal — Strategic Bilateral Transactions</div>
+    <div class="contact-divider"></div>
+    <div class="contact-sectors">
+      <span class="contact-sector">Real Estate</span>
+      <span class="contact-sector">Education</span>
+      <span class="contact-sector">Hospitality</span>
+      <span class="contact-sector">Healthcare</span>
+    </div>
+    <p style="font-size:0.9rem; color:var(--text-dim); line-height:1.8; max-width:500px; margin:0 auto;">
+      Ready to explore this opportunity? Let's discuss how the structure can be tailored to your expansion strategy and capital parameters.
+    </p>
+    <div class="contact-note">
+      This document is strictly confidential · For authorized recipients only · Dubai, UAE
+    </div>
+  </section>
+
+</div><!-- /main -->
+
+<script>
+  // ── PASSWORD ──
+  const PASSWORD = 'KSA2025';
+
+  function checkPw() {
+    const val = document.getElementById('pwInput').value;
+    if (val === PASSWORD) {
+      document.getElementById('gate').style.opacity = '0';
+      document.getElementById('gate').style.transition = 'opacity 0.6s';
+      setTimeout(() => {
+        document.getElementById('gate').style.display = 'none';
+        document.getElementById('main').style.display = 'block';
+        updateModel();
+      }, 600);
+    } else {
+      const err = document.getElementById('pwError');
+      err.classList.add('show');
+      document.getElementById('pwInput').value = '';
+      setTimeout(() => err.classList.remove('show'), 3000);
+    }
+  }
+
+  // ── FINANCIAL MODEL ──
+  function updateModel() {
+    const lease = parseFloat(document.getElementById('leaseSlider').value);
+    const equity = parseInt(document.getElementById('equitySlider').value);
+    const enroll = parseInt(document.getElementById('enrollSlider').value);
+    const fee = parseInt(document.getElementById('feeSlider').value);
+    const occup = parseInt(document.getElementById('occupSlider').value) / 100;
+    const build = parseFloat(document.getElementById('buildSlider').value);
+
+    // Labels
+    document.getElementById('leaseVal').textContent = `SAR ${lease}M`;
+    document.getElementById('equityVal').textContent = equity === 0 ? '0% (Pure Lease)' : `${equity}% Contribution`;
+    document.getElementById('enrollVal').textContent = enroll.toLocaleString();
+    document.getElementById('feeVal').textContent = `SAR ${(fee/1000).toFixed(0)}K`;
+    document.getElementById('occupVal').textContent = `${occup*100}%`;
+    document.getElementById('buildVal').textContent = `SAR ${build}M`;
+
+    // Effective lease after equity discount
+    const effectiveLease = lease * (1 - equity / 100);
+
+    // Revenue at steady state
+    const grossRevenue = (enroll * occup * fee) / 1e6; // SAR M
+
+    // Operating cost est: teacher salaries, admin, utilities (~55% of revenue) + effective lease
+    const opCost = grossRevenue * 0.55 + effectiveLease;
+    const ebitda = grossRevenue - opCost;
+    const ebitdaMargin = (ebitda / grossRevenue * 100);
+
+    // Developer yield
+    const devYield = (lease / build * 100);
+
+    document.getElementById('metricRevenue').textContent = `SAR ${grossRevenue.toFixed(1)}M`;
+    document.getElementById('metricLease').textContent = `SAR ${effectiveLease.toFixed(1)}M`;
+    document.getElementById('metricEBITDA').textContent = `${ebitdaMargin.toFixed(1)}%`;
+    document.getElementById('metricYield').textContent = `${devYield.toFixed(1)}%`;
+
+    // 5-year bar chart
+    renderChart(grossRevenue, opCost, ebitda);
+  }
+
+  function renderChart(baseRev, baseCost, baseEBITDA) {
+    const chart = document.getElementById('barChart');
+    chart.innerHTML = '';
+
+    const rampUp = [0.35, 0.55, 0.72, 0.88, 1.0]; // enrollment ramp
+    const years = ['Y1','Y2','Y3','Y4','Y5'];
+
+    const allRevs = rampUp.map(r => baseRev * r);
+    const allCosts = rampUp.map((r,i) => {
+      // Fixed cost base (lease) + variable costs ramp with enrollment
+      const varCost = (baseCost - parseFloat(document.getElementById('leaseSlider').value) * (1 - parseInt(document.getElementById('equitySlider').value)/100));
+      const fixedLease = parseFloat(document.getElementById('leaseSlider').value) * (1 - parseInt(document.getElementById('equitySlider').value)/100);
+      return varCost * r + fixedLease;
+    });
+    const allEBITDA = allRevs.map((rev, i) => Math.max(0, rev - allCosts[i]));
+
+    const maxVal = Math.max(...allRevs);
+
+    years.forEach((yr, i) => {
+      const group = document.createElement('div');
+      group.className = 'bar-group';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'bar-wrap';
+
+      const bRev = document.createElement('div');
+      bRev.className = 'bar bar-income';
+      bRev.style.height = `${(allRevs[i]/maxVal)*180}px`;
+      bRev.title = `Revenue: SAR ${allRevs[i].toFixed(1)}M`;
+
+      const bCost = document.createElement('div');
+      bCost.className = 'bar bar-cost';
+      bCost.style.height = `${(allCosts[i]/maxVal)*180}px`;
+      bCost.title = `Costs: SAR ${allCosts[i].toFixed(1)}M`;
+
+      const bProfit = document.createElement('div');
+      bProfit.className = 'bar bar-profit';
+      bProfit.style.height = `${(allEBITDA[i]/maxVal)*180}px`;
+      bProfit.title = `EBITDA: SAR ${allEBITDA[i].toFixed(1)}M`;
+
+      wrap.append(bRev, bCost, bProfit);
+
+      const lbl = document.createElement('div');
+      lbl.className = 'bar-label';
+      lbl.textContent = yr;
+
+      group.append(wrap, lbl);
+      chart.appendChild(group);
+    });
+  }
+</script>
+</body>
+</html>
