@@ -1,1 +1,2123 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MARVINA Intelligence Engine | Auremont Capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:         #04040A;
+      --bg2:        #07070F;
+      --gold:       #C8A96E;
+      --gold-bright:#F0C040;
+      --gold-dim:   rgba(200,169,110,0.15);
+      --gold-border:rgba(200,169,110,0.25);
+      --white:      #F4F1EA;
+      --muted:      #7A766E;
+      --muted2:     #4A4640;
+      --red-flag:   #E05C4A;
+      --green-flag: #4ABD8A;
+      --font-tech:  'Orbitron', sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-body:  'DM Sans', sans-serif;
+      --font-mono:  'Space Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ─── SCAN INTRO OVERLAY ──────────────────────────── */
+    #scan-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    #scan-line {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-bright), transparent);
+      box-shadow: 0 0 30px var(--gold-bright), 0 0 60px var(--gold);
+      animation: scanDown 1.4s ease-in-out forwards;
+    }
+    @keyframes scanDown {
+      0%   { top: 0; opacity: 1; }
+      90%  { top: 100%; opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+    #overlay-logo {
+      font-family: var(--font-tech);
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeInOut 1.8s ease forwards 0.4s;
+    }
+    @keyframes fadeInOut {
+      0%   { opacity: 0; transform: translateY(6px); }
+      40%  { opacity: 1; transform: translateY(0); }
+      80%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    #scan-overlay.done {
+      animation: overlayFade 0.5s ease forwards;
+    }
+    @keyframes overlayFade {
+      to { opacity: 0; pointer-events: none; }
+    }
+
+    /* ─── CANVAS NETWORK BACKGROUND ─────────────────── */
+    #network-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1.5s ease 1.8s;
+    }
+    #network-canvas.visible { opacity: 1; }
+
+    /* ─── MAIN CONTENT ───────────────────────────────── */
+    main { position: relative; z-index: 1; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+      pointer-events: none;
+    }
+
+    .acap-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: riseIn 0.8s ease forwards 2.0s;
+    }
+
+    .marvina-title {
+      font-family: var(--font-tech);
+      font-size: clamp(3.5rem, 12vw, 9rem);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      color: var(--white);
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      animation: riseIn 1s ease forwards 2.2s;
+    }
+
+    .marvina-title .letter {
+      display: inline-block;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .marvina-title .letter:hover {
+      color: var(--gold-bright);
+    }
+
+    .marvina-title::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .marvina-sub {
+      font-family: var(--font-serif);
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-top: 2rem;
+      opacity: 0;
+      animation: riseIn 0.8s ease forwards 2.5s;
+    }
+
+    .marvina-acronym {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-top: 1.2rem;
+      opacity: 0;
+      animation: riseIn 0.8s ease forwards 2.65s;
+    }
+    .marvina-acronym-word {
+      font-family: var(--font-mono);
+      font-size: clamp(0.48rem, 1.1vw, 0.65rem);
+      letter-spacing: 0.15em;
+      color: rgba(200,169,110,0.55);
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+    .marvina-acronym-word:hover { color: var(--gold-bright); }
+    .marvina-acronym-sep {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      color: rgba(200,169,110,0.2);
+      margin: 0 0.6rem;
+    }
+
+    .hero-tagline {
+      max-width: 640px;
+      margin: 3rem auto 0;
+      font-family: var(--font-serif);
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: rgba(244,241,234,0.75);
+      opacity: 0;
+      animation: riseIn 0.8s ease forwards 2.8s;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: riseIn 0.8s ease forwards 3.1s;
+    }
+
+    .badge {
+      border: 1px solid var(--gold-border);
+      padding: 0.5rem 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      background: var(--gold-dim);
+      backdrop-filter: blur(4px);
+    }
+
+    .scroll-prompt {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: riseIn 0.8s ease forwards 3.4s;
+    }
+    .scroll-prompt span {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite 3.5s;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.2); }
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── ACRONYM SECTION ────────────────────────────── */
+    .section {
+      padding: 7rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gold-border);
+      max-width: 80px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    /* ─── ACRONYM GRID ───────────────────────────────── */
+    .acronym-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1px;
+      background: var(--gold-border);
+      border: 1px solid var(--gold-border);
+      margin-top: 4rem;
+    }
+
+    .acronym-item {
+      background: var(--bg);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+
+    .acronym-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold-dim);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .acronym-item:hover::before { opacity: 1; }
+
+    .acronym-letter {
+      font-family: var(--font-tech);
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--gold-bright);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      opacity: 0.15;
+      transition: opacity 0.4s;
+    }
+    .acronym-item:hover .acronym-letter { opacity: 1; }
+
+    .acronym-word {
+      font-family: var(--font-tech);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .acronym-desc {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(244,241,234,0.65);
+      font-weight: 300;
+    }
+
+    /* ─── FULL-WIDTH DIVIDER ─────────────────────────── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+    }
+
+    /* ─── PROBLEM SPACE ──────────────────────────────── */
+    .problem-section {
+      background: var(--bg2);
+      padding: 7rem 2rem;
+    }
+    .problem-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .problem-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .problem-statement {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--white);
+    }
+    .problem-statement em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .pain-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .pain-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.2rem 1.5rem;
+      border-left: 2px solid var(--red-flag);
+      background: rgba(224,92,74,0.05);
+    }
+    .pain-item .icon {
+      color: var(--red-flag);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .pain-item p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: rgba(244,241,234,0.7);
+    }
+    .pain-item strong {
+      display: block;
+      color: var(--white);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    /* ─── PERSONAS ───────────────────────────────────── */
+    .personas-section {
+      padding: 7rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .personas-intro {
+      max-width: 680px;
+      margin-bottom: 5rem;
+    }
+    .personas-intro p {
+      font-family: var(--font-serif);
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(244,241,234,0.7);
+      margin-top: 1.2rem;
+    }
+
+    .persona-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--gold-border);
+      margin-bottom: 3rem;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 1rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--white); }
+    .tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+
+    @media (max-width: 768px) {
+      .tab-content.active { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .persona-challenge {
+      padding: 2.5rem;
+      border: 1px solid var(--gold-border);
+      background: linear-gradient(135deg, var(--gold-dim) 0%, transparent 100%);
+      position: relative;
+    }
+    .persona-challenge::before {
+      content: attr(data-role);
+      position: absolute;
+      top: -0.75rem;
+      left: 1.5rem;
+      background: var(--bg);
+      padding: 0 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .persona-challenge h3 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 400;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .persona-challenge p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: rgba(244,241,234,0.65);
+      font-weight: 300;
+    }
+
+    .solve-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .solve-item {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+    }
+    .solve-num {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--gold);
+      padding: 0.3rem 0.5rem;
+      border: 1px solid var(--gold-border);
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 2px;
+    }
+    .solve-text strong {
+      display: block;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      color: var(--white);
+    }
+    .solve-text p {
+      font-size: 0.85rem;
+      color: rgba(244,241,234,0.6);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    /* ─── HOW IT WORKS ───────────────────────────────── */
+    .how-section {
+      background: var(--bg2);
+      padding: 7rem 2rem;
+    }
+    .how-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .process-track {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      margin-top: 5rem;
+      position: relative;
+    }
+
+    @media (max-width: 900px) {
+      .process-track { flex-direction: column; }
+    }
+
+    .process-step {
+      flex: 1;
+      padding: 3rem 2rem;
+      border: 1px solid var(--gold-border);
+      position: relative;
+      text-align: center;
+      background: var(--bg);
+      transition: background 0.4s;
+      margin: 0 -1px;
+    }
+    .process-step:hover {
+      background: var(--gold-dim);
+      z-index: 1;
+    }
+
+    .step-num {
+      font-family: var(--font-tech);
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--gold-border);
+      line-height: 1;
+      margin-bottom: 1rem;
+      transition: color 0.4s;
+    }
+    .process-step:hover .step-num { color: var(--gold); }
+
+    .step-title {
+      font-family: var(--font-tech);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .step-desc {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(244,241,234,0.6);
+      font-weight: 300;
+    }
+
+    .step-arrow {
+      display: flex;
+      align-items: center;
+      padding: 0 0.5rem;
+      color: var(--gold-border);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+    @media (max-width: 900px) {
+      .step-arrow { transform: rotate(90deg); align-self: center; }
+    }
+
+    /* ─── CONFIDENCE INDEX ───────────────────────────── */
+    .confidence-section {
+      padding: 7rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .mci-display {
+      margin: 4rem auto;
+      position: relative;
+      width: 240px;
+      height: 240px;
+    }
+    .mci-ring {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    .mci-track {
+      fill: none;
+      stroke: var(--muted2);
+      stroke-width: 6;
+    }
+    .mci-fill {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 659;
+      stroke-dashoffset: 659;
+      filter: drop-shadow(0 0 8px var(--gold));
+      transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mci-fill.animated {
+      stroke-dashoffset: 98.85; /* 659 * (1 - 0.85) */
+    }
+    .mci-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .mci-number {
+      font-family: var(--font-tech);
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--gold-bright);
+      line-height: 1;
+    }
+    .mci-label {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+    }
+
+    .confidence-text {
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: var(--font-serif);
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(244,241,234,0.75);
+    }
+
+    /* ─── SECTORS ────────────────────────────────────── */
+    .sectors-section {
+      background: var(--bg2);
+      padding: 7rem 2rem;
+    }
+    .sectors-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .sectors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .sector-card {
+      border: 1px solid var(--gold-border);
+      padding: 2rem 1.75rem;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .sector-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+
+    .sector-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .sector-card:hover::before { opacity: 1; }
+
+    .sector-icon {
+      font-size: 2rem;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+    .sector-name {
+      font-family: var(--font-tech);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .sector-desc {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: rgba(244,241,234,0.55);
+      font-weight: 300;
+    }
+    .sector-card.priority .sector-name::after {
+      content: ' · PRIMARY';
+      color: var(--gold-bright);
+      font-size: 0.55rem;
+    }
+
+    .sector-card.soon {
+      border-style: dashed;
+      opacity: 0.6;
+    }
+    .sector-card.soon::after {
+      content: 'COMING SOON';
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    /* ─── OUTPUT PREVIEW ─────────────────────────────── */
+    .output-section {
+      padding: 7rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dir-preview {
+      margin-top: 4rem;
+      border: 1px solid var(--gold-border);
+      background: #060610;
+      overflow: hidden;
+      font-family: var(--font-mono);
+    }
+
+    .dir-header {
+      background: var(--gold-dim);
+      border-bottom: 1px solid var(--gold-border);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dir-header-title {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .dir-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--green-flag);
+      text-transform: uppercase;
+    }
+    .dir-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green-flag);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    .dir-body {
+      padding: 2rem 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .dir-metric {
+      padding: 1.5rem;
+      border: 1px solid rgba(200,169,110,0.1);
+      background: rgba(200,169,110,0.03);
+    }
+    .dir-metric-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .dir-metric-value {
+      font-size: 1.6rem;
+      color: var(--gold-bright);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .dir-metric-sub {
+      font-size: 0.6rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .dir-flags {
+      padding: 1.5rem;
+      border: 1px solid rgba(200,169,110,0.1);
+      background: rgba(200,169,110,0.03);
+    }
+    .dir-flags-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .flag-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      color: rgba(244,241,234,0.6);
+      margin-bottom: 0.5rem;
+    }
+    .flag-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .flag-dot.g { background: var(--green-flag); }
+    .flag-dot.a { background: #F0A040; }
+    .flag-dot.r { background: var(--red-flag); }
+
+    /* ─── CTA SECTION ────────────────────────────────── */
+    .cta-section {
+      background: var(--bg2);
+      padding: 8rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: 'MARVINA';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-tech);
+      font-size: clamp(8rem, 20vw, 18rem);
+      font-weight: 900;
+      color: rgba(200,169,110,0.03);
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: 0.1em;
+    }
+
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .cta-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    .cta-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .cta-subtitle {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(244,241,234,0.55);
+      font-weight: 300;
+      margin-bottom: 3rem;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid var(--gold);
+      padding: 1.1rem 2.5rem;
+      font-family: var(--font-tech);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+      z-index: -1;
+    }
+    .cta-btn:hover {
+      color: var(--bg);
+    }
+    .cta-btn:hover::before {
+      transform: translateX(0);
+    }
+    .cta-btn svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s;
+    }
+    .cta-btn:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ─── FOOTER BAR ─────────────────────────────────── */
+    .page-footer {
+      border-top: 1px solid var(--gold-border);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-brand {
+      font-family: var(--font-tech);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .footer-note {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--muted2);
+    }
+
+    /* ─── REVEAL ON SCROLL ───────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── WORKFLOW ANIMATION SECTION ────────────────── */
+    .workflow-section {
+      padding: 7rem 2rem;
+      background: var(--bg2);
+    }
+    .workflow-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .workflow-subtitle {
+      max-width: 640px;
+      margin-top: 1rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: rgba(244,241,234,0.55);
+    }
+    .workflow-canvas-wrap {
+      margin-top: 3.5rem;
+      border: 1px solid var(--gold-border);
+      background: #04040A;
+      overflow: hidden;
+      position: relative;
+    }
+    .workflow-canvas-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M 28 0 L 0 0 0 28' fill='none' stroke='rgba(200,169,110,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .workflow-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--gold-border);
+      background: rgba(200,169,110,0.04);
+    }
+    .ws-left {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .ws-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .ws-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .ws-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .ws-dot.run  { background: var(--green-flag); box-shadow: 0 0 6px var(--green-flag); animation: wsBlink 1.5s ease-in-out infinite; }
+    .ws-dot.gold { background: var(--gold); }
+    .ws-dot.blue { background: #60A5FA; }
+    .ws-dot.purple { background: #A78BFA; }
+    @keyframes wsBlink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* inline SVG workflow */
+    .wf-svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .wf-layer-label { font-family: 'Space Mono', monospace; font-size: 8px; fill: #4A4640; letter-spacing: 0.25em; text-transform: uppercase; }
+    .wf-sep { stroke: rgba(200,169,110,0.06); stroke-width: 1; stroke-dasharray: 3 6; }
+    .wf-conn { fill: none; stroke-width: 1.5; stroke-dasharray: 6 5; animation: wfDash 1.8s linear infinite; }
+    .wf-conn.fast   { animation-duration: 1.2s; }
+    .wf-conn.slow   { animation-duration: 2.4s; }
+    .wf-conn.final  { animation-duration: 1s; }
+    @keyframes wfDash { to { stroke-dashoffset: -22; } }
+    .wf-particle { filter: url(#wf-glow); }
+    .wf-node-body { fill: #07071A; stroke-width: 1; rx: 8; }
+    .wf-node-body.inp  { stroke: rgba(59,130,246,0.45); }
+    .wf-node-body.prc  { stroke: rgba(200,169,110,0.45); }
+    .wf-node-body.ai   { stroke: rgba(139,92,246,0.55); }
+    .wf-node-body.out  { stroke: rgba(52,211,153,0.55); }
+    .wf-nt { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; fill: rgba(255,255,255,0.9); letter-spacing: 0.05em; }
+    .wf-nd { font-family: 'DM Sans', sans-serif; font-size: 8.5px; fill: #6B6862; font-weight: 300; }
+    .wf-tag { font-family: 'Space Mono', monospace; font-size: 7.5px; fill: rgba(255,255,255,0.5); letter-spacing: 0.08em; }
+    .wf-pulse { fill: none; stroke-width: 1; }
+    .wf-mci-badge { font-family: 'Space Mono', monospace; font-size: 7.5px; fill: #F0C040; letter-spacing: 0.1em; }
+
+    /* ─── NAV BAR ────────────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 70px;
+      background: rgba(4,4,10,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gold-border);
+    }
+    .nav-logo img { height: 38px; width: auto; display: block; }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .nav-engage {
+      border: 1px solid rgba(200,169,110,0.35);
+      padding: 0.5rem 1.25rem;
+      font-family: var(--font-tech);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .nav-engage:hover { color: var(--white); border-color: var(--muted); }
+    .nav-marvina-wrap { position: relative; display: inline-block; }
+    .nav-marvina-btn {
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.5rem 1.4rem;
+      font-family: var(--font-tech);
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      color: #04040A;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .nav-marvina-btn:hover { background: var(--gold-bright); border-color: var(--gold-bright); }
+    .nav-tooltip {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: #0E0E1A;
+      border: 1px solid rgba(200,169,110,0.38);
+      padding: 10px 16px 11px;
+      min-width: 360px;
+      white-space: nowrap;
+      z-index: 2000;
+      pointer-events: none;
+    }
+    .nav-tooltip::before {
+      content: '';
+      position: absolute;
+      top: -5px; right: 20px;
+      width: 8px; height: 8px;
+      background: #0E0E1A;
+      border-left: 1px solid rgba(200,169,110,0.38);
+      border-top: 1px solid rgba(200,169,110,0.38);
+      transform: rotate(45deg);
+    }
+    .nav-tooltip-title {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+      border-bottom: 1px solid rgba(200,169,110,0.15);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-tooltip-ai { font-family: var(--font-mono); font-size: 7.5px; font-weight: 700; letter-spacing: 0.12em; color: #04040A; background: var(--gold); padding: 2px 7px; }
+    .nav-tooltip-sub { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; color: rgba(244,241,234,0.45); }
+    .nav-marvina-wrap:hover .nav-tooltip { display: block; }
+
+    /* ─── CURSOR GLOW ────────────────────────────────── */
+    .cursor-glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      transform: translate(-50%, -50%);
+      transition: left 0.15s ease, top 0.15s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SITE NAV -->
+  <nav class="site-nav">
+    <div class="nav-logo">
+      <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAFeArwDASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAYHBAUIAwIB/8QAVxAAAQMDAQQGBAcMCAMGBQUAAQACAwQFEQYHEiExE0FRYXGBFSKRoRQyQlJTsbIIIzM1YnJ0gpSiwdIWJDZzksLh8GOz0SUmZHWTwzdVhLTxF0NEVGX/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAwQFAgEG/8QANxEAAgIBAgMDCQgDAQEBAAAAAAECAxEEMRITIQVBURQiMlJhcYGR8BUzNFOhscHRI0LhciRi/9oADAMBAAIRAxEAPwChUREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAWTRUFdXF4oqKpqTGN5/QxOfujtOBwC+KGlqK2shpKWJ0s8zwyNjeZJXSGhtOU+mbDFQx7r53evUSj5b+vyHIKlrdYtNFd7ZPRS7X7DmoggkEYIX4rQ22aT+C1P8ASOgixBM4Cra0fEeeT/A9ff4qr1Pp7431qcSOyt1y4WERFMcBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAERTHZZpQ6jvXT1TD6NpCHTE8pHdTPPr7vEKO22NUHOWyOoRc3hE12K6S+B0o1FXxYqJ24pWuHxIz8vxd1d3irOWFRV0NTXVNLTAGOj3Y5HN5CQjO4PAYz+cOxZq+R1N07rHOZs1QUI4R4VlNTV9DLS1EbZqedha9p5OaQub9cadqNNX6Wgk3nQn16eUj47Dy8xyPeFdWzu6yXXTlVTNlAqqKolpw48cDJLDjswQP1Vi6lttLr7R3SQMbFcadzgxrjximbwfE49hxj2FXdHbLSWuMvRzh/wyvdBXQTW5QSL7mikhmfDMx0ckbi17XDBaRwIK+F9KZgREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQGdY7ZV3m609tomb807t0djR1k9wHFXXqGvoNnWiYaC37rqx7SyDI4vk+VK7w/6BY2zWwU2kdNT6hvOIamWLfkLhxhi5hv5x4ZHbgdShdoqKnX206nqKpp+DMf0nRHiI4WcQ3zOAe9yxrprU2PP3cN/ay7CPKivWl+hbmhLZJatL0lPUFzqqRpnqXO4udI87zs9pGceS3iIsGc3OTk+80IrhWEUtslu3wLaBcLdI7EVe+RoH/Ea4lvu3h5hby63Q6K2nSSTEttF5a2SXsjk5F/iDxPc7uCqyWslt+qZK+A4lp60ys8Q/KtrbDRw3zQtLfaQb/wAH3J2Hr6KQAH62nyW9qKoq+LltNYfv7v4M+uTdbxvHqajbZpUA/wBJ7ewFj8Csa3l2Nk8+APke1VQrl2Palhu9pk0tdi2WSOIthD+IlhxgsPeB7vBV5tA01Npm/wAlJhzqWXMlNIflM7D3jkfb1qfRWyhJ6ezdbe1Ed8VJcyOzI6iItIrBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAVh7G9Jelrj6aros0NI/701w4Syj+A5+OO9RPSNhqtR3yG202Whx3pZMZEbBzcf4d5CtvaLfaXRml4LDZsRVUsXRxBp4xR9bz+UTnB7cnqWfrbpZVFfpS/RFmiC+8lsiJ7ZtW+k682KglzR0r/AL85p4SyDq8G/XnsC3+wO0dDa6y9Ss9eof0MRPzG8SR4nh+qqegiknnZDE0vkkcGtaOZJOAF1Bpu2x2ew0VsjxinhDCR8p3yj5nJ81U1/DptMqYd5Lp822ubNgiIsA0Dla8fjes/SH/aKuTZDVw37QdVYqs73wffp3jr6J4JB97h5Km7x+N6z+/f9oqW7F7t6O1lHSvdiGvYYTnlvc2n2jH6y+r11Ts0/TddfkZNE+Gzr3kXJrtP393RvMNZQ1BaHDqc048x9YV1VcVBtK0G2WHcjrWcWf8ABnA4tP5J+og8woJtytPwHVbLhG3EVfEHE/8AEbhrvdunzWq2aaofpq+tdM5xoKnDKlvYOp47x9WVFdB6mmN9fpLr/aOoNVTdctmRqqgmpamWmqI3RTRPLHscOLXA4IXkrd206XZU07dU2xrX4aPhQZxD2/JkHuB7sHqKqJXNNqI31qa+JDbW65YYREVgjCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIizLNbqq73Snt1FHvzzv3WjqHaT3AcT4LxtJZYSz0M7TOl71qJ0vouk6RkXx5HODWg9QyevuWtuFHVW+slo62B8FRE7dex4wQV0tpu0UWm7BFQQFrYoGF0sruG+7m55/3wHgtfrrR9v1RR/fAIK6MYhqWjiPyXdrfq6liw7XXNakvNLz0fmdNznFfUTHyyNjjY573kNa1oySTyAWfqCzXCxXJ9BcoDFK3iDza8dTmnrCsTYppMPeNTXGPEbCRRtcOBI5yeXId+T1Bad+phVVzN13e0qwqlOfCSPS9todnmi5rlct34ZI0PnweLnfJib4fXk8lS1/utXe7vUXOtfvTTOzgcmjqaO4DgpLtW1YdQ3j4LSSZttI4tiweEruRf/Ad3iolQ0lTXVcVJRwvnnldusYwZJKg0dDgndb6Uv0RJfNNqEdkS7Y1aPSesoqiRmYaFpndnlvcmD2nP6qv9RLZjpR2l7NIypex9bVOD5i3k0AcGZ68ZPHvUtWF2hqFfc3HZdEX9PXwQw9wiIqJOcrXj8bVn9+/7RXjSTy0tVFUwO3ZYXiRjuxwOQV63f8bVn9+/7RWKvuIrMUYT3Ly2lwRam2aw3mmbl8LGVbQOJDSMPb5Akn81Uart2IVfpLR1ZaKqNz4aeR0YyPVcyQElvt3vaFVOq7BX6duslFWwva3ePQyY9WVmeDgf4dSzdBJVTnp29n09xZ1C4lGxd5ZGxjU8dbRu0rdHNkLWH4Nv8RJHj1oz24Gcd2exQjaRpiTTN+dFG1xoajMlK89nW094+rB61HaOpno6uKqppHRTQvD43t5tI4gq9InUG0rQRa7cirWc/wDgTgc/zT9R7QvLk9HdzV6Mt/Y/E9h/mhwPdbFCovevpKihrZqKqidFPC8sew8wQrP2a7Og5sd61JFuxgb8NI/hn8qTu/J9vYr1+prphxyf/SCuqU5YRD7XoXU1ys/pSkt5dARljXPDXyDtaDzH19WVGnAtcWuBBBwQeYXV1LLFPTxzQODontBY4ciOojuVN7atKfAa3+kNDHimqXYqWtHBkh+V4O+vxWfo+0nba4TWM7f0WLtKoR4olaIiLXKYREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAFeOyDS7LHaDe7iwMrKtg3A4cYozyHi7gfYO1QjZFpT07d/SNZHm3UbgSCOEsnMN8BzPkOtWVLdvTmvYrJRu3qK1A1FY4cnyjgxn6pOfFvcsftG9zzTDu6v+i7pq8ee/geG2i6+jtGSUzHYlrniEY57vNx9gx+ssnZ1fZtQaLZJHM0XGnaYJC/iN9o9Vx7QRgnzVdbdLr8M1VHbmOzHQxAEflvw4+7d9ixNjt+9D6qZSzP3aWvxC/J4B/wAg+04/WUK0WdEml52/18Dt34vx3bFlwTaf2gW2S33Om6GvpHkT05diWB4OCWnrbkYz7VpNr+pobPamaXtBbFLJEGzdHwEMOMBg7CR7vELTbZrXVWTUkGo7ZLNTfCxuvkhcWlkoGDxHLeb9RUN05Y7vqu8GGm35pHHeqKiVxIYD8pzus+8rvTaatqNzl5i648Gc22yy4Jed4mFZLVX3q4x0FugdNO/qHJo6yT1Adquux2awbObE+43GZslY9u6+bGXPP0cY7Pr5nhy+ydObMtO4H32rlHd0tS8fZaPYO8njV0V1uWs9d203GTebJVMa2JvxIo94EgDwHPrXc5z1uWula/U8jGNHtl+xflbcqahZRmtd0Bq5mwMB+kcCQ0+whZqqn7oGucyK0UMbyHF75zg4IIwGn3uUu2a6kbqTTkc0rwa2nxFUjrLscHeDhx8c9iyJ6VqiNy7y5G1OxwJQiIqhKcq3f8bVn9+/7RXnQ0s9bWQ0dNGZJ5nhkbR1knAXpd/xrWf37/tFWdsN02PvmpqxgDW5jpN72Of/AJR+svsb71RTxsxq63ZPhJHcail2cbP44Kfo5KwjdjyPwszvjOPcPqAC87BqDT20K0OtV1p446zdy6BxwcgfHid/sjryOdZbTtSHUeo3vheTQ02YqYdRHW/zPuAWTsatvw/XFPK5uY6Njqh3iODfe4HyWa9Eo6d22PE98/wWee3ZwR9HY8de6HuOmJjO3eqra53qVAHFvYHjqPfyPuWNs81NLpm/MqXFzqObEdVGOtvzh3jn7R1royeKKeF8M8bJYntLXseMhwPUQqd2ibNZaLpLnp6N81NxdJSji+Pvb84d3Md/U02vhfHk39/f4/8ARbp3W+OssSssemqm6x6uqWwudHAHiZzh0RA4tkPUSByPh2BRGTUNRr7VLLDbOkhsUR6Ssk4h1QwHkexpOBjnxyewVM643A0At7q6qNGDkU5ld0YP5ucK6dn9vp9GaCnvVxbuTzR/CJgeDg3H3uPx4+1y4t03k0eKT4pbR9h1C3mvCWFuz21prKOy6sstmgc1sfStdW45NY4FrW+Wd7yCmNyo6a40E1DWRiSCdhY9p6wf4rl+8XCout0qbjVu3pqiQvd2DPIDuA4eSvq23Wru+zenvFE7er4IBLj58kXB7T+dhw8HKLV6Lkwrcd9m/adU38bkmUnrGw1OnL7PbZ8uaPWhkx+EjPI/wPeCtMr41ZbKLaBoqC52wA1bGGSnz8YO+VEfZjxAPJUS9rmPcx7S1zTggjBB7Fr6PU86GJekujKd9fBLps9j5REVwhCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgC2GnbTV3y8U9so25lmdguI4Mb1uPcAsBXjs5sVLo3S09+vOIqqWLpJi4cYo+bWDvPDI7cDqVXWankQyt3sS01cyXsPbWF0otAaMgtdrwKuRhjp888/Kld7c+JHUsXYzSMtej62/1pINU98r3u59HGDxPnvlVZqO7V2rNTGpe0mSokbFTxZ4MaThrR7faSrX2nzxab2bQ2amdh0rWUjMcy0DLz5gYP5yy7dO4VxpfpTfUtxs4pOfdFdCmLvWy3K61Vwm/CVErpHd2TnCxWktIc0kEcQR1L8Uz2d6Fq9SzNq6rfprWx3rSYw6XHNrP4nq71s2WQphxS6JFKMZTlhbll2r4NtC2dRw1khZMcRyyAZMczMesPEcfBy8r9erDs5sTLZbYGSVjm5jhzlzj9JIf955DA5TK20NJbaGKioYGQU8QwxjRwH/U96pTbdY32/UwukYcae4N3iee7I0AOHswfb2L53SqGou5beIZbSNG3irhxLfxIZerpXXm4yV9xqHTTyHiTyA6gB1AdilWxOj+Fa6hmIyKWCSY+zcH2lCFbP3PlH612uDh1RwsPtLv8q2tdJVaaWPDH8FKhOVqyaHbjWfCdbmnB4UtPHHjvOX/AOYLVbONRu03qOKokcfgc33qpb+ST8bxB4+0dawtb1nw/V91qgctdVPDT2tad0e4BZeg9J1mqbn0Ue9FRxEGonxwaOwdrj/qihXDSqNm2OocpStzHfJ0cxzXsa9jg5rhkEHIIX0tZbJ7VQzxacpKlvT0tM1zYC8ue2MYAJJ8ls18pJYZrp5OarVZajUGs32yDI6SpeZH4+IwOO872e/Cs7axeqfTeloNOWvEUtRF0Qa08Y4BwJ8Ty/xLM0HZqfS1nuWobpiKaoc+Z5cOMcIJLW+J547wOpU1qm81F/vtTdKnIMrvUZngxg+K0eAX0MP/AK716kP1f19dTNf+Gv2v9jVq59gNt6Gz191e31qiURMJ+awZJHiXe5UwumtD230RpK20BbuvZAHSD8t3rO95K67Wt4aeHxPNHHM8+BukRF80aZD77s+slzv9NdwzoHMlElTExvqVGOPEdRJxk9Yz18VD9u+oTJUw6cp3+pFiapx1uI9VvkDnzHYrP1Jd6axWSpulVxZC3IaDgvceAaPErQXqw2XX+naa4hjqeeWLep6jdG+z8lw+UM9XsWjpb3GcbLsuK6L2Mr21ppxhuzntW7sAuu9BcLLI7i0ipiB7D6rv8vtVcan09c9O3A0dyh3c5McjeLJB2tP8OYWbs3uvofWdvqXO3YnydDL2br/VyfAkHyW7q4LUad8PXvRn0yddiyTDTF2/oRtCuGnqt25a6mo9TPKIu4sd4YIB/wBF57bNKfBKr+kdDHiCd2KtrR8R55P8Hdff4r12/wBq3Ku33qNvCRpp5T3j1m+0F3sW62Wagp9T6dm05eMTVEMXRkPPGaHkD4jl7Cs/jcYw1cPdL+yzhNumXwKRRbvWun6jTd+mt02XRfHgkI/CRnkfHqPeFpFtQmpxUo7MoyTi8MIiLo8CIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgC/QCTgcSvxXJsY0eKWnbqK5Qjp5W/1Rjh8Rh+X4nq7vFV9TqY6evjkSVVOyWEU7Ix8byyRjmOHMOGCF8rofaJoul1PRdLFuQXOJv3mbHB4+Y7u7+r2hUrZdL3S4apbp98D6epa/E+8PwTRzce7HLtyO1RabXV3Qcn0xud20ShLG+STbGtJ+lbl6aros0VI/wC9NcOEso4jybz8cd6+9s+rPSdx9BUMuaOkf9+c08JJR1eDeXjnsCl20G90uidJwWOz4iqpY+jgAPGNnypD3k5we0k9Sow8TkqDSxept8onsvRX8klrVUeWt+8muxm1ekdaQ1D25ioWGd2eW9yb7znyWXt0uvwzVMVuY7MdBEAR+W/Dj7t32KV7FKGO1aNq75UjcFS50hdjlFGCPr31jaO0Q+43OfVWq4g0zyuqI6STkMnOZO4fN9vYoZ6iC1MrZ7R6L3/WTtVydSgu/qaHZrs8lu5jut6Y+K3/ABo4TwdP39ze/mertV1UrII6aOOmbGyFrQI2xgBoA5AY6lAazU0mrNSR6Y09I5lvZ61fWRnBdGObWHqB4Nz154cOdgxsZHG2ONoaxoDWtAwAB1LO11ltkk7Ons8EWaIwimo/M/XZ3TjnhQauZHtB2ZNlja01u5vtA+TUM5juzxHg4KdKlNh99+A32exzvxBW5dFk8BK3/qPqC80tbcJWR3jh/vkWySkovZ5K3ILSQQQRwIKvDZSBZ9mFRdHADe6eqOexo3f8ige2Kw+h9VPqoWbtLX5mZgcA/wCW32nP6ytOOx1E+zOlsNM9sMs1JFHI93JgdgyHHXwLuHatTX3wtpr69JNf9KunrcZy8UUvorTFfqq7dBDlkDTvVNQRkMB+tx6grW1Zf7Vs+0/FZ7PFGa1zPvUZ47uecj+0/X4BSa12eCwadfb7JExr44nFheMmSTHBzu0k4XNdxrKq4V01ZWzPmqJXb0j3cyf99S8rl9oWtv0I93j7xJeTx6bszrTf7jQakiv3Tvmq2y9JI57vwmfjA9xGQuk7PcKa62unuNG/fgqGB7D1juPeDwPguVldWwCWR2nq+N0jnMZUjcaTwblozjsXva2ni61Yt1+w0djUuHxNXtz1Lvys01SSeqzElWQeZ5tZ5cz5diqlZl6e+S8Vskj3Pe6d5LnHJJ3isNaGlpjTUoIrWzc5ts3Wh7b6X1bbaAt3mPnDpB+Q31ne4FdNKmNgNt6a8V91e31aeERMJ+c85J8g33q51hdrW8V3D4Gho44hnxCIiyi0Urty1F8MusdhppMwUZ358Hg6UjgP1QfaT2Kf7JJOl2e2s9bWyNPlI4Kh9TsdHqW6Rvc5zm1koJcckkPPNXZsTk6TQcLM/g55W+/P8Vva6mNejhGPc1+zKGnm5XNskeoaG0XanbabtHHI2oz0TXcDvAc2nqcBx8M9WVR2vdDXDTMxqYt6qtrnepOBxZ2B46j38j7ldms7Ob5YJ6ON5jqm4lpZQcGOVvFpB6uzPYSoNofaHFVZsOrWsZNxh6eVoDH9RbIOQPVnl24662hstrg519Ut1/KJNRGEniXTwZtLt/3x2QipHr1IphN39LF8b24cPNUtY7nVWe609yon7s0D94dhHWD3EcF0jpyx0ljhqaagLhRzSmVkLjkRkjDgD804Bx4rnjWVrNm1RcLbu4ZFMej/ADDxb7iFc7NshNzqW269zIdVGSUZd5cepbfRbQ9Dw19uDRVsaZKfJ4sf8qJ3jjHsPJUPKx8Ujo5GOY9hLXNcMEEcwVNdkuq/QF5+B1cmLdWODZCTwifyD/DqPdx6lu9tulOgm/pLQR/epSG1jWj4rup/geR78dqk07elu5EvRfo/19fyc2Lmw5i3W5VqKX7P9D12p5xUS79LbGO9ecji/taztPfyHuVu3XQ1gq9Nus1PQw02637zM1gMjH9Ti7me/tU2o7RqpmoPq+/2HFemnOOTnNFl3i3VdpuU9urYzHPA/dcOruI7QRxCxFeTTWUV2sBERegIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIi2ml7JV6gvUFsox60hy95HCNg5uPh/0C5lJRTk9j1Jt4RItlOkTqG6/DKyM+jKVwMmeUr+YZ4dZ7vFX6AGgAAADgAFhWK10lltUFtoY9yGFuB2uPW495PFZy+T1mqeosz3LY16KlXHHeVjtK1bX6Z11QPpnGSnNGDUU5PqyAvd7CMcD/AAUkGsNJi1v1E2spBI6HdLctFQ7GSI93nnJ8OvlxVX7cJek109mfwVNGz6z/ABUFWtV2fXdTCT6PHzKk9RKE5I2WpLxV3681FzrHffJXeq0HgxvU0dwCwqSnlq6qKlgYXyzPDGNHWScAL7t1FV3GtioqGB89RK7dYxg4n/TvV77OtCUmm4W1lXuVN0e3jJjLYc82s/iVb1Oqr0kMd/ciGqqV0iSUVPRWPT8NNLJHHS0UDWue84bho4uP1qmtpO0Ce+ufbbU58FsBw53J1R49je729gyduN+nqb8LHDO4UlKxpljaeDpDx49uAR4cVpNlunf6QanjEzN6ipcTVGRwdg+q3zPuBVHSaaFVflN3V7/XtJ7rXOXKgWnsg076E002qqI92sr8SyZHFrPkN9hz4nuU1X4v1Yt1srZuct2XoQUIqKC5UbPNR3MVFO8xzQzb7HDm1wOQV1WuUrgMV9QOyV31la/Y3VzXu/kp63/Uvm6UdLtC0PQ1Me62VzmSj8h4OJG+zeHsK2GvdVUulbSJnNEtXMC2mh6nEcyexoyFAtgd6kZW1dhk3nRSNNRF2NcMB3tGPZ3rG2/vnOo6BjmOEDaTLHdRcXne9wao1pc6pUS9FZaOnb/i5i3NxsT1DWXS6XmG41DpqifdqQT3eq7A6hxYMdyrnXtv9F6xulGG7rGzl7B2Nd6zfcQs7ZRcPR2ure5zsMqHGnf374wP3t1SDb7b+hv9Fcmtw2qgLHHtcw/9HD2K/BKnWuK2kv2K7fHRnwZWquf7n78RXL9Jb9kKmFc/3P34iuX6SPshd9qfhn8DzSfeoqK6/jSr/v3/AGisVZN1/GlX/fP+0V82+llra+no4RmWeVsTB3uOB9avJ4jlld7l9bG7b6P0PTyubiSse6od4Hg390A+ama8KGmio6KCkhGIoI2xsHYGjA+pe6+Mus5lkp+JtwjwxSCjtn1Ey56yulogIdDQRMBcOuTJ3/ZwHiCvraBf26c0zUVwcPhDh0VM09ch5Hy4nyVZ7BZ3O1bXtkeXOlo3PJJySRIz/qVZo0vFRO192xFZbiyMERTaBF0Ot7yzGM1cjv8AEc/xVp7BJN/SFVGTxZXP9hYz/VVztai6LaFdG44F0bvbG0qdfc+SZtN1h+bOx3taR/Baut87Qp+xFSjpe17y0FR227T3o6+tvFOzFNX/AITA4NlHP2jj45V4DktPrOyRag05VWx+A97d6Fx+RIOLT7eB7iVj6LUci1S7u8u318yGO8qjZhrytttZS2W4uNTQSyNije93rQZOBx6293V1diztv1q6O4UF5jb6szDBKR85vFvtBP8AhVYzxS01Q+GVjo5onlr2ngWuBwR7VeWoANYbIxWtAfUNpxUDH0kfB4HsePNbOohHT6iF0dn0fxKNbdlcoPuKJVz7LdV0N40/Jp6/zQGSGPo29O4ATxEYxx5kcvDB7VTCK9qdNHUQ4X09pBVa63lFy682gU1siFh0r0JnaBEZogOjhHLdZjgT7h3nlZkQEbGRF5c4Nxknicda5f0xB8J1LbKfGelrImHzeAr21lefRWrNMROfiOqnlikHcQ1oz+s4HyWLrdJGDhVDfDfvL1FzlmUvYYG1zSHp22+k6CLNypW/FaOM0fMt8RzHmOtUQusQMPd2Hj/v3KltsukPR1Y6/wBvixSVD/6wxo4RSH5Xg76/EKTsvWY/wzfu/o51dP8AuviVsiIt4zwiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiID7ijfLKyKJjnyPcGta0ZLieQAXQuzPSjNM2UGdrXXGpAdUP57vYwdw958lEtiukMBupbjF+hRuHtk/gPM9itlfPdqazjfKhstzR0lOFxsLGfVNFziohxc+F8p7gHNA9u8fYslROw1vpHaLfy05joKeClb2ZJc53vyPJZdcOJSfgv8AhblLGF4lRbXJel2hXQ54NMbB5RtH1rSWCzXC+3KOgtsBlldxJ5NYOtzj1BSe46fuWrNpF4p6FmI2Vj2zTuHqRAHd49p4cB1qxKmo05sz08IYWdLVyjIZkdLUO7XHqaPYOrJX0UtVya4VVrM8Lp8O8zVVxycpdFkWu3ae2a2B1bWSiSrkbh8uPvkzvmMHUP8A8lZ+ib3V3LT9XqW64gp5HPfDEPixQxg8e8kh2T18FRt7u121VfGTVchlnmeI4Ym8GsycBrR1Dira2nTxab2aw2amdh0rWUjCOZaBl58wMH85Ur9K04xm8zm+r8ET127uPSKKYu9bLdLtVV8uTJUzOkI54yc4/gugdmenRp3TEMMrMVlR9+qT1hxHBvkOHjntVW7G9O+mNRivqI80dARIcjg6T5DfdnyHar6XvauoSxRHZb/weaSvebCIoJtF2g0tga+320sqbmRg9bIPzu13d7e/JppndLhgupcnOMFmROg5pcWhwLhzGeIXK12GLrVjsneP3irh2GVtVcKW81dbO+eokqWOe95ySd0qob4MXuuHZUyfaK3OzanTdZW3tgoaqfHCMveWJ9z7R790uleR+ChZCD+c7J+wFMdrlh9N6TkmhZvVVDmeLA4luPXb5jj4gLX7CaP4Po+arI9apqnEHta0AD37ysHHDB4qhq73HWOce5/sWKa06VF95yhTTSU1TFURHdkieHsPYQchXZtfhjvOzymvEAyInRVLT+Q8Yx+832Ks9pFh/o/qqppY2btLKemp+zcd1eRyPJWfs+I1HsnktbyHSMilpCT1HGWewOb7Fp6yaaq1Edk/0ZVpi8yrZRiuf7n78RXL9KH2QqZcC1xa4EEHBB6lc33P34iuX6UPshSdqfhn8DnSfeoqG6fjOq/vn/aKlexm2/D9bwTObmOjjdO7sz8VvvcD5KKXT8Z1X98/7RVv7Arb0Nlrro9uHVMwiYT81g5+1x9i711vL0zfj0+ZzRHitRZiIovtN1CNPaYmmifu1lR95pu0OI4u8hx8cL5euuVk1CO7NaUlFNsqrbDqL0zqV1HA/eo6DMTMHg5/y3e0Y8u9few+Xo9dMZ9JTSN+o/wUGJJOTxKleyKXotoVs48HGRp843fxwvqbaVXpZVx7kzJhNytUn4mXtti6PXkz8fhII3e7H8FIfueZMS3qHtbC4eW+P4rWbfIt3VtJKBwfQtHmHv8A9F7fc/SY1BcYfnUod7HgfxVWzzuzvgv0ZLHpqfiXQF+r8C/V84aRSW3HT3wG8x3ynZinrfVlwODZQP8AMOPiCt3sDugmttwskxDuieJo2nra7g4eAIH+JTzVtmhv+n6q1y4BlZmN5+Q8cWn2+7Ko7ZxXTaf1/TRVQMW9K6jqGnq3ju4Pg4A+S3KZ+VaOVb9KP0v6KM48q5S7mafVtrNm1LX20ghsMxDM9bDxaf8ACQtUrP2+2robrQ3iNvq1EZhkI+c3iCfEH91VgtbS282mMynbDgm0SXZhB8I17aI8ZxMX/wCFpd/BSnb7VPbqG1xRvLXw05laR1EvPH91anYjB0uu4pMfgaeR/u3f8y/duE/S66fHn8DTRs+t3+ZVZedrkvCJMumnftZdtgr2XWyUVxZjFRA2QgdRI4jyPBZFdS09bRy0lVE2WCZhZIx3IgqC7C7l8L0k+hc7L6KctA/Id6w9+97FYC+e1FbptlHwZo1y44JnNmvNNVGmL4+kfvPppMvppT8tnYe8cj7etR5dL6305TamsclDNhkzfXp5cfg39XkeRXOFxo6m3101DWROinheWPYeohfSaDV+UQw/SW/9mZqKeXLpsY6IivlcIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIApbsy0m/U15Dp2uFupiHVDuW+epg7z19g8lobBaqu93aC20LN6aZ2Mnk0dbj3AcV0lpiy0lgs0Fso2+pGMveRxkeebj3n/RZvaOs5EOGPpP9CzpqeZLL2RsYmMijbHGxrGMAa1rRgADkAvpEXzBqnjW1EdJRz1cxxFDG6R57ABk/Uq62GSyVjL9c5uMlVVtc89/rOP2ludsVy9H6GqmNdiSrc2nb4Hi790Eea1mwhgh0ZWVDuAdWPOe4MZ/qr9dfDo5z8Wl8ivKWbkvAztZ6qtGiqOSkt8EUlync6XoW9TnHJkkPPierme4cqNu1xrbrXy11wqHz1Ehy5zvqHYO5eNXUTVdVLU1EjpZpXFz3uOSSe9eS39LpI6deMnuzPuudj9hNdjNq9Ja0hne3MVCwzuzy3uTfec+S2G264yXLV1PZ6YOk+CMDAxvEmWTBIHluBSfYpQxWrR1ZfKr1BUOdIXHqijBH1760uye1S6h1bXatr2Zjimc+IHkZXcf3QfeFRncvKJ3PaCwveTqD5cYL/YsXQ1hj07pumtwDTNjpKhw+VIefs5DuAW8cQ0EkgAcST1LxrqumoaSWrrJ2QQRN3nyPOAAqQ2i7Qqm+ukt1rL6a2cnHk+fx7G93t7Bl0ae3WWN/NluyyNMcG92j7SsdJatNzZPFsta08u0R/wA3s7VUrnFzi5xJcTkkniV+KW6H0JddSvbUOBo7dn1qh7fjdzB1+PL6l9FXXTo6/BePiZspTukTT7ns/wDZ93H/ABY/qcqt1EMaguQ7KuUfvlX9Z26T0e+CxQVVPTVNRg4kfmSU9RcerPVnA7FBde7NK03OS5WV7qmKpmL5oXfHjLncSPnN4+I71n6bVV+UznLopbZ9hYtqly1FdcFg7PKP4Boi0U+ME07ZCO9/rn7SkC84Y2QxxwxjDGNDWjuAwF6LDsnxycvEvxWEkQTbPYfSumDXwszU2/MowOJjPxx5YB8io39z7cN2rudqc747GzsHgd132m+xW69rXscx7Q5rhggjIIVI2mjdo3bBBRnLaWaXciJ+VFLkN9hIHi0rT0tnN006HuuqKt0eC2NiI3tEt/ozWl0pQ3dYZzKwdW6/1h9ePJWR9z9+Ibl+lD7IWk2/2/orzb7m1uG1EJicR85hz9Tvct39z9+Ibl+lD7IVvU2czQKXuIao8OoaKgun4zqv75/2iuktE230RpS228t3XxwAyD8t3rO95KojTFt9L7QaehLd5jq1z5B+Q0lzvcCukFF2vb0hX8TvRx3kFzztV1F6f1PIIJN6io8wwYPB3H1neZ9wCtXa1qL0Fph8UEm7WVuYYcHi1uPWd5A48SFz4veyNNvc/cjzWW/6ILf7Opeh1xZ35xmqa3/Fw/itAtppN7o9U2mRgLnNrYXAAZPB4K2blmuS9jKUHiSJ990JFi5Wmb50MjfY4H/MtZsIk3Naysz+EopG/vMP8Fa+qNMWvUFXQVN13nxUPSOEWcNfvbvxj2DdXzZKXStdXMulkbQunpN6EvpMNwCMbrgOY7PcsCOtitJysPZ9fDwNF0PnceTfr9X4v1ZBbCpfblYDRXaHUFK0tiqiGTFvyZQOB8wPa09quhazVFohvthq7XPgCZmGOPyHji13kcK1o9RyLVLu7/cRXV8yDRFNUtGrtkrbgwB07YG1Qx1SM4SAfvhUSrq2JVUsdHddM17MTUU5Jjd813quHgCP3lVGqbY6z6irrY4HEEzmsz1s5tPmCCt3QPl2Tp8Hle5lDUedGMycfc/wb2objU4/B0gZ/ieD/lXztm0vdIr1U6jYPhFFPu75YOMJDQ0bw7OHP/Z2v3PUGKa8VJHxnxMB8A4n6wsrTm0enlvtdZr/ANG2B1VKynqCBubhcQGPHLGOGfb2qtZO2OrnZWs4Sz7iWMYOmMZPGSMbCrl8E1ZJQOdhlbAWgdr2esPdve1Xmqr1PoeSx3um1TpmJ0kFPM2aakZxLWg5cWdoIzw6urhytKN7ZGNexwc1wBBHWFR7QnC2ath3/uifTRlBOEu4+lXe2LSHpahN7t8Wa6mZ99Y0cZox9bh7xw7FYiKrRdKmanEmsgpx4WclorB2waQ9DXA3i3xYt9U/12tHCGQ9Xc08x5jsVfL6+i6N0FOPeY04OEuFhERSnAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAF+tBc4NaCSTgAda/FaOxfSHwmdupLjF95id/VGOHx3j5fgOrv8FBqL40Vucjuut2S4US7ZVpEadtPwusjHpOqaDLnnE3mGfxPf4Kaoi+RttlbNzluzZhBQjwoIsC+Xi22SiNZc6uOniHLePrOPY0cyfBU5rXadcrrv0lmD7fRngZAfv0g8R8Udw496m02jt1D81dPE4tujXub37oGGvfS2yZkRNBE5/SPHVIcYz5A4Pitls2/qmyKoqeWYqmXPhvD/KvnZxqil1bZZdPX0Mlq2xbrg/8A/kR/O/OHX7e3G1vFtj03ssuNshldJHDSTsa5wwSHudjPf6ytzk4Vx0s1hqS+KIYpOTtWzRz2vWlgkqamKmhbvSyvDGN7STgBeSmuxq1ektaQzvbmKhYZ3dm8ODfec+S37rFVW5vuM6EeKSiWJr2N9p0FRaato36msMVBCBzd84+eOP5y20ctm0FpCnhqpwyKBmOA9eeQ8TgdZJ9g7gsgUXw/V3pKcZhtsRhpweXSvAMj/Ju63/F2Kk9qGov6Q6nlfC/eoqXMNPg8CAeLvM+7C+f01L1OK3tu/e/r9zRtnysy79keOuNY3LVFX9+JgomHMNM08B3u7Xd/sWgo6aorKmOlpIJJ55DhkbG5c4+C3ujdH3fU9QPgsfQ0jTiSqkHqN7h849w88K2I49JbNbXvvO/WSN5nDp5/AfJb7B4latmpr0yVVSzLwX8lSNUrfPm8LxNLorZnS0EQumqnxPcwb/wYuHRRgccvPI+HLxXjrjafHCx1t0sG4aNw1Zb6rR2Rt/ifIdahetda3bU0pjlf8GoQcspY3er4uPyj7uwBRhc16OVkuZqXl+HcjqV6iuGvp7T0qJpqid89RK+WWQ7z3vcS5x7SSp7oLaTW2fo6C8GStoB6rX5zLCO75w7j5dir5FcuorujwzXQghZKDymdVWuvorpRsrbfUx1EEg9V7DkeHce4rKXMmltSXXTdb8It0+GuP3yF/GOQd4/iOKvTROtLVqeEMid8GrmjMlK93reLT8of7IXzms7PnR5y6x+tzTp1MbOj6Mk6r/bTZX1VlhvtICKu2vDiRzMZIz7Dg+GVYC86iGKogkgmYHxSNLHtPJwIwQqlFrpsU13E1kOOLiQDavGy+bNYLvC3PR9FVNx81wwR+97ljfc/fiG5fpQ+wFILHaXO0fcdLVBLvg5mpGPd8qNw3o3ex48wexaHYExzLJc2PaWubVgEHqO6Ffc15JZWu5rHuZWw+dGXijWbFLb0uqLzdXt9WAuhYT857iTjwDf3lbjiGgkkADiSepRbZhbfR+mekc3ElZUS1DvAuw390A+a122bUXojTno+nkxV3DMYweLY/lHz5eZ7FFfnVarhj7vkd14qqyyq9pGoDqLU89TG8mkh+80w6twH43mcn2dijS/QCTgDJKsjQmzGquPR19/ElJSH1m0/KWQd/wA0e/w5r6GVlWkrSbwkZyjO2XQiGlNMXbUlZ0Fug+9tP32d/COPxPb3Dirftto0rs5tfw+umbJWObjp3tzLIetsbeof7JWJqrXdl0pR+htOU9PNURDdDY/wMJ7yPjO7vaVT14ulfd659bcqqSonf8px5DsA5AdwVLhu1vWXmw8O9k2YUbdZEk1zr66ajc+mhLqK3Z4QMdxkH5Z6/Dl481HrFeLjZLgyuttS6CVvA44teOxw6wtei0YUVwhwRXQryslKXE31Og9Ba8t2pGNpZ92kuQHGEn1ZO9h6/DmO/mpiuTY3vje2SNzmPactc04IPaFa+z7adjo7bqWTI+LHW/wk/m9vasTWdluPn07eBeo1WfNmW2vxfkb2SRtkje17HAFrmnIIPWCvpYxdILf6P0FtGtmo4Ru0tyPwGsxyD3D1HHxIb/h71Edvlq6C80d3jbhlVEYpCPns5E+II/wq2NQWyK8Wept0xLRKz1Xjmxw4tcO8EA+SjG0OhlvuzaWWWICtpWCdzR8mSPIkA8t/3LS0moxZCT7vNfu7vr2Fa6vMZJe8wdhbG02iqyrfydVvcT+S1jf9VSUr3SSukdxc5xcfEq79F/1DYrNU8nGkqpfPLwPqCo5aui63Wy9uPkVL+kIL2Fg7N9oVRZXR2u7OkqLcTusfzfB4dre7q6uxXiwhzGubyIyOGFVGybRDYY49S3yNrQ0dJSwycA0c+kdn3e3sWDrPafXuvrG6emayipXHLnMyKg9eR83s5Hr7MUNTp46m9qhbbvuyT1WOqvNnwLnRQrRO0S03/cpastoLgeHRvd6kh/Jd/A8fFTVZdtM6pcM1hluE4zWYsxrpQ0tyt89BWRCWnnYWPaez/r15XN+tNPVWmr5Lb58vjPrwS44SM6j49RHaumVHNf6Yg1PY3Ux3WVcWX00p+S7sPceR8j1K32frPJ54l6L+skOop5kcrdHNyL2rKaejqpaWpidFNE8skY7m0jmF4r6pPJkhERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAERZdpt9VdblBb6KIyVE791jf4nsA5krxtJZYSybvZ5pebU98bA4OZRQ4fVSDqb1NHef+p6l0VTQQ01PHT08bYoYmhjGNGA0DgAFqtH2Cl03Y4rdTYc4etNLjBkeeZ/gO4BeOrNWWbTUG9X1G9UEZjp4+MjvLqHeV8tq9RPWW8MFld39mtTWqYZkb5zg1pc4gNAySTwCrrWu1Cgt2/R2IMrqocDMfwLD3fOPhw71Xms9dXnUjnQuf8EoM8KaJ3Aj8o/K+ruUUV/S9kpedd8ivbq2+kDNvN1uF4rXVlyq5KmZ3W88AOwDkB3BYSItpJRWEUm89We9BV1NBWxVlJM6GeFwfG9vMEK+bFdaHaHoypoZpDT1L4xHUsYeLHcw4drSRn2hc/raaYvdbp+8RXKhd67OD2E+rI3rae4/6qprNLz4px6SWzJabeB4ezPPUNnrbFdprbXx7ssZ4EfFe3qcO0FXBsJtXwTTM1ze3EldL6p/IZkD37yydRWu17R9JQ3G2vYysY0mF7ubHfKif3f6EcOcvslBHa7RSW6H4lNC2MHtwOJ8+aytZruZQq30lnr8C5TRw2cS27iK7WL46z6dFtoA419ycYomsGXBp+O4AdZzgd7u5RbQ2y8uay46n+9xgbzaMOwSPyz1eA8yOSnuoajT2n6p+obvI34U5nRwl3rPDR8iNvVzJJ7+Jwqe1zr+6ajc+lhLqK3Zx0LHetIPyz1+HLx5r3RxunXwU9E95f19fI8vcIy4p9fBEz1ltIoLRB6J0tHBJJGNwTNaOhi7mAcHH3eKqOvrKqvq5KutqJKieQ5e97skrHRa+n0tdC83fx7ynZbKx9QiIrJEEREAXpBNLTzMnglfFKw7zHsdhzT2gheaIC3tBbUGydHb9SuDH8GsrQMA/njq8Rw7cc1akb2SRtkje17HDLXNOQR2hcmqXaG13dNNSNp3E1duJ9ane7izvYerw5H3rG1nZal59PR+Bdp1bXSZ0GI2iZ0oGHOaGuPaBnH1lRnRFv8ARt41LAG4Y+4CZnZh7A7h4EkeS2unL9a9QUArLZUiVvy2Hg+M9jh1f7wtgyFjZ5JmjD5AA7vxnH1rE4pVqUJd5fwpYkj8HQ0lLxLYoYWczwDWgfVhc/XyS7a/1nPJbaeSZudyEHg2KIHgXHqzxPiVeOqLZNebW62MqTTQTkNqZG/HMfW1vVk8snqzwKit91LprQNuNptFNFLWAfgIzyd86R3b3c/AK5oLHW24Lim9vZ7WQaiPF6TxFHzpzSOntD0Hpm+VMMtWwZ6aQepGeyNvMnv59mFC9d7Sa+89JQ2npKGgPBzs4llHeR8Udw8z1KKakv8AdNQVxq7nUulcPiMHBkY7Gjq+vtWrWxTovO5lz4pfoilO/pww6IIiLQK4REQBERATDQeu7jpqRtNLvVdtJ9aBx4s72Hq8OR7uavSwXm3X23trrbUtmiPAjk5h7HDqK5bWy07fLlYLg2ttlQYpBwc08WyDscOsLN1nZ0L/ADodJfuWqdS6+j6o6hPDj2L4dDG9kjHMDmSZ3weRyMFRfQmuLbqaJsBIpbi0evTud8bvYesd3Me9SpoIGOocl83ZXOqXDJYZpRkprKIVrGkbYNktXb2PyIYGwg9u9IB/FQ7ZLoX0g+O/XiH+psO9TwvH4Yj5RHzR7/DnbF/tNLeqFtDWhzqfpWSSMBxvhpyGnuzhVttZ1uyCN+mrHIGbo6Oqlj4Bg5dG3Hv9natLSW22QdVfpSeW/BFa6EYtTlstkYG1rXPw98lhs839Tad2pmYfwxHyQfmj3+HOs0Rb1FEKIKETPssdkssKe6J2lXOzblJdN+4UI4Ak/fYx3E8x3H2hQJF7bTC6PDNZEJyg8xZ1HYL3bL7RCrtlWyeP5QHBzD2OHMFbFcr2i519orW1ltqpKadvymHmOwjkR3FXDorafQ3Lcor8GUNUeAnHCJ57/mHx4d4Xz+q7LnV51fVfqaNWqjPpLozx2z6Q+HUztQ26LNTA3+tMaOMjB8rxb9XgqYXWDASCd8SRuGW//nrCojazpE2C6fD6KPFtq3EtAHCF/Ms8OseY6la7L1mf8M37v6IdVT/uiDIiLbKIREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAU/2L3mx2i71brs9kE00bWwVD/itGTvNz1Z4ce5QBFFfUrq3B953CbhJSR0udXaWIIN/t/HsqB/1UcqaXZbUzvnqKm2TSvOXvfWuc5x7SS5UWiz4dlRh6M2ixLVuW8UXh6P2T/SWn9rd/Mno/ZP9Jaf2t38yo9F39ny/Nl8znyheqi8PR+yf6S0/tbv5k9H7J/pLT+1u/mVHon2fL82XzHlC9VF4ej9k/0lp/a3fzJ6P2T/AElp/a3fzKj0T7Pl+bL5jyheqjoSxXDQFj6UWq522lEuN8NqiQ7HLgSVtP6X6X/+f27/ANdq5nRRS7IhJ5lNtna1jSwki+7q7Ztdax1Xca621M7hjffWOOB2D1uA7gsT0fsn+ktP7W7+ZUeikXZzSwrJfM5epzvFF4ej9k/0lp/a3fzJ6P2T/SWn9rd/MqPRe/Z8vzZfM88oXqovD0fsn+ktP7W7+ZPR+yf6S0/tbv5lR6J9ny/Nl8x5QvVReHo/ZP8ASWn9rd/Mno/ZP9Jaf2t38yo9E+z5fmy+Y8oXqovD0fsn+ktP7W7+ZPR+yf6S0/tbv5lR6J9ny/Nl8x5QvVReHo/ZP9Jaf2t38yej9k/0lp/a3fzKj0T7Pl+bL5jyheqi/rLNs4stWaq119sppi0sLm1ZOQeogux1Ldf0v0v/APP7d/67VzOijl2TGbzKbZ2tY10UUdKy6s0rLE6N1/oA1wwd2pDT5EHIUbdQbKHOLnS2pzickmscST/iVHIvYdlqHozaPJaty3ii8PR+yf6S0/tbv5k9H7J/pLT+1u/mVHou/s+X5svmc+UL1UXh6P2T/SWn9rd/Mno/ZP8ASWn9rd/MqPRPs+X5svmPKF6qLw9H7J/pLT+1u/mT0fsn+ktP7W7+ZUeifZ8vzZfMeUL1UXh6P2T/AElp/a3fzJ6P2T/SWn9rd/MqPRPs+X5svmPKF6qLw9H7J/pLT+1u/mT0fsn+ktP7W7+ZUeifZ8vzZfMeUL1UXnDR7K4ZWSw1FrjkYQ5r21jgWkdYO8pI3V2lg0AX+34AxxqAf4rmhFxPsqM/Sm2dR1bjtFHS0mrNKyRujdf6DdcCDipAPtByFGjb9k5OTJaST/4t38yo5Eh2WoejNoS1blvFF4ej9k/0lp/a3fzJ6P2T/SWn9rd/MqPRd/Z8vzZfM58oXqovD0fsn+ktP7W7+ZPR+yf6S0/tbv5lR6J9ny/Nl8x5QvVReHo/ZP8ASWn9rd/Mno/ZP9Jaf2t38yo9E+z5fmy+Y8oXqo6MtN90VaqQUlBeqCKBvxWGr3g3w3iceS8NUak0ZXWCspK270VRDJERuRyBzyerdA684wuekUa7JhxcXG8nXljxjCCIi1ioEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAEREAREQBERAFmS22titMN1fA4Uc8roo5OouaBke/3HsWPTQS1NTFTQML5ZXhjGjmXE4AV3vtNuv+yd1rtJEpog5sLgOLpoyckfn8T4PVXU6nkOOe99fYS1VczJRiIitERuLfpi/XCAT0NsmqYiAd6PDgM9uDwX1XaV1DQwGestU9PEPlyYaPeVI9hlTJDrUwNcQyopntc3PA4w4H3e8rK2/VMj9T0VJvHooqMPDc8A5z3ZPsaFQeos8p5PTGMlhVx5XGVwt5S6R1JVQtmprRUTRO5Pjw4HzBWjUq0Xeau3WDUlPBM9jX0LXjB+K4ysjyOw4kPuVm6U4xzDcigot+cR2vo6mhqDT1UXRSjm0kEj2LItNmud1JFupH1LgcFrCC72Zytethpupko9QW+qicWviqY3Ag/lDIXc+JReNzxYz1M2fSGpYGh09nqYmk4BeAAT5leVRpfUUEHTyWWu6LGd9sRc3HbkZVqbf/7M0H6aPsOUB2VXusterqGnimf8GrJhDNFn1Xb3AHHaDjiqVOptto5qS7+nuJ51QjZwESPA4K/FZ23qz0lJX0N1pomxSVe+ycNGA5zcEO8eJz4BVirWnuV9asXeQ2QdcnFmztVhu91Zv26hkqgOYjIJHiM5WTPpLUkG709oqIt7lv4bn2leuzipkpdc2h8bi0vqWxHB5h3qke9Tn7oflY//AKj/ANtV7NRZHURqWMP68SSNcXW5+BAYdI6knz0NoqJcc9zB+orAu9quNonZBcqOWlle3fa2QYJGcZ9xWPTTVFNK2oppZYZGH1ZI3Fpae4hbzWF/k1BT2qpqXh9bBTmCc4xvEOJDvMH25VjNqmk8NEfmtPxNAxpe8NbzJwOK3dPpHUtTEJae0VE0Z5Pjw4HzBWiVj7Hr76IgmjmdinnuNPC/PJvSRzAH/Exme5c6myddblBZwe1RjKWJFfVtLUUVXJSVcL4Z4juvY8YLSvFWbt6svwe60t8iZhlU3opiPpGjgfNv2VWS901yuqU13i2HBJxMm2UFZcqxtJQU0lRO4EtYwZJAGSthXaW1BQxdLWWyanZ86UhoPtKl2xRjaW+08r2gzV3Sxx5+TExuXHzdugH8ly/Nvsznaro4MncjomuA7y9+fqCgepm9TyYrpjc7VS5XGyuURTnZTo1uo619dcGu9G0zgHNBx0z+e7nsHAnxHbws3Wxpg5y2RFCDnLhRF7XZLrc43y0VDLLCz48pw2Nvi92GjzKyodMXSd/R0z7fUy9UUNwge8+AD+PllbLaRqR11ur7bQ7sFoonGKngiG6x27wL8Dt6uweaiY4HIXMHbOPE8LPdudSUYvG5719FWW+pNNXUs1NM3myVhafYVjq29ndXS63sFRpvULfhFRSM36eoP4UMPDId2tOPEEZyq31PZqmwXyptdV6zoneq8Dg9p4hw8QuadRxzdcliS/X2o9nXiKktmYdFSz1tQIKaPpJXcm5Az7VtarSOpqWmkqaiy1kcUbS57izg0DmVo1d2z3WEXwWyWS5uAdVUP3mV5+M9sske4fEMGO/h1hcau62mKlBZPaYRm8SeCkVk26gq7jUCnooTNKeTAQCfDPNTTaxo02GuNzt8X/ZlQ7i0D8A8/J/NPV7OzMDHA5CmqujdWpwe5xODhLEjdVmlNRUcDp6u01EETeb5MNHvK00bHSSNjY0uc4gNA6yVKdf3irulJYGVEz3iO2sccnO88uc0uPeQ0LRafDDfreJHNaw1UW85xwAN4ZJXlU5uvinueyjHiwjYv0ZqljS59kq2tHMloAC+INJaknLhBaKiXd57mDj2FNZ6jrdRXmeqnnkNPvn4PDk7sbOrh245lTz7nn8Le/zYP/cUF111NDsljPh9M7hCE7OFECGlNQmUxC1TGQHBZkZz4ZXxc9M3+2UbquvtVTTwNIDpHtwBk4C+9e/21vP6bL9orPtuoqqfRd4sFdUulj6OOalMjslpbKzeaM9RBJx3FS8dvDGSx1xn4/E54YZaIqiIrJEERTvZJpCLUNfJX3Bhdb6RwBZ1Syc93wA4nxHaorro0wc5bI7hBzlwojNp07e7rA6oobfLJA340ziGRjHP13EN969G6aucknRUzqGql+jp66GR58Gh2T5ZW92qamkul4ktFE4RWqhd0UcUfBr3N4F2B38B3DvUKBIIIJBHIhcVStnHieFnu+meyUIvC6mXU2u5UzZXVNBVQCEgSGSIt3SeWc9qw1YM2p577ssrrfXymWsoZYSJHH1pIy7AJ7SDwJ7wq+XVM5zT41hp4PJxSxgLMprbW1NtqrjDA59LSFgnk6m7xw33rDV37MbdbKjRtw05JxqntDq0Y4gysy3He0YHcQVHq9RyIcWM/wBHVNfMlgpBFk3Kjmt9wqKGpbuzU8jo3jvBwsZWU01lET6GTb6GquE/QUcXSynk0OAJ8M81tpNG6ojYXyWSrYwc3OaAB71oVfV/qZKzYwamVxdJJbYnPceZdhuT7VT1WonTKCjjDeCemuM089xUA0lqUxGVllrJGDrjZv8A1ZWnnhmp5nQzxPikacOY9pa4HvBWZYrxcLJcI623VD4ZGEEgH1XjscOsK5Nq1tob1oT070LWVUMUc8UmPW3XEZYT1jDvaEt1M6bIxmsqXehGpTi3HdFHQRPmlbFGAXuOACQPeVvI9GapkY18dkq3scMtc1oIIWgV7bCqmSfRckUji4U9W+NmTyaWtdj2uK91uonp6+OJ5RXGyXCymrtZbpasekaN9MTybIQD7M5WLQ0tRW1cdJSQumnlO6xjRxcVm6sqZKzU9zqZXlzn1UhyT1bxAHkMBZGhK2K3appbhNjcpmSzYJxvFsTyB4kgDzU3FNVcT3wcYXFjuPqXR2p4m78tlqmN7XAAfWvyDSGpp2F8NnqZWg4JYARnyKwL1dq+818lbcal88ryT6x4NHY0dQ7lcewL+x1V/wCYP/5caram+3T1cbw39e0lqrhZPhRVMOlNQzO3YrVNI7saQT9ax7vYLzaImS3O3T0rJHbrXSNwCexa9xLZS5pIIdkEdSk1y1DU3fQUdBcKh01RRVzDE97svdG5j+B6zgjn3hWJO2LWzXf9ZI0oNPxIsvuGN80rIoml8j3BrWjmSeAC+FKNmrKOHUcF0uRxSUksfHqMr3brPZxf4MKktnwQcjmMeJ4NBdKGqttwnoK2IxVEDyyRuc4Pj1rGVn7erL0Fypb7Ez1KlvQzEfPaPVPm3h+qqwUemuV1Sn4nVsOCbiFu6TSeo6uETUtpnniPJ8eHD2grSK0fufamQXS50e8ejfA2XdzwyHYz+8udXbKmpzj3HtMFOaiyCXLTd8tsPTXC3S00fbJhufDjxWpU020VMk+vquJziW08cUbBngAWBx97ioWu9POVlanLv6nNkVGTSCIimOAiIgCIiAIiIAiIgCIiAIiIAiIgNvp/+qQVl3PA00fRwH/jSAhvmGh7vFoU32CXnoLpV2OV+GVLemhB+e0esB4t4/qqL1lfPYKGktEVPRvk3BU1QqKWObEjwC0DfBxhm75krzturrjQ18FXFS2pronh2Y7dAx2OsBwYCMjI4KjfVK+uSxvt/BPXNVyT8D32o2X0JrCqijZu09SfhEPZhx4jydkeGFFldu2O3Q3zRtLqCiG+aYNlDhzdC8DPs9U+1UkutDdzaU3uujPNRDgm8bE02Lf2/pf7qX7BWXt3/trF+hR/aesPYuQNf0YPXHKB/gKztvTHN1lA4jg6hYQf13qB/j1/5JF+HfvK+W2sf4rv36A3/wC5gWpW2svq2i+vPI0bIx4moiP1NKv2bfFfuV47mpWRbvxhTf3rfrCx1kW0ZuNMB1zM+sLuWzPFuXbtuoaiv09RRUwi3m1YcekmZGMbjutxAUV0HoqrtlbDqW+lkVFR/fmMgPTue4cj973uA5+SkO38f92KE9Xw0fYcobsd1LJaNQx22eU/Aa5wYWk8GSH4rh2ZPA+PcsPTq3yJ8D8ff9fAvWcPP84xNp+rWapukPwWN8dDShzYd/g55ON5xHVyGB3d6iCn+2jTjLRfGXOjiDKSuyXBo4MlHxh3Z5+1QBamkdbpjy9irdxcb4tzcaI/tlZf0+H7YVobcqBle+ysfcaKiwZ8Gpc5oOej5brT/sqsNDjOs7L+nQ/bCsL7oflY/wD6j/21U1CzrK8eD/klr+4kRzV+naaw6Ht74a+CvfV1Ze+aA5jwGEANPXjjx71B1nm4yOsItTt4sbU9OzjwaS3dPt4exeFJSTVMdQ+IDdp4ulkJ6m7wb9bgr1UZQi+N56kE2pPzUY63FESNIXIg4Ir6T7FQtOtvR/2Puf6dSfYqF1Zt8V+55HcuI415sq6n1vQ+Ynj+rex7HKi6eCWoqY6aFhdLI8MY3rLicAe1WTsFvXwe61VjlfhlU3pYQfpGjiB4t4/qrC11Zf6Oaqut0YzdgezpKPs6WXIwPzcSOHZut7Vnad+T3Tp8eqLNi5kIz+DPvZxNFJtPo6eneH01JBJTwuHJwax2XD85xc79Zee3j+2kP6Ez7T1h7FxnX9J3RS/YKzNvIxrSHvoWfbevccOuS/8AyeZzQ37Sv10HouIWrZXDLAMPFDJUkjmXEF2fqHkufFf2zCrhvezqOh3x0kUT6SUfN4ED90j3rztZPlxfdnqe6P0n7igUXpUwyU1TLTzNLJYnlj2nqIOCF5rV3KhNdiszotfUrGnhNFKx3hul31tC3f3QdMxl1tVWAN+WF8bj2hrgR9srW7DKJ9RrM1QaejpKd7i7qy71QPefYvTbrdI63VENBC4ObQw7ryOp7jkj2bqypLPaCx3Lr+v/AAtrpp3nxK9W4vZLbVp9zSQRQvII6v6zMtOtvffxRYP0F/8A9zMtGe8ff/DK0dmW3s61LSawsM1hvYZLWMi3JWu//fj+ePyhwz34PhV2u9MVOl706kk3pKaTLqaYj47ew945H/Vae111VbLhDX0UroqiF28xw7f4jqwr1ppbTtL0W6OUNiqW/HA4up5scHDtafeMjmsyaeht44+hLf2FqLV8eF+kimdR/gLP/wCXM+29adSPXlvqbVW2+3VbQ2enomsfg5B9d/Edx5qOLTpacE0VZrEsBWx9zz+Fvf5sH/uKp1bH3PA++Xs90H/uKr2l+Gl8P3RLpfvUQLXv9tbz+my/aK0i3mvhjWt5z/8A3JPtFaNWqfu4+5EU/SYREUhyF0Fs0ibbdmdNOxo3zDLUOPacuI9wA8lz6ugdlNRFdNnVNTbwzE2SmlA6uJx+64FZXa+eSvDJb0fpv3HP7nFzi5xJJOST1r8XtWU8tJVzUs7d2WGR0bx2OBwV4rUTzsVD7ZJIxr2se5rXjdeAcBwyDg9vEA+S+F7wUss1PUTsA3KdgfISeouDRjvyfcV4IsA2OnaeKe5NkqW71LTNNROO1jOO7+scN8XBSTZfqKWj162oq5ctub3RTk8t55y0/wCLHkStXR1Mti08ydkVO+oubicTwMlaIGH5rgR6z8/+mvBupa5rg5tHZw4HIItdPkfuKtZB3KSx0fT6+P7EsZKDTJdt2svwS+wXmJmIq1m7IR1SNGPe3HsKrdXxcGjXeyoTtAfWdF0gAHKePIcAOrPEeDlQ6i7OscquXLePQ71MUpcS2YV7yQSVOxOKCIxh77dGBvyNY3q5ucQB5lUQr0rgf/0MaP8A/NjP2VH2jvX/AOkdab/b3FYWjSnTVTDdrzaLfSg5kca+KR5HXutY45PipVtN1zba2yjTtgLpKb1Wyzbpa3dbjDW54niBx7uvKrBFalplZNTm8428CJW8MXGK3Cu3YD/ZWt/Tnf8ALYqSV3bAR/3UrT/453/LYq/av4d+9Emk+8KcvP43rP0h/wBorEWXegReK0HmKiT7RWIr8PRRXe4V47Av7HVX/mD/APlxqjleOwMY0bVd9e//AJcaz+1fw796LOk+8KQk/CO8SvlfcoxK8HqcV8LSRVC293/qdpobYOEjm/C6j8549QHwZg/rleOnaFlfdY4psimjDpqlw+TEwbzz44GB3kLOq9VV9TVSTuorRl7ifWtsDiB1DJZk4HDioptuSS7jtYSyy16LGutlHROIfWti3MnmJ4+R/W4eTlRTgWuLXAgg4IPUrU2Naqmmvstnq2UcUdTGXwiCmjhHSN4nIYBnLc8+xRna3ZfQ+sah0bN2nrf6xHjkCT6w/wAWfIhUNI3TfOl7Pqixd59amvcyIKyNgH9p6/8AQj9tqrdWTsAH/eavP/gz9tqsa/8ADzItP94jQ7XP/iHdfzo/+UxRRSva5/8AEO6+Mf8AymKKKXS/cw9y/Y5t9OXvCLIfSTMt8Vc4DoZZXxN7S5oaT9sLHUyeSMIiL0BERAEREAREQBERAEREAUq2d2a23C7xVd6uVvpKCnfvOZPUsY6YjiGhpOcdp8lFUXFkXOLing6i0nlolG0aiA1JX3KC5W6upqmcvjfT1cb3AHiAWg7wxyzjCjUETppmxMLA5xwC94Y3zJIA818IlcHCCjnYSeXkvjQtfZ6TQ1PZr7fbM5/Rvjki+HROwxxPqkh2DwOOCp7VVohtFzfFSXGjr6RziYZaeoZIS38oNOQfHyWoRV6NK6Zympb7okst44pY2NnpW7SWLUFHdY2b5p5MubnG80ghw9hKtTWNNYtoVtpauz3mjhuEAIbHO/ccWnm1w5jB5EZHPtyqYRe3aZWTVkXiSPIW8MXFrKZK59A36nJNS63QRDnLJXRtb488+5YF4fQ262eh6CrZWySSiWrqYwRGS0ENYzPEgbziT1kjsWjRSRhNvz3n4Y/s5cl3ILe6MtrKy90c1RW0FJSRVDXTPqKqOMhrSCcNccnPLgMLRIpJxcotJ4OYvDyXltUqLNqHS3wWgv1nfUwztmjYa6Ju/gEEZLscnH2KkZWPgnLC5u+w843hwz3OBIPkvNFBpdN5PDgTyiS23mPOC7qO+ae1noJtFfrpRUdZu7jzNMxjmyt5SNDiMg8/MhVFfLTJa6gxmtoKyPewyWlqmShw7cA5HmAtci8o03Ib4X0fcLLeYlldSWbNKGE6loblXXC3UdJTSdK509XGxxLeQDS7e546lPNrLbRqW10no3UNkdU0sjiGPr427zXAZwc88gc1S6LmzSudyt4sNHsbeGDhjc3UOm618oY6tssQz8d11p8D2PJ9yltRarDYNnV3ZHfrXcLvViJrm09Sx2GiVpLWjOT1knHV3KuEUk6pzazLomnt4HMZqOcI9IInTTNiYWBzjgF7wxvmSQB5qf2rT9uGgbhRVOobHFc6meOeOM18RDdwEBpIOMkOd3cQq8RdW1ysSSeDyElHdGyopqqwX2mq2PhdPTSNkHRTskacHlvMJHHl5qT7X9T09/utJDQTdJR08IcCOt7wCfYMDuOVBkR0RlZGx7oKbUXFbMn+yCCnt+om3a5XK2UlO2ncGdJXRBznOxw3d7I4Z5gLM2zR0l4u9Lc7XdbVVMZTdFI1lfFvNIc4jgXcfjdXYq0RRPSt387i67HfN8zgwFvtE6nrtL3X4XTDpYZMNngJwJG/wI6itCiszhGcXGSymRRk4vKJ/q+jsuq6k3zTddTx1kwzU0FTI2KQu+c3eOCe0A96jcWlb4+QNlpBSs65aiVsUbR27zjj2LSIooVSrjwxl09p3Kak8tFlUmprPojT0ls0/My5XafjUVjW/eWO6t3PxgOrq4k9yrmeWWonknmkdJLI4ue9xyXE8SSvNF7VRGttrq3uzydjlhdyMigpJKyoEET4GOPHemnZE0frOICm+s7Hbzp6ystl9s1VUUVOYaiNtfECSXF+W5cMjLnd/JQBEsrlKSknjAjJJNY3C3ejdRVemr1HX02Xxn1Z4s8JGdY8ew9q0iKScIzi4y2Zym4vKJjtbudFd9SwXCgmbLBLRRkEcwcuyCOojsUORFzVWq4KC7j2cuKTbP1jS5waMZJwMnA9pVw7HTa9P2ytkul7s8FRVyNxH8PicWtaDjOHY+UVTqKPU0c+HA3hHVVnLlxYJdtOoYDqauulBcbdWUlQ8SAwVkb3AkDILQ7e555DkoiiKSqDhBRbzg5lLieQiIpDkKU7O9Xz6VuTnOY6ehnwJ4gePDk5vePf7CIsi4srjZFxkujOoycXlFqawsdi1lOb1pm8ULa2QDp6WaToy89uDxDursPb2w6bRd9pnZrm0VHEOcs1dEGj2OJPkFHEUNVNlS4Yy6e1df3O5TjJ5a6m4ulRRUtALTbZjUNMgkqqrdLRK4AhrWg8QxuTz4knOBgL40xaYrvc2QVFwo6CmBBmmqJ2R7revdDj6x8PNapFLwNRaT6+Jxxdcsnu1S30MldBV2W6WqpoKekZA2KKtjL4wzPDd3suznPDJzlQNfiLymt1wUW84PZy4nnBcux2rpLFZauC73y0QCWYSRRGvicW8MEnDiBnA9ihG0mz22kvE9wstzt1XQ1D9/o4KqNz4nHmN0HOM8iOXJRFFBXpXC52qW+6O5W8UFDGxlW6ilrp+hilpoz1unqGRNHm4j3K96iq03JoY6dGpbNvigFM15rI8bwZgHnyyMrn5F7qdLz2syxgVW8vPTcyrjQy0MvRyy0smc4dBUxzA472E481ioitLOOpCz7gidNM2JhYHOOAXvDB5kkAeavDZbU2XT2lW0lff7OyplmdNIwV0R3MgADIdjOGhUYir6rTeUQ4G8Ilqt5bzgkOubcylv1dVUtdQVdJPUOkifT1cchw4k4LQcjHLlhR5EU0IuMUm8kcnl5PSnidPM2JhjDnHAL3tY3zLiAPNXlsxqrLp/SkVFXX+zsqXyOlkY2uiO6TgAZDsHgAqJRQarTeUR4G8Ikqt5bzg3GqrYLfdakw1lDV0z5nGGSnqo5MtJJGQ0kjh2hagDJwvxFYimlhsjbyyy9O2O0UmiLpFLqGyR3m4RBjQa6MiJgcHbmQebscerl2KuqymkpKh0EroXObzMUzZG+Tmkg+1eKKKqqUJSblnJ1OakkktjfaHgmOoqGsjraKjZT1DHvkqKpkQDQcng4gnhkcAVam01um9T2MMp9Q2ZtdTOL6curYwHZ+MwnPDPDzAVGoortK7LI2cWGjuFvDFxxufc0bopXxPLC5hIJY8OHkRkHxCtLY1Hb7HJXV92vNopnzMbHFGa+IuxnJJw7h1e9VUil1FLurcM4yc1z4JcWCxtqVppLtqJ93s98slS2djRJGbjCxwc0bvynAEYA61GrbpWapnaypvNioY8+s+W5wuwO4MccqPIvK6Z1wUFLb2CU4ylxNE62mw2Shs9gtVkuNLXMpmzmWSGVryXuLMuduk4zg47h3KCoi7pr5cOHOTmcuJ5CIilOQiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiID//2Q==" alt="Auremont Capital" />
+    </div>
+    <div class="nav-actions">
+      <div class="nav-marvina-wrap">
+        <a href="#" class="nav-marvina-btn">MARVINA&#8482;</a>
+        <div class="nav-tooltip">
+          <div class="nav-tooltip-title">
+            MARVINA&#8482; Intelligence Engine
+            <span class="nav-tooltip-ai">AI</span>
+          </div>
+          <div class="nav-tooltip-sub">Mandate | Asset | Risk | Valuation | Intelligence | Network | Advisory</div>
+        </div>
+      </div>
+      <a href="mailto:info@auremontcapital.co?subject=Engage Us" class="nav-engage">Engage Us</a>
+    </div>
+  </nav>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- SCAN INTRO OVERLAY -->
+  <div id="scan-overlay">
+    <div id="scan-line"></div>
+    <div id="overlay-logo">AUREMONT CAPITAL · MARVINA</div>
+  </div>
+
+  <!-- CANVAS NETWORK -->
+  <canvas id="network-canvas"></canvas>
+
+  <main>
+
+    <!-- ═══ HERO ══════════════════════════════════════ -->
+    <section class="hero">
+      <div class="acap-label">Auremont Capital · Proprietary Intelligence</div>
+      <h1 class="marvina-title">
+        <span class="letter">M</span><span class="letter">A</span><span class="letter">R</span><span class="letter">V</span><span class="letter">I</span><span class="letter">N</span><span class="letter">A</span>
+      </h1>
+      <div class="marvina-sub">Intelligence Engine</div>
+      <div class="marvina-acronym">
+        <span class="marvina-acronym-word">Mandate</span>
+        <span class="marvina-acronym-sep">|</span>
+        <span class="marvina-acronym-word">Asset</span>
+        <span class="marvina-acronym-sep">|</span>
+        <span class="marvina-acronym-word">Risk</span>
+        <span class="marvina-acronym-sep">|</span>
+        <span class="marvina-acronym-word">Valuation</span>
+        <span class="marvina-acronym-sep">|</span>
+        <span class="marvina-acronym-word">Intelligence</span>
+        <span class="marvina-acronym-sep">|</span>
+        <span class="marvina-acronym-word">Network</span>
+        <span class="marvina-acronym-sep">|</span>
+        <span class="marvina-acronym-word">Advisory</span>
+      </div>
+      <p class="hero-tagline">
+        "Off-market precision. Institutional confidence.<br/>Every deal — scored, structured, and matched before you walk into the room."
+      </p>
+      <div class="hero-badges">
+        <div class="badge">Mandate-First</div>
+        <div class="badge">Hybrid AI</div>
+        <div class="badge">85% MCI Floor</div>
+        <div class="badge">Private Markets</div>
+        <div class="badge">Built by ACap</div>
+      </div>
+      <div class="scroll-prompt">
+        <span>Explore</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- ═══ ACRONYM ════════════════════════════════════ -->
+    <section class="section">
+      <div class="section-label reveal">What MARVINA Stands For</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Seven pillars.<br/>One intelligence engine.
+      </h2>
+      <div class="acronym-grid">
+        <div class="acronym-item reveal">
+          <div class="acronym-letter">M</div>
+          <div class="acronym-word">Mandate</div>
+          <p class="acronym-desc">Every deal begins with a defined mandate. Seller intent, buyer criteria, exclusivity appetite, ticket size — MARVINA is mandate-first, always. No mandate, no engagement.</p>
+        </div>
+        <div class="acronym-item reveal reveal-delay-1">
+          <div class="acronym-letter">A</div>
+          <div class="acronym-word">Asset</div>
+          <p class="acronym-desc">The asset is the unit of analysis. Scored, valued, risk-mapped, and structured before any capital conversation begins. Across Education, Hospitality, Healthcare, and Development.</p>
+        </div>
+        <div class="acronym-item reveal reveal-delay-2">
+          <div class="acronym-letter">R</div>
+          <div class="acronym-word">Risk</div>
+          <p class="acronym-desc">No deal leaves MARVINA without a full risk register. Red, Amber, Green — every flag surfaced and quantified before the room. Regulatory, structural, market, and counterparty risk.</p>
+        </div>
+        <div class="acronym-item reveal">
+          <div class="acronym-letter">V</div>
+          <div class="acronym-word">Valuation</div>
+          <p class="acronym-desc">Bear, Base, Bull. MARVINA produces a range, not a number — because markets are not static and neither is value. Every range carries a confidence band and visible assumptions.</p>
+        </div>
+        <div class="acronym-item reveal reveal-delay-1">
+          <div class="acronym-letter">I</div>
+          <div class="acronym-word">Intelligence</div>
+          <p class="acronym-desc">Live market signals, regulatory shifts, comparable transactions, investor appetite. MARVINA knows what the market knows — faster, and with institutional context applied automatically.</p>
+        </div>
+        <div class="acronym-item reveal reveal-delay-2">
+          <div class="acronym-letter">N</div>
+          <div class="acronym-word">Network</div>
+          <p class="acronym-desc">1,750+ institutional entities across 35 countries. Every deal matched to the right capital before outreach begins. The right investor for the right deal at the right moment.</p>
+        </div>
+        <div class="acronym-item reveal" style="grid-column: 1 / -1; border-top: 1px solid var(--gold-border);">
+          <div class="acronym-letter">A</div>
+          <div class="acronym-word">Advisory</div>
+          <p class="acronym-desc">MARVINA doesn't just score. It recommends — structure, sequence, counterparty, next action. Every output closes with a clear advisory prompt: what to do, with whom, and why. Because intelligence without direction is just data.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══ PROBLEM SPACE ══════════════════════════════ -->
+    <section class="problem-section">
+      <div class="problem-inner">
+        <div class="section-label reveal">The Problem Space</div>
+        <div class="problem-grid">
+          <div class="problem-statement reveal reveal-delay-1">
+            Private market investors operate in a world where <em>the best deals are never listed,</em> the right capital is never obvious, and the cost of a mispriced asset or a wrong counterparty is measured in millions — not percentages.
+          </div>
+          <div class="pain-list">
+            <div class="pain-item reveal">
+              <div class="icon">✕</div>
+              <div>
+                <strong>Deals priced on instinct, not intelligence</strong>
+                <p>Valuations based on comparable guesswork rather than modeled, risk-adjusted ranges with visible assumptions.</p>
+              </div>
+            </div>
+            <div class="pain-item reveal reveal-delay-1">
+              <div class="icon">✕</div>
+              <div>
+                <strong>Capital outreach that wastes relationships</strong>
+                <p>Approaching the wrong investor with the right deal — or the right investor with a poorly structured proposal — is a permanent cost.</p>
+              </div>
+            </div>
+            <div class="pain-item reveal reveal-delay-2">
+              <div class="icon">✕</div>
+              <div>
+                <strong>Risk discovered in due diligence, not before</strong>
+                <p>Regulatory flags, structural mismatches, and counterparty misalignment surfacing late — after time and credibility have been spent.</p>
+              </div>
+            </div>
+            <div class="pain-item reveal reveal-delay-3">
+              <div class="icon">✕</div>
+              <div>
+                <strong>No institutional infrastructure for boutique operators</strong>
+                <p>The tools BlackRock and KKR use to process deal flow don't exist for family offices, boutique advisors, or independent originators. Until now.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ PERSONAS ═══════════════════════════════════ -->
+    <section class="personas-section">
+      <div class="personas-intro">
+        <div class="section-label reveal">MARVINA Solves For</div>
+        <h2 class="section-title reveal reveal-delay-1">Built for every seat<br/>at the deal table.</h2>
+        <p class="reveal reveal-delay-2">Whether you are operating, acquiring, divesting, or building — MARVINA positions you with the clarity and confidence that institutions have always had, and independent operators have always deserved.</p>
+      </div>
+
+      <div class="persona-tabs reveal">
+        <button class="tab-btn active" onclick="switchTab('education')">Education</button>
+        <button class="tab-btn" onclick="switchTab('hospitality')">Hospitality</button>
+        <button class="tab-btn" onclick="switchTab('healthcare')">Healthcare</button>
+        <button class="tab-btn" onclick="switchTab('developer')">Developers</button>
+      </div>
+
+      <!-- EDUCATION TABS -->
+      <div class="tab-content active" id="tab-education">
+        <!-- School Operator -->
+        <div class="persona-challenge" data-role="School Operator">
+          <h3>You run an established school. Growth requires capital, but dilution — or the wrong partner — is not an option.</h3>
+          <p style="margin-top:1rem;">You are capacity-constrained, KHDA-compliant, and operationally strong. But translating that into institutional deal language — the kind that moves PE and family office capital — has always required advisors who charge first and deliver later.</p>
+        </div>
+        <div class="solve-list">
+          <div class="solve-item">
+            <div class="solve-num">01</div>
+            <div class="solve-text">
+              <strong>Institutional-grade asset scoring</strong>
+              <p>MARVINA scores your school against 40+ parameters — enrolment trend, EBITDA margin, KHDA rating trajectory, curriculum demand, and location yield — producing a deal score that speaks to PE decision-makers.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">02</div>
+            <div class="solve-text">
+              <strong>Matched to the right capital partner</strong>
+              <p>From 1,750 institutional entities, MARVINA identifies investors with education mandates, GCC geography, and your ticket size — before a single outreach call is made.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">03</div>
+            <div class="solve-text">
+              <strong>Structure recommendation before negotiation</strong>
+              <p>SPV, co-investment, minority equity, or full acquisition — MARVINA recommends the deal structure that protects your operational control while satisfying investor return requirements.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- School Buyer -->
+        <div class="persona-challenge" data-role="School Buyer / Acquirer" style="margin-top:2rem;">
+          <h3>You are deploying capital into education. Speed, due diligence depth, and deal origination are your constraints.</h3>
+          <p style="margin-top:1rem;">The best school assets in the GCC never reach the open market. By the time they do, the price has been bid up and the exclusivity window is closed.</p>
+        </div>
+        <div class="solve-list" style="margin-top:2rem;">
+          <div class="solve-item">
+            <div class="solve-num">01</div>
+            <div class="solve-text">
+              <strong>Off-market deal flow, pre-scored</strong>
+              <p>MARVINA surfaces mandated assets before they are marketed — each delivered with an ACap Deal Score, valuation range, and risk register.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">02</div>
+            <div class="solve-text">
+              <strong>Bear / Base / Bull valuation with assumptions visible</strong>
+              <p>No black-box pricing. Every valuation produced by MARVINA shows you the assumptions, the comparable set, and the sensitivity drivers — so you negotiate from a position of knowledge.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOSPITALITY TAB -->
+      <div class="tab-content" id="tab-hospitality">
+        <div class="persona-challenge" data-role="Asset Owner / Developer">
+          <h3>You own a hospitality asset or land parcel with development potential. Positioning it to the right operator or investor requires market language you may not have.</h3>
+          <p style="margin-top:1rem;">Beachfront plots, city hotel assets, branded residences, serviced apartment conversions — MARVINA scores these against STR yield benchmarks, operator appetite, and financing feasibility.</p>
+        </div>
+        <div class="solve-list">
+          <div class="solve-item">
+            <div class="solve-num">01</div>
+            <div class="solve-text">
+              <strong>Operator-appetite matching</strong>
+              <p>MARVINA identifies which hospitality operators — from luxury boutique to branded international — are actively expanding in your market and at your asset category.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">02</div>
+            <div class="solve-text">
+              <strong>Development feasibility scoring</strong>
+              <p>G+X modeling, construction cost benchmarks, RevPAR projections, and NOI stabilization timelines — structured into a deal-ready investment case.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">03</div>
+            <div class="solve-text">
+              <strong>Capital stack structuring</strong>
+              <p>Senior debt, mezzanine, equity waterfall, and co-GP mechanics — MARVINA models the optimal stack for hospitality development deals across GCC, South Asia, and Africa.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HEALTHCARE TAB -->
+      <div class="tab-content" id="tab-healthcare">
+        <div class="persona-challenge" data-role="Healthcare Asset Owner / Investor">
+          <h3>Healthcare assets are complex, regulated, and highly valued — but few advisors understand both the clinical operations and the institutional investment lens simultaneously.</h3>
+          <p style="margin-top:1rem;">Polyclinics, specialty hospitals, diagnostic centers, and medical real estate all carry unique licensing, operational, and regulatory layers that standard deal models miss entirely.</p>
+        </div>
+        <div class="solve-list">
+          <div class="solve-item">
+            <div class="solve-num">01</div>
+            <div class="solve-text">
+              <strong>Regulatory-aware scoring</strong>
+              <p>MARVINA flags DHA, HAAD, and MOH compliance posture as a primary deal parameter — not an afterthought in due diligence.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">02</div>
+            <div class="solve-text">
+              <strong>Matched to healthcare-mandate capital</strong>
+              <p>From specialist healthcare PE funds to family offices with healthcare portfolio concentration — MARVINA identifies investors already positioned in this vertical.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">03</div>
+            <div class="solve-text">
+              <strong>Operational + real estate value separation</strong>
+              <p>MARVINA separates the operating business value from the real estate or infrastructure value — enabling OpCo / PropCo structures that unlock more capital at better terms.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEVELOPERS TAB -->
+      <div class="tab-content" id="tab-developer">
+        <div class="persona-challenge" data-role="Developer / Project Originator">
+          <h3>You originate development opportunities — land, planning, early-stage feasibility — and need capital partners before the asset is mature enough for institutional review.</h3>
+          <p style="margin-top:1rem;">Development deals require a different kind of intelligence: forward-looking, scenario-based, and sensitive to timing, cost escalation, and market absorption rates.</p>
+        </div>
+        <div class="solve-list">
+          <div class="solve-item">
+            <div class="solve-num">01</div>
+            <div class="solve-text">
+              <strong>Scenario-based development modeling</strong>
+              <p>MARVINA runs Bear / Base / Bull projections across GDV, construction cost, absorption, and exit timing — showing investors exactly where the value is created and where it can erode.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">02</div>
+            <div class="solve-text">
+              <strong>JV and co-development structuring</strong>
+              <p>Profit-sharing, land contribution valuation, promote structures, and exit waterfall design — MARVINA produces a JV term sheet framework before the first investor meeting.</p>
+            </div>
+          </div>
+          <div class="solve-item">
+            <div class="solve-num">03</div>
+            <div class="solve-text">
+              <strong>Pre-development capital matching</strong>
+              <p>Not all capital is development-ready. MARVINA identifies investors with pre-development risk appetite — early equity, mezzanine debt, and land acquisition financing — from your matched institutional network.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══ HOW IT WORKS ═══════════════════════════════ -->
+    <section class="how-section">
+      <div class="how-inner">
+        <div class="section-label reveal">The Process</div>
+        <h2 class="section-title reveal reveal-delay-1">Three steps.<br/>One deal-ready output.</h2>
+        <div class="process-track">
+          <div class="process-step reveal">
+            <div class="step-num">01</div>
+            <div class="step-title">Input the Deal</div>
+            <p class="step-desc">You enter the asset's core parameters — financials, location, regulatory status, seller mandate, and asking price. No coding. No spreadsheets. A guided intelligence form.</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="process-step reveal reveal-delay-1">
+            <div class="step-num">02</div>
+            <div class="step-title">MARVINA Processes</div>
+            <p class="step-desc">The hybrid engine scores the deal, models the valuation, maps the risk register, and runs investor-mandate matching across 1,750+ institutional entities — simultaneously.</p>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="process-step reveal reveal-delay-2">
+            <div class="step-num">03</div>
+            <div class="step-title">Receive Your DIR</div>
+            <p class="step-desc">You receive a complete Deal Intelligence Report — ACap Deal Score, valuation range, risk register, investor shortlist, structure recommendation, and a one-page investor narrative. Ready to act.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WORKFLOW ANIMATION ══════════════════════════ -->
+    <section class="workflow-section">
+      <div class="workflow-inner">
+        <div class="section-label reveal">MARVINA · Intelligence Data Flow</div>
+        <h2 class="section-title reveal reveal-delay-1">From raw deal data to<br/>institutional-grade output.</h2>
+        <p class="workflow-subtitle reveal reveal-delay-2">One continuous engine. Every stream processed simultaneously. Every output carrying a confidence score before it leaves the system.</p>
+
+        <div class="workflow-canvas-wrap reveal reveal-delay-3">
+          <!-- Status Bar -->
+          <div class="workflow-status">
+            <div class="ws-left">MARVINA · Live Data Flow</div>
+            <div class="ws-right">
+              <div class="ws-indicator"><div class="ws-dot run"></div>Engine Running</div>
+              <div class="ws-indicator"><div class="ws-dot blue"></div>3 Input Streams</div>
+              <div class="ws-indicator"><div class="ws-dot gold"></div>3 Processing Nodes</div>
+              <div class="ws-indicator"><div class="ws-dot purple"></div>AI Core Active</div>
+              <div class="ws-indicator"><div class="ws-dot" style="background:#4ABD8A; box-shadow:0 0 6px #4ABD8A;"></div>DIR Output Live</div>
+            </div>
+          </div>
+
+          <!-- SVG Workflow -->
+          <svg class="wf-svg" viewBox="0 0 1060 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="wf-glow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="wf-ai-glow" x="-15%" y="-15%" width="130%" height="140%">
+                <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="rgba(139,92,246,0.25)"/>
+              </filter>
+              <filter id="wf-out-glow" x="-15%" y="-15%" width="130%" height="140%">
+                <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="rgba(52,211,153,0.2)"/>
+              </filter>
+              <filter id="wf-node-shadow" x="-10%" y="-10%" width="120%" height="130%">
+                <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="rgba(200,169,110,0.12)"/>
+              </filter>
+              <marker id="wf-arr-gold" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto">
+                <polygon points="0 0, 7 2.5, 0 5" fill="rgba(200,169,110,0.55)"/>
+              </marker>
+              <marker id="wf-arr-green" markerWidth="7" markerHeight="5" refX="5" refY="2.5" orient="auto">
+                <polygon points="0 0, 7 2.5, 0 5" fill="rgba(52,211,153,0.55)"/>
+              </marker>
+              <linearGradient id="wf-gold-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#B8922A"/><stop offset="100%" stop-color="#D4A84B"/>
+              </linearGradient>
+              <linearGradient id="wf-blue-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1D4ED8"/><stop offset="100%" stop-color="#3B82F6"/>
+              </linearGradient>
+              <linearGradient id="wf-purple-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#5B21B6"/><stop offset="100%" stop-color="#8B5CF6"/>
+              </linearGradient>
+              <linearGradient id="wf-green-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#047857"/><stop offset="100%" stop-color="#34D399"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Layer separator lines -->
+            <line x1="48" y1="145" x2="1040" y2="145" class="wf-sep"/>
+            <line x1="48" y1="310" x2="1040" y2="310" class="wf-sep"/>
+            <line x1="48" y1="455" x2="1040" y2="455" class="wf-sep"/>
+
+            <!-- Layer labels -->
+            <text class="wf-layer-label" x="22" y="90"  transform="rotate(-90,22,90)"  text-anchor="middle">Input</text>
+            <text class="wf-layer-label" x="22" y="252" transform="rotate(-90,22,252)" text-anchor="middle">Process</text>
+            <text class="wf-layer-label" x="22" y="400" transform="rotate(-90,22,400)" text-anchor="middle">AI Core</text>
+            <text class="wf-layer-label" x="22" y="540" transform="rotate(-90,22,540)" text-anchor="middle">Output</text>
+
+            <!-- ── CONNECTION PATHS ── -->
+            <path id="wf-p-ad" class="wf-conn" stroke="rgba(200,169,110,0.28)" marker-end="url(#wf-arr-gold)" d="M 178,125 C 178,163 178,168 178,200"/>
+            <path id="wf-p-be" class="wf-conn" stroke="rgba(200,169,110,0.28)" marker-end="url(#wf-arr-gold)" d="M 530,125 C 530,163 530,168 530,200"/>
+            <path id="wf-p-cf" class="wf-conn" stroke="rgba(200,169,110,0.28)" marker-end="url(#wf-arr-gold)" d="M 882,125 C 882,163 882,168 882,200"/>
+            <path id="wf-p-dg" class="wf-conn slow" stroke="rgba(200,169,110,0.28)" marker-end="url(#wf-arr-gold)" d="M 178,282 C 178,330 530,342 530,352"/>
+            <path id="wf-p-eg" class="wf-conn fast" stroke="rgba(200,169,110,0.28)" marker-end="url(#wf-arr-gold)" d="M 530,282 C 530,310 530,330 530,352"/>
+            <path id="wf-p-fg" class="wf-conn slow" stroke="rgba(200,169,110,0.28)" marker-end="url(#wf-arr-gold)" d="M 882,282 C 882,330 530,342 530,352"/>
+            <path id="wf-p-gh" class="wf-conn final" stroke="rgba(52,211,153,0.38)" marker-end="url(#wf-arr-green)" d="M 530,435 C 530,455 530,465 530,483"/>
+
+            <!-- ── PARTICLES A→D ── -->
+            <circle class="wf-particle" r="3.5" fill="#93C5FD"><animateMotion dur="1.3s" repeatCount="indefinite" begin="0s"><mpath href="#wf-p-ad"/></animateMotion></circle>
+            <circle class="wf-particle" r="3.5" fill="#93C5FD"><animateMotion dur="1.3s" repeatCount="indefinite" begin="0.65s"><mpath href="#wf-p-ad"/></animateMotion></circle>
+            <!-- B→E -->
+            <circle class="wf-particle" r="3.5" fill="#93C5FD"><animateMotion dur="1.3s" repeatCount="indefinite" begin="0.2s"><mpath href="#wf-p-be"/></animateMotion></circle>
+            <circle class="wf-particle" r="3.5" fill="#93C5FD"><animateMotion dur="1.3s" repeatCount="indefinite" begin="0.85s"><mpath href="#wf-p-be"/></animateMotion></circle>
+            <!-- C→F -->
+            <circle class="wf-particle" r="3.5" fill="#93C5FD"><animateMotion dur="1.3s" repeatCount="indefinite" begin="0.4s"><mpath href="#wf-p-cf"/></animateMotion></circle>
+            <circle class="wf-particle" r="3.5" fill="#93C5FD"><animateMotion dur="1.3s" repeatCount="indefinite" begin="1.05s"><mpath href="#wf-p-cf"/></animateMotion></circle>
+            <!-- D→G -->
+            <circle class="wf-particle" r="3.5" fill="#F0C040"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0.3s"><mpath href="#wf-p-dg"/></animateMotion></circle>
+            <circle class="wf-particle" r="3.5" fill="#F0C040"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.4s"><mpath href="#wf-p-dg"/></animateMotion></circle>
+            <!-- E→G -->
+            <circle class="wf-particle" r="3.5" fill="#F0C040"><animateMotion dur="1.5s" repeatCount="indefinite" begin="0s"><mpath href="#wf-p-eg"/></animateMotion></circle>
+            <circle class="wf-particle" r="3.5" fill="#F0C040"><animateMotion dur="1.5s" repeatCount="indefinite" begin="0.75s"><mpath href="#wf-p-eg"/></animateMotion></circle>
+            <!-- F→G -->
+            <circle class="wf-particle" r="3.5" fill="#F0C040"><animateMotion dur="2.2s" repeatCount="indefinite" begin="0.6s"><mpath href="#wf-p-fg"/></animateMotion></circle>
+            <circle class="wf-particle" r="3.5" fill="#F0C040"><animateMotion dur="2.2s" repeatCount="indefinite" begin="1.7s"><mpath href="#wf-p-fg"/></animateMotion></circle>
+            <!-- G→H -->
+            <circle class="wf-particle" r="4" fill="#6EE7B7"><animateMotion dur="1.1s" repeatCount="indefinite" begin="0s"><mpath href="#wf-p-gh"/></animateMotion></circle>
+            <circle class="wf-particle" r="4" fill="#6EE7B7"><animateMotion dur="1.1s" repeatCount="indefinite" begin="0.55s"><mpath href="#wf-p-gh"/></animateMotion></circle>
+            <circle class="wf-particle" r="4" fill="#6EE7B7"><animateMotion dur="1.1s" repeatCount="indefinite" begin="1.1s"><mpath href="#wf-p-gh"/></animateMotion></circle>
+
+            <!-- ══ NODE A — Deal Parameters ══ -->
+            <g transform="translate(78,45)" filter="url(#wf-node-shadow)">
+              <rect class="wf-node-body inp" x="0" y="0" width="200" height="80" rx="8"/>
+              <rect x="0" y="0" width="200" height="26" rx="8" fill="url(#wf-blue-g)"/>
+              <rect x="0" y="14" width="200" height="12" fill="#2563EB"/>
+              <text x="12" y="18" class="wf-tag">📋  DEAL PARAMETERS</text>
+              <text x="12" y="44" class="wf-nd">Asset fundamentals</text>
+              <text x="12" y="57" class="wf-nd">Financial data · Seller mandate</text>
+              <text x="12" y="70" class="wf-nd">Asking price · Exclusivity</text>
+              <circle cx="100" cy="80" r="5" fill="#07071A" stroke="#3B82F6" stroke-width="1.5"/>
+              <circle cx="100" cy="80" r="7" class="wf-pulse" stroke="#3B82F6">
+                <animate attributeName="r" values="6;15;6" dur="2s" repeatCount="indefinite" begin="0s"/>
+                <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite" begin="0s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE B — Investor Database ══ -->
+            <g transform="translate(430,45)" filter="url(#wf-node-shadow)">
+              <rect class="wf-node-body inp" x="0" y="0" width="200" height="80" rx="8"/>
+              <rect x="0" y="0" width="200" height="26" rx="8" fill="url(#wf-blue-g)"/>
+              <rect x="0" y="14" width="200" height="12" fill="#2563EB"/>
+              <text x="12" y="18" class="wf-tag">🏦  INVESTOR DATABASE</text>
+              <text x="12" y="44" class="wf-nd">1,750 entities · 35 countries</text>
+              <text x="12" y="57" class="wf-nd">PE · VC · Family Offices</text>
+              <text x="12" y="70" class="wf-nd">Mandate tags · Return hurdles</text>
+              <circle cx="100" cy="80" r="5" fill="#07071A" stroke="#3B82F6" stroke-width="1.5"/>
+              <circle cx="100" cy="80" r="7" class="wf-pulse" stroke="#3B82F6">
+                <animate attributeName="r" values="6;15;6" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+                <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE C — Market Intelligence ══ -->
+            <g transform="translate(782,45)" filter="url(#wf-node-shadow)">
+              <rect class="wf-node-body inp" x="0" y="0" width="200" height="80" rx="8"/>
+              <rect x="0" y="0" width="200" height="26" rx="8" fill="url(#wf-blue-g)"/>
+              <rect x="0" y="14" width="200" height="12" fill="#2563EB"/>
+              <text x="12" y="18" class="wf-tag">📡  MARKET INTELLIGENCE</text>
+              <text x="12" y="44" class="wf-nd">Regulatory signals · DLD/RERA</text>
+              <text x="12" y="57" class="wf-nd">Comparables · Yield benchmarks</text>
+              <text x="12" y="70" class="wf-nd">Macro data · Sector trends</text>
+              <circle cx="100" cy="80" r="5" fill="#07071A" stroke="#3B82F6" stroke-width="1.5"/>
+              <circle cx="100" cy="80" r="7" class="wf-pulse" stroke="#3B82F6">
+                <animate attributeName="r" values="6;15;6" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+                <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE D — Deal Scoring ══ -->
+            <g transform="translate(78,200)" filter="url(#wf-node-shadow)">
+              <rect class="wf-node-body prc" x="0" y="0" width="200" height="82" rx="8"/>
+              <rect x="0" y="0" width="200" height="26" rx="8" fill="url(#wf-gold-g)"/>
+              <rect x="0" y="14" width="200" height="12" fill="#B8922A"/>
+              <text x="12" y="18" class="wf-tag">⚡  DEAL SCORING ENGINE</text>
+              <text x="12" y="44" class="wf-nd">XGBoost · 40+ parameters</text>
+              <text x="12" y="57" class="wf-nd">ACap Deal Score  →  0–100</text>
+              <text x="12" y="70" class="wf-nd" style="fill:#C8A96E;">Education · Hospitality · More</text>
+              <circle cx="100" cy="0" r="5" fill="#07071A" stroke="#C8A96E" stroke-width="1.5"/>
+              <circle cx="100" cy="82" r="5" fill="#07071A" stroke="#C8A96E" stroke-width="1.5"/>
+              <circle cx="100" cy="82" r="7" class="wf-pulse" stroke="#C8A96E">
+                <animate attributeName="r" values="6;14;6" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite" begin="0.5s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE E — Risk Flagging ══ -->
+            <g transform="translate(430,200)" filter="url(#wf-node-shadow)">
+              <rect class="wf-node-body prc" x="0" y="0" width="200" height="82" rx="8"/>
+              <rect x="0" y="0" width="200" height="26" rx="8" fill="url(#wf-gold-g)"/>
+              <rect x="0" y="14" width="200" height="12" fill="#B8922A"/>
+              <text x="12" y="18" class="wf-tag">🔍  RISK FLAGGING ENGINE</text>
+              <text x="12" y="44" class="wf-nd">Rules + Anomaly Detection</text>
+              <text x="12" y="57" class="wf-nd">Red · Amber · Green register</text>
+              <text x="12" y="70" class="wf-nd" style="fill:#C8A96E;">Regulatory · Structural · Market</text>
+              <circle cx="100" cy="0" r="5" fill="#07071A" stroke="#C8A96E" stroke-width="1.5"/>
+              <circle cx="100" cy="82" r="5" fill="#07071A" stroke="#C8A96E" stroke-width="1.5"/>
+              <circle cx="100" cy="82" r="7" class="wf-pulse" stroke="#C8A96E">
+                <animate attributeName="r" values="6;14;6" dur="2.5s" repeatCount="indefinite" begin="0.9s"/>
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite" begin="0.9s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE F — Valuation Model ══ -->
+            <g transform="translate(782,200)" filter="url(#wf-node-shadow)">
+              <rect class="wf-node-body prc" x="0" y="0" width="200" height="82" rx="8"/>
+              <rect x="0" y="0" width="200" height="26" rx="8" fill="url(#wf-gold-g)"/>
+              <rect x="0" y="14" width="200" height="12" fill="#B8922A"/>
+              <text x="12" y="18" class="wf-tag">📊  VALUATION MODEL</text>
+              <text x="12" y="44" class="wf-nd">Regression Ensemble (RF + LR)</text>
+              <text x="12" y="57" class="wf-nd">Bear · Base · Bull range</text>
+              <text x="12" y="70" class="wf-nd" style="fill:#C8A96E;">Confidence bands · Assumptions</text>
+              <circle cx="100" cy="0" r="5" fill="#07071A" stroke="#C8A96E" stroke-width="1.5"/>
+              <circle cx="100" cy="82" r="5" fill="#07071A" stroke="#C8A96E" stroke-width="1.5"/>
+              <circle cx="100" cy="82" r="7" class="wf-pulse" stroke="#C8A96E">
+                <animate attributeName="r" values="6;14;6" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
+                <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite" begin="0.2s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE G — MARVINA AI CORE ══ -->
+            <g transform="translate(265,352)" filter="url(#wf-ai-glow)">
+              <rect class="wf-node-body ai" x="0" y="0" width="530" height="83" rx="10"/>
+              <rect x="0" y="0" width="530" height="28" rx="10" fill="url(#wf-purple-g)"/>
+              <rect x="0" y="16" width="530" height="12" fill="#5B21B6"/>
+              <text x="20" y="20" class="wf-tag" style="font-size:9.5px; letter-spacing:0.1em; fill:rgba(255,255,255,0.92);">🧠  MARVINA AI CORE  ·  HYBRID INTELLIGENCE ENGINE</text>
+              <!-- sub-modules -->
+              <rect x="14" y="35" width="155" height="36" rx="5" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.3)" stroke-width="1"/>
+              <text x="91" y="51" text-anchor="middle" class="wf-nt" style="font-size:8px;">GPT-4o · LLM Layer</text>
+              <text x="91" y="63" text-anchor="middle" class="wf-nd">Reasoning · Narrative · Drafts</text>
+              <rect x="187" y="35" width="155" height="36" rx="5" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.3)" stroke-width="1"/>
+              <text x="264" y="51" text-anchor="middle" class="wf-nt" style="font-size:8px;">XGBoost · ML Models</text>
+              <text x="264" y="63" text-anchor="middle" class="wf-nd">Scoring · Matching · Prediction</text>
+              <rect x="360" y="35" width="155" height="36" rx="5" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.3)" stroke-width="1"/>
+              <text x="437" y="51" text-anchor="middle" class="wf-nt" style="font-size:8px;">Rules · Decision Trees</text>
+              <text x="437" y="63" text-anchor="middle" class="wf-nd">Flags · Structure · Compliance</text>
+              <!-- MCI badge -->
+              <rect x="446" y="4" width="74" height="18" rx="4" fill="rgba(200,169,110,0.18)" stroke="rgba(200,169,110,0.4)" stroke-width="1"/>
+              <text x="483" y="16" text-anchor="middle" class="wf-mci-badge">MCI ≥ 85%</text>
+              <!-- ports -->
+              <circle cx="265" cy="0"  r="6" fill="#07071A" stroke="#8B5CF6" stroke-width="1.5"/>
+              <circle cx="265" cy="83" r="6" fill="#07071A" stroke="#8B5CF6" stroke-width="1.5"/>
+              <circle cx="265" cy="83" r="9" class="wf-pulse" stroke="#8B5CF6">
+                <animate attributeName="r" values="7;20;7" dur="2s" repeatCount="indefinite" begin="0s"/>
+                <animate attributeName="opacity" values="0.8;0;0.8" dur="2s" repeatCount="indefinite" begin="0s"/>
+              </circle>
+            </g>
+
+            <!-- ══ NODE H — DIR Output ══ -->
+            <g transform="translate(215,483)" filter="url(#wf-out-glow)">
+              <rect class="wf-node-body out" x="0" y="0" width="630" height="85" rx="10"/>
+              <rect x="0" y="0" width="630" height="28" rx="10" fill="url(#wf-green-g)"/>
+              <rect x="0" y="16" width="630" height="12" fill="#047857"/>
+              <text x="20" y="20" class="wf-tag" style="font-size:9.5px; letter-spacing:0.1em; fill:rgba(255,255,255,0.92);">📄  DEAL INTELLIGENCE REPORT  ·  MARVINA OUTPUT</text>
+              <!-- output boxes -->
+              <rect x="14"  y="35" width="88" height="36" rx="4" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.22)" stroke-width="1"/>
+              <text x="58"  y="50" text-anchor="middle" class="wf-nt" style="font-size:7.5px;">ACap Deal Score</text>
+              <text x="58"  y="63" text-anchor="middle" class="wf-nd" style="fill:#34D399; font-size:8.5px;">0 – 100</text>
+
+              <rect x="112" y="35" width="98" height="36" rx="4" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.22)" stroke-width="1"/>
+              <text x="161" y="50" text-anchor="middle" class="wf-nt" style="font-size:7.5px;">Valuation Range</text>
+              <text x="161" y="63" text-anchor="middle" class="wf-nd" style="fill:#34D399; font-size:8.5px;">Bear · Base · Bull</text>
+
+              <rect x="220" y="35" width="86" height="36" rx="4" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.22)" stroke-width="1"/>
+              <text x="263" y="50" text-anchor="middle" class="wf-nt" style="font-size:7.5px;">Risk Register</text>
+              <text x="263" y="63" text-anchor="middle" class="wf-nd" style="fill:#34D399; font-size:8.5px;">R · A · G Flags</text>
+
+              <rect x="316" y="35" width="98" height="36" rx="4" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.22)" stroke-width="1"/>
+              <text x="365" y="50" text-anchor="middle" class="wf-nt" style="font-size:7.5px;">Investor Shortlist</text>
+              <text x="365" y="63" text-anchor="middle" class="wf-nd" style="fill:#34D399; font-size:8.5px;">Top 10 Matched</text>
+
+              <rect x="424" y="35" width="86" height="36" rx="4" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.22)" stroke-width="1"/>
+              <text x="467" y="50" text-anchor="middle" class="wf-nt" style="font-size:7.5px;">Structure Rec.</text>
+              <text x="467" y="63" text-anchor="middle" class="wf-nd" style="fill:#34D399; font-size:8.5px;">SPV · Co-GP</text>
+
+              <rect x="520" y="35" width="96" height="36" rx="4" fill="rgba(52,211,153,0.08)" stroke="rgba(52,211,153,0.22)" stroke-width="1"/>
+              <text x="568" y="50" text-anchor="middle" class="wf-nt" style="font-size:7.5px;">Deal Narrative</text>
+              <text x="568" y="63" text-anchor="middle" class="wf-nd" style="fill:#34D399; font-size:8.5px;">1-Page Investor</text>
+
+              <circle cx="315" cy="0" r="6" fill="#07071A" stroke="#34D399" stroke-width="1.5"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- MCI floor badge below animation -->
+        <div style="text-align:center; margin-top:1.5rem;">
+          <span style="font-family:var(--font-mono); font-size:0.6rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; border:1px solid var(--gold-border); padding:0.5rem 1.5rem; background:var(--gold-dim); display:inline-block;">
+            MARVINA Confidence Index · MCI Floor 85%
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONFIDENCE INDEX ════════════════════════════ -->
+    <section class="confidence-section">
+      <div class="section-label reveal" style="justify-content:center;">MARVINA Confidence Index</div>
+      <h2 class="section-title reveal reveal-delay-1" style="text-align:center;">Every output.<br/>A confidence score attached.</h2>
+
+      <div class="mci-display" id="mci-display">
+        <svg class="mci-ring" viewBox="0 0 240 240">
+          <circle class="mci-track" cx="120" cy="120" r="105"/>
+          <circle class="mci-fill" id="mci-fill" cx="120" cy="120" r="105"/>
+        </svg>
+        <div class="mci-center">
+          <div class="mci-number" id="mci-counter">0%</div>
+          <div class="mci-label">MCI Floor</div>
+        </div>
+      </div>
+
+      <p class="confidence-text reveal">
+        MARVINA does not output a recommendation unless its internal models agree to a minimum confidence level of <strong style="color:var(--gold);">85%</strong>. Below that threshold, MARVINA flags the gap, surfaces what additional data is needed, and waits. Because in private markets, a confident wrong answer is more dangerous than no answer at all.
+      </p>
+    </section>
+
+    <!-- ═══ SECTORS ════════════════════════════════════ -->
+    <section class="sectors-section">
+      <div class="sectors-inner">
+        <div class="section-label reveal">Intelligence Coverage</div>
+        <h2 class="section-title reveal reveal-delay-1">Where MARVINA operates.</h2>
+        <div class="sectors-grid">
+          <div class="sector-card priority reveal">
+            <span class="sector-icon">🏫</span>
+            <div class="sector-name">Education</div>
+            <p class="sector-desc">KHDA-rated schools, CBSE/IB/British curriculum operators, nurseries, higher education. MARVINA's primary trained vertical — deepest scoring model and comparable set.</p>
+          </div>
+          <div class="sector-card reveal reveal-delay-1">
+            <span class="sector-icon">🏨</span>
+            <div class="sector-name">Hospitality</div>
+            <p class="sector-desc">Hotels, branded residences, serviced apartments, hospitality land, resort developments across GCC, South Asia, and East Africa.</p>
+          </div>
+          <div class="sector-card reveal reveal-delay-2">
+            <span class="sector-icon">🏥</span>
+            <div class="sector-name">Healthcare</div>
+            <p class="sector-desc">Polyclinics, specialty hospitals, diagnostic centers, and medical real estate. DHA / HAAD / MOH regulatory framework fully integrated.</p>
+          </div>
+          <div class="sector-card reveal reveal-delay-3">
+            <span class="sector-icon">🏗️</span>
+            <div class="sector-name">Development</div>
+            <p class="sector-desc">Land, mixed-use, residential, and commercial development. Pre-development to stabilized exit — scenario modeling across the full lifecycle.</p>
+          </div>
+          <div class="sector-card soon reveal">
+            <span class="sector-icon">⚡</span>
+            <div class="sector-name">Data Infrastructure</div>
+            <p class="sector-desc">Data centers, digital infrastructure, and technology real estate — an emerging vertical for institutional capital deployment.</p>
+          </div>
+          <div class="sector-card soon reveal reveal-delay-1">
+            <span class="sector-icon">🌍</span>
+            <div class="sector-name">Cross-Border Assets</div>
+            <p class="sector-desc">African development markets, APAC opportunities, and Americas cross-border mandates — MARVINA's cultural intelligence framework applied to deal origination across 35 countries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ DIR PREVIEW ════════════════════════════════ -->
+    <section class="output-section">
+      <div class="section-label reveal">Sample Output</div>
+      <h2 class="section-title reveal reveal-delay-1">What a Deal Intelligence<br/>Report looks like.</h2>
+      <div class="dir-preview reveal reveal-delay-2">
+        <div class="dir-header">
+          <div class="dir-header-title">MARVINA · Deal Intelligence Report · Education Asset · Al Barsha South, Dubai</div>
+          <div class="dir-status"><div class="dir-status-dot"></div>MCI: 87%</div>
+        </div>
+        <div class="dir-body">
+          <div class="dir-metric">
+            <div class="dir-metric-label">ACap Deal Score</div>
+            <div class="dir-metric-value">78</div>
+            <div class="dir-metric-sub">/ 100 · Strong Buy Signal</div>
+          </div>
+          <div class="dir-metric">
+            <div class="dir-metric-label">Base Valuation</div>
+            <div class="dir-metric-value">AED 115M</div>
+            <div class="dir-metric-sub">Bear: 108M · Bull: 124M</div>
+          </div>
+          <div class="dir-metric">
+            <div class="dir-metric-label">Investor Matches</div>
+            <div class="dir-metric-value">12</div>
+            <div class="dir-metric-sub">Top fit: 94% · Avg: 81%</div>
+          </div>
+          <div class="dir-metric">
+            <div class="dir-metric-label">Recommended Structure</div>
+            <div class="dir-metric-value" style="font-size:1rem; padding-top:0.4rem;">SPV · Full</div>
+            <div class="dir-metric-sub">Equity acquisition via SPV</div>
+          </div>
+          <div class="dir-flags" style="grid-column: 1 / -1;">
+            <div class="dir-flags-label">Risk Register · 12 Parameters Assessed</div>
+            <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:0.4rem;">
+              <div class="flag-item"><div class="flag-dot g"></div>KHDA Rating · Rating B+</div>
+              <div class="flag-item"><div class="flag-dot g"></div>Enrolment Trend · +8% YoY</div>
+              <div class="flag-item"><div class="flag-dot g"></div>Title Deed · Clear</div>
+              <div class="flag-item"><div class="flag-dot g"></div>Curriculum Demand · CBSE High</div>
+              <div class="flag-item"><div class="flag-dot a"></div>EBITDA Margin · 22% (Avg: 27%)</div>
+              <div class="flag-item"><div class="flag-dot a"></div>Capex Requirement · AED 4.2M</div>
+              <div class="flag-item"><div class="flag-dot g"></div>Land Tenure · Freehold</div>
+              <div class="flag-item"><div class="flag-dot r"></div>Seller Motivation · Unclear</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CTA ════════════════════════════════════════ -->
+    <section class="cta-section">
+      <div class="cta-inner">
+        <div class="cta-eyebrow reveal">Auremont Capital · MARVINA</div>
+        <h2 class="cta-title reveal reveal-delay-1">
+          Intelligence before<br/><em>the room is entered.</em>
+        </h2>
+        <p class="cta-subtitle reveal reveal-delay-2">
+          MARVINA Intelligence Engine is currently in exclusive internal deployment at Auremont Capital. Institutional access for qualified advisors and family offices will be available by invitation.
+        </p>
+        <a href="mailto:info@auremontcapital.co?subject=MARVINA Intelligence Engine — Access Enquiry" class="cta-btn reveal reveal-delay-3">
+          Request Intelligence Access
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ═══ FOOTER ═════════════════════════════════════ -->
+    <footer class="page-footer">
+      <div class="footer-brand">Auremont Capital · MARVINA Intelligence Engine</div>
+      <div class="footer-note">© 2025 Auremont Capital. Proprietary. All rights reserved.</div>
+    </footer>
+
+  </main>
+
+  <script>
+    /* ─── SCAN OVERLAY REMOVAL ─────────────────────── */
+    setTimeout(() => {
+      const overlay = document.getElementById('scan-overlay');
+      overlay.classList.add('done');
+      setTimeout(() => overlay.style.display = 'none', 600);
+      document.getElementById('network-canvas').classList.add('visible');
+    }, 2200);
+
+    /* ─── CURSOR GLOW ──────────────────────────────── */
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+
+    /* ─── NETWORK CANVAS ───────────────────────────── */
+    (function() {
+      const canvas = document.getElementById('network-canvas');
+      const ctx    = canvas.getContext('2d');
+      let W, H, nodes = [];
+
+      const GOLD  = 'rgba(200,169,110,';
+      const NODE_COUNT = 60;
+      const CONNECT_DIST = 160;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      for (let i = 0; i < NODE_COUNT; i++) {
+        nodes.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          r: Math.random() * 2 + 1,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // edges
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < CONNECT_DIST) {
+              const alpha = (1 - dist / CONNECT_DIST) * 0.18;
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              ctx.strokeStyle = GOLD + alpha + ')';
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // nodes
+        for (const n of nodes) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = GOLD + '0.4)';
+          ctx.fill();
+
+          n.x += n.vx;
+          n.y += n.vy;
+          if (n.x < 0 || n.x > W) n.vx *= -1;
+          if (n.y < 0 || n.y > H) n.vy *= -1;
+        }
+
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ─── SCROLL REVEAL ────────────────────────────── */
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ─── MCI COUNTER ANIMATION ────────────────────── */
+    const mciObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        document.getElementById('mci-fill').classList.add('animated');
+        let count = 0;
+        const interval = setInterval(() => {
+          count++;
+          document.getElementById('mci-counter').textContent = count + '%';
+          if (count >= 85) clearInterval(interval);
+        }, 22);
+        mciObserver.disconnect();
+      }
+    }, { threshold: 0.5 });
+    mciObserver.observe(document.getElementById('mci-display'));
+
+    /* ─── PERSONA TABS ─────────────────────────────── */
+    function switchTab(id) {
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        const ids = ['education','hospitality','healthcare','developer'];
+        btn.classList.toggle('active', ids[i] === id);
+      });
+      document.querySelectorAll('.tab-content').forEach(tc => {
+        tc.classList.remove('active');
+      });
+      document.getElementById('tab-' + id).classList.add('active');
+    }
+  </script>
+</body>
+</html>
