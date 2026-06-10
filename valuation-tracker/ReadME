@@ -1,0 +1,9 @@
+<script>
+// ── PASGAT ──
+const VIEWER_PSS  = 'Aaronz2026';
+const ADMIN_SS   = 'Auremont2026';
+const EXPORT_SAS  = 'Marvina090388$';
+
+// ── ACCESS LEVEL ──
+let accessLevel = null;
+let inactivityTimer = null;
