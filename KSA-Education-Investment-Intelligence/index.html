@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -256,7 +255,29 @@ footer{background:var(--dk);border-top:1px solid var(--bdr-dk);padding:1.2rem 2r
 .wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#25D366;color:#FFF;font-family:var(--fc);font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.1rem;border-radius:50px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 4px 20px rgba(0,0,0,.4);text-decoration:none;transition:transform .2s,box-shadow .2s;}
 .wa-float:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(0,0,0,.5);}
 
-/* ── ANIMATIONS ── */
+/* ── LANDING SECTION ── */
+.landing{background:var(--dk);border-bottom:1px solid var(--bdr-dk);padding:2.5rem 2rem 2rem;}
+.landing-inner{max-width:1100px;margin:0 auto;}
+.landing-ey{font-family:var(--fc);font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem;}
+.landing-ey::before{content:'';display:block;width:24px;height:1px;background:var(--gold);}
+.landing-intro{font-family:var(--fd);font-size:1.15rem;color:var(--fg-dk2);line-height:1.8;max-width:780px;margin-bottom:2rem;}
+.landing-intro strong{color:var(--fg-dk);font-weight:500;}
+.landing-tabs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-bottom:2rem;}
+.ltab-card{background:var(--dk2);border:1px solid var(--bdr-dk);border-radius:var(--r);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.4rem;}
+.ltab-icon{font-size:1.3rem;line-height:1;}
+.ltab-name{font-family:var(--fc);font-size:.8rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);}
+.ltab-desc{font-family:var(--fb);font-size:.85rem;color:var(--fg-dk3);line-height:1.6;}
+.landing-who{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-bottom:2rem;}
+.who-card{background:var(--dk3);border:1px solid var(--bdr-dk);border-radius:var(--r);padding:.85rem 1rem;}
+.who-role{font-family:var(--fc);font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
+.who-benefit{font-family:var(--fb);font-size:.85rem;color:var(--fg-dk3);line-height:1.6;}
+.landing-divider{border:none;border-top:1px solid var(--bdr-dk);margin:0 0 1.5rem;}
+@media(max-width:768px){
+  .landing{padding:1.8rem 1rem 1.5rem;}
+  .landing-intro{font-size:1rem;}
+  .landing-tabs-grid{grid-template-columns:1fr 1fr;}
+  .landing-who{grid-template-columns:1fr 1fr;}
+}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes countUp{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
@@ -326,6 +347,7 @@ footer{background:var(--dk);border-top:1px solid var(--bdr-dk);padding:1.2rem 2r
     <button class="tb" onclick="switchTab('signal',this)">📊 Investment Signal</button>
     <button class="tb" onclick="switchTab('casestudy',this)">🧮 Case Study</button>
     <button class="tb" onclick="switchTab('sources',this)">📎 Sources</button>
+    <button class="tb" onclick="switchTab('guide',this)">📖 Guide</button>
   </div>
 </nav>
 
@@ -613,6 +635,75 @@ footer{background:var(--dk);border-top:1px solid var(--bdr-dk);padding:1.2rem 2r
   <div id="sig-src"></div>
 </div>
 
+<!-- ═══ TAB: GUIDE ═══ -->
+<div id="tab-guide" class="panel">
+  <div class="landing">
+    <div class="landing-inner">
+      <div class="landing-ey anim-fadeup">What this tool does</div>
+      <p class="landing-intro anim-fadeup anim-stagger-1">
+        This tool maps <strong>where education demand is</strong> across Saudi Arabia — by expat nationality, population density, and curriculum preference — and cross-references it against <strong>existing school supply</strong> to surface investment gaps. It ends with a <strong>live financial model</strong> where you configure a school on any plot and get a full BTL P&amp;L in seconds.
+      </p>
+
+      <div class="landing-ey anim-fadeup">What's in each tab</div>
+      <div class="landing-tabs-grid">
+        <div class="ltab-card anim-fadeup anim-stagger-1">
+          <div class="ltab-icon">📍</div>
+          <div class="ltab-name">City Map</div>
+          <div class="ltab-desc">Interactive KSA map. Click any city to see its population mix, dominant nationality, and school count by curriculum. Start here for a quick overview.</div>
+        </div>
+        <div class="ltab-card anim-fadeup anim-stagger-2">
+          <div class="ltab-icon">👥</div>
+          <div class="ltab-name">Demographics</div>
+          <div class="ltab-desc">Who lives in each city — Indians, Pakistanis, Filipinos, Western expats, Saudi elite — with the curriculum each community historically demands.</div>
+        </div>
+        <div class="ltab-card anim-fadeup anim-stagger-3">
+          <div class="ltab-icon">🏫</div>
+          <div class="ltab-name">School Supply</div>
+          <div class="ltab-desc">Confirmed school counts by city and curriculum. See where demand outpaces supply — the gap score tells you which corridors are underserved.</div>
+        </div>
+        <div class="ltab-card anim-fadeup anim-stagger-4">
+          <div class="ltab-icon">📊</div>
+          <div class="ltab-name">Investment Signal</div>
+          <div class="ltab-desc">Tier 1 / Tier 2 corridors ranked by demand pool, fee tolerance, and Vision 2030 tailwinds. Includes an advisory view on the right play for each city.</div>
+        </div>
+        <div class="ltab-card anim-fadeup anim-stagger-5">
+          <div class="ltab-icon">🧮</div>
+          <div class="ltab-name">Case Study</div>
+          <div class="ltab-desc">The most powerful tab. Enter a plot size, choose classrooms, set fee and enrolment — get a live BTL P&L: gross revenue, OPEX, lease cost, EBITDA and break-even. All sliders, fully adjustable.</div>
+        </div>
+        <div class="ltab-card anim-fadeup anim-stagger-6">
+          <div class="ltab-icon">📎</div>
+          <div class="ltab-name">Sources</div>
+          <div class="ltab-desc">Every data point is cited — GASTAT Census, CBSE registry, IB world schools, Mordor Intelligence, Wikipedia demographic data. Full disclaimer included.</div>
+        </div>
+      </div>
+
+      <hr class="landing-divider">
+
+      <div class="landing-ey anim-fadeup">Who this is built for</div>
+      <div class="landing-who">
+        <div class="who-card anim-fadeup anim-stagger-1">
+          <div class="who-role">School Operator</div>
+          <div class="who-benefit">Identify which city has the right population for your curriculum. Use the Case Study to model your school's financials before committing to a site.</div>
+        </div>
+        <div class="who-card anim-fadeup anim-stagger-2">
+          <div class="who-role">Property Developer</div>
+          <div class="who-benefit">Understand demand catchments before selecting a site. The feasibility model shows what lease rate your school tenant can viably afford.</div>
+        </div>
+        <div class="who-card anim-fadeup anim-stagger-3">
+          <div class="who-role">Family Office / Investor</div>
+          <div class="who-benefit">Validate the education asset thesis with real population data. See which corridors are undersupplied and what yield a BTL school asset can generate.</div>
+        </div>
+        <div class="who-card anim-fadeup anim-stagger-4">
+          <div class="who-role">Capital Advisor</div>
+          <div class="who-benefit">Share this as a deal intelligence brief with LP prospects. The Investment Signal tab gives you a ready-made conversation starter for any KSA education mandate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="sig-guide"></div>
+</div>
+
 </div><!-- /page-body -->
 
 <!-- FOOTER -->
@@ -726,7 +817,7 @@ function sigHtml(){
     </div>
   </div>`;
 }
-['map','dem','sup','sig','cs','src'].forEach(k=>{
+['map','dem','sup','sig','cs','src','guide'].forEach(k=>{
   const el=document.getElementById('sig-'+k);
   if(el) el.innerHTML=sigHtml();
 });
