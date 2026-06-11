@@ -1,1 +1,1126 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KSA Education Investment Intelligence | Vishal Desai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ── */
+:root{
+  --gold:#C9A84C;--gold-l:#E8C97A;--gold-pale:#F5EDD6;
+  --dk:#0E0C0A;--dk2:#1A1712;--dk3:#242018;--dk4:#2E2820;
+  --lt:#FAFAF8;--lt2:#F2EDE4;--lt3:#EAE3D6;
+  --fg-dk:#F0EAE0;--fg-dk2:#B8AFA0;--fg-dk3:#7A7268;
+  --fg-lt:#1A1712;--fg-lt2:#4A4438;--fg-lt3:#8A8070;
+  --bdr-dk:#2E2A22;--bdr-lt:#DDD5C4;
+  --british:#1A4F8A;--cbse:#2A6B35;--ib:#6B2E9A;--american:#8A4018;
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Barlow',sans-serif;
+  --fc:'Barlow Condensed',sans-serif;
+  --r:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--fb);background:var(--dk);color:var(--fg-dk);-webkit-font-smoothing:antialiased;}
+
+/* ── HEADER (always dark) ── */
+.hdr{background:var(--dk);border-bottom:1px solid var(--bdr-dk);padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:2000;height:72px;}
+.hdr-logo{font-family:var(--fd);color:var(--gold);font-size:1.5rem;font-weight:500;letter-spacing:.02em;}
+.hdr-logo span{display:block;font-family:var(--fc);font-size:.8rem;font-style:italic;color:var(--fg-dk3);letter-spacing:.06em;margin-top:2px;}
+.hdr-tag{font-family:var(--fc);font-size:.72rem;font-weight:700;letter-spacing:.14em;color:var(--gold);border:1px solid var(--gold);padding:5px 12px;border-radius:3px;}
+
+/* ── TABS (always dark, fixed below header) ── */
+.tabs{background:var(--dk2);border-bottom:2px solid var(--bdr-dk);position:fixed;top:72px;left:0;right:0;z-index:1900;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-list{display:flex;min-width:max-content;padding:0 1.5rem;}
+.tb{font-family:var(--fc);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dk3);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;padding:.9rem 1.2rem;cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s;}
+.tb:hover{color:var(--fg-dk);}
+.tb.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ── PAGE OFFSET ── */
+.page-body{padding-top:120px;}
+
+/* ── HERO (dark) ── */
+.hero{background:linear-gradient(160deg,#0E0C0A 0%,#1A1510 55%,#201A0E 100%);padding:3.5rem 2rem 2.5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--bdr-dk);}
+.hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(201,168,76,.025) 60px,rgba(201,168,76,.025) 61px);pointer-events:none;}
+.hero-inner{max-width:860px;position:relative;z-index:1;}
+.hero-ey{font-family:var(--fc);font-size:.88rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;}
+.hero h1{font-family:var(--fd);font-size:clamp(2.4rem,5vw,3.8rem);font-weight:500;color:#FFF;line-height:1.1;margin-bottom:1.2rem;}
+.hero h1 em{color:var(--gold-l);font-style:italic;}
+.hero-sub{color:var(--fg-dk2);font-size:1rem;max-width:600px;line-height:1.8;margin-bottom:2rem;}
+.stats{display:flex;flex-wrap:wrap;gap:1.8rem;}
+.stat{border-left:2px solid var(--gold);padding-left:1rem;}
+.stat .n{font-family:var(--fd);font-size:2.2rem;font-weight:600;color:var(--gold-l);line-height:1;}
+.stat .l{font-family:var(--fc);font-size:.75rem;color:var(--fg-dk3);letter-spacing:.07em;text-transform:uppercase;margin-top:4px;}
+
+/* ── LIGHT PANEL (tabs content) ── */
+.lp{background:var(--lt);color:var(--fg-lt);padding:2.5rem 2rem 1.5rem;}
+.lp-inner{max-width:1100px;margin:0 auto;}
+
+/* ── SECTION TITLE ── */
+.sec-t{font-family:var(--fd);font-size:2rem;font-weight:500;color:var(--fg-lt);}
+.sec-t span{color:var(--gold);}
+.sec-n{font-size:.95rem;color:var(--fg-lt3);margin-top:6px;max-width:680px;line-height:1.7;}
+
+/* ── PANEL WRAPPER ── */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ─────────────── MAP ─────────────── */
+.map-legend{display:flex;flex-wrap:wrap;gap:.7rem;margin:.9rem 0;}
+.leg{display:flex;align-items:center;gap:6px;font-family:var(--fc);font-size:.82rem;color:var(--fg-dk2);letter-spacing:.04em;}
+.leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.map-bg{background:#0D1520;border:1px solid var(--bdr-dk);border-radius:var(--r);overflow:hidden;}
+.map-hint{text-align:center;padding:.5rem;font-size:.82rem;color:var(--fg-dk3);font-style:italic;border-top:1px solid var(--bdr-dk);}
+
+/* city info panel */
+.mip{background:var(--dk3);border:1px solid var(--bdr-dk);border-radius:var(--r);margin-top:1rem;padding:1.4rem;display:none;}
+.mip.on{display:block;}
+.mip-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;}
+.mip-city{font-family:var(--fd);font-size:1.5rem;font-weight:500;color:var(--fg-dk);}
+.mip-pop{font-family:var(--fc);font-size:.82rem;color:var(--fg-dk3);margin-top:3px;}
+.msig{font-family:var(--fc);font-size:.72rem;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:3px;}
+.t1{background:var(--gold);color:#0E0C0A;}
+.t2{background:var(--dk4);color:var(--gold);}
+.mip-body{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.mbl-t{font-family:var(--fc);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-dk3);margin-bottom:8px;}
+.br{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+.br-l{font-family:var(--fc);font-size:.8rem;color:var(--fg-dk3);width:58px;flex-shrink:0;}
+.br-t{flex:1;height:6px;border-radius:3px;background:#1E1A14;overflow:hidden;}
+.br-f{height:100%;border-radius:3px;}
+.br-n{font-family:var(--fc);font-size:.78rem;color:var(--fg-dk2);width:22px;text-align:right;}
+.nr{display:flex;align-items:center;justify-content:space-between;font-size:.85rem;padding:5px 0;border-bottom:1px solid var(--bdr-dk);}
+.nr:last-child{border:none;}
+.nr-l{display:flex;align-items:center;gap:6px;color:var(--fg-dk2);}
+.ct{font-family:var(--fc);font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:3px;}
+
+/* city cards */
+.city-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.2rem;}
+.cc{background:var(--dk2);border:1px solid var(--bdr-dk);border-radius:var(--r);padding:1rem 1.1rem;cursor:pointer;transition:border-color .2s;}
+.cc:hover,.cc.sel{border-color:var(--gold);}
+.cc-name{font-family:var(--fd);font-size:1.1rem;font-weight:500;color:var(--fg-dk);margin-bottom:2px;}
+.cc-pop{font-family:var(--fc);font-size:.75rem;color:var(--fg-dk3);margin-bottom:8px;}
+.cbr{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.cbr-l{font-family:var(--fc);font-size:.72rem;color:var(--fg-dk3);width:52px;flex-shrink:0;}
+.cbr-t{flex:1;height:5px;border-radius:2px;background:#1E1A14;overflow:hidden;}
+.cbr-f{height:100%;border-radius:2px;}
+.cbr-n{font-family:var(--fc);font-size:.72rem;color:var(--fg-dk2);width:18px;text-align:right;}
+
+/* ─────────────── DEMOGRAPHICS (light) ── */
+.dem-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem;margin-top:1.4rem;}
+.dem-card{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.dem-hd{padding:.9rem 1.2rem;border-bottom:1px solid var(--bdr-lt);display:flex;justify-content:space-between;align-items:baseline;}
+.dem-city{font-family:var(--fd);font-size:1.2rem;font-weight:500;color:var(--fg-lt);}
+.dem-tot{font-family:var(--fc);font-size:.8rem;color:var(--fg-lt3);}
+.dem-body{padding:.9rem 1.2rem;}
+.dnr{display:grid;grid-template-columns:22px 1fr auto auto;align-items:center;gap:6px;margin-bottom:8px;}
+.dflag{font-size:15px;line-height:1;}
+.dname{font-family:var(--fc);font-size:.88rem;color:var(--fg-lt2);}
+.dpop{font-family:var(--fc);font-size:.82rem;color:var(--fg-lt3);text-align:right;}
+.dct{font-family:var(--fc);font-size:.72rem;font-weight:700;padding:3px 7px;border-radius:3px;white-space:nowrap;}
+.dem-ft{background:var(--lt2);border-top:1px solid var(--bdr-lt);padding:.65rem 1.2rem;font-family:var(--fc);font-size:.82rem;color:var(--fg-lt2);font-weight:600;letter-spacing:.03em;}
+
+/* ─────────────── SUPPLY (light) ── */
+.sup-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.85rem;margin:1.4rem 0;}
+.ss{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);padding:.9rem 1rem;text-align:center;}
+.ss .big{font-family:var(--fd);font-size:2rem;font-weight:600;color:var(--fg-lt);line-height:1;}
+.ss .lbl{font-family:var(--fc);font-size:.72rem;color:var(--fg-lt3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;}
+.sup-table{width:100%;border-collapse:collapse;margin-top:1.2rem;font-family:var(--fc);font-size:.88rem;}
+.sup-table thead tr{background:var(--fg-lt);color:#FFF;}
+.sup-table thead th{padding:.7rem 1rem;text-align:left;font-weight:700;letter-spacing:.06em;font-size:.72rem;text-transform:uppercase;white-space:nowrap;}
+.sup-table tbody tr{border-bottom:1px solid var(--bdr-lt);transition:background .15s;}
+.sup-table tbody tr:hover{background:var(--gold-pale);}
+.sup-table td{padding:.65rem 1rem;vertical-align:middle;}
+.sup-table td:first-child{font-family:var(--fd);font-size:1rem;font-weight:500;color:var(--fg-lt);}
+.scc{display:flex;align-items:center;gap:6px;}
+.sbar{height:7px;border-radius:3px;min-width:4px;}
+.gb{font-family:var(--fc);font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:3px 8px;border-radius:3px;}
+.g-crit{background:rgba(138,32,32,.15);color:#8A2020;}
+.g-high{background:rgba(138,32,32,.1);color:#8A5020;}
+.g-med{background:rgba(160,120,0,.12);color:#806010;}
+.g-low{background:rgba(42,107,53,.12);color:#2A6B35;}
+
+/* ─────────────── SIGNAL (light) ── */
+.sig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem;margin-top:1.4rem;}
+.sc{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);display:flex;flex-direction:column;}
+.sc-hd{padding:.9rem 1.1rem;border-bottom:1px solid var(--bdr-lt);display:flex;justify-content:space-between;align-items:center;}
+.sc-city{font-family:var(--fd);font-size:1.1rem;font-weight:500;color:var(--fg-lt);}
+.sc-body{padding:.9rem 1.1rem;flex:1;}
+.sr{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px dotted var(--bdr-lt);font-size:.85rem;gap:8px;}
+.sr:last-child{border:none;}
+.sl{color:var(--fg-lt3);}
+.sv{font-weight:600;color:var(--fg-lt);text-align:right;font-size:.83rem;}
+.sc-rec{background:var(--gold-pale);border-top:2px solid var(--gold);padding:.75rem 1.1rem;font-size:.85rem;color:var(--fg-lt2);line-height:1.65;margin-top:auto;}
+.sc-rec strong{color:var(--fg-lt);}
+
+/* ─────────────── CASE STUDY (light) ── */
+.cs-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.2rem;margin-top:1.4rem;}
+.cs-step{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);overflow:hidden;}
+.cs-step-hd{background:var(--fg-lt);padding:.85rem 1.2rem;display:flex;align-items:center;gap:.7rem;}
+.cs-step-num{font-family:var(--fd);font-size:1.5rem;color:var(--gold);font-weight:600;line-height:1;}
+.cs-step-title{font-family:var(--fc);font-size:.88rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FFF;}
+.cs-step-body{padding:1.2rem 1.3rem;}
+.cs-label{font-family:var(--fc);font-size:.78rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-lt3);margin-bottom:6px;margin-top:14px;}
+.cs-label:first-child{margin-top:0;}
+.cs-select,.cs-input{width:100%;font-family:var(--fb);font-size:1rem;color:var(--fg-lt);background:var(--lt);border:1px solid var(--bdr-lt);border-radius:4px;padding:.6rem .8rem;outline:none;transition:border-color .2s;}
+.cs-select:focus,.cs-input:focus{border-color:var(--gold);}
+.cs-cur-pair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:6px;}
+.cur-badge{border:1px solid var(--bdr-lt);border-radius:4px;padding:.6rem .8rem;font-family:var(--fc);font-size:.88rem;font-weight:700;text-align:center;line-height:1.5;}
+.cs-slider-wrap{margin-top:6px;}
+.cs-slider{width:100%;accent-color:var(--gold);cursor:pointer;height:6px;}
+.cs-slider-val{font-family:var(--fc);font-size:1rem;font-weight:700;color:var(--gold);text-align:right;margin-top:4px;}
+
+/* results */
+.cs-results{margin-top:2rem;}
+.cs-res-title{font-family:var(--fd);font-size:1.6rem;font-weight:500;color:var(--fg-lt);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:2px solid var(--gold);}
+.pnl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-bottom:1.3rem;}
+.pnl-card{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);padding:1.1rem 1.2rem;}
+.pnl-label{font-family:var(--fc);font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-lt3);margin-bottom:6px;}
+.pnl-val{font-family:var(--fd);font-size:1.75rem;font-weight:600;color:var(--fg-lt);line-height:1;}
+.pnl-sub{font-family:var(--fc);font-size:.82rem;color:var(--fg-lt3);margin-top:5px;}
+.pnl-card.highlight{background:var(--fg-lt);border-color:var(--fg-lt);}
+.pnl-card.highlight .pnl-label{color:var(--fg-dk3);}
+.pnl-card.highlight .pnl-val{color:var(--gold-l);}
+.pnl-card.highlight .pnl-sub{color:var(--fg-dk3);}
+.pnl-card.pos{border-left:3px solid #2A6B35;}
+.pnl-card.neg{border-left:3px solid #8A2020;}
+.opex-bars{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);padding:1.1rem 1.3rem;margin-bottom:1.1rem;}
+.opex-title{font-family:var(--fc);font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-lt3);margin-bottom:.9rem;}
+.opex-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.9rem;}
+.opex-lbl{font-family:var(--fc);font-size:.88rem;color:var(--fg-lt2);width:220px;flex-shrink:0;}
+.opex-track{flex:1;height:9px;border-radius:4px;background:var(--lt2);overflow:hidden;}
+.opex-fill{height:100%;border-radius:4px;background:var(--fg-lt);}
+.opex-pct{font-family:var(--fc);font-size:.88rem;font-weight:600;color:var(--fg-lt2);width:40px;text-align:right;}
+.opex-sar{font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);width:120px;text-align:right;}
+.opex-slider-row{display:flex;align-items:center;gap:.8rem;margin-top:.3rem;margin-bottom:.5rem;padding-bottom:.6rem;border-bottom:1px dotted var(--bdr-lt);}
+.opex-slider-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.opex-slider{width:100%;accent-color:var(--gold);cursor:pointer;}
+.opex-total-row{display:flex;justify-content:space-between;align-items:center;margin-top:.8rem;padding-top:.7rem;border-top:2px solid var(--bdr-lt);}
+.opex-total-lbl{font-family:var(--fc);font-size:.88rem;font-weight:700;color:var(--fg-lt);}
+.opex-total-val{font-family:var(--fc);font-size:.92rem;font-weight:700;color:var(--fg-lt);}
+.opex-warn{font-family:var(--fc);font-size:.8rem;color:#8A2020;margin-top:.4rem;}
+/* benchmark justification box */
+.opex-benchmark{background:var(--lt2);border:1px solid var(--bdr-lt);border-radius:var(--r);padding:1rem 1.2rem;margin-top:.5rem;}
+.opex-bm-title{font-family:var(--fc);font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg-lt3);margin-bottom:.7rem;}
+.opex-bm-row{display:grid;grid-template-columns:160px 60px 1fr;gap:.6rem;align-items:baseline;padding:5px 0;border-bottom:1px dotted var(--bdr-lt);font-size:.85rem;}
+.opex-bm-row:last-child{border-bottom:none;}
+.opex-bm-name{font-family:var(--fc);font-weight:600;color:var(--fg-lt2);}
+.opex-bm-pct{font-family:var(--fc);font-weight:700;color:var(--gold);}
+.opex-bm-note{font-family:var(--fc);color:var(--fg-lt3);line-height:1.55;}
+.cs-assumptions{background:var(--lt2);border:1px solid var(--bdr-lt);border-radius:var(--r);padding:1rem 1.2rem;margin-top:1.1rem;font-size:.88rem;color:var(--fg-lt3);line-height:1.85;}
+.cs-assumptions strong{color:var(--fg-lt);}
+.capacity-info{background:var(--gold-pale);border:1px solid rgba(201,168,76,.4);border-radius:var(--r);padding:1rem 1.1rem;margin-top:.6rem;font-family:var(--fc);font-size:.88rem;color:var(--fg-lt2);line-height:1.75;}
+.cap-num{font-family:var(--fd);font-size:1.6rem;font-weight:600;color:var(--fg-lt);line-height:1;}
+
+/* ─────────────── SOURCES (light) ── */
+.src-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1rem;margin-top:1.4rem;}
+.src-card{background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);padding:.9rem 1.1rem;}
+.src-num{font-family:var(--fd);font-size:1.6rem;font-weight:600;color:var(--gold);line-height:1;}
+.src-name{font-weight:600;font-size:.9rem;color:var(--fg-lt);margin:4px 0 3px;}
+.src-desc{font-size:.82rem;color:var(--fg-lt3);line-height:1.6;}
+.src-url{font-family:var(--fc);font-size:.72rem;color:var(--british);margin-top:5px;word-break:break-all;text-decoration:none;display:block;}
+.src-url:hover{color:var(--gold);}
+.disclaimer{margin-top:2rem;padding:1.1rem 1.3rem;background:#FFF;border-left:3px solid var(--gold);border-radius:0 var(--r) var(--r) 0;font-size:.85rem;color:var(--fg-lt3);line-height:1.75;border:1px solid var(--bdr-lt);border-left:3px solid var(--gold);}
+.disclaimer strong{color:var(--fg-lt);}
+
+/* ─────────────── SIGNATURE ── */
+.sig-section{background:var(--dk);border-top:1px solid var(--bdr-dk);padding:2.5rem 2rem 2rem;}
+.sig-ey{font-family:var(--fc);font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem;}
+.sig-ey::before{content:'';display:block;width:20px;height:1px;background:var(--gold);}
+.sig-card{background:var(--dk2);border:1px solid var(--bdr-dk);border-radius:var(--r);padding:1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;}
+.sig-left{display:flex;align-items:flex-start;gap:1.1rem;flex:1;}
+.sig-av{width:54px;height:54px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.1rem;font-weight:500;color:var(--gold);flex-shrink:0;background:var(--dk3);}
+.sig-name{font-family:var(--fd);font-size:1.4rem;font-weight:500;color:var(--fg-dk);margin-bottom:3px;}
+.sig-role{font-family:var(--fc);font-size:.78rem;color:var(--fg-dk3);margin-bottom:.7rem;}
+.sig-contacts{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;}
+.sig-c{font-family:var(--fc);font-size:.78rem;color:var(--fg-dk2);display:flex;align-items:center;gap:5px;}
+.sig-c a{color:var(--fg-dk2);text-decoration:none;}
+.sig-c a:hover{color:var(--gold);}
+.sig-right{display:flex;flex-direction:column;gap:.7rem;align-items:flex-end;flex-shrink:0;}
+.btn-gold{background:var(--gold);color:#0E0C0A;font-family:var(--fc);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.65rem 1.3rem;border-radius:3px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:background .2s;}
+.btn-gold:hover{background:var(--gold-l);}
+.btn-outline{background:transparent;color:var(--gold);font-family:var(--fc);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.3rem;border-radius:3px;border:1px solid var(--gold);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:background .2s;}
+.btn-outline:hover{background:rgba(201,168,76,.1);}
+.sig-note{font-family:var(--fc);font-size:.7rem;color:var(--fg-dk3);text-align:right;line-height:1.6;}
+
+/* ── FOOTER ── */
+footer{background:var(--dk);border-top:1px solid var(--bdr-dk);padding:1.2rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem;}
+.ft-l{font-family:var(--fd);font-size:1rem;color:var(--gold);}
+.ft-r{font-family:var(--fc);font-size:.72rem;color:var(--fg-dk3);letter-spacing:.03em;}
+
+/* ── FLOATING WA ── */
+.wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#25D366;color:#FFF;font-family:var(--fc);font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1.1rem;border-radius:50px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 4px 20px rgba(0,0,0,.4);text-decoration:none;transition:transform .2s,box-shadow .2s;}
+.wa-float:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(0,0,0,.5);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes countUp{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.anim-fadeup{opacity:0;animation:fadeUp .6s ease forwards;}
+.anim-fadein{opacity:0;animation:fadeIn .7s ease forwards;}
+.anim-stagger-1{animation-delay:.1s;}
+.anim-stagger-2{animation-delay:.2s;}
+.anim-stagger-3{animation-delay:.3s;}
+.anim-stagger-4{animation-delay:.4s;}
+.anim-stagger-5{animation-delay:.5s;}
+.anim-stagger-6{animation-delay:.6s;}
+.stat .n{animation:countUp .8s ease both;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .hdr{padding:.9rem 1rem;height:auto;position:sticky;top:0;}
+  .tabs{position:sticky;top:64px;}
+  .page-body{padding-top:0;}
+  .hero{padding:2rem 1rem 1.5rem;}
+  .hero-ey{font-size:.75rem;}
+  .hero h1{font-size:clamp(1.7rem,7vw,2.4rem);}
+  .hero-sub{font-size:.9rem;}
+  .stat .n{font-size:1.7rem;}
+  .stat .l{font-size:.68rem;}
+  .lp{padding:1.5rem 1rem 1rem;}
+  .sec-t{font-size:1.5rem;}
+  .mip-body{grid-template-columns:1fr;}
+  .city-cards{grid-template-columns:1fr 1fr;}
+  .sig-card{flex-direction:column;align-items:flex-start;}
+  .sig-right{align-items:flex-start;width:100%;}
+  .sig-note{text-align:left;}
+  .btn-gold,.btn-outline{width:100%;justify-content:center;}
+  .cs-cur-pair{grid-template-columns:1fr;}
+  .hdr-tag{display:none;}
+  footer{flex-direction:column;align-items:flex-start;}
+  .ft-r{font-size:.68rem;}
+  .dnr{grid-template-columns:20px 1fr auto auto;}
+  .opex-lbl{width:130px;font-size:.75rem;}
+  .opex-sar{display:none;}
+  .dem-grid{grid-template-columns:1fr;}
+  .sig-grid{grid-template-columns:1fr;}
+  .cs-steps{grid-template-columns:1fr;}
+  .pnl-grid{grid-template-columns:1fr 1fr;}
+  .sup-stats{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:400px){
+  .city-cards{grid-template-columns:1fr;}
+  .pnl-grid{grid-template-columns:1fr;}
+  .sup-stats{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-logo">Vishal Desai<span>Education Investment Intelligence · KSA</span></div>
+  <div class="hdr-tag">KSA · 2026</div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs" role="navigation" aria-label="Report sections">
+  <div class="tab-list">
+    <button class="tb active" onclick="switchTab('map',this)">📍 City Map</button>
+    <button class="tb" onclick="switchTab('demographics',this)">👥 Demographics</button>
+    <button class="tb" onclick="switchTab('supply',this)">🏫 School Supply</button>
+    <button class="tb" onclick="switchTab('signal',this)">📊 Investment Signal</button>
+    <button class="tb" onclick="switchTab('casestudy',this)">🧮 Case Study</button>
+    <button class="tb" onclick="switchTab('sources',this)">📎 Sources</button>
+  </div>
+</nav>
+
+<div class="page-body">
+
+<!-- ═══ TAB: MAP ═══ -->
+<div id="tab-map" class="panel active">
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-ey anim-fadeup anim-stagger-1">Market Intelligence · Saudi Arabia K–12 Education Sector · 2026</p>
+      <h1 class="anim-fadeup anim-stagger-2">Where Curriculum Demand<br>Meets <em>Population Reality</em></h1>
+      <p class="hero-sub anim-fadeup anim-stagger-3">A data-driven mapping of school supply, expat demographics, and curriculum gaps across Riyadh, Jeddah, Eastern Province, and emerging giga-project corridors — built for capital deployment decisions.</p>
+      <div class="stats">
+        <div class="stat anim-fadeup anim-stagger-3"><div class="n">15.7M</div><div class="l">Expats in KSA</div></div>
+        <div class="stat anim-fadeup anim-stagger-4"><div class="n">1.88M</div><div class="l">Indian nationals</div></div>
+        <div class="stat anim-fadeup anim-stagger-5"><div class="n">190+</div><div class="l">International schools</div></div>
+        <div class="stat anim-fadeup anim-stagger-6"><div class="n">1.2M</div><div class="l">Seat deficit by 2030</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div style="background:var(--dk);padding:1.5rem 2rem 0;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 style="font-family:var(--fd);font-size:1.8rem;font-weight:500;color:var(--fg-dk);" class="anim-fadeup">KSA <span style="color:var(--gold);">Curriculum Demand</span> Map</h2>
+      <p style="font-size:.9rem;color:var(--fg-dk3);margin-top:5px;" class="anim-fadeup anim-stagger-1">Click any city marker to see the population mix and school supply for that catchment.</p>
+      <div class="map-legend anim-fadein anim-stagger-2">
+        <div class="leg"><div class="leg-dot" style="background:#1A4F8A;"></div>British/IB dominant</div>
+        <div class="leg"><div class="leg-dot" style="background:#2A6B35;"></div>CBSE dominant</div>
+        <div class="leg"><div class="leg-dot" style="background:#6B2E9A;"></div>Mixed/IB premium</div>
+        <div class="leg"><div class="leg-dot" style="background:#8A4018;"></div>Dual-stream</div>
+        <div class="leg"><div class="leg-dot" style="background:#8A2020;border:1.5px dashed #C04040;"></div>Critical gap</div>
+      </div>
+      <div class="map-bg anim-fadein anim-stagger-3">
+        <svg viewBox="0 0 860 460" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;max-height:420px;">
+          <defs>
+            <radialGradient id="gR" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#6B2E9A" stop-opacity=".5"/><stop offset="100%" stop-color="#6B2E9A" stop-opacity="0"/></radialGradient>
+            <radialGradient id="gG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#2A6B35" stop-opacity=".45"/><stop offset="100%" stop-color="#2A6B35" stop-opacity="0"/></radialGradient>
+            <radialGradient id="gB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1A4F8A" stop-opacity=".45"/><stop offset="100%" stop-color="#1A4F8A" stop-opacity="0"/></radialGradient>
+            <radialGradient id="gRed" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#8A2020" stop-opacity=".45"/><stop offset="100%" stop-color="#8A2020" stop-opacity="0"/></radialGradient>
+          </defs>
+          <rect width="860" height="460" fill="#0D1520"/>
+          <!-- KSA accurate border, rescaled to 460h viewBox -->
+          <path d="M 45,111 L 66,90 L 106,64 L 152,35 L 186,38 L 267,64 L 347,90 L 448,113 L 468,129 L 486,128 L 495,116 L 525,128 L 544,152 L 572,163 L 594,191 L 608,206 L 620,225 L 628,243 L 639,246 L 651,246 L 688,271 L 797,279 L 815,297 L 797,323 L 749,348 L 668,374 L 588,400 L 508,426 L 427,426 L 367,413 L 315,426 L 299,426 L 287,413 L 271,400 L 259,374 L 247,348 L 227,310 L 178,284 L 126,250 L 86,194 L 58,155 L 45,111 Z"
+            fill="#1C1608" stroke="#3A3020" stroke-width="1.2"/>
+          <!-- Water labels -->
+          <text x="22" y="240" font-family="Barlow Condensed,sans-serif" font-size="8" fill="#1E3A55" transform="rotate(-88,22,240)" letter-spacing="2">RED SEA</text>
+          <text x="730" y="185" font-family="Barlow Condensed,sans-serif" font-size="7" fill="#1E3A55" letter-spacing="1">GULF</text>
+          <!-- Neighbour labels -->
+          <text x="28" y="78" font-family="Barlow Condensed,sans-serif" font-size="8" fill="#2A3A50" letter-spacing="2">JORDAN</text>
+          <text x="290" y="28" font-family="Barlow Condensed,sans-serif" font-size="8" fill="#2A3A50" letter-spacing="2">IRAQ</text>
+          <text x="650" y="58" font-family="Barlow Condensed,sans-serif" font-size="8" fill="#2A3A50" letter-spacing="2">KUWAIT</text>
+          <text x="730" y="268" font-family="Barlow Condensed,sans-serif" font-size="7" fill="#2A3A50" letter-spacing="1">UAE</text>
+          <text x="380" y="445" font-family="Barlow Condensed,sans-serif" font-size="8" fill="#2A3A50" letter-spacing="2">YEMEN</text>
+          <text x="420" y="290" font-family="Barlow Condensed,sans-serif" font-size="14" fill="#C9A84C" letter-spacing="5" text-anchor="middle" opacity="0.15" font-weight="600">SAUDI ARABIA</text>
+
+          <!-- NEOM/Tabuk NW corner -->
+          <g onclick="showCity('neom')" style="cursor:pointer;" id="pin-neom">
+            <circle cx="59" cy="144" r="32" fill="url(#gRed)" opacity="0.8"/>
+            <circle cx="59" cy="144" r="22" fill="#8A2020" stroke="#C04040" stroke-width="1.5" stroke-dasharray="4 2" opacity=".9"/>
+            <text x="59" y="139" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="11" font-weight="700" fill="white">NEOM/</text>
+            <text x="59" y="152" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="11" font-weight="700" fill="white">Tabuk</text>
+          </g>
+          <!-- Yanbu - west coast -->
+          <g onclick="showCity('yanbu')" style="cursor:pointer;" id="pin-yanbu">
+            <circle cx="109" cy="243" r="16" fill="#8A4018" stroke="#C06030" stroke-width="1.5" opacity=".9"/>
+            <text x="109" y="239" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="11" font-weight="700" fill="white">Yanbu</text>
+            <text x="109" y="251" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9" fill="rgba(255,255,255,.8)">250K</text>
+          </g>
+          <!-- Jeddah - west coast lower -->
+          <g onclick="showCity('jeddah')" style="cursor:pointer;" id="pin-jeddah">
+            <circle cx="154" cy="310" r="32" fill="url(#gB)" opacity="0.8"/>
+            <circle cx="154" cy="310" r="26" fill="#1A4F8A" stroke="#4A8FD0" stroke-width="1.5" opacity=".9"/>
+            <text x="154" y="305" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="13" font-weight="700" fill="white">Jeddah</text>
+            <text x="154" y="319" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9.5" fill="rgba(255,255,255,.85)">5.71M · TIER 1</text>
+          </g>
+          <!-- Riyadh - central -->
+          <g onclick="showCity('riyadh')" style="cursor:pointer;" id="pin-riyadh">
+            <circle cx="456" cy="228" r="50" fill="url(#gR)" opacity="0.7"/>
+            <circle cx="456" cy="228" r="30" fill="#6B2E9A" stroke="#9A5ED0" stroke-width="1.5" opacity=".95"/>
+            <text x="456" y="223" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="14" font-weight="700" fill="white">Riyadh</text>
+            <text x="456" y="237" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9.5" fill="rgba(255,255,255,.85)">9.06M · TIER 1</text>
+          </g>
+          <!-- Jubail - NE Gulf coast -->
+          <g onclick="showCity('jubail')" style="cursor:pointer;" id="pin-jubail">
+            <circle cx="574" cy="167" r="16" fill="#2A6B35" stroke="#4A9C55" stroke-width="1.5" opacity=".9"/>
+            <text x="574" y="163" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="11" font-weight="700" fill="white">Jubail</text>
+            <text x="574" y="175" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9" fill="rgba(255,255,255,.8)">474K</text>
+          </g>
+          <!-- Eastern Province - Gulf coast -->
+          <g onclick="showCity('eastern')" style="cursor:pointer;" id="pin-eastern">
+            <circle cx="593" cy="182" r="40" fill="url(#gG)" opacity="0.7"/>
+            <circle cx="593" cy="202" r="28" fill="#2A6B35" stroke="#4A9C55" stroke-width="1.5" opacity=".9"/>
+            <text x="593" y="196" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="11.5" font-weight="700" fill="white">Eastern</text>
+            <text x="593" y="209" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="11.5" font-weight="700" fill="white">Province</text>
+            <text x="593" y="220" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-size="9" fill="rgba(255,255,255,.8)">5.5M · TIER 1</text>
+          </g>
+          <!-- connector lines -->
+          <line x1="456" y1="200" x2="456" y2="168" stroke="#C9A84C" stroke-width=".4" stroke-dasharray="3 4" opacity=".2"/>
+          <line x1="178" y1="310" x2="425" y2="233" stroke="#C9A84C" stroke-width=".4" stroke-dasharray="3 4" opacity=".15"/>
+          <line x1="567" y1="200" x2="488" y2="228" stroke="#C9A84C" stroke-width=".4" stroke-dasharray="3 4" opacity=".15"/>
+        </svg>
+        <p class="map-hint">↑ Tap any city to expand its intelligence panel</p>
+      </div>
+      <!-- City info panel -->
+      <div class="mip" id="mip">
+        <div class="mip-head">
+          <div><div class="mip-city" id="mipCity"></div><div class="mip-pop" id="mipPop"></div></div>
+          <span class="msig" id="mipSig"></span>
+        </div>
+        <div class="mip-body">
+          <div><div class="mbl-t">School supply</div><div id="mipBars"></div></div>
+          <div><div class="mbl-t">Nationalities &amp; curriculum demand</div><div id="mipNats"></div></div>
+        </div>
+      </div>
+      <div class="city-cards" id="cityCards"></div>
+    </div>
+  </div>
+  <div id="sig-map"></div>
+</div>
+
+<!-- ═══ TAB: DEMOGRAPHICS ═══ -->
+<div id="tab-demographics" class="panel">
+  <div class="lp">
+    <div class="lp-inner">
+      <h2 class="sec-t anim-fadeup">Expat <span>Population & Curriculum</span> Demand</h2>
+      <p class="sec-n anim-fadeup anim-stagger-1">Who lives in each city, their estimated numbers, and the curriculum that community historically chooses. Sources: GASTAT 2022 Census, Wikipedia NRI/Pakistani/Filipino demographics, Jubail city census data.</p>
+      <div class="dem-grid" id="demGrid"></div>
+    </div>
+  </div>
+  <div id="sig-dem"></div>
+</div>
+
+<!-- ═══ TAB: SUPPLY ═══ -->
+<div id="tab-supply" class="panel">
+  <div class="lp">
+    <div class="lp-inner">
+      <h2 class="sec-t anim-fadeup">Existing <span>School Supply</span> by City & Curriculum</h2>
+      <p class="sec-n anim-fadeup anim-stagger-1">Confirmed counts from doris.school, international-schools-database.com, and CBSE.org (2025–2026).</p>
+      <div class="sup-stats" id="supStats"></div>
+      <div style="overflow-x:auto;">
+        <table class="sup-table">
+          <thead><tr><th>City</th><th>CBSE</th><th>British</th><th>IB</th><th>American</th><th>Demand gap</th></tr></thead>
+          <tbody id="supTbody"></tbody>
+        </table>
+      </div>
+      <div style="margin-top:1.6rem;">
+        <h3 style="font-family:var(--fd);font-size:1.05rem;font-weight:500;color:var(--fg-lt);margin-bottom:.8rem;">Notable anchor schools</h3>
+        <div id="notableDiv" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;"></div>
+      </div>
+    </div>
+  </div>
+  <div id="sig-sup"></div>
+</div>
+
+<!-- ═══ TAB: SIGNAL ═══ -->
+<div id="tab-signal" class="panel">
+  <div class="lp">
+    <div class="lp-inner">
+      <h2 class="sec-t anim-fadeup">Investment <span>Signal</span> by Corridor</h2>
+      <p class="sec-n anim-fadeup anim-stagger-1">Population pool × supply gap × fee tolerance × Vision 2030 tailwinds. Vishal Desai Capital Advisory proprietary scoring.</p>
+      <div class="sig-grid" id="signalGrid"></div>
+    </div>
+  </div>
+  <div id="sig-sig"></div>
+</div>
+
+<!-- ═══ TAB: CASE STUDY ═══ -->
+<div id="tab-casestudy" class="panel">
+  <div class="lp">
+    <div class="lp-inner">
+      <h2 class="sec-t anim-fadeup">School Feasibility <span>Case Study</span></h2>
+      <p class="sec-n anim-fadeup anim-stagger-1">Select a city, configure the school, and model the BTL financials. Based on KSA Ministry of Education classroom standards and market fee benchmarks.</p>
+
+      <div class="cs-steps" style="margin-top:1.2rem;">
+        <!-- STEP 1: Location -->
+        <div class="cs-step anim-fadeup anim-stagger-1">
+          <div class="cs-step-hd"><span class="cs-step-num">01</span><span class="cs-step-title">Location & Market</span></div>
+          <div class="cs-step-body">
+            <div class="cs-label">Select City</div>
+            <select class="cs-select" id="cs-city" onchange="csUpdate()">
+              <option value="riyadh">Riyadh</option>
+              <option value="jeddah">Jeddah</option>
+              <option value="eastern">Eastern Province (Dammam/Al Khobar)</option>
+              <option value="jubail">Jubail</option>
+              <option value="yanbu">Yanbu</option>
+              <option value="neom">NEOM / Tabuk</option>
+            </select>
+            <div class="cs-label" style="margin-top:10px;">Dominant Population</div>
+            <div id="cs-popinfo" style="font-family:var(--fc);font-size:.88rem;color:var(--fg-lt2);line-height:1.7;background:var(--lt2);border-radius:4px;padding:.6rem .8rem;"></div>
+            <div class="cs-label" style="margin-top:10px;">Recommended Curricula</div>
+            <div class="cs-cur-pair" id="cs-curpair"></div>
+          </div>
+        </div>
+
+        <!-- STEP 2: School Config -->
+        <div class="cs-step anim-fadeup anim-stagger-2">
+          <div class="cs-step-hd"><span class="cs-step-num">02</span><span class="cs-step-title">School Configuration</span></div>
+          <div class="cs-step-body">
+            <div class="cs-label">Total Plot Size (sqm)</div>
+            <input type="number" class="cs-input" id="cs-plot" value="10000" min="2500" max="100000" oninput="csUpdate()">
+
+            <!-- Plot breakdown box -->
+            <div class="capacity-info" id="cs-capinfo"></div>
+
+            <div class="cs-label" style="margin-top:12px;">Classrooms Operator Wants to Build</div>
+            <div style="font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);margin-bottom:5px;" id="cs-cr-hint">Slide to select — capped at MoE-approved maximum for this plot</div>
+            <div class="cs-slider-wrap">
+              <input type="range" class="cs-slider" id="cs-classrooms" min="1" max="200" step="1" value="30" oninput="csUpdate()">
+              <div class="cs-slider-val" id="cs-cr-val">30 classrooms</div>
+            </div>
+            <div id="cs-cr-context" style="font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);margin-top:4px;"></div>
+
+            <div class="cs-label" style="margin-top:12px;">Curriculum (for fee band)</div>
+            <select class="cs-select" id="cs-curr" onchange="csUpdate()">
+              <option value="cbse">CBSE (Indian)</option>
+              <option value="british">British / IGCSE</option>
+              <option value="ib">IB</option>
+              <option value="american">American / AP</option>
+            </select>
+            <div class="cs-label" style="margin-top:10px;">Grades Offered</div>
+            <select class="cs-select" id="cs-grades" onchange="csUpdate()">
+              <option value="13">KG–G12 (13 years)</option>
+              <option value="10">G1–G10 (10 years)</option>
+              <option value="8">G1–G8 (8 years)</option>
+              <option value="6">KG–G5 Primary only (6 years)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STEP 3: Fee & Enrolment -->
+        <div class="cs-step anim-fadeup anim-stagger-3">
+          <div class="cs-step-hd"><span class="cs-step-num">03</span><span class="cs-step-title">Fee & Enrolment</span></div>
+          <div class="cs-step-body">
+            <div class="cs-label">Annual Fee per Student (SAR)</div>
+            <div class="cs-slider-wrap">
+              <input type="range" class="cs-slider" id="cs-fee" min="8000" max="150000" step="1000" value="18000" oninput="csUpdate()">
+              <div class="cs-slider-val" id="cs-fee-val">SAR 18,000</div>
+            </div>
+            <div id="cs-fee-context" style="font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);margin-top:3px;"></div>
+
+            <div class="cs-label" style="margin-top:14px;">Enrolment Fill Rate</div>
+            <div class="cs-slider-wrap">
+              <input type="range" class="cs-slider" id="cs-fill" min="20" max="100" step="5" value="60" oninput="csUpdate()">
+              <div class="cs-slider-val" id="cs-fill-val">60%</div>
+            </div>
+            <div id="cs-fill-context" style="font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);margin-top:3px;"></div>
+
+            <div class="cs-label" style="margin-top:14px;">Annual Lease Rate (SAR / sqm of total plot / yr)</div>
+            <div class="cs-slider-wrap">
+              <input type="range" class="cs-slider" id="cs-lease" min="200" max="1500" step="50" value="500" oninput="csUpdate()">
+              <div class="cs-slider-val" id="cs-lease-val">SAR 500/sqm</div>
+            </div>
+            <div style="font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);margin-top:4px;background:rgba(201,168,76,.08);padding:.55rem .75rem;border-radius:4px;">
+              Lease applies to <strong>entire plot</strong> (building + playground + sports + common areas). Developer quotes per total sqm as a single facility.
+            </div>
+            <div id="cs-lease-context" style="font-family:var(--fc);font-size:.85rem;color:var(--fg-lt3);margin-top:5px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="cs-results" id="cs-results">
+        <div class="cs-res-title">📊 Financial Model Output</div>
+        <div class="pnl-grid" id="cs-pnl"></div>
+        <div class="opex-bars" id="cs-opex"></div>
+        <div class="cs-assumptions" id="cs-assumptions"></div>
+      </div>
+    </div>
+  </div>
+  <div id="sig-cs"></div>
+</div>
+
+<!-- ═══ TAB: SOURCES ═══ -->
+<div id="tab-sources" class="panel">
+  <div class="lp">
+    <div class="lp-inner">
+      <h2 class="sec-t anim-fadeup">Data <span>Sources</span> & Methodology</h2>
+      <p class="sec-n anim-fadeup anim-stagger-1">All figures sourced from public government statistics, academic databases, and commercial school registries.</p>
+      <div class="src-grid" id="srcGrid"></div>
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This intelligence report is prepared by Vishal Desai for informational purposes relating to education sector investment research in the Kingdom of Saudi Arabia. Population figures are based on the GASTAT 2022 Census and 2023–2024 estimates. School counts are sourced from public registries as of 2025–2026 and may not reflect all licensed institutions. Investment signals and financial model outputs represent a proprietary analytical framework and do not constitute financial advice. All investment decisions should be subject to independent due diligence. For authorised recipients only · Dubai, UAE.
+      </div>
+    </div>
+  </div>
+  <div id="sig-src"></div>
+</div>
+
+</div><!-- /page-body -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-l">Vishal Desai · Capital Advisory</div>
+  <div class="ft-r">This document is for informational purposes only and does not constitute investment advice · All figures are indicative and based on publicly available market data · For authorised recipients only · Dubai, UAE</div>
+</footer>
+
+<!-- FLOATING WA -->
+<a class="wa-float" href="https://wa.me/971553898410?text=Hi%20Vishal%2C%20I%20came%20across%20your%20KSA%20Education%20Investment%20Intelligence%20report%20and%20would%20like%20to%20request%20the%20Information%20Pack." target="_blank" rel="noopener">💬 Request Info Pack</a>
+
+<script>
+/* ══════════════ DATA ══════════════ */
+const cities=[
+  {id:"riyadh",name:"Riyadh",pop:"9.06M",color:"#6B2E9A",dom:"IB + British + CBSE",sig:"TIER 1",sc:"t1",age:"~320,000 expat children",
+   nats:[{f:"🇮🇳",n:"Indian",p:"~400K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇵🇰",n:"Pakistani",p:"~300K",c:"CBSE/British",cc:"#8A4018",cb:"rgba(138,64,24,.15)"},{f:"🌍",n:"Western",p:"~40K",c:"British/IB",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🇸🇦",n:"Saudi elite",p:"(local)",c:"IB rising",cc:"#6B2E9A",cb:"rgba(107,46,154,.15)"},{f:"🇪🇬",n:"Arab expats",p:"~250K",c:"American/British",cc:"#8A4018",cb:"rgba(138,64,24,.15)"}],
+   cbse:14,british:25,ib:15,american:12,
+   schools:["IIS Riyadh (CBSE)","King's College Riyadh (British)","King Faisal School (IB)","DPS Riyadh (CBSE/British)"],
+   inv:{play:"IB/British premium greenfield",fee:"SAR 60K–120K",pool:"~740K expats + Saudi elite",gap:"Medium-High",driver:"Saudi elite shifting to IB; Riyadh North (Diriyah/Sedra) underserved",rec:"CBSE volume campus North Riyadh or dual-stream IB+British in Diriyah corridor"},
+   csData:{popDesc:"Largest demand pool: Indians (~400K) + Pakistanis (~300K) + Saudi elite. Balanced CBSE/British/IB split.",cur1:{name:"CBSE",color:"#2A6B35",bg:"rgba(42,107,53,.12)"},cur2:{name:"British/IB",color:"#1A4F8A",bg:"rgba(26,79,138,.12)"},feeBands:{cbse:[18000,35000],british:[40000,80000],ib:[65000,120000],american:[35000,70000]},leaseHint:"SAR 600–900/sqm/yr (prime Riyadh commercial)",leaseDefault:700},
+  },
+  {id:"jeddah",name:"Jeddah",pop:"5.71M",color:"#1A4F8A",dom:"British + CBSE",sig:"TIER 1",sc:"t1",age:"~180,000 expat children",
+   nats:[{f:"🇮🇳",n:"Indian",p:"~200K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇵🇰",n:"Pakistani",p:"~320K",c:"British IGCSE",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🇸🇦",n:"Saudi affluent",p:"(local)",c:"British/IB",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🇵🇭",n:"Filipino",p:"~80K",c:"DepEd/British",cc:"#8A4018",cb:"rgba(138,64,24,.15)"},{f:"🌍",n:"Arab expats",p:"~300K",c:"American/British",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"}],
+   cbse:10,british:18,ib:10,american:8,
+   schools:["IIS Jeddah (CBSE, 12K students)","Pak Intl School Jeddah (British)","American Intl School Jeddah"],
+   inv:{play:"British IGCSE expansion / dual-stream BTL",fee:"SAR 35K–80K",pool:"~900K expats",gap:"Medium",driver:"2.64M Pakistanis KSA-wide; Makkah region highest; flex between CBSE and British",rec:"Dual-stream CBSE+British captures both Pakistani and Indian communities under one roof"},
+   csData:{popDesc:"Pakistanis (~320K) are the largest expat group here — British IGCSE preferred. Indians (~200K) drive CBSE.",cur1:{name:"British/IGCSE",color:"#1A4F8A",bg:"rgba(26,79,138,.12)"},cur2:{name:"CBSE",color:"#2A6B35",bg:"rgba(42,107,53,.12)"},feeBands:{cbse:[15000,30000],british:[35000,70000],ib:[55000,100000],american:[30000,60000]},leaseHint:"SAR 500–750/sqm/yr (Jeddah commercial)",leaseDefault:580},
+  },
+  {id:"eastern",name:"Eastern Province",pop:"5.5M",color:"#2A6B35",dom:"CBSE dominant",sig:"TIER 1",sc:"t1",age:"~210,000 expat children",
+   nats:[{f:"🇮🇳",n:"Indian",p:"~300K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇵🇭",n:"Filipino",p:"~80K",c:"British/DepEd",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🌍",n:"Western (Aramco)",p:"~50K",c:"American/British",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🇵🇰",n:"Pakistani",p:"~100K",c:"CBSE/British",cc:"#8A4018",cb:"rgba(138,64,24,.15)"},{f:"🇧🇩",n:"Bangladeshi",p:"~150K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"}],
+   cbse:9,british:10,ib:6,american:8,
+   schools:["IIS Dammam (CBSE, 17K+ students)","BISAK Al Khobar (British)","American School Dhahran","British School Dhahran"],
+   inv:{play:"CBSE expansion + British mid-tier",fee:"SAR 15K–45K",pool:"~680K expats",gap:"High (CBSE)",driver:"IIS Dammam at 17,000+ — near capacity. New CBSE campus in Al Khobar absorbs overflow",rec:"Second CBSE campus in Al Khobar corridor — direct IIS Dammam overflow play"},
+   csData:{popDesc:"Indians (~300K) + Bangladeshis (~150K) dominate — CBSE is the natural primary curriculum. Aramco compounds drive British/American demand.",cur1:{name:"CBSE",color:"#2A6B35",bg:"rgba(42,107,53,.12)"},cur2:{name:"British/American",color:"#1A4F8A",bg:"rgba(26,79,138,.12)"},feeBands:{cbse:[12000,25000],british:[25000,50000],ib:[45000,80000],american:[25000,50000]},leaseHint:"SAR 350–550/sqm/yr (Eastern Province commercial)",leaseDefault:420},
+  },
+  {id:"jubail",name:"Jubail",pop:"474K",color:"#2A6B35",dom:"CBSE dominant",sig:"TIER 2",sc:"t2",age:"~35,000 expat children",
+   nats:[{f:"🇮🇳",n:"Indian",p:"~81K (17%)",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇵🇭",n:"Filipino",p:"~19K (4%)",c:"British/DepEd",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🇵🇰",n:"Pakistani",p:"~14K (3%)",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇺🇸",n:"American",p:"~5K (1%)",c:"American",cc:"#8A4018",cb:"rgba(138,64,24,.15)"},{f:"🌏",n:"Other Asian",p:"~19K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"}],
+   cbse:3,british:3,ib:1,american:2,
+   schools:["IIS Jubail (CBSE, 4 campuses)","Al-Moattasem Intl (British)","ISG Jubail (American/IB)"],
+   inv:{play:"CBSE volume + British secondary",fee:"SAR 12K–30K",pool:"~138K expats",gap:"Medium",driver:"17% of Jubail population is Indian — highest Indian-density city in KSA proportionally",rec:"Second CBSE school serves IIS Jubail overflow. BTL model with SABIC-linked operator preferred"},
+   csData:{popDesc:"17% of city population is Indian — highest proportion in KSA. CBSE is the overwhelmingly dominant demand. Small British segment for Filipino/Western managers.",cur1:{name:"CBSE",color:"#2A6B35",bg:"rgba(42,107,53,.12)"},cur2:{name:"British",color:"#1A4F8A",bg:"rgba(26,79,138,.12)"},feeBands:{cbse:[10000,22000],british:[20000,40000],ib:[35000,65000],american:[20000,40000]},leaseHint:"SAR 250–400/sqm/yr (Jubail industrial city)",leaseDefault:300},
+  },
+  {id:"yanbu",name:"Yanbu",pop:"250K",color:"#8A4018",dom:"CBSE + American dual",sig:"TIER 2",sc:"t2",age:"~22,000 expat children",
+   nats:[{f:"🇮🇳",n:"Indian",p:"~50K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇵🇭",n:"Filipino",p:"~25K",c:"DepEd/British",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🌍",n:"Western",p:"~12K",c:"American",cc:"#8A4018",cb:"rgba(138,64,24,.15)"},{f:"🇵🇰",n:"Pakistani",p:"~18K",c:"CBSE/Urdu",cc:"#8A4018",cb:"rgba(138,64,24,.15)"},{f:"🇰🇷",n:"Korean/Asian",p:"~8K",c:"American/Intl",cc:"#8A4018",cb:"rgba(138,64,24,.15)"}],
+   cbse:4,british:3,ib:1,american:3,
+   schools:["Radhwa Intl School (CBSE+American)","Yanbu Indian School (CBSE)","YASREF Community School"],
+   inv:{play:"CBSE expansion / IB greenfield",fee:"SAR 10K–35K",pool:"~113K expats",gap:"Medium",driver:"YASREF/Aramco workforce growth ongoing; IB candidate school signals emerging premium demand",rec:"BTL model with Radhwa or new CBSE campus. IB is 3–5 year horizon play"},
+   csData:{popDesc:"Indians (~50K) are the primary school-age demand. Filipino and Korean expats add secondary segment. Dual-stream CBSE+American is proven here.",cur1:{name:"CBSE",color:"#2A6B35",bg:"rgba(42,107,53,.12)"},cur2:{name:"American/Dual",color:"#8A4018",bg:"rgba(138,64,24,.12)"},feeBands:{cbse:[8000,18000],british:[18000,35000],ib:[30000,55000],american:[15000,30000]},leaseHint:"SAR 200–350/sqm/yr (Yanbu industrial)",leaseDefault:260},
+  },
+  {id:"neom",name:"NEOM / Tabuk",pop:"~100K now · 1M+ projected",color:"#8A2020",dom:"British/IB — supply gap",sig:"TIER 1 (Greenfield)",sc:"t1",age:"~8K now · 80K+ projected",
+   nats:[{f:"🌍",n:"Western tech",p:"~50K",c:"British/IB",cc:"#1A4F8A",cb:"rgba(26,79,138,.15)"},{f:"🇸🇦",n:"Saudi mgmt",p:"~25K",c:"IB/British",cc:"#6B2E9A",cb:"rgba(107,46,154,.15)"},{f:"🇮🇳",n:"Indian tech",p:"~15K",c:"CBSE",cc:"#2A6B35",cb:"rgba(42,107,53,.15)"},{f:"🇰🇷",n:"Korean/Chinese",p:"~10K",c:"American/Intl",cc:"#8A4018",cb:"rgba(138,64,24,.15)"}],
+   cbse:0,british:1,ib:0,american:1,
+   schools:["NEOM School (planned only)","No premium international school currently operational"],
+   inv:{play:"British/IB anchor school — first-mover",fee:"SAR 90K–150K",pool:"~100K growing to 1M+",gap:"Critical",driver:"NEOM workforce: US/UK/European tech hires — near-zero British/IB supply today",rec:"First-mover British/IB school in NEOM corridor is highest-conviction greenfield in KSA 2025–2030"},
+   csData:{popDesc:"Western tech expats (~50K) + Saudi management (~25K) dominate demand. Near-zero premium school supply makes this first-mover territory.",cur1:{name:"British/IB",color:"#1A4F8A",bg:"rgba(26,79,138,.12)"},cur2:{name:"IB Diploma",color:"#6B2E9A",bg:"rgba(107,46,154,.12)"},feeBands:{cbse:[20000,40000],british:[70000,130000],ib:[80000,150000],american:[60000,110000]},leaseHint:"SAR 800–1200/sqm/yr (NEOM premium — projected)",leaseDefault:950},
+  }
+];
+
+const supplyData=[
+  {city:"Riyadh",cbse:14,british:25,ib:15,american:12,gap:"Medium-High",gc:"g-med"},
+  {city:"Jeddah",cbse:10,british:18,ib:10,american:8,gap:"Medium",gc:"g-med"},
+  {city:"Eastern Province",cbse:9,british:10,ib:6,american:8,gap:"High (CBSE)",gc:"g-high"},
+  {city:"Jubail",cbse:3,british:3,ib:1,american:2,gap:"Medium",gc:"g-med"},
+  {city:"Yanbu",cbse:4,british:3,ib:1,american:3,gap:"Medium",gc:"g-med"},
+  {city:"NEOM/Tabuk",cbse:0,british:1,ib:0,american:1,gap:"Critical",gc:"g-crit"}
+];
+
+const supStatsData=[
+  {big:"37",lbl:"CBSE schools KSA"},{big:"28",lbl:"IB World Schools"},{big:"25+",lbl:"British · Riyadh"},
+  {big:"143",lbl:"Total intl schools"},{big:"15%",lbl:"Enrolment growth p.a."},{big:"14%",lbl:"K-12 CAGR to 2030"}
+];
+
+const sources=[
+  {n:"01",name:"GASTAT 2022 Saudi Census",desc:"Nationality by region; Indians 1.88M (14%); total non-Saudi 13.38M; city population data.",url:"https://portal.saudicensus.sa"},
+  {n:"02",name:"Wikipedia: NRI in Saudi Arabia",desc:"1,494,947 Indians (2023). Concentrated in Riyadh, Jeddah, Dammam, Jubail, Jizan.",url:"https://en.wikipedia.org/wiki/Non-Resident_Indians_in_Saudi_Arabia"},
+  {n:"03",name:"Wikipedia: Pakistanis in Saudi Arabia",desc:"2.64M Pakistanis (2023). Key regions: Riyadh, Jeddah, Makkah, Khobar, Jubail, Dammam.",url:"https://en.wikipedia.org/wiki/Pakistanis_in_Saudi_Arabia"},
+  {n:"04",name:"Wikipedia: Filipinos in Saudi Arabia",desc:"898,014 Filipinos (Oct 2024 MoHRSD). 10 Philippine schools; 7 in Riyadh, 3 Eastern Region.",url:"https://en.wikipedia.org/wiki/Filipinos_in_Saudi_Arabia"},
+  {n:"05",name:"Wikipedia: Jubail City",desc:"City-level breakdown: 73% Saudi, 17% Indian, 4% Filipino, 3% Pakistani, 1% American (2011 census).",url:"https://en.wikipedia.org/wiki/Jubail"},
+  {n:"06",name:"doris.school — KSA Directory 2025",desc:"Confirmed school counts: Riyadh 25 British; Jeddah 10 CBSE, 18 British; Yanbu 4 CBSE; Jubail 3.",url:"https://www.doris.school/international-schools/saudi-arabia"},
+  {n:"07",name:"International Schools Database",desc:"75 international schools in Riyadh; 15 IB schools; 143 total KSA international schools.",url:"https://www.international-schools-database.com/country/saudi-arabia"},
+  {n:"08",name:"CBSE.org School Registry",desc:"Complete database of CBSE-affiliated schools in Saudi Arabia — 37 confirmed affiliations.",url:"https://www.cbseschool.org/schools/saudi-arabia/"},
+  {n:"09",name:"John Catt International School Search",desc:"28 IB World Schools in KSA; 15 offering IB Diploma; 6 offering all three IB stages.",url:"https://www.internationalschoolsearch.com/international-schools-in-saudi-arabia"},
+  {n:"10",name:"Mordor Intelligence: KSA K-12 2025",desc:"14% CAGR to 2030; 15% enrolment growth; 1.2M seat deficit by 2030.",url:"https://www.mordorintelligence.com/industry-reports/ksa-private-k12-education-market"},
+  {n:"11",name:"Global Media Insight: KSA Population 2026",desc:"Riyadh 9.06M, Jeddah 5.71M, Eastern Province 5.5M. Total KSA 37.59M.",url:"https://www.globalmediainsight.com/blog/saudi-arabia-population-statistics/"},
+  {n:"12",name:"KSA MoE Classroom Standards",desc:"Minimum classroom: 56 sqm. Max class size: 25 students. Common area factor: 35% of plot. Minimum plot: 2,500 sqm.",url:"https://moe.gov.sa"},
+  {n:"13",name:"Vishal Desai · Proprietary Analysis",desc:"Catchment scoring, gap analysis, investment signal framework, and financial modelling. Dubai, UAE.",url:"https://linkedin.com/in/vishal-desai"}
+];
+
+/* ══════════════ SIGNATURE ══════════════ */
+function sigHtml(){
+  return `<div class="sig-section">
+    <div class="sig-ey">Initiate a Conversation</div>
+    <div class="sig-card">
+      <div class="sig-left">
+        <div class="sig-av">VD</div>
+        <div>
+          <div class="sig-name">Vishal Desai</div>
+          <div class="sig-role">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare &nbsp;|&nbsp; Real Estate &nbsp;|&nbsp; GCC &amp; Africa</div>
+          <div class="sig-contacts">
+            <span class="sig-c">📞 <a href="tel:+971553898410">+971 55 389 8410</a></span>
+            <span class="sig-c">🔗 <a href="https://linkedin.com/in/vishal-desai" target="_blank">linkedin.com/in/vishal-desai</a></span>
+            <span class="sig-c">📍 Dubai Marina, UAE</span>
+          </div>
+        </div>
+      </div>
+      <div class="sig-right">
+        <a class="btn-gold" href="https://wa.me/971553898410?text=Hi%20Vishal%2C%20I'd%20like%20to%20request%20the%20KSA%20Education%20Investment%20Information%20Pack." target="_blank">💬 Request Information Pack</a>
+        <a class="btn-outline" href="https://wa.me/971553898410" target="_blank">📲 WhatsApp Directly</a>
+        <div class="sig-note">Off-market mandate · Confidential<br>NDA available on request</div>
+      </div>
+    </div>
+  </div>`;
+}
+['map','dem','sup','sig','cs','src'].forEach(k=>{
+  const el=document.getElementById('sig-'+k);
+  if(el) el.innerHTML=sigHtml();
+});
+
+/* ══════════════ MAP ══════════════ */
+function showCity(id){
+  const city=cities.find(c=>c.id===id); if(!city) return;
+  document.getElementById('mipCity').textContent=city.name;
+  document.getElementById('mipPop').textContent=city.pop+' total · '+city.age;
+  const s=document.getElementById('mipSig');
+  s.textContent=city.sig+' · '+city.dom; s.className='msig '+(city.sc||'t2');
+  const mx=Math.max(city.cbse,city.british,city.ib,city.american,1);
+  document.getElementById('mipBars').innerHTML=[['CBSE','#2A6B35',city.cbse],['British','#1A4F8A',city.british],['IB','#6B2E9A',city.ib],['American','#8A4018',city.american]].map(([l,c,v])=>`
+    <div class="br"><span class="br-l">${l}</span><div class="br-t"><div class="br-f" style="width:${Math.round(v/mx*100)}%;background:${c};"></div></div><span class="br-n">${v}</span></div>`).join('');
+  document.getElementById('mipNats').innerHTML=city.nats.slice(0,4).map(n=>`
+    <div class="nr"><span class="nr-l">${n.f} ${n.n} <span style="color:var(--fg-dk3);font-size:.68rem;margin-left:3px;">${n.p}</span></span><span class="ct" style="color:${n.cc};background:${n.cb};">${n.c}</span></div>`).join('');
+  const p=document.getElementById('mip'); p.classList.add('on');
+  p.scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.querySelectorAll('.cc').forEach(c=>c.classList.remove('sel'));
+  const card=document.getElementById('card-'+id); if(card) card.classList.add('sel');
+}
+
+/* city cards */
+const cc=document.getElementById('cityCards');
+cities.forEach(city=>{
+  const mx=Math.max(city.cbse,city.british,city.ib,city.american,1);
+  const d=document.createElement('div'); d.className='cc'; d.id='card-'+city.id;
+  d.innerHTML=`<div class="cc-name">${city.name}</div><div class="cc-pop">${city.pop} · ${city.dom}</div>`+
+    [['CBSE','#2A6B35',city.cbse],['British','#1A4F8A',city.british],['IB','#6B2E9A',city.ib],['American','#8A4018',city.american]].map(([l,c,v])=>`
+    <div class="cbr"><span class="cbr-l">${l}</span><div class="cbr-t"><div class="cbr-f" style="width:${Math.round(v/mx*100)}%;background:${c};"></div></div><span class="cbr-n">${v}</span></div>`).join('');
+  d.onclick=()=>showCity(city.id); cc.appendChild(d);
+});
+
+/* ══════════════ DEMOGRAPHICS ══════════════ */
+const dg=document.getElementById('demGrid');
+cities.forEach(city=>{
+  const d=document.createElement('div'); d.className='dem-card anim-fadeup';
+  d.innerHTML=`<div class="dem-hd"><span class="dem-city">${city.name}</span><span class="dem-tot">${city.pop}</span></div>
+    <div class="dem-body">${city.nats.map(n=>`<div class="dnr"><span class="dflag">${n.f}</span><span class="dname">${n.n}</span><span class="dpop">${n.p}</span><span class="dct" style="color:${n.cc};background:${n.cb};">${n.c}</span></div>`).join('')}</div>
+    <div class="dem-ft">School-age demand: ${city.age}</div>`;
+  dg.appendChild(d);
+});
+
+/* ══════════════ SUPPLY ══════════════ */
+const ss=document.getElementById('supStats');
+supStatsData.forEach(s=>{ const d=document.createElement('div'); d.className='ss'; d.innerHTML=`<div class="big">${s.big}</div><div class="lbl">${s.lbl}</div>`; ss.appendChild(d); });
+supplyData.forEach(row=>{
+  const mx=Math.max(row.cbse,row.british,row.ib,row.american,1);
+  document.getElementById('supTbody').innerHTML+=`<tr>
+    <td>${row.city}</td>
+    <td><div class="scc"><div class="sbar" style="width:${Math.round(row.cbse/mx*48)+4}px;background:#2A6B35;"></div>${row.cbse}</div></td>
+    <td><div class="scc"><div class="sbar" style="width:${Math.round(row.british/mx*48)+4}px;background:#1A4F8A;"></div>${row.british}</div></td>
+    <td><div class="scc"><div class="sbar" style="width:${Math.round(row.ib/mx*48)+4}px;background:#6B2E9A;"></div>${row.ib}</div></td>
+    <td><div class="scc"><div class="sbar" style="width:${Math.round(row.american/mx*48)+4}px;background:#8A4018;"></div>${row.american}</div></td>
+    <td><span class="gb ${row.gc}">${row.gap}</span></td></tr>`;
+});
+const nd=document.getElementById('notableDiv');
+cities.forEach(city=>{
+  const d=document.createElement('div');
+  d.style.cssText='background:#FFF;border:1px solid var(--bdr-lt);border-radius:var(--r);padding:.7rem .85rem;';
+  d.innerHTML=`<div style="font-family:var(--fd);font-size:.88rem;font-weight:500;color:var(--fg-lt);margin-bottom:5px;border-bottom:1px solid var(--bdr-lt);padding-bottom:4px;">${city.name}</div>`+
+    city.schools.map(s=>`<div style="font-size:.73rem;color:var(--fg-lt3);padding:3px 0;border-bottom:1px dotted var(--bdr-lt);">• ${s}</div>`).join('');
+  nd.appendChild(d);
+});
+
+/* ══════════════ SIGNAL ══════════════ */
+const sg=document.getElementById('signalGrid');
+cities.forEach(city=>{
+  const s=city.inv; const d=document.createElement('div'); d.className='sc anim-fadeup';
+  d.innerHTML=`<div class="sc-hd"><span class="sc-city">${city.name}</span><span class="msig ${city.sc}">${city.sig}</span></div>
+    <div class="sc-body">
+      <div class="sr"><span class="sl">Play</span><span class="sv">${s.play}</span></div>
+      <div class="sr"><span class="sl">Fee band</span><span class="sv">${s.fee}</span></div>
+      <div class="sr"><span class="sl">Demand pool</span><span class="sv">${s.pool}</span></div>
+      <div class="sr"><span class="sl">Gap score</span><span class="sv">${s.gap}</span></div>
+      <div class="sr" style="display:block;padding-top:6px;border:none;"><span class="sl" style="display:block;margin-bottom:3px;font-size:.72rem;">Key driver</span><span style="font-size:.82rem;color:var(--fg-lt2);">${s.driver}</span></div>
+    </div>
+    <div class="sc-rec"><strong>Advisory view:</strong> ${s.rec}</div>`;
+  sg.appendChild(d);
+});
+
+/* ══════════════ CASE STUDY ══════════════ */
+function fmt(n){ return 'SAR '+Math.round(n).toLocaleString(); }
+function fmtN(n){ return Math.round(n).toLocaleString(); }
+
+/* OPEX state — operator-adjustable, persists across csUpdate calls */
+const opexState = {
+  teaching:   40,   // % of gross revenue
+  admin:      10,
+  facilities: 12,
+  marketing:   5,
+  other:       5
+};
+
+const opexBenchmarks = [
+  { key:'teaching',   label:'Teaching & academic staff',       defaultPct:40, min:20, max:60,
+    note:'Range 38–45% (GEMS/Taaleem annual reports). CBSE schools ~35%, premium IB ~45%. Operators with large teaching pools from home country may run lower.' },
+  { key:'admin',      label:'Admin & management',              defaultPct:10, min:3,  max:20,
+    note:'8–12% across GCC operators (ADEK filings). Operators with a shared services group or management company can reduce this significantly via intra-group fees.' },
+  { key:'facilities', label:'Facilities, utilities & maintenance', defaultPct:12, min:4, max:20,
+    note:'10–15% KSA — HVAC cooling alone ~6% of revenue in summer. Operators with an FM sister company often set this to 4–6% and book the rest as an intercompany charge.' },
+  { key:'marketing',  label:'Marketing & admissions',          defaultPct:5,  min:1,  max:15,
+    note:'New school Year 1–2: 7–8%. Stabilised Year 3+: 3–4%. Schools with strong brand equity or exclusive catchment (e.g. Aramco compound) can run as low as 1–2%.' },
+  { key:'other',      label:'Insurance, licenses & misc',      defaultPct:5,  min:1,  max:12,
+    note:'MoE licensing, professional indemnity, liability insurance, audit/legal. KSA regulatory compliance adds ~1–2% vs UAE equivalents.' }
+];
+
+function opexSliderChange(key, val){
+  opexState[key] = parseInt(val);
+  document.getElementById('opex-val-'+key).textContent = val+'%';
+  csUpdate();
+}
+
+function csUpdate(){
+  const cityId  = document.getElementById('cs-city').value;
+  const city    = cities.find(c=>c.id===cityId);
+  const cs      = city.csData;
+  const plotSqm = Math.max(2500, parseInt(document.getElementById('cs-plot').value)||10000);
+  const currType= document.getElementById('cs-curr').value;
+  const grades  = parseInt(document.getElementById('cs-grades').value);
+  const fee     = parseInt(document.getElementById('cs-fee').value);
+  const fillPct = parseInt(document.getElementById('cs-fill').value);
+  const leaseRate= parseInt(document.getElementById('cs-lease').value);
+
+  /* ── 1. PLOT BREAKDOWN (KSA MoE standards) ──────────────────────────
+     45% of plot = approved construction area (classrooms + corridors + labs + admin)
+     20% of plot = mandatory playground & outdoor sports
+     35% of plot = circulation, car parking, landscaping, drop-off
+  ─────────────────────────────────────────────────────────────────── */
+  const CONSTRUCTION_PCT = 0.45;
+  const PLAYGROUND_PCT   = 0.20;
+  const CIRCULATION_PCT  = 0.35;
+  const CLASSROOM_SQM    = 56;   // KSA MoE minimum per classroom
+  const MAX_PER_CLASS    = 25;   // KSA MoE maximum students per class
+  const REF_BUILD_COST   = 4500; // SAR/sqm of built area — KSA school construction benchmark 2025
+
+  const builtArea        = Math.round(plotSqm * CONSTRUCTION_PCT);
+  const playgroundArea   = Math.round(plotSqm * PLAYGROUND_PCT);
+  const circulationArea  = Math.round(plotSqm * CIRCULATION_PCT);
+
+  // Max classrooms physically approvable under MoE (45% of plot ÷ 56 sqm)
+  const maxClassroomsMoE = Math.floor(builtArea / CLASSROOM_SQM);
+
+  // Update classroom slider max dynamically
+  const crSlider = document.getElementById('cs-classrooms');
+  const prevMax  = parseInt(crSlider.max);
+  crSlider.max   = maxClassroomsMoE;
+  // Clamp current value if it exceeds new max
+  if(parseInt(crSlider.value) > maxClassroomsMoE){
+    crSlider.value = Math.min(maxClassroomsMoE, Math.max(1, Math.round(maxClassroomsMoE * 0.25)));
+  }
+  // If plot changed and slider max changed substantially, set a sensible default
+  if(prevMax !== maxClassroomsMoE && parseInt(crSlider.value) < 5){
+    crSlider.value = Math.min(maxClassroomsMoE, Math.round(maxClassroomsMoE * 0.25));
+  }
+
+  const chosenClassrooms = Math.min(parseInt(crSlider.value)||1, maxClassroomsMoE);
+  document.getElementById('cs-cr-val').textContent = chosenClassrooms + ' classroom' + (chosenClassrooms!==1?'s':'');
+
+  // Sections per grade = chosen classrooms ÷ grades (rounded down, min 1)
+  const sectionsPerGrade = Math.max(1, Math.floor(chosenClassrooms / grades));
+  const actualClassrooms = sectionsPerGrade * grades; // may differ slightly from chosen
+  const totalCapacity    = actualClassrooms * MAX_PER_CLASS;
+  const enrolledStudents = Math.round(totalCapacity * fillPct / 100);
+
+  // Hint text for classroom slider
+  const usagePct = Math.round(chosenClassrooms / maxClassroomsMoE * 100);
+  document.getElementById('cs-cr-hint').textContent =
+    `MoE approves max ${fmtN(maxClassroomsMoE)} classrooms for this plot (45% of ${fmtN(plotSqm)} sqm ÷ 56 sqm each)`;
+  document.getElementById('cs-cr-context').textContent =
+    `${chosenClassrooms} classrooms = ${sectionsPerGrade} section${sectionsPerGrade>1?'s':''} per grade across ${grades} grades · ${usagePct}% of approved maximum`;
+
+  // Capacity info box
+  document.getElementById('cs-capinfo').innerHTML=`
+    <div style="margin-bottom:.7rem;font-family:var(--fc);font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-lt3);">Plot Area Breakdown</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1rem;">
+      <div style="background:rgba(201,168,76,.15);border-radius:4px;padding:.65rem .7rem;text-align:center;">
+        <div class="cap-num">${fmtN(builtArea)}</div>
+        <div style="font-size:.78rem;color:var(--fg-lt3);margin-top:3px;">sqm buildable (45%)</div>
+      </div>
+      <div style="background:rgba(42,107,53,.12);border-radius:4px;padding:.65rem .7rem;text-align:center;">
+        <div class="cap-num" style="color:#2A6B35;">${fmtN(playgroundArea)}</div>
+        <div style="font-size:.78rem;color:var(--fg-lt3);margin-top:3px;">sqm playground (20%)</div>
+      </div>
+      <div style="background:rgba(26,79,138,.1);border-radius:4px;padding:.65rem .7rem;text-align:center;">
+        <div class="cap-num" style="color:#1A4F8A;">${fmtN(circulationArea)}</div>
+        <div style="font-size:.78rem;color:var(--fg-lt3);margin-top:3px;">sqm parking/roads (35%)</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;">
+      <div>
+        <div style="font-size:.82rem;color:var(--fg-lt3);">Max classrooms approved by MoE</div>
+        <div class="cap-num">${fmtN(maxClassroomsMoE)}</div>
+        <div style="font-size:.78rem;color:var(--fg-lt3);">${fmtN(builtArea)} sqm ÷ 56 sqm each</div>
+      </div>
+      <div>
+        <div style="font-size:.82rem;color:var(--fg-lt3);">Maximum student capacity</div>
+        <div class="cap-num">${fmtN(maxClassroomsMoE * MAX_PER_CLASS)}</div>
+        <div style="font-size:.78rem;color:var(--fg-lt3);">${fmtN(maxClassroomsMoE)} rooms × 25 students</div>
+      </div>
+    </div>
+    <div style="margin-top:.9rem;padding-top:.7rem;border-top:1px solid rgba(201,168,76,.3);">
+      <div style="font-size:.82rem;color:var(--fg-lt3);margin-bottom:5px;font-weight:600;">Operator's chosen configuration</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;">
+        <div><span class="cap-num" style="font-size:1.4rem;">${chosenClassrooms}</span><div style="font-size:.78rem;color:var(--fg-lt3);">classrooms chosen</div></div>
+        <div><span class="cap-num" style="font-size:1.4rem;">${fmtN(totalCapacity)}</span><div style="font-size:.78rem;color:var(--fg-lt3);">total seats</div></div>
+        <div><span class="cap-num" style="font-size:1.4rem;color:#2A6B35;">${fmtN(enrolledStudents)}</span><div style="font-size:.78rem;color:var(--fg-lt3);">enrolled at ${fillPct}% fill</div></div>
+      </div>
+    </div>`;
+
+  /* ── 2. CITY CONTEXT ── */
+  document.getElementById('cs-popinfo').textContent = cs.popDesc;
+  document.getElementById('cs-curpair').innerHTML=`
+    <div class="cur-badge" style="color:${cs.cur1.color};background:${cs.cur1.bg};border-color:${cs.cur1.color};">▶ ${cs.cur1.name}<br><span style="font-size:.75rem;font-weight:400;">Primary recommendation</span></div>
+    <div class="cur-badge" style="color:${cs.cur2.color};background:${cs.cur2.bg};border-color:${cs.cur2.color};">▶ ${cs.cur2.name}<br><span style="font-size:.75rem;font-weight:400;">Secondary / dual-stream</span></div>`;
+
+  /* ── 3. FEE CONTEXT ── */
+  const fb = cs.feeBands[currType];
+  document.getElementById('cs-fee-val').textContent = fmt(fee);
+  document.getElementById('cs-fee-context').textContent =
+    `Market band for ${currType.toUpperCase()} in ${city.name}: ${fmt(fb[0])} – ${fmt(fb[1])} per student per year`;
+  document.getElementById('cs-fill-val').textContent = fillPct+'%';
+  const fillHints = ['Year 1 ramp-up (target 40%)','Year 2 ramp-up (target 55%)','Stabilised Year 3 (60–70%)','Strong absorption (75–85%)','Near full capacity (90%+)'];
+  const fillIdx = fillPct<=40?0:fillPct<=55?1:fillPct<=70?2:fillPct<=85?3:4;
+  document.getElementById('cs-fill-context').textContent = fillHints[fillIdx]+' — typical KSA school absorption curve';
+
+  /* ── 4. LEASE CONTEXT (on FULL PLOT) ── */
+  // Set city default on city change only if lease slider hasn't been manually moved
+  document.getElementById('cs-lease-val').textContent = 'SAR '+leaseRate+'/sqm/yr';
+  document.getElementById('cs-lease-context').textContent =
+    `${city.name} market benchmark: ${cs.leaseHint} · Applied to full ${fmtN(plotSqm)} sqm plot`;
+
+  /* ── 5. P&L MODEL ──────────────────────────────────────────────────
+     Revenue = enrolled students × annual fee
+     OPEX    = operator-adjustable % of revenue
+     BTL Lease = FULL plot sqm × SAR/sqm/yr
+     EBITDA  = Revenue − OPEX − Lease
+  ─────────────────────────────────────────────────────────────────── */
+  const grossRevenue   = enrolledStudents * fee;
+  const opexTeaching   = opexState.teaching   / 100;
+  const opexAdmin      = opexState.admin       / 100;
+  const opexFacilities = opexState.facilities  / 100;
+  const opexMarketing  = opexState.marketing   / 100;
+  const opexOther      = opexState.other       / 100;
+  const totalOpexPct   = opexTeaching + opexAdmin + opexFacilities + opexMarketing + opexOther;
+  const totalOpex      = grossRevenue * totalOpexPct;
+  const noi            = grossRevenue - totalOpex;
+
+  // Lease on FULL plot (correct BTL structure)
+  const annualLease    = plotSqm * leaseRate;
+  const ebitda         = noi - annualLease;
+  const ebitdaPct      = grossRevenue > 0 ? (ebitda / grossRevenue * 100) : 0;
+
+  // Reference build cost (developer's perspective — for yield context only)
+  const totalBuildCost = builtArea * REF_BUILD_COST;
+  const yieldOnCost    = totalBuildCost > 0 ? (annualLease / totalBuildCost * 100) : 0;
+  const isViable       = ebitda > 0;
+
+  const revenuePerSeat = enrolledStudents > 0 ? grossRevenue / enrolledStudents : 0;
+  const breakEvenStudents = fee * (1 - totalOpexPct) > 0
+    ? Math.ceil(annualLease / (fee * (1 - totalOpexPct)))
+    : 9999;
+
+  document.getElementById('cs-pnl').innerHTML=`
+    <div class="pnl-card highlight">
+      <div class="pnl-label">Gross Annual Revenue</div>
+      <div class="pnl-val">${fmt(grossRevenue)}</div>
+      <div class="pnl-sub">${fmtN(enrolledStudents)} students × ${fmt(fee)}/yr</div>
+    </div>
+    <div class="pnl-card neg">
+      <div class="pnl-label">Total OPEX (${Math.round(totalOpexPct*100)}% of revenue)</div>
+      <div class="pnl-val">(${fmt(totalOpex)})</div>
+      <div class="pnl-sub">Teaching · Admin · Facilities · Marketing · Other</div>
+    </div>
+    <div class="pnl-card ${noi>0?'pos':'neg'}">
+      <div class="pnl-label">Net Operating Income</div>
+      <div class="pnl-val">${fmt(noi)}</div>
+      <div class="pnl-sub">Before BTL lease payment</div>
+    </div>
+    <div class="pnl-card neg">
+      <div class="pnl-label">Annual BTL Lease (full plot)</div>
+      <div class="pnl-val">(${fmt(annualLease)})</div>
+      <div class="pnl-sub">${fmtN(plotSqm)} sqm × SAR ${fmtN(leaseRate)}/sqm/yr</div>
+    </div>
+    <div class="pnl-card ${isViable?'pos':'neg'}" style="border-width:2px;">
+      <div class="pnl-label">EBITDA</div>
+      <div class="pnl-val" style="color:${isViable?'#2A6B35':'#8A2020'};">${fmt(ebitda)}</div>
+      <div class="pnl-sub">Margin: ${ebitdaPct.toFixed(1)}% ${isViable?'✓':'⚠ Loss-making'}</div>
+    </div>
+    <div class="pnl-card">
+      <div class="pnl-label">Developer Lease Yield*</div>
+      <div class="pnl-val">${yieldOnCost.toFixed(1)}%</div>
+      <div class="pnl-sub">Annual lease ÷ build cost (${fmt(totalBuildCost)})</div>
+    </div>
+    <div class="pnl-card" style="border-left:3px solid var(--gold);">
+      <div class="pnl-label">Break-even Enrolment</div>
+      <div class="pnl-val">${breakEvenStudents > totalCapacity ? 'Not viable' : fmtN(breakEvenStudents)}</div>
+      <div class="pnl-sub">Min students to cover all costs at current OPEX</div>
+    </div>
+    <div class="pnl-card">
+      <div class="pnl-label">Revenue per Enrolled Seat</div>
+      <div class="pnl-val">${fmt(revenuePerSeat)}</div>
+      <div class="pnl-sub">Gross revenue ÷ enrolled students</div>
+    </div>`;
+
+  /* ── OPEX BREAKDOWN — interactive sliders ── */
+  const totalCustomPct = Object.values(opexState).reduce((a,b)=>a+b,0);
+  const isOverBudget   = totalCustomPct > 100;
+
+  let opexHtml = `<div class="opex-title">OPEX Breakdown — Adjust each line to match your operator structure</div>`;
+
+  opexBenchmarks.forEach(b => {
+    const pct = opexState[b.key];
+    const amt = grossRevenue * pct / 100;
+    opexHtml += `
+      <div class="opex-slider-row">
+        <span class="opex-lbl">${b.label}</span>
+        <div class="opex-track" style="flex:1;"><div class="opex-fill" style="width:${Math.min(pct/b.max*100,100)}%;opacity:.8;"></div></div>
+        <span class="opex-pct" id="opex-val-${b.key}">${pct}%</span>
+        <span class="opex-sar">${fmt(amt)}</span>
+        <input type="range" class="opex-slider" style="width:90px;flex-shrink:0;"
+          min="${b.min}" max="${b.max}" step="1" value="${pct}"
+          oninput="opexSliderChange('${b.key}',this.value)">
+      </div>`;
+  });
+
+  opexHtml += `
+    <div class="opex-total-row">
+      <span class="opex-total-lbl">Total OPEX</span>
+      <span class="opex-total-val" style="color:${isOverBudget?'#8A2020':'var(--fg-lt)'};">${totalCustomPct}% of revenue = ${fmt(totalOpex)}</span>
+    </div>
+    ${isOverBudget ? `<div class="opex-warn">⚠ Total OPEX exceeds 100% — school is loss-making at current configuration</div>` : ''}`;
+
+  /* Benchmark justification box */
+  opexHtml += `
+    <div class="opex-benchmark">
+      <div class="opex-bm-title">Benchmark Basis — Sources & Operator Guidance</div>
+      ${opexBenchmarks.map(b=>`
+      <div class="opex-bm-row">
+        <span class="opex-bm-name">${b.label}</span>
+        <span class="opex-bm-pct">Default ${b.defaultPct}%</span>
+        <span class="opex-bm-note">${b.note}</span>
+      </div>`).join('')}
+      <div style="font-family:var(--fc);font-size:.78rem;color:var(--fg-lt3);margin-top:.8rem;padding-top:.6rem;border-top:1px solid var(--bdr-lt);">
+        Sources: GEMS Education Annual Report 2024 · Taaleem Holdings IPO Prospectus · Mordor Intelligence KSA K-12 Report 2025 · ADEK Abu Dhabi School Operator Filings · EFG Hermes GCC Education Sector Note 2024
+      </div>
+    </div>`;
+
+  document.getElementById('cs-opex').innerHTML = opexHtml;
+
+  document.getElementById('cs-assumptions').innerHTML=`
+    <strong>Model assumptions &amp; KSA MoE standards:</strong><br>
+    • Classroom minimum: 56 sqm per room (KSA MoE circular) · Max 25 students per class<br>
+    • Plot zoning: 45% buildable construction area · 20% mandatory playground &amp; outdoor sports · 35% parking, roads &amp; landscaping<br>
+    • BTL lease on <strong>entire plot sqm</strong> — developer provides fully constructed school facility (building + playground + sports + access). Operator leases as a single asset.<br>
+    • Developer build cost benchmark: SAR 4,500/sqm of built area (Royal Commission KSA school construction data, used for developer yield reference only)<br>
+    • OPEX % lines are operator-adjustable — defaults are KSA K-12 sector benchmarks. Operators with sister companies in FM, management, or staffing typically restructure these lines as intercompany charges for tax efficiency.<br>
+    • Figures are indicative only — independent site-specific due diligence required before any investment decision`;
+}
+
+// Init
+csUpdate();
+
+/* ══════════════ SOURCES ══════════════ */
+const srcg=document.getElementById('srcGrid');
+sources.forEach(s=>{
+  const d=document.createElement('div'); d.className='src-card';
+  d.innerHTML=`<div class="src-num">${s.n}</div><div class="src-name">${s.name}</div><div class="src-desc">${s.desc}</div><a class="src-url" href="${s.url}" target="_blank" rel="noopener">${s.url}</a>`;
+  srcg.appendChild(d);
+});
+
+/* ══════════════ TABS ══════════════ */
+function switchTab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // re-trigger animations
+  document.querySelectorAll('#tab-'+id+' .anim-fadeup, #tab-'+id+' .anim-fadein').forEach(el=>{
+    el.style.animation='none';
+    el.offsetHeight;
+    el.style.animation='';
+  });
+}
+
+/* scroll-triggered animations for below-fold content */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.animationPlayState='running';}});
+},{threshold:0.1});
+document.querySelectorAll('.anim-fadeup,.anim-fadein').forEach(el=>{
+  el.style.animationPlayState='paused';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
