@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPS Group — Executive Intelligence Dashboard | Auremont Capital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy-mid: #111827;
+    --navy-card: #141d2f;
+    --navy-light: #1a2540;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: rgba(201,168,76,0.15);
+    --green-dps: #1a6b3a;
+    --green-dps-bright: #22c55e;
+    --green-glow: rgba(34,197,94,0.12);
+    --white: #f5f2eb;
+    --muted: #8899aa;
+    --border: rgba(201,168,76,0.18);
+    --border-subtle: rgba(255,255,255,0.07);
+    --red: #e05252;
+    --blue-accent: #4a9eff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── BACKGROUND TEXTURE ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(26,107,58,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(74,158,255,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrap { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 28px 60px; }
+
+  /* ─── TOP HEADER ─── */
+  .top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .auremont-brand { display: flex; align-items: center; gap: 10px; }
+  .auremont-logo {
+    width: 36px; height: 36px;
+    background: var(--gold);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    flex-shrink: 0;
+  }
+  .auremont-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; letter-spacing: 0.12em; color: var(--gold); text-transform: uppercase; }
+  .top-bar-right { display: flex; align-items: center; gap: 20px; }
+  .date-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); }
+  .confidential-tag {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    border: 1px solid var(--red); color: var(--red);
+    padding: 3px 9px; letter-spacing: 0.1em; border-radius: 2px;
+  }
+
+  /* ─── HERO SECTION ─── */
+  .hero {
+    padding: 40px 0 32px;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .hero-left {}
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--green-dps-bright); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300;
+    line-height: 1.1; color: var(--white);
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    margin-top: 12px; font-size: 14px; color: var(--muted); font-weight: 300;
+    max-width: 520px; line-height: 1.6;
+  }
+  .hero-right { flex-shrink: 0; text-align: right; }
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--green-dps), #0f4a28);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 4px; padding: 10px 18px;
+    font-size: 12px; color: var(--green-dps-bright);
+    font-family: 'DM Mono', monospace; letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .hero-rating {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600; color: var(--gold);
+    text-align: right;
+  }
+  .hero-rating span { font-size: 12px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 300; display: block; }
+
+  /* ─── KPI STRIP ─── */
+  .kpi-strip {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+    margin: 28px 0;
+  }
+  .kpi {
+    background: var(--navy-card);
+    padding: 20px 16px; text-align: center;
+    transition: background 0.2s;
+  }
+  .kpi:hover { background: var(--navy-light); }
+  .kpi-value {
+    font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 600;
+    color: var(--gold-light); line-height: 1;
+  }
+  .kpi-label { font-size: 10.5px; color: var(--muted); margin-top: 5px; letter-spacing: 0.04em; }
+  .kpi-sub { font-size: 9.5px; color: var(--green-dps-bright); margin-top: 3px; font-family: 'DM Mono', monospace; }
+
+  /* ─── SECTION HEADER ─── */
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin: 36px 0 16px;
+  }
+  .section-header::before {
+    content: ''; display: block;
+    width: 3px; height: 22px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    border-radius: 2px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400; color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .section-tag {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.1em;
+    margin-left: auto;
+  }
+
+  /* ─── CARD BASE ─── */
+  .card {
+    background: var(--navy-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 22px 24px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--border); }
+  .card-title {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-title::after { content: ''; flex: 1; height: 1px; background: var(--border-subtle); }
+
+  /* ─── GRID LAYOUTS ─── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-3-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+  .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; }
+
+  /* ─── DPS FAMILY NETWORK ─── */
+  .dps-network { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .school-node {
+    background: var(--navy-light);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px; padding: 18px 16px;
+    position: relative; overflow: hidden;
+    transition: all 0.25s;
+  }
+  .school-node:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .school-node.flagship { border-color: rgba(201,168,76,0.35); }
+  .school-node.flagship::before {
+    content: 'FLAGSHIP';
+    position: absolute; top: 10px; right: 10px;
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    color: var(--gold); letter-spacing: 0.1em;
+    background: var(--gold-dim); padding: 2px 6px; border-radius: 2px;
+  }
+  .school-node-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 600; color: var(--white);
+    margin-bottom: 4px;
+  }
+  .school-node-location {
+    font-size: 11px; color: var(--gold); margin-bottom: 12px;
+    font-family: 'DM Mono', monospace;
+  }
+  .school-node-stats { display: flex; flex-direction: column; gap: 5px; }
+  .node-stat { display: flex; justify-content: space-between; font-size: 11.5px; }
+  .node-stat-label { color: var(--muted); }
+  .node-stat-value { color: var(--white); font-weight: 500; }
+  .node-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green-dps-bright);
+    box-shadow: 0 0 8px var(--green-dps-bright);
+    position: absolute; bottom: 14px; right: 14px;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  /* ─── FEE STRUCTURE TABLE ─── */
+  .fee-table { width: 100%; border-collapse: collapse; }
+  .fee-table th {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--muted); letter-spacing: 0.1em;
+    padding: 8px 12px; text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .fee-table td {
+    padding: 9px 12px; font-size: 12.5px; color: var(--white);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .fee-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .fee-table .fee-val { font-family: 'DM Mono', monospace; color: var(--gold); }
+  .fee-table .fee-bar { background: var(--border-subtle); border-radius: 2px; height: 4px; overflow: hidden; }
+  .fee-table .fee-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; }
+
+  /* ─── TIMELINE ─── */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px;
+    width: 1px; background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .timeline-item { position: relative; margin-bottom: 18px; }
+  .timeline-dot {
+    position: absolute; left: -21px; top: 3px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--navy-card);
+  }
+  .timeline-year { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gold); margin-bottom: 2px; }
+  .timeline-text { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+  .timeline-text strong { color: var(--white); }
+
+  /* ─── AWARD BADGES ─── */
+  .awards-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .award-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--navy-light);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px; padding: 9px 14px;
+    font-size: 12px; color: var(--white);
+    transition: all 0.2s;
+  }
+  .award-badge:hover { border-color: var(--gold); }
+  .award-icon { font-size: 16px; }
+  .award-name { font-weight: 500; }
+  .award-sub { font-size: 10px; color: var(--muted); }
+
+  /* ─── FACILITY TAGS ─── */
+  .facility-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .facility-tag {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px; padding: 6px 12px;
+    font-size: 11.5px; color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.2s;
+  }
+  .facility-tag:hover { color: var(--white); border-color: rgba(255,255,255,0.15); }
+  .facility-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green-dps-bright); }
+
+  /* ─── KSA OPPORTUNITY BOX ─── */
+  .ksa-panel {
+    background: linear-gradient(135deg, #0f1e0f 0%, #0d1a2e 50%, #0a0f1e 100%);
+    border: 1px solid rgba(34,197,94,0.25);
+    border-radius: 12px; padding: 28px;
+    position: relative; overflow: hidden;
+  }
+  .ksa-panel::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(34,197,94,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .ksa-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .ksa-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400;
+    color: var(--white);
+  }
+  .ksa-title strong { color: var(--green-dps-bright); }
+  .ksa-tag {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    color: var(--green-dps-bright);
+    border: 1px solid rgba(34,197,94,0.3);
+    padding: 4px 10px; border-radius: 3px;
+    letter-spacing: 0.1em;
+  }
+  .ksa-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 22px; }
+  .ksa-stat-box {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px; padding: 16px;
+  }
+  .ksa-stat-label { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
+  .ksa-stat-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--green-dps-bright); }
+  .ksa-stat-note { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .btl-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 4px; }
+  .btl-step {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(34,197,94,0.15);
+    border-radius: 6px; padding: 12px;
+    position: relative;
+  }
+  .btl-step-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600;
+    color: rgba(34,197,94,0.2); line-height: 1;
+    position: absolute; top: 8px; right: 10px;
+  }
+  .btl-step-title { font-size: 11px; font-weight: 600; color: var(--white); margin-bottom: 5px; }
+  .btl-step-desc { font-size: 10.5px; color: var(--muted); line-height: 1.5; }
+  .btl-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--green-dps-bright); font-size: 14px;
+    margin-top: 6px;
+  }
+
+  /* ─── FINANCIAL MODEL ─── */
+  .fin-model { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .fin-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 12.5px;
+  }
+  .fin-label { color: var(--muted); }
+  .fin-value { font-family: 'DM Mono', monospace; color: var(--gold); }
+  .fin-value.positive { color: var(--green-dps-bright); }
+  .fin-value.header { color: var(--white); font-size: 14px; }
+
+  /* ─── INTEL TAGS ─── */
+  .intel-box {
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 8px; padding: 14px 18px;
+    font-size: 12.5px; line-height: 1.7;
+    color: var(--white);
+  }
+  .intel-box strong { color: var(--gold); }
+
+  /* ─── GROWTH BARS ─── */
+  .growth-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .growth-label { font-size: 12px; color: var(--muted); width: 120px; flex-shrink: 0; }
+  .growth-bar-wrap { flex: 1; background: var(--border-subtle); border-radius: 4px; height: 6px; }
+  .growth-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--green-dps), var(--green-dps-bright)); transition: width 1s ease; }
+  .growth-pct { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gold); width: 40px; text-align: right; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    margin-top: 48px; padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10.5px; color: var(--muted);
+  }
+  .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--gold); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .kpi-strip { grid-template-columns: repeat(3, 1fr); }
+    .dps-network { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3, .grid-3-1, .grid-1-2 { grid-template-columns: 1fr; }
+    .ksa-grid, .btl-steps { grid-template-columns: 1fr 1fr; }
+    .hero { flex-direction: column; align-items: flex-start; }
+    .hero-title { font-size: 34px; }
+    .fin-model { grid-template-columns: 1fr; }
+  }
+
+  /* Animated entrance */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.5s ease forwards; }
+  .fade-up-2 { animation: fadeUp 0.5s ease 0.1s forwards; opacity: 0; }
+  .fade-up-3 { animation: fadeUp 0.5s ease 0.2s forwards; opacity: 0; }
+
+  /* Tooltip */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip-text {
+    display: none;
+    position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
+    background: var(--navy-light); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 12px;
+    font-size: 11px; color: var(--white); white-space: nowrap;
+    z-index: 100;
+  }
+  .tooltip-wrap:hover .tooltip-text { display: block; }
+
+  /* Scroll behavior */
+  html { scroll-behavior: smooth; }
+
+  .vertical-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    transform: rotate(180deg);
+  }
+
+  .tag-pill {
+    display: inline-block;
+    padding: 2px 8px; border-radius: 20px;
+    font-family: 'DM Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.06em;
+  }
+  .pill-green { background: var(--green-glow); color: var(--green-dps-bright); border: 1px solid rgba(34,197,94,0.2); }
+  .pill-gold { background: var(--gold-dim); color: var(--gold); border: 1px solid rgba(201,168,76,0.2); }
+  .pill-blue { background: rgba(74,158,255,0.1); color: var(--blue-accent); border: 1px solid rgba(74,158,255,0.2); }
+
+  .divider { height: 1px; background: var(--border-subtle); margin: 10px 0; }
+
+  .highlight-row {
+    background: var(--gold-dim);
+    border-radius: 4px;
+  }
+  .highlight-row td { color: var(--gold-light) !important; }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- TOP BAR -->
+  <div class="top-bar fade-up">
+    <div class="auremont-brand">
+      <div class="auremont-logo"></div>
+      <div class="auremont-name">Auremont Capital</div>
+    </div>
+    <div class="top-bar-right">
+      <div class="date-tag">INTELLIGENCE BRIEF · APRIL 2026</div>
+      <div class="confidential-tag">STRICTLY PRIVATE</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero fade-up-2">
+    <div class="hero-left">
+      <div class="hero-eyebrow">▶ EDUCATION ASSET INTELLIGENCE</div>
+      <h1 class="hero-title">
+        Delhi Private School<br>
+        <em>Group — UAE</em>
+      </h1>
+      <p class="hero-sub">
+        Institutional intelligence brief on the DPS Group — comprising DPS Sharjah (flagship), DPS Dubai, DPS Ras Al Khaimah, and NDPS Sharjah — prepared in the context of a proposed KSA School Expansion under a Build-To-Lease mandate.
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="hero-badge">SPEA RATED · VERY GOOD 2023</div>
+      <div class="hero-rating">
+        4 Schools · 17,000+ Students
+        <span>Across UAE | Est. 2000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip fade-up-3">
+    <div class="kpi">
+      <div class="kpi-value">2000</div>
+      <div class="kpi-label">Year Established</div>
+      <div class="kpi-sub">FIRST DPS BRAND IN UAE</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">5,700+</div>
+      <div class="kpi-label">Students · Sharjah</div>
+      <div class="kpi-sub">CBSE KG1–GRADE 12</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">12 ac</div>
+      <div class="kpi-label">Campus Area</div>
+      <div class="kpi-sub">MUWAILEH COMMERCIAL</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">500+</div>
+      <div class="kpi-label">Staff Members</div>
+      <div class="kpi-sub">EDUCATORS & ADMIN</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">AED 18.5K</div>
+      <div class="kpi-label">SPEA-Approved Cap</div>
+      <div class="kpi-sub">PRE-KG ANNUAL FEE</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-value">26 yrs</div>
+      <div class="kpi-label">Track Record</div>
+      <div class="kpi-sub">INDEPENDENT TRADEMARK</div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION: DPS FAMILY NETWORK ═══ -->
+  <div class="section-header">
+    <div class="section-title">The DPS Family — Group Network</div>
+    <div class="section-tag">NOT VISIBLE ON HOMEPAGE · REQUIRES MENU NAVIGATION</div>
+  </div>
+
+  <div class="intel-box" style="margin-bottom: 16px;">
+    The <strong>DPS Group</strong> operates as an <strong>independent, UAE-registered trademark</strong> ("Delhi Private School LLC") — distinct from India's Delhi Public School Society, whose franchise was intentionally not renewed in 2017. The Group's MD, <strong>Dr. Dinesh C. Kothari</strong>, has built a multi-campus educational enterprise across all four UAE schools under a single private ownership structure. This gives the group <strong>unilateral expansion authority</strong> — no society approval required for new geographies.
+  </div>
+
+  <div class="dps-network">
+    <!-- SHARJAH -->
+    <div class="school-node flagship">
+      <div class="node-dot"></div>
+      <div class="school-node-name">DPS Sharjah</div>
+      <div class="school-node-location">🇦🇪 MUWAILEH, SHARJAH</div>
+      <div class="school-node-stats">
+        <div class="node-stat"><span class="node-stat-label">Est.</span><span class="node-stat-value">January 2000</span></div>
+        <div class="node-stat"><span class="node-stat-label">Students</span><span class="node-stat-value">5,700+</span></div>
+        <div class="node-stat"><span class="node-stat-label">Campus</span><span class="node-stat-value">12 acres</span></div>
+        <div class="node-stat"><span class="node-stat-label">Grades</span><span class="node-stat-value">KG1 – 12</span></div>
+        <div class="node-stat"><span class="node-stat-label">Rating</span><span class="node-stat-value">SPEA Very Good</span></div>
+        <div class="node-stat"><span class="node-stat-label">Principal</span><span class="node-stat-value">Ms. Vandana Marwaha</span></div>
+        <div class="divider"></div>
+        <div style="font-size:10px; color: var(--muted); margin-top:4px;">3-building campus: Primary, Secondary & Senior Wings. Interactive classrooms, STEM labs, swimming pools, multi-sports facilities.</div>
+      </div>
+    </div>
+    <!-- DUBAI -->
+    <div class="school-node">
+      <div class="node-dot"></div>
+      <div class="school-node-name">DPS Dubai</div>
+      <div class="school-node-location">🇦🇪 JEBEL ALI, DUBAI</div>
+      <div class="school-node-stats">
+        <div class="node-stat"><span class="node-stat-label">Est.</span><span class="node-stat-value">Feb 2002 (opened 2003)</span></div>
+        <div class="node-stat"><span class="node-stat-label">Students</span><span class="node-stat-value">~5,300</span></div>
+        <div class="node-stat"><span class="node-stat-label">Grades</span><span class="node-stat-value">KG1 – 12</span></div>
+        <div class="node-stat"><span class="node-stat-label">Model</span><span class="node-stat-value">Co-educational (since 2014)</span></div>
+        <div class="node-stat"><span class="node-stat-label">Same Owner</span><span class="node-stat-value">Dr. Dinesh Kothari</span></div>
+        <div class="divider"></div>
+        <div style="font-size:10px; color: var(--muted); margin-top:4px;">Combined DPS SHJ + DPS DXB student strength: ~11,000 students. Sister school under same trademark LLC.</div>
+      </div>
+    </div>
+    <!-- RAK -->
+    <div class="school-node">
+      <div class="node-dot" style="background:#4a9eff; box-shadow: 0 0 8px #4a9eff;"></div>
+      <div class="school-node-name">DPS Ras Al Khaimah</div>
+      <div class="school-node-location">🇦🇪 RAK, UAE</div>
+      <div class="school-node-stats">
+        <div class="node-stat"><span class="node-stat-label">Est.</span><span class="node-stat-value">April 2021</span></div>
+        <div class="node-stat"><span class="node-stat-label">Rating</span><span class="node-stat-value">MoE "Good" (2024)</span></div>
+        <div class="node-stat"><span class="node-stat-label">Award</span><span class="node-stat-value">Distinguished Private School 2025</span></div>
+        <div class="node-stat"><span class="node-stat-label">Heritage</span><span class="node-stat-value">21-yr legacy from SHJ/DXB</span></div>
+        <div class="divider"></div>
+        <div style="font-size:10px; color: var(--muted); margin-top:4px;">Newest campus. Awarded by HH Sheikh Saud bin Saqr Al Qasimi. Demonstrates proven scalability of the DPS expansion model across UAE.</div>
+      </div>
+    </div>
+    <!-- NDPS -->
+    <div class="school-node">
+      <div class="node-dot" style="background:#c084fc; box-shadow: 0 0 8px #c084fc;"></div>
+      <div class="school-node-name">NDPS Sharjah</div>
+      <div class="school-node-location">🇦🇪 SHARJAH — SISTER CAMPUS</div>
+      <div class="school-node-stats">
+        <div class="node-stat"><span class="node-stat-label">Full Name</span><span class="node-stat-value">New Delhi Private School</span></div>
+        <div class="node-stat"><span class="node-stat-label">Students</span><span class="node-stat-value">~850+</span></div>
+        <div class="node-stat"><span class="node-stat-label">Campus</span><span class="node-stat-value">8,000 sqm</span></div>
+        <div class="node-stat"><span class="node-stat-label">Owner</span><span class="node-stat-value">Dr. Dinesh Kothari</span></div>
+        <div class="node-stat"><span class="node-stat-label">Purpose</span><span class="node-stat-value">KG–Primary overflow</span></div>
+        <div class="divider"></div>
+        <div style="font-size:10px; color: var(--muted); margin-top:4px;">Feeder school for the primary segment. Low 6% staff turnover vs 20–22% UAE average — indicating strong operational culture.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ ACADEMIC & INFRASTRUCTURE ═══ -->
+  <div class="section-header" style="margin-top: 38px;">
+    <div class="section-title">Academics, Programmes & Infrastructure</div>
+    <div class="section-tag">DPS SHARJAH · FLAGSHIP CAMPUS</div>
+  </div>
+
+  <div class="grid-3">
+    <!-- Academic Programmes -->
+    <div class="card">
+      <div class="card-title">Academic Framework</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">CURRICULUM</div>
+          <div class="timeline-text"><strong>CBSE (NCERT guidelines)</strong> — India's largest education board. KG1 through Grade 12. Science & Commerce streams at senior secondary level.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--blue-accent);"></div>
+          <div class="timeline-year">DIGITAL LEARNING</div>
+          <div class="timeline-text"><strong>CLP Portal</strong> (now transitioning to SPECIAL PROGRAMS portal) for Grades 3–12: monthly assignments, study material, academic updates. Hybrid delivery capability since 2020.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: #c084fc;"></div>
+          <div class="timeline-year">ACE PROGRAMME</div>
+          <div class="timeline-text"><strong>Awareness, Community, Environment</strong> — motto "Service Before Self." Social responsibility, eco-school certification, Green Flag (WWF).</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--green-dps-bright);"></div>
+          <div class="timeline-year">SEN SUPPORT</div>
+          <div class="timeline-text"><strong>Special Education Needs</strong> programme with dedicated team. Students of determination are fully integrated into mainstream curriculum.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--gold);"></div>
+          <div class="timeline-year">ELECTIVES</div>
+          <div class="timeline-text">Sports · Languages · Technology · Creative Arts. Periodic Tests (Grades 6–8), Board Exams (Grades 10 & 12).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Facilities -->
+    <div class="card">
+      <div class="card-title">Campus Infrastructure</div>
+      <div class="facility-grid">
+        <div class="facility-tag"><span class="facility-dot"></span>3-Building Campus</div>
+        <div class="facility-tag"><span class="facility-dot"></span>STEM Education Centres</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Exclusive Libraries</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Interactive Whiteboards</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Cricket Fields</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Football Fields</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Basketball Courts</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Athletic Track</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Swimming Pool</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Wading Pool</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Yoga Rooms</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Multi-Purpose Hall</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Badminton Courts</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Table Tennis</div>
+        <div class="facility-tag"><span class="facility-dot"></span>2 Medical Clinics</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Dental Checkups</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Separate Canteens (B/G)</div>
+        <div class="facility-tag"><span class="facility-dot"></span>RFID Bus Transport</div>
+        <div class="facility-tag"><span class="facility-dot"></span>After-School ECA</div>
+        <div class="facility-tag"><span class="facility-dot"></span>Art & Dance Studios</div>
+      </div>
+      <div class="divider" style="margin-top: 14px;"></div>
+      <div style="font-size:11px; color: var(--muted); line-height: 1.6; margin-top:8px;">
+        Transport outsourced to <strong style="color: var(--white);">Najmat al Najah Buses Transport (NBT)</strong> — RFID-monitored pick-up/drop-off for student safety. Canteens segregated. 2 on-campus medical clinics with resident doctors/nurses.
+      </div>
+    </div>
+
+    <!-- School Governance & Identity -->
+    <div class="card">
+      <div class="card-title">Governance & Brand Identity</div>
+      <div style="margin-bottom: 16px;">
+        <div class="fin-row"><span class="fin-label">Legal Entity</span><span class="fin-value">Delhi Private School LLC</span></div>
+        <div class="fin-row"><span class="fin-label">MD / Owner</span><span class="fin-value" style="color: var(--white);">Dr. Dinesh C. Kothari</span></div>
+        <div class="fin-row"><span class="fin-label">Sharjah Principal</span><span class="fin-value" style="color: var(--white);">Ms. Vandana Marwaha</span></div>
+        <div class="fin-row"><span class="fin-label">Regulator</span><span class="fin-value">SPEA (Sharjah)</span></div>
+        <div class="fin-row"><span class="fin-label">Curriculum Board</span><span class="fin-value">CBSE, India</span></div>
+        <div class="fin-row"><span class="fin-label">School Houses</span><span class="fin-value" style="color: var(--white);">Amazon · Danube · Indus · Nile</span></div>
+        <div class="fin-row"><span class="fin-label">Colors</span><span class="fin-value">White &amp; Green</span></div>
+        <div class="fin-row"><span class="fin-label">Motto</span><span class="fin-value" style="font-style:italic; color: var(--white);">Service Before Self</span></div>
+        <div class="fin-row"><span class="fin-label">Social (IG)</span><span class="fin-value">@dps_sharjah · 8,000+ followers</span></div>
+      </div>
+      <div class="intel-box" style="font-size:11.5px;">
+        <strong>Key Insight:</strong> Since 2017, DPS LLC is <strong>India-independent</strong> — owns the UAE trademark outright, requiring no DPS Society consent for new campus openings. This is the critical enabler for a KSA expansion without franchising complexity.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MILESTONES & AWARDS ═══ -->
+  <div class="section-header">
+    <div class="section-title">Brand Equity — Awards & Recognition</div>
+    <div class="section-tag">26-YEAR INSTITUTIONAL TRACK RECORD</div>
+  </div>
+
+  <div class="awards-grid" style="margin-bottom: 16px;">
+    <div class="award-badge"><span class="award-icon">🏆</span><div><div class="award-name">Khalifa Award for Education</div><div class="award-sub">Ministry of Education, UAE · Highest honour</div></div></div>
+    <div class="award-badge"><span class="award-icon">🥇</span><div><div class="award-name">Sheikh Hamdan Award</div><div class="award-sub">Max student wins in UAE — annually</div></div></div>
+    <div class="award-badge"><span class="award-icon">⭐</span><div><div class="award-name">Sharjah Excellence Award</div><div class="award-sub">Sharjah Education Zone recognition</div></div></div>
+    <div class="award-badge"><span class="award-icon">🌿</span><div><div class="award-name">Green Flag — EWS/WWF</div><div class="award-sub">Eco-school certification 2014 & 2026</div></div></div>
+    <div class="award-badge"><span class="award-icon">📊</span><div><div class="award-name">SPEA "Very Good" Rating</div><div class="award-sub">Academic Year 2022–23</div></div></div>
+    <div class="award-badge"><span class="award-icon">🌱</span><div><div class="award-name">Environment Awareness Award</div><div class="award-sub">Ministry of Education & Sharjah Zone 2015</div></div></div>
+    <div class="award-badge"><span class="award-icon">🎓</span><div><div class="award-name">Ivy League Placements</div><div class="award-sub">Alumni placed at top global universities</div></div></div>
+    <div class="award-badge"><span class="award-icon">🏛️</span><div><div class="award-name">DPS RAK Distinguished School</div><div class="award-sub">HH Sheikh Saud — RAK Awards 2025</div></div></div>
+  </div>
+
+  <!-- ═══ FEE STRUCTURE ═══ -->
+  <div class="section-header">
+    <div class="section-title">Fee Structure & Revenue Architecture</div>
+    <div class="section-tag">SPEA-APPROVED · AY 2025–26</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Installment-Wise Fee Structure (AED)</div>
+      <table class="fee-table">
+        <thead>
+          <tr>
+            <th>Grade</th>
+            <th>SPEA Cap</th>
+            <th>Discounted</th>
+            <th>1st (40%)</th>
+            <th>Utilisation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Pre-KG</td><td class="fee-val">18,500</td><td class="fee-val">14,500</td><td class="fee-val">5,800</td><td><div class="fee-bar"><div class="fee-fill" style="width:78%"></div></div></td></tr>
+          <tr><td>KG-1</td><td class="fee-val">18,500</td><td class="fee-val">15,500</td><td class="fee-val">6,200</td><td><div class="fee-bar"><div class="fee-fill" style="width:84%"></div></div></td></tr>
+          <tr><td>KG-2</td><td class="fee-val">18,500</td><td class="fee-val">15,800</td><td class="fee-val">6,320</td><td><div class="fee-bar"><div class="fee-fill" style="width:85%"></div></div></td></tr>
+          <tr class="highlight-row"><td>Grades 1–5</td><td class="fee-val">~19,000</td><td class="fee-val">16,000</td><td class="fee-val">6,400</td><td><div class="fee-bar"><div class="fee-fill" style="width:88%"></div></div></td></tr>
+          <tr class="highlight-row"><td>Grades 6–8</td><td class="fee-val">~20,500</td><td class="fee-val">17,000</td><td class="fee-val">6,800</td><td><div class="fee-bar"><div class="fee-fill" style="width:92%"></div></div></td></tr>
+          <tr><td>Grades 9–10</td><td class="fee-val">~22,000</td><td class="fee-val">18,500</td><td class="fee-val">7,400</td><td><div class="fee-bar"><div class="fee-fill" style="width:96%"></div></div></td></tr>
+          <tr><td>Grades 11–12</td><td class="fee-val">~24,000</td><td class="fee-val">20,000</td><td class="fee-val">8,000</td><td><div class="fee-bar"><div class="fee-fill" style="width:100%"></div></div></td></tr>
+        </tbody>
+      </table>
+      <div style="font-size: 10.5px; color: var(--muted); margin-top: 12px; line-height: 1.7;">
+        ▸ Fees collected in <strong style="color: var(--white);">3 installments: 40% / 30% / 30%</strong>. No fees July–August. Credit cards accepted for full-term only.
+        ▸ New admissions: 1st installment at time of admission. Certificate withheld until fees cleared.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Revenue Capacity — DPS Sharjah (Estimated)</div>
+      <div class="fin-row"><span class="fin-label">Total students (2024)</span><span class="fin-value header">5,700+</span></div>
+      <div class="fin-row"><span class="fin-label">Avg. blended annual fee</span><span class="fin-value">~AED 17,500</span></div>
+      <div class="fin-row"><span class="fin-label">Est. Gross Tuition Revenue</span><span class="fin-value positive">~AED 99.75M / year</span></div>
+      <div class="divider"></div>
+      <div class="fin-row"><span class="fin-label">Transport (outsourced — NBT)</span><span class="fin-value">Pass-through</span></div>
+      <div class="fin-row"><span class="fin-label">Canteen revenue (outsourced)</span><span class="fin-value">Licence fees</span></div>
+      <div class="fin-row"><span class="fin-label">After-school ECA fees</span><span class="fin-value">~AED 2–4M est.</span></div>
+      <div class="fin-row"><span class="fin-label">Group-wide est. revenue (4 schools)</span><span class="fin-value positive">~AED 250–310M</span></div>
+      <div class="divider"></div>
+      <div style="margin-top: 12px;">
+        <div style="font-size: 11px; color: var(--muted); margin-bottom: 10px;">Student Growth Trajectory — DPS Sharjah</div>
+        <div class="growth-row"><span class="growth-label">2000 (founding)</span><div class="growth-bar-wrap"><div class="growth-bar" style="width:3%"></div></div><span class="growth-pct">146</span></div>
+        <div class="growth-row"><span class="growth-label">2010</span><div class="growth-bar-wrap"><div class="growth-bar" style="width:30%"></div></div><span class="growth-pct">~1,700</span></div>
+        <div class="growth-row"><span class="growth-label">2018</span><div class="growth-bar-wrap"><div class="growth-bar" style="width:55%"></div></div><span class="growth-pct">~3,200</span></div>
+        <div class="growth-row"><span class="growth-label">2022</span><div class="growth-bar-wrap"><div class="growth-bar" style="width:80%"></div></div><span class="growth-pct">~4,600</span></div>
+        <div class="growth-row"><span class="growth-label">2024–25</span><div class="growth-bar-wrap"><div class="growth-bar" style="width:100%"></div></div><span class="growth-pct">5,700+</span></div>
+      </div>
+      <div class="intel-box" style="margin-top: 14px; font-size:11.5px;">
+        <strong>Waitlist pressure</strong> at DPS Sharjah is the direct trigger for the NDPS Sharjah overflow campus — confirming structural demand saturation in the UAE. <strong>KSA is the logical next geography.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ KSA EXPANSION OPPORTUNITY ═══ -->
+  <div class="section-header">
+    <div class="section-title">The Opportunity — KSA School Expansion Programme</div>
+    <div class="section-tag">AUREMONT CAPITAL MANDATE PROPOSAL</div>
+  </div>
+
+  <div class="ksa-panel">
+    <div class="ksa-header">
+      <div>
+        <div style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green-dps-bright); letter-spacing: 0.2em; margin-bottom: 8px;">▶ BUILD-TO-LEASE MODEL</div>
+        <div class="ksa-title">DPS <strong>Saudi Arabia</strong> — New Campus<br>Expansion via Auremont Capital</div>
+      </div>
+      <div class="ksa-tag">EXCLUSIVE PROPOSAL · 2026</div>
+    </div>
+
+    <div class="ksa-grid">
+      <div class="ksa-stat-box">
+        <div class="ksa-stat-label">Indian expats in KSA</div>
+        <div class="ksa-stat-value">~2.5M+</div>
+        <div class="ksa-stat-note">Largest Indian diaspora outside UAE · CBSE demand unmet</div>
+      </div>
+      <div class="ksa-stat-box">
+        <div class="ksa-stat-label">Target Ticket Size</div>
+        <div class="ksa-stat-value">SAR 80–150M</div>
+        <div class="ksa-stat-note">Build cost (land + construction) · Investor-funded</div>
+      </div>
+      <div class="ksa-stat-box">
+        <div class="ksa-stat-label">Stabilised Lease Yield</div>
+        <div class="ksa-stat-value">8–11%</div>
+        <div class="ksa-stat-note">Annual net lease to DPS operator · 15–25 yr tenure</div>
+      </div>
+    </div>
+
+    <div style="font-family: 'DM Mono', monospace; font-size: 10px; color: var(--green-dps-bright); letter-spacing: 0.12em; margin-bottom: 10px;">BUILD-TO-LEASE — TRANSACTION FLOW</div>
+    <div class="btl-steps">
+      <div class="btl-step">
+        <div class="btl-step-num">01</div>
+        <div class="btl-step-title">LAND IDENTIFICATION</div>
+        <div class="btl-step-desc">Auremont sources land (Riyadh / Jeddah / Khobar) in CBSE-dense residential clusters. UHNWI/Family Office investor commits capital via SPV.</div>
+      </div>
+      <div class="btl-step">
+        <div class="btl-step-num">02</div>
+        <div class="btl-step-title">CAMPUS DEVELOPMENT</div>
+        <div class="btl-step-desc">Purpose-built school campus developed to CBSE/SPEA-grade specifications. Investor retains PropCo title. Separately licensed OpCo.</div>
+      </div>
+      <div class="btl-step">
+        <div class="btl-step-num">03</div>
+        <div class="btl-step-title">DPS LEASE AGREEMENT</div>
+        <div class="btl-step-desc">DPS LLC (Dr. Kothari) executes long-term lease (15–25 yr). DPS brand, curriculum, and management deployed. Operator carries OpEx.</div>
+      </div>
+      <div class="btl-step">
+        <div class="btl-step-num">04</div>
+        <div class="btl-step-title">INVESTOR RETURN</div>
+        <div class="btl-step-desc">PropCo investor receives annual lease income. Exit options: secondary sale, REIT, or sell-and-leaseback at capital gain. Auremont earns advisory fee.</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 16px; gap: 14px;">
+      <div>
+        <div style="font-size: 11px; color: var(--muted); margin-bottom: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em;">WHY DPS IS THE RIGHT PARTNER</div>
+        <div style="display: flex; flex-direction: column; gap: 7px;">
+          <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--white);">
+            <span style="color: var(--green-dps-bright); font-size: 14px; margin-top: 1px;">✓</span>
+            <span>26-year UAE operational track record — proven school operator</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--white);">
+            <span style="color: var(--green-dps-bright); font-size: 14px; margin-top: 1px;">✓</span>
+            <span>Independent trademark — no India-franchise approval needed for new geos</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--white);">
+            <span style="color: var(--green-dps-bright); font-size: 14px; margin-top: 1px;">✓</span>
+            <span>Capacity-constrained in UAE — structural demand spillover into GCC</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--white);">
+            <span style="color: var(--green-dps-bright); font-size: 14px; margin-top: 1px;">✓</span>
+            <span>Demonstrated RAK expansion (2021) — group knows the replication playbook</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--white);">
+            <span style="color: var(--green-dps-bright); font-size: 14px; margin-top: 1px;">✓</span>
+            <span>KSA Vision 2030 actively incentivises private education investment</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--white);">
+            <span style="color: var(--green-dps-bright); font-size: 14px; margin-top: 1px;">✓</span>
+            <span>2.5M+ Indian expats in KSA with rising middle-income education demand</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size: 11px; color: var(--muted); margin-bottom: 10px; font-family: 'DM Mono', monospace; letter-spacing: 0.1em;">INDICATIVE RETURN PROFILE — INVESTOR</div>
+        <div class="fin-row"><span class="fin-label">Development cost (est.)</span><span class="fin-value">SAR 90–120M</span></div>
+        <div class="fin-row"><span class="fin-label">Annual lease income (yr 1)</span><span class="fin-value positive">SAR 8–12M</span></div>
+        <div class="fin-row"><span class="fin-label">Net yield (stabilised)</span><span class="fin-value positive">8–11% p.a.</span></div>
+        <div class="fin-row"><span class="fin-label">Lease term</span><span class="fin-value">15–25 years</span></div>
+        <div class="fin-row"><span class="fin-label">Cap rate compression (exit)</span><span class="fin-value positive">Likely 6.5–7.5% cap</span></div>
+        <div class="fin-row"><span class="fin-label">5-yr equity IRR (illustrative)</span><span class="fin-value positive">~16–22%</span></div>
+        <div class="divider"></div>
+        <div style="font-size: 10.5px; color: var(--muted); margin-top: 8px; line-height: 1.6;">
+          ▸ Auremont Capital structures as tri-party mandate: PropCo investor · DPS Operator · KSA authority liaison.
+          ▸ DIFC-compliant SPV structure. Confidential investor introduction on mandate signature.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ HISTORICAL MILESTONES ═══ -->
+  <div class="section-header">
+    <div class="section-title">Institutional Timeline — DPS Group</div>
+    <div class="section-tag">2000–2026</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Group Milestones</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--gold);"></div>
+          <div class="timeline-year">JAN 2000</div>
+          <div class="timeline-text"><strong>DPS Sharjah founded</strong> by Abha Sehgal. 146 students. First DPS-brand school in UAE under franchise from DPS Society, India.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">FEB 2002 / 2003</div>
+          <div class="timeline-text"><strong>DPS Dubai established</strong> in Jebel Ali — second school under same group. Begins co-educational model from Grade 1.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2005</div>
+          <div class="timeline-text">Launch of <strong>CLP (Comprehensive Learning Program)</strong> — early digital education infrastructure for student-parent engagement.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--green-dps-bright);"></div>
+          <div class="timeline-year">2014</div>
+          <div class="timeline-text"><strong>Khalifa Award for Education</strong> awarded. <strong>WWF Green Flag</strong> certification earned. DPS Dubai becomes fully co-educational.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--red);"></div>
+          <div class="timeline-year">MARCH 2017</div>
+          <div class="timeline-text"><strong>India franchise agreement allowed to lapse.</strong> DPS LLC (Kothari) proceeds independently under UAE-registered trademark. Strategic independence secured.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--blue-accent);"></div>
+          <div class="timeline-year">NOV 2019</div>
+          <div class="timeline-text"><strong>Trademark victory</strong> — UAE court orders DPS Ajman to rename. DPS LLC confirmed sole rights to "Delhi Private School" brand in UAE.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--gold);"></div>
+          <div class="timeline-year">APRIL 2021</div>
+          <div class="timeline-text"><strong>DPS Ras Al Khaimah opens</strong> — 3rd school. Brings 21 years of SHJ/DXB operational heritage to a new emirate.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--green-dps-bright);"></div>
+          <div class="timeline-year">2025–26</div>
+          <div class="timeline-text">DPS RAK rated <strong>"Distinguished Private School"</strong> by HH Ruler of RAK. DPS Sharjah wins <strong>Green Schools award again</strong> (2026). Group at ~17,000+ students.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <!-- Contact & Outreach Card -->
+      <div class="card">
+        <div class="card-title">Key Contacts — Outreach Intelligence</div>
+        <div class="fin-row"><span class="fin-label">Group MD / Owner</span><span class="fin-value" style="color: var(--white);">Dr. Dinesh C. Kothari</span></div>
+        <div class="fin-row"><span class="fin-label">Title</span><span class="fin-value">Pro-Vice Chairman &amp; MD</span></div>
+        <div class="fin-row"><span class="fin-label">Principal, Sharjah</span><span class="fin-value" style="color: var(--white);">Ms. Vandana Marwaha</span></div>
+        <div class="fin-row"><span class="fin-label">Email (Principal)</span><span class="fin-value">vandanamarwaha@dpssharjah.com</span></div>
+        <div class="fin-row"><span class="fin-label">Main Office (SHJ)</span><span class="fin-value">+971 6 534 5352</span></div>
+        <div class="fin-row"><span class="fin-label">Primary Wing (SHJ)</span><span class="fin-value">+971 6 535 5506</span></div>
+        <div class="fin-row"><span class="fin-label">Website</span><span class="fin-value">dpssharjah.ae</span></div>
+        <div class="divider"></div>
+        <div class="intel-box" style="margin-top: 12px; font-size: 11.5px;">
+          <strong>Outreach Strategy:</strong> Decision resides at <strong>MD level (Dr. Kothari)</strong> — not principal. Expansion mandates of this nature require board/MD approval. Initial contact via a warm business introduction referencing the group's 2021 RAK precedent will position the proposal credibly.
+        </div>
+      </div>
+
+      <!-- Competitive Position -->
+      <div class="card">
+        <div class="card-title">Competitive Position in UAE Indian Schools</div>
+        <div style="display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--muted);">DPS Sharjah (flagship)</span>
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1; margin-left: 12px;">
+              <div style="flex:1; background: var(--border-subtle); border-radius: 4px; height: 6px;"><div style="width:95%; height:100%; background: var(--gold); border-radius:4px;"></div></div>
+              <span class="tag-pill pill-gold">Top 3</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--muted);">Sharjah Indian School</span>
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1; margin-left: 12px;">
+              <div style="flex:1; background: var(--border-subtle); border-radius: 4px; height: 6px;"><div style="width:88%; height:100%; background: var(--muted); border-radius:4px;"></div></div>
+              <span style="font-size:10px; color: var(--muted);">7,600 students</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--muted);">GEMS Our Own HS</span>
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1; margin-left: 12px;">
+              <div style="flex:1; background: var(--border-subtle); border-radius: 4px; height: 6px;"><div style="width:70%; height:100%; background: var(--muted); border-radius:4px;"></div></div>
+              <span style="font-size:10px; color: var(--muted);">Mid-tier</span>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 12px; color: var(--muted);">ASPAM Indian Intl.</span>
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1; margin-left: 12px;">
+              <div style="flex:1; background: var(--border-subtle); border-radius: 4px; height: 6px;"><div style="width:52%; height:100%; background: var(--muted); border-radius:4px;"></div></div>
+              <span style="font-size:10px; color: var(--muted);">Emerging</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--muted); line-height: 1.7;">
+          DPS Sharjah differentiates via <span class="tag-pill pill-green">CBSE affiliation</span> <span class="tag-pill pill-gold">Khalifa Award</span> <span class="tag-pill pill-blue">Digital Curriculum</span> and strongest award pedigree in the Sharjah CBSE cohort. Waitlist pressure signals a brand that consistently outperforms supply.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ NEXT STEPS ═══ -->
+  <div class="section-header">
+    <div class="section-title">Proposed Next Steps — Auremont Capital</div>
+    <div class="section-tag">MANDATE ACTIVATION ROADMAP</div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-color: rgba(201,168,76,0.3);">
+      <div style="font-family: 'Cormorant Garamond', serif; font-size: 38px; color: var(--gold-dim); line-height:1; margin-bottom: 8px;">01</div>
+      <div style="font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 8px;">Mandate Alignment Meeting</div>
+      <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">
+        Confidential session between DPS MD (Dr. Kothari) and Auremont Capital to align on KSA expansion intent, site preferences (Riyadh / Jeddah / Eastern Province), and indicative lease expectations.
+      </div>
+    </div>
+    <div class="card" style="border-color: rgba(34,197,94,0.2);">
+      <div style="font-family: 'Cormorant Garamond', serif; font-size: 38px; color: rgba(34,197,94,0.15); line-height:1; margin-bottom: 8px;">02</div>
+      <div style="font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 8px;">Land & Licensing Feasibility</div>
+      <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">
+        Auremont to conduct KSA land identification, MOE/NIDLP licensing review, and initial investor appetite sounding. CBSE registration requirements in KSA to be mapped in parallel.
+      </div>
+    </div>
+    <div class="card" style="border-color: rgba(74,158,255,0.2);">
+      <div style="font-family: 'Cormorant Garamond', serif; font-size: 38px; color: rgba(74,158,255,0.1); line-height:1; margin-bottom: 8px;">03</div>
+      <div style="font-weight: 600; font-size: 14px; color: var(--white); margin-bottom: 8px;">SPV & Mandate Formalisation</div>
+      <div style="font-size: 12px; color: var(--muted); line-height: 1.7;">
+        DIFC-compliant SPV structure proposed to PropCo investor. Tri-party mandate letter executed. Auremont earns advisory and success fee at financial close. Target timeline: Q3 2026.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div>
+      <div class="footer-brand">Auremont Capital — DIFC, Dubai</div>
+      <div style="margin-top: 4px;">Education Asset Advisory · Off-Market Transactions · Capital Deployment</div>
+    </div>
+    <div style="text-align: right;">
+      <div>This document is prepared for the exclusive use of the intended recipient.</div>
+      <div style="margin-top: 3px;">All financial projections are illustrative. Subject to due diligence and formal mandate.</div>
+      <div style="margin-top: 3px; color: var(--gold);">© 2026 Auremont Capital. All rights reserved.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Animate bars on load
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.fee-fill, .growth-bar').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0';
+      setTimeout(() => { bar.style.width = w; }, 300);
+    });
+  });
+</script>
+</body>
+</html>
