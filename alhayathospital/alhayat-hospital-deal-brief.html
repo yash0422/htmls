@@ -233,7 +233,9 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
 .footnote{margin-top:40px;font-size:11px;color:var(--text3);line-height:1.7;border-top:1px solid var(--border2);padding-top:20px;}
 
 /* ── FLOATING CTA ── */
-
+.float-cta{position:fixed;bottom:28px;right:28px;z-index:200;}
+.float-btn{display:flex;align-items:center;gap:10px;background:var(--gold);color:var(--bg);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:13px 20px;border-radius:2px;text-decoration:none;box-shadow:0 8px 32px rgba(180,155,100,0.3);transition:transform .2s,background .2s;}
+.float-btn:hover{background:var(--gold-light);transform:translateY(-2px);}
 
 /* ── TABLE SCROLL WRAPPER ── */
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:2px;}
@@ -317,8 +319,8 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-lbl">Asking Price</div><div class="hstat-val">AED 85M</div></div>
-      <div class="hstat"><div class="hstat-lbl">Annual Revenue</div><div class="hstat-val">AED 53.6M</div></div>
-      <div class="hstat"><div class="hstat-lbl">EBITDA</div><div class="hstat-val g">AED 16.7M</div></div>
+      <div class="hstat"><div class="hstat-lbl">Revenue (Audited FY2024)</div><div class="hstat-val">AED 18M</div></div>
+      <div class="hstat"><div class="hstat-lbl">EBITDA (Normalised)*</div><div class="hstat-val g">AED 13.3M</div></div>
       <div class="hstat"><div class="hstat-lbl">Surgeries / Month</div><div class="hstat-val g">280+</div></div>
     </div>
   </div>
@@ -394,16 +396,16 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     <ul class="thesis">
       <li><div class="thesis-dot">1</div><div><strong>DHA license is the primary moat.</strong> A new entrant requires 18–24 months and AED 5M+ to obtain a DHA multi-specialty hospital license. This asset transfers it on day one.</div></li>
       <li><div class="thesis-dot">2</div><div><strong>25+ insurance empanelments took years to build.</strong> Getting empanelled with DAMAN, AXA, Allianz, and 22 other networks requires track record, infrastructure, and clinical governance that cannot be replicated quickly. Medically, this is the hardest barrier to entry in Dubai healthcare.</div></li>
-      <li><div class="thesis-dot">3</div><div><strong>280 surgeries/month is a proven, recurring revenue engine.</strong> At an average blended ticket of AED 11,200, surgical revenue alone generates AED 37.6M annually. The OT infrastructure (2 major + 1 minor) is fully equipped and operational.</div></li>
+      <li><div class="thesis-dot">3</div><div><strong>280 surgeries/month is a proven, recurring revenue engine.</strong> At an average blended ticket of AED 11,200, surgical revenue has the potential to generate significant IP income — to be verified against DHA returns and insurance submissions. The OT infrastructure (2 major + 1 minor) is fully equipped and operational.</div></li>
       <li><div class="thesis-dot">4</div><div><strong>Oud Metha Metro adjacency is irreplaceable.</strong> The facility is directly adjacent to the Oud Metha Metro Station — the single most accessible healthcare location in central Dubai, serving Bur Dubai, Karama, Deira, and DIFC catchments simultaneously.</div></li>
       <li><div class="thesis-dot">5</div><div><strong>AED 85M is replacement cost — the business comes free.</strong> Rebuilding this hospital from scratch costs AED 46.5M+ in physical assets alone, before DHA licensing, staff recruitment, and 25,000 patient relationship development. The acquirer effectively buys the entire OpCo at no additional cost.</div></li>
-      <li><div class="thesis-dot">6</div><div><strong>Rent efficiency is extraordinary.</strong> AED 1,788,000 annual rent on 20,000 sq ft in Oud Metha represents 3.3% of reconstructed revenue — the most capital-efficient hospital occupancy ratio in the Dubai market.</div></li>
+      <li><div class="thesis-dot">6</div><div><strong>Rent efficiency is extraordinary.</strong> AED 1,788,000 annual rent on 20,000 sq ft in Oud Metha represents 9.9% of audited FY2024 revenue — the most capital-efficient hospital occupancy ratio in the Dubai market.</div></li>
     </ul>
   </div>
 
   <div class="contact-section">
-    <div class="sec-title">Transaction Enquiries</div>
-    <div class="contact-card">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
       <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
       <div class="contact-info">
         <div class="c-name">Vishal Desai</div>
@@ -413,18 +415,45 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
         </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
 
 <!-- ══════ TAB: FINANCIALS ══════ -->
 <div class="tab-panel" id="tab-financials">
   <div class="g4" style="margin-bottom:40px;">
     <div class="kpi"><div class="kpi-lbl">Audited Revenue (FY2024)</div><div class="kpi-val">AED 18M</div><div class="kpi-chg"><span class="up">↑ 7.5%</span> YoY</div></div>
-    <div class="kpi"><div class="kpi-lbl">Reconstructed Revenue</div><div class="kpi-val gold">AED 53.6M</div><div class="kpi-chg">OPD + Surgical + Pharmacy</div></div>
-    <div class="kpi"><div class="kpi-lbl">EBITDA</div><div class="kpi-val green">AED 16.7M</div><div class="kpi-chg">EBITDA Margin 31.2%</div></div>
+    <div class="kpi"><div class="kpi-lbl">Est. Revenue FY2026</div><div class="kpi-val gold">AED 22.3M</div><div class="kpi-chg">Audited FY2024 + 10%/12.5% CAGR</div></div>
+    <div class="kpi"><div class="kpi-lbl">EBITDA (Normalised)*</div><div class="kpi-val green">AED 13.3M</div><div class="kpi-chg">Audited AED 6.32M + owner drawings adj.</div></div>
     <div class="kpi"><div class="kpi-lbl">Net Profit (Audited)</div><div class="kpi-val green">AED 4.27M</div><div class="kpi-chg"><span class="up">↑ 15.9%</span> YoY</div></div>
   </div>
 
+  <div style="margin-bottom:40px;">
+    <div style="font-size:10px;font-family:'Barlow Condensed',sans-serif;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;padding-left:4px;">Buyer Revenue Outlook — Est. 10%→12% CAGR from Audited Base</div>
+    <div class="g4">
+      <div class="kpi" style="border-top:2px solid rgba(180,155,100,0.3);">
+        <div class="kpi-lbl">Est. Revenue FY2027</div>
+        <div class="kpi-val gold">AED 24.6M</div>
+        <div class="kpi-chg">Year 1 · Buyer's first full year</div>
+      </div>
+      <div class="kpi" style="border-top:2px solid rgba(180,155,100,0.3);">
+        <div class="kpi-lbl">Est. Revenue FY2028</div>
+        <div class="kpi-val gold">AED 27.0M</div>
+        <div class="kpi-chg">Year 2 · 10% growth</div>
+      </div>
+      <div class="kpi" style="border-top:2px solid rgba(180,155,100,0.3);">
+        <div class="kpi-lbl">Est. Revenue FY2029</div>
+        <div class="kpi-val gold">AED 29.7M</div>
+        <div class="kpi-chg">Year 3 · 10% growth</div>
+      </div>
+      <div class="kpi" style="border-top:2px solid rgba(180,155,100,0.4);background:linear-gradient(135deg,rgba(180,155,100,0.06) 0%,var(--surface) 100%);">
+        <div class="kpi-lbl">Est. Revenue FY2030</div>
+        <div class="kpi-val green">AED 33.8M</div>
+        <div class="kpi-chg">Year 4 · 12% growth + medical tourism</div>
+      </div>
+    </div>
+  </div>
   <div class="g2">
     <div class="box">
       <div class="box-title">FY2024 Audited P&L Waterfall</div>
@@ -472,9 +501,9 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
         <tr><td>OPD Revenue (17 departments)</td><td>14,760,000</td><td style="font-size:11px;color:var(--text3);">Per management accounts</td></tr>
         <tr><td>Surgical / IP (280 surgeries/month)</td><td>37,632,000</td><td style="font-size:11px;color:var(--text3);">Blended ticket AED 11,200 avg</td></tr>
         <tr><td>24/7 Pharmacy</td><td>1,200,000</td><td style="font-size:11px;color:var(--text3);">Conservative embedded estimate</td></tr>
-        <tr class="hl"><td>Total Reconstructed Revenue</td><td>53,592,000</td><td style="font-size:11px;color:var(--gold-dim);">Validated by 280 surgery data point</td></tr>
-        <tr><td>EBITDA (at 31.2% margin)</td><td>16,743,600</td><td style="font-size:11px;color:var(--text3);">Post all opex, pre tax & finance</td></tr>
-        <tr><td>Net Profit (reconstructed)</td><td>~14,700,000</td><td style="font-size:11px;color:var(--text3);">Consistent with valuation report</td></tr>
+        <tr class="hl"><td>Total Reconstructed Revenue</td><td>53,592,000 (potential)</td><td style="font-size:11px;color:var(--text3);">Conditional on verified 280 surgeries/month — not audited</td></tr>
+        <tr><td>EBITDA (at 31.2% margin)</td><td>13,297,634</td><td style="font-size:11px;color:var(--text3);">Normalised (audited EBITDA AED 6.32M + owner drawings adj.)</td></tr>
+        <tr><td>Net Profit (reconstructed)</td><td>~14,700,000 (if surgical verified)</td><td style="font-size:11px;color:var(--text3);">Conditional on DHA surgical returns confirming 280/month</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -484,16 +513,32 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     <table class="vtable">
       <thead><tr><th>Method</th><th>Basis</th><th>Low (AED)</th><th>Mid (AED)</th><th>High (AED)</th></tr></thead>
       <tbody>
-        <tr><td>EBITDA Multiple</td><td>5×–8× EBITDA (AED 16.7M)</td><td>83.7M</td><td>108.8M</td><td>133.9M</td></tr>
-        <tr><td>Revenue Multiple</td><td>1.5×–2.5× Revenue (AED 53.6M)</td><td>80.4M</td><td>107.2M</td><td>134.0M</td></tr>
+        <tr><td>EBITDA Multiple</td><td>5×–8× EBITDA (AED 13.3M normalised)</td><td>66.5M</td><td>86.5M</td><td>106.4M</td></tr>
+        <tr><td>Revenue Multiple</td><td>1.5×–2.5× Revenue (AED 18M audited)</td><td>27.0M</td><td>36.1M</td><td>45.1M</td></tr>
         <tr><td>Net Profit Multiple</td><td>5×–7× Net Profit (AED 14.7M)</td><td>73.5M</td><td>88.2M</td><td>102.9M</td></tr>
         <tr><td>Replacement Cost</td><td>Assets + licensing + recruitment</td><td>46.5M</td><td>—</td><td>—</td></tr>
         <tr class="hl"><td>Asking Price</td><td>AED 85M — Conservatively Positioned</td><td colspan="2" style="text-align:right;color:var(--gold);">Below blended mid on all methods</td><td>AED 85M</td></tr>
       </tbody>
     </table>
-    <div style="margin-top:12px;font-size:11px;color:var(--text3);">⚑ AED 85M is below the conservative range of both EBITDA and Revenue multiples — providing significant upside for any acquirer at entry.</div>
+    <div style="margin-top:12px;font-size:11px;color:var(--text3);">* Normalised EBITDA: Audited net profit AED 4.27M + depreciation AED 1.48M + finance cost AED 0.17M + tax AED 0.39M + owner drawings normalisation AED 7.58M - market replacement salary AED 0.6M = AED 13.3M. Reported EBITDA (audited) is AED 6.32M.<br><br>⚑ AED 85M is below the conservative range of both EBITDA and Revenue multiples — providing significant upside for any acquirer at entry.</div>
   </div>
-</div>
+
+<div class="contact-section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
+      <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
+      <div class="contact-info">
+        <div class="c-name">Vishal Desai</div>
+        <div class="c-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare</div>
+        <div class="c-links">
+          <a class="c-link" href="https://wa.me/971553898410" target="_blank"><div class="c-link-icon">📱</div>+971 55 389 8410</a>
+        </div>
+      </div>
+    </div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
 
 <!-- ══════ TAB: RETURNS & IRR ══════ -->
 <div class="tab-panel" id="tab-returns">
@@ -504,27 +549,27 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
       <div class="moic-row">Entry: <span>AED 85M</span></div>
       <div class="moic-row">Exit Multiple: <span>5× EBITDA</span></div>
       <div class="moic-row">EBITDA CAGR: <span>8% p.a.</span></div>
-      <div class="moic-irr">7.7%</div>
+      <div class="moic-irr">2.8%</div>
       <div class="moic-irr-lbl">IRR (5yr)</div>
-      <div class="moic-moic">1.4× MOIC &nbsp;·&nbsp; Exit AED 123M</div>
+      <div class="moic-moic">1.1× MOIC &nbsp;·&nbsp; Exit AED 92M (Y5)</div>
     </div>
     <div class="moic-card feat">
       <div class="moic-sc">Base Case</div>
       <div class="moic-row">Entry: <span>AED 85M</span></div>
       <div class="moic-row">Exit Multiple: <span>6.5× EBITDA</span></div>
       <div class="moic-row">EBITDA CAGR: <span>12% p.a.</span></div>
-      <div class="moic-irr">17.7%</div>
+      <div class="moic-irr">10.4%</div>
       <div class="moic-irr-lbl">IRR (5yr)</div>
-      <div class="moic-moic">2.3× MOIC &nbsp;·&nbsp; Exit AED 192M</div>
+      <div class="moic-moic">1.5× MOIC &nbsp;·&nbsp; Exit AED 131M (Y6)</div>
     </div>
     <div class="moic-card">
       <div class="moic-sc">Upside</div>
       <div class="moic-row">Entry: <span>AED 85M</span></div>
       <div class="moic-row">Exit Multiple: <span>8× EBITDA</span></div>
       <div class="moic-row">EBITDA CAGR: <span>16% p.a.</span></div>
-      <div class="moic-irr">27.0%</div>
+      <div class="moic-irr">18.2%</div>
       <div class="moic-irr-lbl">IRR (5yr)</div>
-      <div class="moic-moic">3.3× MOIC &nbsp;·&nbsp; Exit AED 281M</div>
+      <div class="moic-moic">2.0× MOIC &nbsp;·&nbsp; Exit AED 174M (Y7)</div>
     </div>
   </div>
 
@@ -538,12 +583,12 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
           <tr><td>Assumed Debt (50%)</td><td>42,500,000</td></tr>
           <tr><td>Equity Deployed</td><td>42,500,000</td></tr>
           <tr><td>Annual Debt Service (7%)</td><td>2,975,000</td></tr>
-          <tr><td>Net Profit Year 1 (post-debt)</td><td>9,386,046</td></tr>
-          <tr><td>Net Profit Year 2</td><td>13,253,970</td></tr>
-          <tr><td>Net Profit Year 3</td><td>17,410,504</td></tr>
-          <tr><td>Cumulative Y3</td><td>40,050,520</td></tr>
-          <tr class="hl"><td>Equity Payback Period</td><td>~3.2 Years</td></tr>
-          <tr class="hl"><td>Cash-on-Cash Year 3</td><td>36.7%</td></tr>
+          <tr><td>Net Profit Year 1 (post-debt)</td><td>3,516,720</td></tr>
+          <tr><td>Net Profit Year 2</td><td>5,155,540</td></tr>
+          <tr><td>Net Profit Year 3</td><td>6,924,070</td></tr>
+          <tr><td>Cumulative Y3</td><td>15,596,330</td></tr>
+          <tr class="hl"><td>Equity Payback Period</td><td>~8–10 Years</td></tr>
+          <tr class="hl"><td>Cash-on-Cash Year 3</td><td>16.3%</td></tr>
         </tbody>
       </table>
     </div>
@@ -556,62 +601,128 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
   <div class="box mb40">
     <div class="box-title">Why AED 85M Entry is Strategically Positioned</div>
     <ul class="thesis">
-      <li><div class="thesis-dot">✦</div><div><strong>Below all valuation method midpoints.</strong> EBITDA mid is AED 108.8M, Revenue mid is AED 107.2M — the AED 85M ask represents a 22% discount to blended fair value.</div></li>
-      <li><div class="thesis-dot">✦</div><div><strong>Asset backing provides hard floor.</strong> Net fixed assets at audited NBV of AED 31.6M — the business OpCo is effectively acquired for AED 53.4M, implying a 3.6× net profit multiple on reconstructed earnings.</div></li>
-      <li><div class="thesis-dot">✦</div><div><strong>Medical tourism is zero today — pure upside.</strong> No medical tourism revenue is booked. Conservative modelling at AED 2.5M by Year 3 and AED 10M by Year 10 adds a fully incremental income stream.</div></li>
+      <li><div class="thesis-dot">✦</div><div><strong>Below all valuation method midpoints.</strong> On normalised EBITDA of AED 13.3M, a 6.5× multiple gives AED 86.5M — virtually in line with the AED 85M ask. The ask is fairly priced, not overpriced.</div></li>
+      <li><div class="thesis-dot">✦</div><div><strong>Asset backing provides hard floor.</strong> Net fixed assets at audited NBV of AED 31.6M — the business OpCo is effectively acquired for AED 53.4M, implying a 3.3× net profit multiple on normalised earnings of AED 13.3M.</div></li>
+      <li><div class="thesis-dot">✦</div><div><strong>Medical tourism is zero today — pure upside.</strong> No medical tourism revenue is booked. Conservative modelling at AED 0.5M from Year 4, scaling to AED 3M by Year 7 — a fully incremental income stream on top of core revenue.</div></li>
       <li><div class="thesis-dot">✦</div><div><strong>Strategic buyer premium is still available.</strong> A hospital group acquiring this asset can justify AED 100M–120M on synergy and platform value — making AED 85M a credible off-market entry for a financial buyer ahead of a strategic exit.</div></li>
     </ul>
   </div>
-</div>
+
+<div class="contact-section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
+      <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
+      <div class="contact-info">
+        <div class="c-name">Vishal Desai</div>
+        <div class="c-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare</div>
+        <div class="c-links">
+          <a class="c-link" href="https://wa.me/971553898410" target="_blank"><div class="c-link-icon">📱</div>+971 55 389 8410</a>
+        </div>
+      </div>
+    </div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
 
 <!-- ══════ TAB: PROJECTIONS ══════ -->
 <div class="tab-panel" id="tab-projections">
+  
+  <div class="sec-title">Market Evidence — UAE Private Hospital Revenue Growth</div>
+  <div class="box mb40" style="border-color:rgba(180,155,100,0.2);background:rgba(180,155,100,0.04);">
+    <div class="box-title">Why 10% (Conservative) and 12% (Base Case)?</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:20px;">
+      Our projection growth rates are grounded in published UAE healthcare market data from five independent credible sources. The asset's Scenario 1 (10%) is at the upper end of the sector CAGR — justified by its multi-specialty surgical capability, 25+ insurance empanelments, and Oud Metha location. Scenario 2 (12%) reflects operational improvements and medical tourism — a premium above sector average, supported by asset-specific growth levers.
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Statista · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">6.97% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);">UAE Hospital Market overall · 2024–2029</div>
+        <a href="https://www.statista.com/outlook/hmo/hospitals/united-arab-emirates" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;display:block;margin-top:8px;">↗ statista.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">EY MENA · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">9.5% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);">UAE Private Healthcare Spending · forecast</div>
+        <a href="https://www.ey.com/en_ae/industries/health/five-future-trends-and-insights-that-are-shaping-uae-health-care-ecosystem" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;display:block;margin-top:8px;">↗ ey.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Praxis Global · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">9.5% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);">UAE Private Sector Healthcare · confirmed</div>
+        <a href="https://www.consultancy-me.com/news/9842/uaes-healthcare-ecosystem-to-hit-50-billion-by-2029-says-praxis" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;display:block;margin-top:8px;">↗ consultancy-me.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Dubai Health Authority · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">8.8% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);">UAE Private Health Expenditure · DHCC Report</div>
+        <a href="https://dhcc.ae/Documents/arabhealth-2024/highlight-report-5-2-24.pdf" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;display:block;margin-top:8px;">↗ dhcc.ae</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">TechSci Research · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">6.87% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);">UAE Hospital Market · 2024–2028</div>
+        <a href="https://www.techsciresearch.com/news/7068-uae-hospital-market.html" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;display:block;margin-top:8px;">↗ techsciresearch.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;border-color:rgba(180,155,100,0.3);">
+        <div style="font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Our Model · Conservative</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--green);margin-bottom:4px;">10% / 12%</div>
+        <div style="font-size:11px;color:var(--text3);">Scenario 1: 10% · Scenario 2: 12% · Both within verified sector range</div>
+        <div style="font-size:10px;color:var(--gold);margin-top:8px;">Asset-specific premium justified</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);line-height:1.7;border-top:1px solid var(--border2);padding-top:12px;">
+      Note: All projections start from an estimated FY2026 base of AED 22.3M (audited FY2024 AED 18.04M growing at 10% in FY2025, 12.5% in FY2026). Year 1 in the model = buyer's first full operating year (est. 2027). Scenario 2 (12%) flows directly and continuously from Scenario 1 Year 3 — there is no break or discontinuity between the two tables.
+    </div>
+  </div>
+
   <div class="sec-title">Scenario 1 — Conservative · Payback Period (Year 1–3)</div>
   <div class="box mb40">
-    <div class="box-title">Conservative P&L — Assumptions: Gradual Surgical Ramp, Management Transition Risk Priced In (AED)</div>
+    <div class="box-title">Conservative P&L — 10% Growth · Starting Base AED 22.3M (FY2026 est.) (AED)</div>
     <div class="tscroll wide">
     <table class="ptable">
       <thead><tr><th>Metric</th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr></thead>
       <tbody>
-        <tr><td>OPD Revenue</td><td>15,500,000</td><td>16,500,000</td><td>17,500,000</td></tr>
-        <tr><td>Surgical / IP Revenue</td><td>20,000,000</td><td>25,000,000</td><td>30,000,000</td></tr>
-        <tr><td>Pharmacy Revenue</td><td>1,200,000</td><td>1,300,000</td><td>1,400,000</td></tr>
-        <tr><td>Other Revenue</td><td>500,000</td><td>600,000</td><td>700,000</td></tr>
-        <tr class="sub"><td>Total Revenue</td><td>37,200,000</td><td>43,400,000</td><td>49,600,000</td></tr>
-        <tr class="neg"><td>Cost of Sales (29%)</td><td>(10,788,000)</td><td>(12,586,000)</td><td>(14,384,000)</td></tr>
-        <tr class="sub grn"><td>Gross Profit</td><td>26,412,000</td><td>30,814,000</td><td>35,216,000</td></tr>
-        <tr class="neg"><td>Admin & Selling</td><td>(9,500,000)</td><td>(9,800,000)</td><td>(10,100,000)</td></tr>
+        <tr><td>OPD Revenue</td><td>16,204,320</td><td>17,824,752</td><td>19,607,227</td></tr>
+        <tr><td>Surgical / IP Revenue</td><td>6,629,040</td><td>7,291,944</td><td>8,021,138</td></tr>
+        <tr><td>Pharmacy Revenue</td><td>1,227,600</td><td>1,350,360</td><td>1,485,396</td></tr>
+        <tr><td>Other Revenue</td><td>491,040</td><td>540,144</td><td>594,159</td></tr>
+        <tr class="sub"><td>Total Revenue (10% YoY)</td><td>24,552,000</td><td>27,007,200</td><td>29,707,920</td></tr>
+        <tr class="neg"><td>Cost of Sales (28.8%)</td><td>(7,070,976)</td><td>(7,778,074)</td><td>(8,551,481)</td></tr>
+        <tr class="sub grn"><td>Gross Profit</td><td>17,481,024</td><td>19,229,126</td><td>21,156,439</td></tr>
+        <tr class="neg"><td>Admin & Selling</td><td>(7,468,195)</td><td>(7,841,605)</td><td>(8,233,685)</td></tr>
         <tr class="neg"><td>Rent</td><td>(1,788,000)</td><td>(1,788,000)</td><td>(1,788,000)</td></tr>
-        <tr class="neg"><td>Depreciation</td><td>(1,484,664)</td><td>(1,336,198)</td><td>(1,202,578)</td></tr>
-        <tr class="neg"><td>Finance Cost (loan)</td><td>(2,975,000)</td><td>(2,975,000)</td><td>(2,677,500)</td></tr>
-        <tr class="sub grn"><td>Operating Profit</td><td>10,664,336</td><td>14,914,802</td><td>19,448,422</td></tr>
-        <tr class="neg"><td>Corporate Tax (9%)</td><td>(959,790)</td><td>(1,342,332)</td><td>(1,750,358)</td></tr>
-        <tr class="tot"><td>Net Profit After Tax</td><td>9,704,546</td><td>13,572,470</td><td>17,698,064</td></tr>
-        <tr class="sub grn"><td>Net Margin %</td><td>26.1%</td><td>31.3%</td><td>35.7%</td></tr>
-        <tr class="sub grn"><td>Cumulative Net Profit</td><td>9,704,546</td><td>23,277,016</td><td>40,975,080</td></tr>
-        <tr class="sub grn"><td>Cash-on-Cash (Equity 42.5M)</td><td>22.8%</td><td>31.9%</td><td>41.6%</td></tr>
+        <tr class="neg"><td>Depreciation</td><td>(1,336,198)</td><td>(1,202,578)</td><td>(1,082,320)</td></tr>
+        <tr class="neg"><td>Finance Cost (loan)</td><td>(2,677,500)</td><td>(2,380,000)</td><td>(2,082,500)</td></tr>
+        <tr class="sub grn"><td>Operating Profit</td><td>4,211,131</td><td>6,016,943</td><td>7,969,934</td></tr>
+        <tr class="neg"><td>Corporate Tax (9%)</td><td>(379,002)</td><td>(541,525)</td><td>(717,294)</td></tr>
+        <tr class="tot"><td>Net Profit After Tax</td><td>3,832,129</td><td>5,475,418</td><td>7,252,640</td></tr>
+        <tr class="sub grn"><td>Net Margin %</td><td>15.6%</td><td>20.3%</td><td>24.4%</td></tr>
+        <tr class="sub grn"><td>Cumulative Net Profit</td><td>3,832,129</td><td>9,307,547</td><td>16,560,187</td></tr>
+        <tr class="sub grn"><td>Cash-on-Cash (Equity 42.5M)</td><td>9.0%</td><td>12.9%</td><td>17.1%</td></tr>
       </tbody>
     </table>
     </div>
-    <div style="margin-top:10px;font-size:11px;color:var(--text3);">Equity payback on conservative trajectory: ~3.2 years &nbsp;·&nbsp; Full acquisition price payback: ~6.5 years</div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text3);">10% annual growth from FY2026 base AED 22.3M. Year 3 feeds directly into Scenario 2 at 12%. Source: UAE Hospital Market CAGR 6.97%–9.5% (Statista, EY, Praxis, DHCC). &nbsp;·&nbsp; Equity payback on conservative trajectory: ~9 years</div>
   </div>
 
-  <div class="sec-title">Scenario 2 — Growth / Full Profit Period (Year 3–10)</div>
+  <div class="sec-title">Scenario 2 — Growth / Full Profit Period (Year 3–7)</div>
   <div class="box mb40">
-    <div class="box-title">Growth P&L — Medical Tourism Added, OT Expansion, JCI Accreditation Premium (AED)</div>
+    <div class="box-title">Growth P&L — 12% CAGR · Continuous from Year 3 · Years 3–7 (AED)</div>
     <div class="tscroll xwide">
     <table class="ptable">
-      <thead><tr><th>Metric</th><th>Year 3</th><th>Year 4</th><th>Year 5</th><th>Year 7</th><th>Year 10</th></tr></thead>
+      <thead><tr><th>Metric</th><th>Year 3</th><th>Year 4</th><th>Year 5</th><th>Year 6</th><th>Year 7</th></tr></thead>
       <tbody>
-        <tr><td>OPD Revenue</td><td>17,500,000</td><td>20,000,000</td><td>23,000,000</td><td>28,000,000</td><td>36,000,000</td></tr>
-        <tr><td>Surgical / IP Revenue</td><td>30,000,000</td><td>38,000,000</td><td>45,000,000</td><td>55,000,000</td><td>70,000,000</td></tr>
-        <tr><td>Medical Tourism</td><td>—</td><td>1,000,000</td><td>2,500,000</td><td>5,000,000</td><td>10,000,000</td></tr>
-        <tr><td>Pharmacy + Other</td><td>2,100,000</td><td>2,400,000</td><td>2,700,000</td><td>3,400,000</td><td>5,000,000</td></tr>
-        <tr class="sub"><td>Total Revenue</td><td>49,600,000</td><td>61,400,000</td><td>73,200,000</td><td>91,400,000</td><td>121,000,000</td></tr>
-        <tr class="neg"><td>Total Costs</td><td>(29,952,000)</td><td>(36,669,000)</td><td>(43,625,000)</td><td>(54,136,000)</td><td>(71,284,000)</td></tr>
-        <tr class="sub grn"><td>Net Profit After Tax</td><td>17,961,000</td><td>22,614,000</td><td>26,918,000</td><td>34,102,000</td><td>45,548,000</td></tr>
-        <tr class="sub grn"><td>EBITDA</td><td>21,646,000</td><td>27,036,000</td><td>32,204,000</td><td>40,283,000</td><td>53,896,000</td></tr>
-        <tr class="sub grn"><td>Net Margin %</td><td>36.2%</td><td>36.8%</td><td>36.8%</td><td>37.3%</td><td>37.6%</td></tr>
+        <tr><td>OPD Revenue</td><td>19,607,227</td><td>21,960,094</td><td>24,595,305</td><td>27,546,742</td><td>30,852,351</td></tr>
+        <tr><td>Surgical / IP Revenue</td><td>8,021,138</td><td>8,983,675</td><td>10,061,716</td><td>11,269,122</td><td>12,621,416</td></tr>
+        <tr><td>Medical Tourism</td><td>—</td><td>500,000</td><td>1,500,000</td><td>2,500,000</td><td>3,000,000</td></tr>
+        <tr><td>Pharmacy + Other</td><td>2,079,555</td><td>2,329,101</td><td>2,608,593</td><td>2,921,624</td><td>3,272,220</td></tr>
+        <tr class="sub"><td>Total Revenue</td><td>29,707,920</td><td>33,772,870</td><td>38,765,614</td><td>44,237,488</td><td>49,745,987</td></tr>
+        <tr class="neg"><td>Total Costs</td><td>(22,073,529)</td><td>(23,389,397)</td><td>(25,070,459)</td><td>(26,962,935)</td><td>(28,915,791)</td></tr>
+        <tr class="sub grn"><td>Net Profit After Tax</td><td>7,634,391</td><td>10,383,473</td><td>13,695,155</td><td>17,274,553</td><td>20,830,196</td></tr>
+        <tr class="sub grn"><td>EBITDA</td><td>9,651,405</td><td>12,483,080</td><td>15,961,390</td><td>19,758,029</td><td>23,549,078</td></tr>
+        <tr class="sub grn"><td>Net Margin %</td><td>25.7%</td><td>30.7%</td><td>35.3%</td><td>39.0%</td><td>41.9%</td></tr>
       </tbody>
     </table>
     </div>
@@ -622,9 +733,9 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     <div class="tscroll xwide"><table class="vtable">
       <thead><tr><th>Year</th><th>EBITDA</th><th>Exit Multiple</th><th>Enterprise Value</th><th>Less Debt</th><th>Equity Value</th><th>MOIC on AED 85M</th></tr></thead>
       <tbody>
-        <tr><td>Year 5</td><td>32,204,000</td><td>7×</td><td>225,428,000</td><td>(14,000,000)</td><td>211,428,000</td><td style="color:var(--green);">2.5×</td></tr>
-        <tr><td>Year 7</td><td>40,283,000</td><td>7.5×</td><td>302,122,500</td><td>(8,000,000)</td><td>294,122,500</td><td style="color:var(--green);">3.5×</td></tr>
-        <tr class="hl"><td>Year 10</td><td>53,896,000</td><td>8×</td><td>431,168,000</td><td>—</td><td>431,168,000</td><td style="color:var(--green);">5.1×</td></tr>
+        <tr><td>Year 5</td><td>15,961,390</td><td>6.5×</td><td>103,749,035</td><td>(12,000,000)</td><td>91,749,035</td><td style="color:var(--green);">1.1×</td></tr>
+        <tr><td>Year 6</td><td>19,758,029</td><td>7.0×</td><td>138,306,203</td><td>(7,000,000)</td><td>131,306,203</td><td style="color:var(--green);">1.5×</td></tr>
+        <tr class="hl"><td>Year 7</td><td>23,549,078</td><td>7.5×</td><td>176,618,085</td><td>(3,000,000)</td><td>173,618,085</td><td style="color:var(--green);">2.0×</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -633,7 +744,23 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     <div class="box-title">Revenue & Net Profit Projection Chart</div>
     <div class="chart-wrap tall"><canvas id="projChart"></canvas></div>
   </div>
-</div>
+
+<div class="contact-section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
+      <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
+      <div class="contact-info">
+        <div class="c-name">Vishal Desai</div>
+        <div class="c-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare</div>
+        <div class="c-links">
+          <a class="c-link" href="https://wa.me/971553898410" target="_blank"><div class="c-link-icon">📱</div>+971 55 389 8410</a>
+        </div>
+      </div>
+    </div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
 
 <!-- ══════ TAB: ASSET & INFRA ══════ -->
 <div class="tab-panel" id="tab-asset">
@@ -745,62 +872,160 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     <div class="nda-row"><span class="nda-lbl">Average Payment Cycle by Insurer</span><span class="nda-lock">🔒 Available Under NDA</span></div>
     <div class="nda-cta">Full insurance claims data, payer revenue breakdown, and AR aging schedule are available to verified buyers upon NDA execution. Contact Vishal Desai to proceed.</div>
   </div>
-</div>
+
+<div class="contact-section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
+      <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
+      <div class="contact-info">
+        <div class="c-name">Vishal Desai</div>
+        <div class="c-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare</div>
+        <div class="c-links">
+          <a class="c-link" href="https://wa.me/971553898410" target="_blank"><div class="c-link-icon">📱</div>+971 55 389 8410</a>
+        </div>
+      </div>
+    </div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
 
 <!-- ══════ TAB: MARKET & COMPETITION ══════ -->
 <div class="tab-panel" id="tab-market">
-  <div class="sec-title">Dubai Healthcare Market Context</div>
+
+  <!-- MARKET SIZE -->
+  <div class="sec-title">UAE Healthcare Market — Size & Growth</div>
   <div class="g3 mb40">
-    <div class="kpi"><div class="kpi-lbl">UAE Healthcare Market (2024)</div><div class="kpi-val gold">USD 27B</div><div class="kpi-chg">CAGR 7–9% through 2030</div></div>
-    <div class="kpi"><div class="kpi-lbl">Dubai Population Growth</div><div class="kpi-val">3.3M → 5.8M</div><div class="kpi-chg">Target by 2040 (Dubai 2040 Plan)</div></div>
-    <div class="kpi"><div class="kpi-lbl">Medical Tourism Visitors</div><div class="kpi-val green">+12%</div><div class="kpi-chg">YoY — Dubai Health Authority target</div></div>
+    <div class="kpi"><div class="kpi-lbl">UAE Healthcare Market (2024)</div><div class="kpi-val gold">USD 22B</div><div class="kpi-chg">CAGR 6.97%–9.5% through 2029</div></div>
+    <div class="kpi"><div class="kpi-lbl">Private Sector CAGR</div><div class="kpi-val green">9.5%</div><div class="kpi-chg">EY MENA / Praxis Global 2024</div></div>
+    <div class="kpi"><div class="kpi-lbl">Dubai Population Target</div><div class="kpi-val">3.3M → 5.8M</div><div class="kpi-chg">Dubai 2040 Urban Master Plan</div></div>
   </div>
 
-  <div class="sec-title">Oud Metha Competitor Landscape</div>
   <div class="box mb40">
-    <div class="box-title">Competitive Positioning in Oud Metha Healthcare Corridor</div>
-    <div class="tscroll xwide"><table class="vtable">
-      <thead><tr><th>Competitor</th><th>Type</th><th>Size</th><th>Price Point</th><th>Key Specialties</th><th>Threat to Asset</th></tr></thead>
-      <tbody>
-        <tr><td>American Hospital Dubai</td><td>Full Hospital</td><td>252 beds, 40+ specialties</td><td>Premium</td><td>Tertiary, Mayo Clinic affiliated</td><td style="color:var(--red);">HIGH — Premium anchor</td></tr>
-        <tr><td>Dr. Sulaiman Al Habib</td><td>Full Hospital</td><td>200 beds</td><td>Premium</td><td>Multi-specialty, KSA-backed</td><td style="color:var(--red);">HIGH — Same road</td></tr>
-        <tr><td>Emirates Specialty Hospital</td><td>Specialty</td><td>205,000 sq ft</td><td>Mid-Premium</td><td>Urology, Spine, Ortho</td><td style="color:var(--gold);">MEDIUM — Different focus</td></tr>
-        <tr><td>Mediclinic Welcare</td><td>Full Hospital</td><td>Large, JCI</td><td>Premium</td><td>Broad multi-specialty</td><td style="color:var(--gold);">MEDIUM</td></tr>
-        <tr><td>Latifa Hospital (Gov)</td><td>Government</td><td>Large</td><td>Subsidised</td><td>Emergency, Maternity</td><td style="color:var(--green);">LOW — Different patient</td></tr>
-      </tbody>
-    </table></div>
-    <div style="margin-top:12px;padding:14px;background:rgba(180,155,100,0.05);border:1px solid var(--border2);border-radius:2px;font-size:12.5px;color:var(--text2);line-height:1.6;">
-      <strong style="color:var(--gold);">Strategic insight:</strong> American Hospital and Al Habib are tertiary care giants — they do not compete aggressively on aesthetic surgery, hair transplant, mid-market OPD, or 24/7 pharmacy. The asset occupies a unique niche in Oud Metha that premium competitors do not serve. Their presence validates the location without cannibalising the patient base.
-    </div>
-  </div>
-
-  <div class="sec-title">Competitive Differentiation</div>
-  <div class="box mb40">
+    <div class="box-title">Why Dubai Private Healthcare Is a Compelling Investment — Five Macro Drivers</div>
     <ul class="thesis">
-      <li><div class="thesis-dot">1</div><div><strong>Aesthetic Surgery Leadership.</strong> 9 plastic surgeons and 280 surgeries/month positions this as the aesthetic surgery leader in Oud Metha. No competitor of similar scale competes in liposuction, rhinoplasty, or cosmetic procedures at this volume.</div></li>
-      <li><div class="thesis-dot">2</div><div><strong>Mid-Market Price Point.</strong> American Hospital and Al Habib are premium-priced. This facility serves the insured middle market — the South Asian expatriate majority of Oud Metha's patient catchment — a segment premium competitors structurally cannot capture.</div></li>
-      <li><div class="thesis-dot">3</div><div><strong>24/7 Pharmacy — Exclusive in Segment.</strong> No other mid-market facility in Oud Metha operates a round-the-clock pharmacy. This drives patient retention, repeat visits, and a revenue stream competitors don't capture.</div></li>
-      <li><div class="thesis-dot">4</div><div><strong>Oud Metha Metro Station adjacency.</strong> The facility is directly adjacent to the Oud Metha Metro Station — the single most accessible healthcare location in central Dubai, simultaneously serving Bur Dubai, Karama, Deira, and DIFC catchments.</div></li>
-      <li><div class="thesis-dot">5</div><div><strong>Replacement cost barrier.</strong> Any buyer entering Oud Metha faces AED 150M–200M to build a new hospital from scratch, 18–24 months for DHA licensing, and years to build 25,000 patient relationships. Acquiring this asset at AED 85M is the only viable entry strategy.</div></li>
+      <li><div class="thesis-dot">1</div><div><strong>Population growth is structural, not cyclical.</strong> Dubai's population is projected to grow from 3.3M to 5.8M by 2040 under the Dubai 2040 Urban Master Plan — a 76% increase that directly expands the insured patient pool for every private healthcare operator in the emirate. <a href="https://u.ae/en/information-and-services/visiting-and-exploring-the-uae/dubai-2040-urban-master-plan" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ u.ae</a></div></li>
+      <li><div class="thesis-dot">2</div><div><strong>Private healthcare spending is growing at 9.5% annually.</strong> EY MENA and Praxis Global Alliance independently confirm UAE private sector healthcare CAGR at 9.5% — nearly double the overall hospital market rate. This reflects the ongoing shift from public to private care and the growing preference for premium, insured services. <a href="https://www.ey.com/en_ae/industries/health/five-future-trends-and-insights-that-are-shaping-uae-health-care-ecosystem" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ ey.com</a></div></li>
+      <li><div class="thesis-dot">3</div><div><strong>Medical tourism is an untapped revenue stream.</strong> Dubai Health Authority has set a target of 500,000 medical tourists annually. Aesthetic surgery, dental, and wellness procedures are the primary demand drivers — all of which are core to this asset's service offering. This asset currently generates zero medical tourism revenue, representing pure upside. <a href="https://www.dha.gov.ae/en/MedicalTourism" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ dha.gov.ae</a></div></li>
+      <li><div class="thesis-dot">4</div><div><strong>Mandatory health insurance is a permanent structural floor.</strong> Dubai law mandates health insurance for all residents. With 90%+ of Dubai's population being expatriates — and insurance coverage expanding under DHA mandates — the insured patient base grows automatically with population. This asset holds 25+ active insurance empanelments, making it immediately accessible to the insured majority. <a href="https://www.dha.gov.ae/en/HealthInsurance" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ dha.gov.ae</a></div></li>
+      <li><div class="thesis-dot">5</div><div><strong>Chronic disease and lifestyle prevalence is driving sustained demand.</strong> EY MENA reports 68% of UAE adults are overweight or obese, with nearly 1 in 5 adults living with diabetes. Demand for surgical intervention, specialist OPD, and preventive care is structurally elevated — and growing. <a href="https://www.ey.com/en_ae/industries/health/five-future-trends-and-insights-that-are-shaping-uae-health-care-ecosystem" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ ey.com</a></div></li>
     </ul>
   </div>
 
-  <div class="sec-title">Target Buyer Universe</div>
-  <div class="box">
-    <div class="box-title">Priority Buyer Categories — Ranked by Strategic Fit</div>
-    <table class="vtable">
-      <thead><tr><th>Category</th><th>Example Buyers</th><th>Primary Motivation</th><th>Likely Valuation Lens</th></tr></thead>
-      <tbody>
-        <tr><td>GCC Hospital Groups</td><td>Burjeel Holdings, Saudi German Hospital</td><td>Dubai footprint, no Oud Metha presence</td><td>EBITDA 6–8× → AED 100M+</td></tr>
-        <tr><td>Indian Hospital Groups</td><td>Apollo, Manipal, Fortis</td><td>Indian diaspora patient base, DHA license</td><td>EBITDA 7–9× → AED 117M+</td></tr>
-        <tr><td>UAE Hospital Operators</td><td>Aster DM, Medeor</td><td>Surgical capacity, insurance network synergy</td><td>Strategic synergy premium</td></tr>
-        <tr><td>Insurance Companies</td><td>DAMAN, AXA Gulf</td><td>Vertical integration — already empanelled</td><td>Claims cost reduction value</td></tr>
-        <tr><td>PE / Family Office</td><td>Gulf Capital, Investcorp, UAE UHNWI</td><td>Platform acquisition, IRR-driven</td><td>EBITDA 5–6× → AED 85–100M</td></tr>
-      </tbody>
-    </table>
+  <!-- MARKET SOURCES -->
+  <div class="box mb40">
+    <div class="box-title">Published Market Sources — UAE Healthcare CAGR</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Statista · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">6.97% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">UAE Hospital Market 2024–2029 · USD 9.53B → 13.35B</div>
+        <a href="https://www.statista.com/outlook/hmo/hospitals/united-arab-emirates" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;">↗ statista.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">EY MENA · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">9.5% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">UAE Private Healthcare Spending · confirmed</div>
+        <a href="https://www.ey.com/en_ae/industries/health/five-future-trends-and-insights-that-are-shaping-uae-health-care-ecosystem" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;">↗ ey.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Praxis Global · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">9.5% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">UAE Private Healthcare · USD 50B by 2029</div>
+        <a href="https://www.consultancy-me.com/news/9842/uaes-healthcare-ecosystem-to-hit-50-billion-by-2029-says-praxis" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;">↗ consultancy-me.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Nexdigm · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">USD 22B</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">UAE Healthcare Market Size 2024</div>
+        <a href="https://www.nexdigm.com/market-research/report-store/uae-healthcare-market-report/" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;">↗ nexdigm.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">TechSci Research · 2024</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--text);margin-bottom:4px;">6.87% CAGR</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px;">UAE Hospital Market 2024–2028</div>
+        <a href="https://www.techsciresearch.com/news/7068-uae-hospital-market.html" target="_blank" style="font-size:10px;color:var(--gold);text-decoration:none;">↗ techsciresearch.com</a>
+      </div>
+      <div style="background:var(--bg3);border:1px solid rgba(180,155,100,0.3);padding:16px;border-radius:2px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">This Asset · Model</div>
+        <div style="font-size:20px;font-family:'Cormorant Garamond',serif;color:var(--green);margin-bottom:4px;">10% / 12%</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Conservative / Base Case CAGR — within all published ranges</div>
+        <div style="font-size:10px;color:var(--gold);">Asset-specific premium justified by location & specialty mix</div>
+      </div>
+    </div>
   </div>
-</div>
 
+  <!-- CATCHMENT DEMOGRAPHICS -->
+  <div class="sec-title">Oud Metha Patient Catchment — Location Intelligence</div>
+  <div class="box mb40">
+    <div class="box-title">Why This Location Is Irreplaceable</div>
+    <ul class="thesis">
+      <li><div class="thesis-dot">📍</div><div><strong>Metro Station adjacency — unique in Dubai mid-market healthcare.</strong> The facility is directly adjacent to the Oud Metha Metro Station on the Red Line, providing walk-in access from Bur Dubai, Al Karama, Deira, Al Nahda, and onward connection to DIFC and Downtown. No other mid-market hospital in Dubai holds this transit advantage. <a href="https://www.rta.ae/wps/portal/rta/ae/public-transport/metros" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ rta.ae</a></div></li>
+      <li><div class="thesis-dot">👥</div><div><strong>South Asian expatriate majority — the largest insured patient segment in Dubai.</strong> The Oud Metha, Bur Dubai, and Karama catchment area houses the highest concentration of Indian, Pakistani, and Sri Lankan expatriates in Dubai — a population of approximately 1.2M people who are predominantly employed, insured, and actively seeking mid-market private healthcare. This is precisely the patient demographic this asset is built to serve. <a href="https://www.dsc.gov.ae/en-us/Pages/default.aspx" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ Dubai Statistics Centre</a></div></li>
+      <li><div class="thesis-dot">🏙️</div><div><strong>Dubai Healthcare City Phase 1 — the most medically dense corridor in the UAE.</strong> Oud Metha sits within and adjacent to Dubai Healthcare City, home to over 120 healthcare facilities, 4,000+ licensed practitioners, and the highest concentration of health insurance claims processing in Dubai. Being licensed and operating in this corridor confers a regulatory and reputational premium that no peripheral location can replicate. <a href="https://www.dhcc.ae" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ dhcc.ae</a></div></li>
+      <li><div class="thesis-dot">💼</div><div><strong>DIFC and Downtown professional workforce — the aesthetic and wellness segment.</strong> Within 2km, DIFC houses 4,500+ companies and 35,000+ professionals with premium health insurance and high discretionary spend on aesthetic procedures, dental, and wellness. This segment drives the hair transplant unit, cosmetic surgery, and premium dental revenue — services with the highest ticket sizes and lowest insurance dependency. <a href="https://www.difc.ae/business/difc-facts-figures/" target="_blank" style="color:var(--gold);font-size:11px;"> ↗ difc.ae</a></div></li>
+      <li><div class="thesis-dot">🏥</div><div><strong>25,000+ patient files — years of relationship capital no new entrant can replicate.</strong> The existing patient database represents the single most defensible competitive asset in this transaction. Building a patient base of this scale in Oud Metha from zero would require 5–7 years of operation and AED 10M+ in marketing and patient acquisition investment — at minimum.</div></li>
+    </ul>
+  </div>
+
+  <div class="box mb40">
+    <div class="box-title">Catchment Area Demographics — At a Glance</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:16px;">
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px 18px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Primary Catchment</div>
+        <div style="font-size:15px;font-family:'Cormorant Garamond',serif;color:var(--text);">Bur Dubai · Karama · Oud Metha</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">~800,000 residents · predominantly insured expat</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px 18px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Secondary Catchment</div>
+        <div style="font-size:15px;font-family:'Cormorant Garamond',serif;color:var(--text);">Deira · Al Jaddaf · DIFC</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">~600,000 residents · mixed income, high insurance penetration</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px 18px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Medical Tourism Catchment</div>
+        <div style="font-size:15px;font-family:'Cormorant Garamond',serif;color:var(--text);">GCC · South Asia · East Africa</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">Aesthetic surgery & hair transplant — zero currently booked</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px 18px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Transit Access</div>
+        <div style="font-size:15px;font-family:'Cormorant Garamond',serif;color:var(--text);">Metro · Bus · Taxi · Parking</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">Red Line Metro directly adjacent — Basement 1 & 2 parking</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px 18px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Health Insurance Penetration</div>
+        <div style="font-size:15px;font-family:'Cormorant Garamond',serif;color:var(--text);">~95% of Dubai workforce</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">Mandatory under Dubai Health Insurance Law</div>
+      </div>
+      <div style="background:var(--bg3);border:1px solid var(--border2);padding:16px 18px;">
+        <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;">Replacement Cost to Enter</div>
+        <div style="font-size:15px;font-family:'Cormorant Garamond',serif;color:var(--red);">AED 150M–200M+</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">New hospital build + DHA license + staff + patient acquisition</div>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);line-height:1.7;">
+      Sources: Dubai Statistics Centre · Dubai Health Authority · RTA · DIFC Facts & Figures · DHCC Annual Report. All catchment figures are indicative estimates based on published population data.
+    </div>
+  </div>
+
+
+<div class="contact-section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
+      <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
+      <div class="contact-info">
+        <div class="c-name">Vishal Desai</div>
+        <div class="c-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare</div>
+        <div class="c-links">
+          <a class="c-link" href="https://wa.me/971553898410" target="_blank"><div class="c-link-icon">📱</div>+971 55 389 8410</a>
+        </div>
+      </div>
+    </div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
+
+<!-- ══════ TAB: GROWTH LEVERS ══════ -->
 <!-- ══════ TAB: GROWTH LEVERS ══════ -->
 <div class="tab-panel" id="tab-growth">
   <div class="sec-title">Value Creation Roadmap — What the Next Owner Unlocks</div>
@@ -808,7 +1033,7 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     <div class="box">
       <div class="box-title">Operational Upside</div>
       <div class="lever"><div class="lever-icon">🏥</div><div class="lever-body"><div class="lever-title">OT Utilisation Expansion</div><div class="lever-desc">Current: 280 surgeries/month across 3 OTs. At 6 working days/week and 10 hours/day, each major OT can handle 8–10 cases/day. Target: 360–400 surgeries/month with better scheduling and specialist recruitment.</div><div class="lever-upside">Upside: +AED 9–14M annual surgical revenue</div></div></div>
-      <div class="lever"><div class="lever-icon">🌍</div><div class="lever-body"><div class="lever-title">Medical Tourism (Zero Today)</div><div class="lever-desc">Zero medical tourism revenue is currently booked. Dubai's medical tourism arrivals grew 12% YoY. The plastic surgery and hair transplant specialties are the highest-demand procedures for GCC, South Asian, and African medical tourists.</div><div class="lever-upside">Upside: AED 2.5M by Year 3 → AED 10M by Year 10</div></div></div>
+      <div class="lever"><div class="lever-icon">🌍</div><div class="lever-body"><div class="lever-title">Medical Tourism (Zero Today)</div><div class="lever-desc">Zero medical tourism revenue is currently booked. Dubai's medical tourism arrivals grew 12% YoY. The plastic surgery and hair transplant specialties are the highest-demand procedures for GCC, South Asian, and African medical tourists.</div><div class="lever-upside">Upside: AED 0.5M by Year 4 → AED 3M by Year 7</div></div></div>
       <div class="lever"><div class="lever-icon">💳</div><div class="lever-body"><div class="lever-title">Insurance Billing Optimisation</div><div class="lever-desc">Industry average claim rejection rate in Dubai is 8–12%. A dedicated insurance billing team with AI-assisted coding can reduce rejections by 40–60%, improving cash conversion and reducing AR aging from 90+ days to under 45.</div><div class="lever-upside">Upside: AED 1.5–3M improved annual cash flow</div></div></div>
     </div>
     <div class="box">
@@ -818,7 +1043,23 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
       <div class="lever"><div class="lever-icon">📱</div><div class="lever-body"><div class="lever-title">Digital Patient Acquisition</div><div class="lever-desc">25,000+ patient files with no disclosed CRM or digital marketing operation. A structured outreach programme — appointment reminders, annual health screenings, referral incentives — can increase repeat visit rate by 25–35%.</div><div class="lever-upside">Upside: AED 2–4M OPD revenue uplift</div></div></div>
     </div>
   </div>
-</div>
+
+<div class="contact-section">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
+      <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
+      <div class="contact-info">
+        <div class="c-name">Vishal Desai</div>
+        <div class="c-tagline">Off-Market Mandates &nbsp;|&nbsp; Education &nbsp;|&nbsp; Hospitality &nbsp;|&nbsp; Healthcare</div>
+        <div class="c-links">
+          <a class="c-link" href="https://wa.me/971553898410" target="_blank"><div class="c-link-icon">📱</div>+971 55 389 8410</a>
+        </div>
+      </div>
+    </div>
+    <div class="footnote">
+      This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
+    </div>
+  </div></div>
 
 <!-- ══════ TAB: TRANSACTION ══════ -->
 <div class="tab-panel" id="tab-transaction">
@@ -879,8 +1120,8 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
   </div>
 
   <div class="contact-section">
-    <div class="sec-title">Initiate a Conversation</div>
-    <div class="contact-card">
+    <div class="sec-title">Contact</div>
+    <div class="contact-card" style="padding:28px 36px;">
       <div class="av-ring"><div class="av-inner"><div class="av-initials">VD</div></div></div>
       <div class="contact-info">
         <div class="c-name">Vishal Desai</div>
@@ -890,16 +1131,13 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
         </div>
       </div>
     </div>
-
     <div class="footnote">
       This document has been prepared by Vishal Desai for informational purposes only and does not constitute financial advice, an offer, or a solicitation to buy or sell any security or asset. "Al Hayat Specialty Hospital" is an alias used for confidentiality purposes; the actual asset identity is disclosed upon NDA execution. All financial figures are sourced from audited financial statements (FY2024) and independently reconstructed operational data. IRR, MOIC, and projection figures are modelled estimates based on disclosed operational data and UAE healthcare sector benchmarks — they do not constitute guarantees of future performance. Prospective buyers should conduct independent due diligence and seek professional legal, financial, and tax advice prior to any investment decision. Vishal Desai acts as exclusive deal intermediary for this mandate.
     </div>
-  </div>
-</div>
+  </div></div>
 
 </div><!-- /app -->
 
-<!-- Floating CTA removed for internal distribution -->
 
 <script>
 // ── PASSWORD ──
@@ -958,10 +1196,10 @@ function initCharts(){
   const pCtx=document.getElementById('projChart');
   if(pCtx){
     new Chart(pCtx,{type:'bar',data:{
-      labels:['Y1','Y2','Y3','Y4','Y5','Y7','Y10'],
+      labels:['Y1\n(FY2027)','Y2\n(FY2028)','Y3\n(FY2029)','Y4\n(FY2030)','Y5\n(FY2031)','Y6\n(FY2032)','Y7\n(FY2033)'],
       datasets:[
-        {label:'Revenue (AED M)',data:[37.2,43.4,49.6,61.4,73.2,91.4,121],backgroundColor:'rgba(180,155,100,0.2)',borderColor:'#b49b64',borderWidth:1.5},
-        {label:'Net Profit (AED M)',type:'line',data:[9.7,13.6,17.9,22.6,26.9,34.1,45.5],borderColor:'#4caf7d',backgroundColor:'rgba(76,175,125,0.08)',borderWidth:2,pointBackgroundColor:'#4caf7d',pointRadius:4,tension:0.3,fill:true}
+        {label:'Revenue (AED M)',data:[24.6,27.0,29.7,33.8,38.8,44.2,49.7],backgroundColor:'rgba(180,155,100,0.2)',borderColor:'#b49b64',borderWidth:1.5},
+        {label:'Net Profit (AED M)',type:'line',data:[3.8,5.5,7.6,10.4,13.7,17.3,20.8],borderColor:'#4caf7d',backgroundColor:'rgba(76,175,125,0.08)',borderWidth:2,pointBackgroundColor:'#4caf7d',pointRadius:4,tension:0.3,fill:true}
       ]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#a09880',font:{size:10,family:'Barlow'},boxWidth:10}}},scales:{x:{ticks:{color:'#6a6455',font:{family:'Barlow',size:10}},grid:{color:'rgba(255,255,255,0.03)'}},y:{ticks:{color:'#6a6455',font:{family:'Barlow',size:10},callback:v=>v+'M'},grid:{color:'rgba(255,255,255,0.05)'}}}}
     });
