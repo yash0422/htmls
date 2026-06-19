@@ -17,12 +17,16 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-weight:300;min-height:100vh;}
+
+/* NAV */
 .tab-nav{position:sticky;top:0;z-index:100;background:rgba(7,7,9,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border2);padding:0 32px;}
 .tab-nav-inner{max-width:1300px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
 .tab-nav-inner::-webkit-scrollbar{display:none;}
 .tab-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);padding:15px 18px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;}
 .tab-btn:hover{color:var(--text2);}
 .tab-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* HEADER */
 .header{padding:40px 32px 32px;border-bottom:1px solid var(--border);max-width:1300px;margin:0 auto;}
 .header-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--border);padding:3px 10px;border-radius:2px;display:inline-block;margin-bottom:14px;}
 .header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--text);margin-bottom:6px;}
@@ -31,6 +35,8 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
 .header-meta{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap;}
 .meta-chip{font-size:11px;color:var(--text2);background:var(--surface);border:1px solid var(--border2);padding:6px 14px;border-radius:2px;}
 .meta-chip span{color:var(--gold);font-weight:500;}
+
+/* PANEL */
 .panel{max-width:1300px;margin:0 auto;padding:32px 32px 60px;display:none;}
 .panel.active{display:block;}
 .sec-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;margin-top:36px;display:flex;align-items:center;gap:12px;}
@@ -38,10 +44,14 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
 .sec-title::after{content:'';flex:1;height:1px;background:var(--border2);}
 .box{background:var(--surface);border:1px solid var(--border2);border-radius:2px;padding:24px;margin-bottom:24px;}
 .box-title{font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text2);margin-bottom:16px;}
+
+/* PROGRESS BAR */
 .progress-wrap{margin-bottom:32px;}
 .progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:8px;}
 .progress-track{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
 .progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width .8s ease;}
+
+/* TRACKER TABLE */
 .tracker{width:100%;border-collapse:collapse;}
 .tracker th{font-size:10px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);padding:10px 12px;text-align:left;}
 .tracker td{padding:12px 12px;border-bottom:1px solid var(--border2);font-size:13px;vertical-align:middle;}
@@ -51,20 +61,29 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
 .tracker td.item-desc{color:var(--text3);font-size:12px;max-width:320px;line-height:1.5;}
 .tracker td.item-why{color:var(--text2);font-size:12px;max-width:260px;line-height:1.5;font-style:italic;}
 .tracker td.item-status{width:110px;}
+
+/* CHECKBOX */
 .cb-wrap{display:flex;align-items:center;justify-content:center;}
 .cb{width:18px;height:18px;border-radius:3px;border:1.5px solid var(--text3);background:transparent;cursor:pointer;appearance:none;-webkit-appearance:none;transition:all .2s;flex-shrink:0;}
 .cb:checked{background:var(--green);border-color:var(--green);}
 .cb:checked::after{content:'✓';display:block;color:#fff;font-size:11px;text-align:center;line-height:17px;font-weight:600;}
+
+/* STATUS BADGE */
 .badge{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:2px;display:inline-block;white-space:nowrap;}
 .badge.have{background:rgba(76,175,125,0.12);color:var(--green);}
 .badge.partial{background:rgba(240,165,0,0.12);color:var(--amber);}
 .badge.missing{background:rgba(224,82,82,0.12);color:var(--red);}
 .badge.critical{background:rgba(224,82,82,0.25);color:#ff6b6b;border:1px solid rgba(224,82,82,0.3);}
+
+/* ROUND BADGE */
 .round-tag{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;display:inline-block;white-space:nowrap;}
 .round-tag.r1{background:rgba(91,142,240,0.15);color:var(--blue);}
 .round-tag.r2{background:rgba(180,155,100,0.15);color:var(--gold);}
 .round-tag.r3{background:rgba(76,175,125,0.15);color:var(--green);}
 .round-tag.r4{background:rgba(240,165,0,0.15);color:var(--amber);}
+.round-tag.buyer{background:rgba(224,82,82,0.15);color:var(--red);}
+
+/* QUESTION CARDS */
 .q-card{background:var(--bg3);border:1px solid var(--border2);border-radius:2px;padding:18px 20px;margin-bottom:12px;}
 .q-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
 .q-num{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);font-weight:400;line-height:1;flex-shrink:0;min-width:28px;}
@@ -81,57 +100,81 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
 .q-answer-box textarea{width:100%;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:'Barlow',sans-serif;font-size:12px;padding:10px 12px;border-radius:2px;resize:vertical;min-height:60px;outline:none;transition:border-color .2s;}
 .q-answer-box textarea:focus{border-color:var(--gold-dim);}
 .q-answer-box textarea::placeholder{color:var(--text3);}
+
+/* FINANCIALS */
 .fin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:24px;}
 .fin-kpi{background:var(--surface);border:1px solid var(--border2);padding:18px 20px;}
 .fin-lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
 .fin-val{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);font-weight:400;}
 .fin-val.g{color:var(--green);}
 .fin-note{font-size:11px;color:var(--text3);margin-top:4px;}
+
+/* NOTES */
 .notes-area{width:100%;background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-family:'Barlow',sans-serif;font-size:13px;padding:16px;border-radius:2px;resize:vertical;min-height:120px;outline:none;transition:border-color .2s;line-height:1.6;}
 .notes-area:focus{border-color:var(--gold-dim);}
 .notes-area::placeholder{color:var(--text3);}
+
+/* SCROLLABLE TABLE WRAPPER */
 .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .tscroll table{min-width:700px;}
+
+/* SAVE INDICATOR */
 .save-indicator{position:fixed;bottom:20px;right:20px;background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:8px 16px;border-radius:2px;opacity:0;transition:opacity .3s;z-index:500;}
 .save-indicator.show{opacity:1;}
-.copy-block{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:20px 24px;margin-bottom:28px;}
-.copy-block-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
-.copy-message{font-size:13px;color:var(--text2);line-height:1.8;white-space:pre-wrap;}
-.copy-btn{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:9px 18px;border-radius:2px;cursor:pointer;transition:all .2s;}
-.copy-btn:hover{background:var(--gold);color:var(--bg);}
-.copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff;}
-/* SINGLE FOOTER SIGNATURE */
-.vd-sig{border-top:1px solid var(--border2);margin-top:48px;padding:14px 0 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.vd-sig-left{display:flex;align-items:center;gap:10px;}
-.vd-sig-av{width:26px;height:26px;border-radius:50%;border:1px solid var(--gold-dim);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:10px;color:var(--gold);flex-shrink:0;}
-.vd-sig-name{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:400;color:var(--text2);}
-.vd-sig-div{width:1px;height:12px;background:var(--border);margin:0 4px;}
-.vd-sig-tag{font-size:11px;color:var(--text3);}
-.vd-sig-right{display:flex;align-items:center;gap:14px;}
-.vd-sig-phone{font-size:11px;color:var(--text2);}
-.vd-sig-badge{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);border:1px solid var(--border2);padding:2px 7px;border-radius:2px;}
-/* FOOTER SIGNATURE */
-.vd-footer{margin-top:60px;padding:36px 32px 32px;border-top:1px solid var(--border);background:rgba(7,7,9,0.95);}
-.vd-footer-inner{display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;}
-.vd-footer-mono{width:52px;height:52px;border:1px solid var(--gold-dim);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--gold);flex-shrink:0;background:rgba(180,155,100,0.05);}
-.vd-footer-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--text);line-height:1.1;}
-.vd-footer-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-top:4px;}
-.vd-footer-sub{font-size:11px;color:var(--text3);margin-top:4px;font-weight:300;}
-.vd-footer-contacts{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;}
-.vd-footer-link{display:inline-flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;padding:4px 10px;border-radius:2px;border:1px solid var(--border);color:var(--gold-dim);transition:all 0.15s;}
-.vd-footer-link:hover{border-color:var(--gold);color:var(--gold);background:rgba(180,155,100,0.06);}
-.vd-footer-disc{font-size:10px;color:var(--text3);margin-top:20px;padding-top:16px;border-top:1px solid var(--border2);line-height:1.6;}
+
 @media(max-width:768px){
   .header{padding:28px 16px 24px;}
   .panel{padding:24px 16px 60px;}
   .tab-nav{padding:0 12px;}
   .fin-grid{grid-template-columns:1fr 1fr;}
   .tracker td.item-desc,.tracker td.item-why{display:none;}
-  .vd-footer{padding:28px 16px 24px;}
 }
+
+
+/* COPY MESSAGE BUTTON */
+.copy-block{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:20px 24px;margin-bottom:28px;}
+.copy-block-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.copy-message{font-size:13px;color:var(--text2);line-height:1.8;white-space:pre-wrap;}
+.copy-btn{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;padding:9px 18px;border-radius:2px;cursor:pointer;transition:all .2s;}
+.copy-btn:hover{background:var(--gold);color:var(--bg);}
+.copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff;}
+
+
+/* UTILITY */
+.mb40{margin-bottom:40px;}
+.mb24{margin-bottom:24px;}
+
+/* COMPETITIVE INTEL TABLE */
+.vtable{width:100%;border-collapse:collapse;}
+.vtable th{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);padding:11px 14px;text-align:left;white-space:nowrap;}
+.vtable td{padding:13px 14px;border-bottom:1px solid var(--border2);font-size:13px;color:var(--text2);vertical-align:middle;line-height:1.4;}
+.vtable tr:hover td{background:rgba(180,155,100,0.02);}
+.vtable td:first-child{color:var(--text);font-weight:400;}
+
+/* THESIS LIST */
+.thesis{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:18px;}
+.thesis li{display:flex;align-items:flex-start;gap:16px;}
+.thesis-dot{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold);margin-top:1px;}
+.thesis li > div:last-child{font-size:13px;color:var(--text2);line-height:1.7;}
+.thesis li > div:last-child strong{color:var(--text);font-weight:500;}
+
+/* FOOTER SIGNATURE */
+.vd-sig{border-top:1px solid var(--border);margin-top:56px;padding:20px 0 0;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.vd-sig-left{display:flex;align-items:flex-start;gap:14px;}
+.vd-sig-av{width:38px;height:38px;border-radius:50%;border:1px solid var(--gold-dim);background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold);flex-shrink:0;margin-top:2px;}
+.vd-sig-info{display:flex;flex-direction:column;gap:4px;}
+.vd-sig-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--text);line-height:1.1;}
+.vd-sig-tag{font-size:11px;color:var(--text3);letter-spacing:.04em;}
+.vd-sig-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding-top:2px;}
+.vd-sig-phone{font-size:12px;color:var(--text2);letter-spacing:.04em;}
+.vd-sig-badge{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);border:1px solid var(--border2);padding:3px 9px;border-radius:2px;display:inline-block;}
+.vd-sig-div{display:none;}
+@media(max-width:600px){.vd-sig{flex-direction:column;gap:12px;}.vd-sig-right{align-items:flex-start;}}
+
 </style>
 </head>
 <body>
+
 <div style="max-width:1300px;margin:0 auto;">
   <div class="header">
     <div class="header-badge">Private & Confidential · Vishal Desai · Deal Master Tracker</div>
@@ -146,85 +189,114 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
     </div>
   </div>
 </div>
+
 <div class="tab-nav">
   <div class="tab-nav-inner">
-    <button class="tab-btn active" onclick="showTab('dataroom',this)">📁 Data Room Status</button>
-    <button class="tab-btn" onclick="showTab('round1',this)">🔵 Round 1 — Pre-NDA</button>
-    <button class="tab-btn" onclick="showTab('round2',this)">🟡 Round 2 — Post-NDA</button>
-    <button class="tab-btn" onclick="showTab('round3',this)">🟢 Round 3 — Pre-Negotiation</button>
-    <button class="tab-btn" onclick="showTab('round4',this)">🟠 Round 4 — Pre-Signing</button>
-    <button class="tab-btn" onclick="showTab('buyer',this)">🔴 Buyer Q&A Prep</button>
-    <button class="tab-btn" onclick="showTab('financials',this)">📊 Deal Financials</button>
-    <button class="tab-btn" onclick="showTab('notes',this)">📝 My Notes</button>
+    <button class="tab-btn active" onclick="showTab('dataroom')">📁 Data Room Status</button>
+    <button class="tab-btn" onclick="showTab('round1')">🔵 Round 1 — Pre-NDA</button>
+    <button class="tab-btn" onclick="showTab('round2')">🟡 Round 2 — Post-NDA</button>
+    <button class="tab-btn" onclick="showTab('round3')">🟢 Round 3 — Pre-Negotiation</button>
+    <button class="tab-btn" onclick="showTab('round4')">🟠 Round 4 — Pre-Signing</button>
+    <button class="tab-btn" onclick="showTab('buyer')">🔴 Buyer Q&A Prep</button>
+    <button class="tab-btn" onclick="showTab('competitive')">🏆 Competitive Intel</button>
+    <button class="tab-btn" onclick="showTab('financials')">📊 Deal Financials</button>
+    <button class="tab-btn" onclick="showTab('notes')">📝 My Notes</button>
   </div>
 </div>
 
-<!-- ══════ DATA ROOM ══════ -->
+<!-- ══════ DATA ROOM STATUS ══════ -->
 <div class="panel active" id="tab-dataroom">
   <div class="sec-title">Overall Progress</div>
   <div class="progress-wrap">
     <div class="progress-label"><span>Data Room Completeness</span><span id="progressPct">0%</span></div>
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   </div>
+
   <div class="sec-title">What We Have ✅</div>
-  <div class="box"><div class="tscroll"><table class="tracker" id="haveTable">
-    <thead><tr><th>✓</th><th>Document / Information</th><th>Detail</th><th>Quality</th></tr></thead>
-    <tbody>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Audited Financial Statements FY2024</td><td class="item-desc">Full P&L, balance sheet, notes — IFRS compliant</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Audited Financial Statements FY2023</td><td class="item-desc">Comparative year — revenue AED 16.78M</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Asset Register</td><td class="item-desc">AED 26.1M gross — incomplete vs audited AED 33.5M</td><td><span class="badge partial">Partial</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Valuation Report (Dec 2025)</td><td class="item-desc">AED 79.7M — no named firm, single method, weak</td><td><span class="badge partial">Partial</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Infrastructure & Room Breakdown</td><td class="item-desc">20,000 sqft, 37 rooms, 3 OTs, ICU, CSSD, full diagnostics</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Insurance Network List</td><td class="item-desc">25+ networks — DAMAN, AXA, Allianz, Mednet, NAS etc.</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Doctor Headcount by Specialty</td><td class="item-desc">36 doctors across 17 specialties — full breakdown</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Annual Rent</td><td class="item-desc">AED 1,788,000 — ground floor + 2 admin offices</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Surgical Volume Claim</td><td class="item-desc">280 surgeries/month — stated by seller, unverified</td><td><span class="badge partial">Partial</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Bank Loan</td><td class="item-desc">AED 3.5M — new in FY2024</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">DHA License Status</td><td class="item-desc">Active — Multi-Specialty Hospital (certificate not obtained)</td><td><span class="badge partial">Partial</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Owner Drawings FY2024</td><td class="item-desc">AED 7.58M — breakdown (salary/dividends/personal) unknown</td><td><span class="badge partial">Partial</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Owner Drawings FY2023</td><td class="item-desc">AED 4.81M</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Fixed Assets NBV</td><td class="item-desc">AED 31.6M (audited net book value)</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Patient Database</td><td class="item-desc">25,000+ active patient files confirmed</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Department & Staff List</td><td class="item-desc">36 doctors, 23 nurses, 2 pharmacists + full admin</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Corporate Tax FY2024</td><td class="item-desc">AED 385,563 — first year UAE CT (9%)</td><td><span class="badge have">Have</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">24x7 Pharmacy Confirmed</td><td class="item-desc">Operational — exclusive in Oud Metha mid-market</td><td><span class="badge have">Have</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div class="box">
+    <div class="tscroll">
+    <table class="tracker" id="haveTable">
+      <thead><tr><th>✓</th><th>Document / Information</th><th>Detail</th><th>Quality</th></tr></thead>
+      <tbody>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Audited Financial Statements FY2024</td><td class="item-desc">Full P&L, balance sheet, notes — IFRS compliant</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Audited Financial Statements FY2023</td><td class="item-desc">Comparative year — revenue AED 16.78M</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Asset Register</td><td class="item-desc">AED 26.1M gross — incomplete vs audited AED 33.5M</td><td><span class="badge partial">Partial</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Valuation Report (Dec 2025)</td><td class="item-desc">AED 79.7M — no named firm, single method, weak</td><td><span class="badge partial">Partial</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Infrastructure & Room Breakdown</td><td class="item-desc">20,000 sqft, 37 rooms, 3 OTs, ICU, CSSD, full diagnostics</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Insurance Network List</td><td class="item-desc">25+ networks — DAMAN, AXA, Allianz, Mednet, NAS etc.</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Doctor Headcount by Specialty</td><td class="item-desc">36 doctors across 17 specialties — full breakdown</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Annual Rent</td><td class="item-desc">AED 1,788,000 — ground floor + 2 admin offices</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Surgical Volume Claim</td><td class="item-desc">280 surgeries/month — stated by seller, unverified</td><td><span class="badge partial">Partial</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Bank Loan</td><td class="item-desc">AED 3.5M — new in FY2024</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">DHA License Status</td><td class="item-desc">Active — Multi-Specialty Hospital (certificate not obtained)</td><td><span class="badge partial">Partial</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Owner Drawings FY2024</td><td class="item-desc">AED 7.58M — breakdown (salary/dividends/personal) unknown</td><td><span class="badge partial">Partial</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Owner Drawings FY2023</td><td class="item-desc">AED 4.81M</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Fixed Assets NBV</td><td class="item-desc">AED 31.6M (audited net book value)</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Patient Database</td><td class="item-desc">25,000+ active patient files confirmed</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Department & Staff List</td><td class="item-desc">36 doctors, 23 nurses, 2 pharmacists + full admin</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">Corporate Tax FY2024</td><td class="item-desc">AED 385,563 — first year UAE CT (9%)</td><td><span class="badge have">Have</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" checked onchange="saveState()"></td><td class="item-name">24x7 Pharmacy Confirmed</td><td class="item-desc">Operational — exclusive in Oud Metha mid-market</td><td><span class="badge have">Have</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
   <div class="sec-title">What We Need — Full Gap List</div>
-  <div class="box"><div class="tscroll"><table class="tracker" id="missingTable">
-    <thead><tr><th>✓</th><th>Document / Information</th><th>Why It Matters</th><th>Round</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">FY2025 Management Accounts</td><td class="item-why">Buyer needs to see if revenue is growing or declining since FY2024</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">DHA License Certificate (copy)</td><td class="item-why">Confirm license number, expiry date, company name on license</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Reason for Sale</td><td class="item-why">Dealbreaker screen — is there a hidden problem driving the sale?</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Seller Transition Availability</td><td class="item-why">Will owner stay 12-24 months? Key-man risk for buyer</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Surgical Volume — Verified 12 Months</td><td class="item-why">280/month is unaudited — entire IP revenue model depends on this</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Insurance Empanelments — Company Name</td><td class="item-why">If in owner's personal name, they don't transfer on sale</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Lease Agreement (copy)</td><td class="item-why">Expiry date, renewal terms, landlord consent clause</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Landlord Consent on Ownership Change</td><td class="item-why">Some leases require landlord approval to transfer</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Owner Drawings Breakdown</td><td class="item-why">Salary vs dividends vs personal expenses — changes real EBITDA</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Related Party Transactions</td><td class="item-why">Payments to owner-connected suppliers may not be at market rate</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Aged Debtor / Creditor Schedule</td><td class="item-why">Insurance AR aging reveals cash flow health and billing efficiency</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Insurance Claims Rejection Rate</td><td class="item-why">High rejection = hidden revenue leak; UAE avg 8-12%</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Asset Register Reconciliation (AED 7.4M gap)</td><td class="item-why">Register shows AED 26.1M vs audited AED 33.5M — unexplained</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Doctor Contracts — Employment vs Visiting</td><td class="item-why">Visiting doctors can leave anytime; employment contracts bind them</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">DHA Clinical Privilege Certificates (36 doctors)</td><td class="item-why">Each doctor must be licensed for the procedures they perform</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">IT/HMS System — Credence License</td><td class="item-why">Is hospital management software transferable to new owner?</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Monthly Cash Burn (surgical drop scenario)</td><td class="item-why">What's fixed cost floor if surgeries drop 40%? Buyer risk assessment</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Corporate Documents — MOA, Shareholding</td><td class="item-why">Confirm ownership structure, no hidden shareholders or restrictions</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Charges / Pledges Beyond AED 3.5M Loan</td><td class="item-why">Any hidden security on assets or shares from other borrowings?</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Supplier Contracts >AED 200K</td><td class="item-why">Are key supply agreements in company name and transferable?</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Responsible Pharmacist — Named & Retention</td><td class="item-why">UAE law requires a named pharmacist; if they leave, pharmacy closes</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Litigation, Malpractice, Labour Disputes</td><td class="item-why">Any unresolved legal proceedings — buyer inherits these</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">OT Utilisation Rate</td><td class="item-why">Hours used vs available per week — shows growth headroom</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Deal Structure Preference (Share vs Asset Sale)</td><td class="item-why">Tax implications differ significantly for both sides</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Key Staff Retention Commitment</td><td class="item-why">Will senior staff (ops manager, insurance coordinator) stay 18 months?</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Cash / Working Capital Position at Close</td><td class="item-why">How much cash is in the business on completion day?</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Bank Loan Settlement Confirmation</td><td class="item-why">AED 3.5M to be repaid from proceeds — bank must release charges</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">No Material Adverse Change Confirmation</td><td class="item-why">No major changes to operations, staff or revenue since last accounts</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
-      <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Seller Legal Counsel Details</td><td class="item-why">Lawyers need to talk to lawyers to actually close the deal</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
-    </tbody>
-  </table></div></div>
+  <div class="box">
+    <div class="tscroll">
+    <table class="tracker" id="missingTable">
+      <thead><tr><th>✓</th><th>Document / Information</th><th>Why It Matters</th><th>Round</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">FY2025 Management Accounts</td><td class="item-why">Buyer needs to see if revenue is growing or declining since FY2024</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">DHA License Certificate (copy)</td><td class="item-why">Confirm license number, expiry date, company name on license</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Reason for Sale</td><td class="item-why">Dealbreaker screen — is there a hidden problem driving the sale?</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Seller Transition Availability</td><td class="item-why">Will owner stay 12-24 months? Key-man risk for buyer</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Surgical Volume — Verified 12 Months</td><td class="item-why">280/month is unaudited — entire IP revenue model depends on this</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Insurance Empanelments — Company Name</td><td class="item-why">If in owner's personal name, they don't transfer on sale</td><td><span class="round-tag r1">Round 1</span></td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Lease Agreement (copy)</td><td class="item-why">Expiry date, renewal terms, landlord consent clause</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Landlord Consent on Ownership Change</td><td class="item-why">Some leases require landlord approval to transfer</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Owner Drawings Breakdown</td><td class="item-why">Salary vs dividends vs personal expenses — changes real EBITDA</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Related Party Transactions</td><td class="item-why">Payments to owner-connected suppliers may not be at market rate</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Aged Debtor / Creditor Schedule</td><td class="item-why">Insurance AR aging reveals cash flow health and billing efficiency</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Insurance Claims Rejection Rate</td><td class="item-why">High rejection = hidden revenue leak; UAE avg 8-12%</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Asset Register Reconciliation (AED 7.4M gap)</td><td class="item-why">Register shows AED 26.1M vs audited AED 33.5M — unexplained</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Doctor Contracts — Employment vs Visiting</td><td class="item-why">Visiting doctors can leave anytime; employment contracts bind them</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">DHA Clinical Privilege Certificates (36 doctors)</td><td class="item-why">Each doctor must be licensed for the procedures they perform</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">IT/HMS System — Credence License</td><td class="item-why">Is hospital management software transferable to new owner?</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Monthly Cash Burn (surgical drop scenario)</td><td class="item-why">What's fixed cost floor if surgeries drop 40%? Buyer risk assessment</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">VAT Registration Certificate & Filing Status</td><td class="item-why">Confirm VAT registered in company name, all returns filed on time with FTA, no penalties or outstanding assessments</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Corporate Tax Registration & FY2024 Filing</td><td class="item-why">Confirm CT registered with FTA, FY2024 return filed, no audit notices — seller to introduce tax consultant</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Employee Gratuity Liability Schedule</td><td class="item-why">Full schedule by employee: tenure, basic salary, gratuity entitlement. UAE Labour Law — this is a debt-like item, AED 2M–5M estimated. Must be settled by seller or deducted from price</td><td><span class="round-tag r2">Round 2</span></td><td><span class="badge critical">Critical</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Corporate Documents — MOA, Shareholding</td><td class="item-why">Confirm ownership structure, no hidden shareholders or restrictions</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Charges / Pledges Beyond AED 3.5M Loan</td><td class="item-why">Any hidden security on assets or shares from other borrowings?</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Supplier Contracts >AED 200K</td><td class="item-why">Are key supply agreements in company name and transferable?</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Responsible Pharmacist — Named & Retention</td><td class="item-why">UAE law requires a named pharmacist; if they leave, pharmacy closes</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Litigation, Malpractice, Labour Disputes</td><td class="item-why">Any unresolved legal proceedings — buyer inherits these</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">OT Utilisation Rate</td><td class="item-why">Hours used vs available per week — shows growth headroom</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Deal Structure Preference (Share vs Asset Sale)</td><td class="item-why">Tax implications differ significantly for both sides</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Key Staff Retention Commitment</td><td class="item-why">Will senior staff (ops manager, insurance coordinator) stay 18 months?</td><td><span class="round-tag r3">Round 3</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Cash / Working Capital Position at Close</td><td class="item-why">How much cash is in the business on completion day?</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Bank Loan Settlement Confirmation</td><td class="item-why">AED 3.5M to be repaid from proceeds — bank must release charges</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">No Material Adverse Change Confirmation</td><td class="item-why">No major changes to operations, staff or revenue since last accounts</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
+        <tr><td class="cb-wrap"><input type="checkbox" class="cb" onchange="saveState()"></td><td class="item-name">Seller Legal Counsel Details</td><td class="item-why">Lawyers need to talk to lawyers to actually close the deal</td><td><span class="round-tag r4">Round 4</span></td><td><span class="badge missing">Missing</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ ROUND 1 ══════ -->
@@ -236,19 +308,78 @@ body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font
   <div class="copy-block">
     <div class="copy-block-title">📋 Ready-to-Send Message — Round 1</div>
     <div class="copy-message" id="r1msg">I hope this message finds you well. As we progress with the sale process, there are a few points we'd like your input on — nothing formal at this stage, just helping us build a clearer picture.
+
 If you have any management figures for 2025, even a rough summary, that would help us understand the current trading position. Alongside this, a copy of the DHA hospital license would allow us to confirm the details and expiry date.
+
 We'd also appreciate a brief sense of your motivation for the sale — buyers always ask, and the more we understand, the better we can represent your interests. On that note, buyers we are speaking with are looking for a genuine partnership, not just a transaction. Having you available in an advisory capacity for 12 to 18 months post-completion would be a significant positive.
+
 On the operational side, a monthly breakdown of surgical cases for the last 12 months — from OT logs or insurance submissions — would allow us to present the volumes confidently. Finally, could you confirm whether the insurance empanelments are held in the company name and transferable on a change of ownership?
+
 Please share only what you are comfortable with at this stage. We look forward to your response.</div>
-    <button class="copy-btn" onclick="copyMsg('r1msg',this)">⧉ &nbsp;Copy Message</button>
+    <button class="copy-btn" onclick="copyMsg('r1msg', this)">⧉ &nbsp;Copy Message</button>
   </div>
-  <div class="q-card"><div class="q-header"><div class="q-num">1</div><div class="q-title">FY2025 Management Accounts</div></div><div class="q-text">"To help us move forward, could you share the management accounts for 2025 — even if unaudited? A monthly or quarterly P&L breakdown would be very helpful to understand the current trading position."</div><div class="q-footer"><span class="q-why">🔴 Red if: Revenue is declining or surgical income has dropped significantly · 🟢 Green if: Growth continues from FY2024 trajectory</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q1"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">2</div><div class="q-title">DHA License Certificate</div></div><div class="q-text">"Could you confirm the DHA hospital license number and share a copy? We want to confirm the license is in the company name, check the expiry date, and ensure there are no conditions or notices attached."</div><div class="q-footer"><span class="q-why">🔴 Red if: License expired, suspended, in personal name, or has unresolved DHA notices · 🟢 Green if: Current, clean, 12+ months validity</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q2"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">3</div><div class="q-title">Reason for Sale</div></div><div class="q-text">"Just to understand the background — what is the primary reason for considering a sale at this point? And would you be open to staying on in a transition capacity for 12 to 24 months post-completion to help the new owner settle in?"</div><div class="q-footer"><span class="q-why">🔴 Red if: Vague answer, regulatory pressure hinted, or flat refusal to transition · 🟢 Green if: Genuine retirement/liquidity, open to handover period</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q3"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">4</div><div class="q-title">Surgical Volume — Verified Data</div></div><div class="q-text">"You've mentioned 280 surgeries per month — that's a strong number. Could you share the monthly surgical breakdown for the last 12 months? This could be from DHA surgical returns, OT booking logs, or insurance claim submissions."</div><div class="q-footer"><span class="q-why">🔴 Red if: Actual verified average is below 180/month · 🟢 Green if: 240+ average with upward trend — entire IP revenue model depends on this</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q4"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">5</div><div class="q-title">Insurance Empanelments — Ownership</div></div><div class="q-text">"Regarding the 25+ insurance networks — are all empanelment agreements held in the company name rather than personally? And are they transferable to a new owner on change of ownership without requiring fresh applications?"</div><div class="q-footer"><span class="q-why">🔴 Red if: Any major payer (DAMAN, AXA) is in personal name or has suspended status · 🟢 Green if: All in company name, transferable</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q5"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">6</div><div class="q-title">Legal Proceedings</div></div><div class="q-text">"Are there any current or pending legal proceedings — including medical malpractice claims, patient complaints upheld by the DHA, labour disputes, or regulatory penalties — that we should be aware of?"</div><div class="q-footer"><span class="q-why">🔴 Red if: Any unresolved malpractice >AED 500K or active DHA investigation · 🟢 Green if: No proceedings, or minor resolved disputes with documentation</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q6"></textarea></div></div>
-  <div class="box" style="margin-top:8px;"><div class="box-title">Round 1 Decision</div><textarea class="notes-area" placeholder="All 6 answers green → proceed to NDA. Any single red → stop and reassess. Notes here..." id="r1decision" onchange="saveState()"></textarea></div>
+
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">1</div><div class="q-title">FY2025 Management Accounts</div></div>
+    <div class="q-text">"To help us move forward, could you share the management accounts for 2025 — even if unaudited? A monthly or quarterly P&L breakdown would be very helpful to understand the current trading position."</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: Revenue is declining or surgical income has dropped significantly · 🟢 Green if: Growth continues from FY2024 trajectory</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q1"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">2</div><div class="q-title">DHA License Certificate</div></div>
+    <div class="q-text">"Could you confirm the DHA hospital license number and share a copy? We want to confirm the license is in the company name, check the expiry date, and ensure there are no conditions or notices attached."</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: License expired, suspended, in personal name, or has unresolved DHA notices · 🟢 Green if: Current, clean, 12+ months validity</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q2"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">3</div><div class="q-title">Reason for Sale</div></div>
+    <div class="q-text">"Just to understand the background — what is the primary reason for considering a sale at this point? And would you be open to staying on in a transition capacity for 12 to 24 months post-completion to help the new owner settle in?"</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: Vague answer, regulatory pressure hinted, or flat refusal to transition · 🟢 Green if: Genuine retirement/liquidity, open to handover period</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q3"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">4</div><div class="q-title">Surgical Volume — Verified Data</div></div>
+    <div class="q-text">"You've mentioned 280 surgeries per month — that's a strong number. Could you share the monthly surgical breakdown for the last 12 months? This could be from DHA surgical returns, OT booking logs, or insurance claim submissions."</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: Actual verified average is below 180/month · 🟢 Green if: 240+ average with upward trend — entire IP revenue model depends on this</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q4"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">5</div><div class="q-title">Insurance Empanelments — Ownership</div></div>
+    <div class="q-text">"Regarding the 25+ insurance networks — are all empanelment agreements held in the company name rather than personally? And are they transferable to a new owner on change of ownership without requiring fresh applications?"</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: Any major payer (DAMAN, AXA) is in personal name or has suspended status · 🟢 Green if: All in company name, transferable</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q5"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">6</div><div class="q-title">Legal Proceedings</div></div>
+    <div class="q-text">"Are there any current or pending legal proceedings — including medical malpractice claims, patient complaints upheld by the DHA, labour disputes, or regulatory penalties — that we should be aware of?"</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: Any unresolved malpractice >AED 500K or active DHA investigation · 🟢 Green if: No proceedings, or minor resolved disputes with documentation</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r1q6"></textarea></div>
+  </div>
+
+  <div class="box" style="margin-top:8px;">
+    <div class="box-title">Round 1 Decision</div>
+    <textarea class="notes-area" placeholder="All 6 answers green → proceed to NDA. Any single red → stop and reassess. Seller delays beyond 14 days → treat as red. Notes here..." id="r1decision" onchange="saveState()"></textarea>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ ROUND 2 ══════ -->
@@ -260,23 +391,132 @@ Please share only what you are comfortable with at this stage. We look forward t
   <div class="copy-block">
     <div class="copy-block-title">📋 Ready-to-Send Message — Round 2</div>
     <div class="copy-message" id="r2msg">Thank you for your continued cooperation — buyer interest remains strong and we are making good progress. Now that the NDA is in place, there are a few areas we'd like to go a little deeper on.
+
 Could you share a copy of the tenancy agreement, including the expiry date and renewal terms? Buyers will also want to know whether landlord consent is required on a change of ownership.
+
 On the financials, a brief breakdown of the owner's withdrawals across FY2023 and FY2024 — between salary, dividends, and personal expenses — would allow us to present the true earnings power of the business accurately. Please also share a summary of any transactions with related parties, if applicable.
+
 From a cash flow perspective, an approximate picture of insurance receivables aging and the average claims rejection rate would be helpful. On the assets side, could you help us reconcile the small difference between the asset register and the audited accounts?
-Finally, a summary of which doctors are on formal employment contracts versus visiting arrangements, along with confirmation that all hold current DHA clinical privilege certificates, would complete this phase. Please also confirm whether the Credence HMS license is transferable.</div>
-    <button class="copy-btn" onclick="copyMsg('r2msg',this)">⧉ &nbsp;Copy Message</button>
+
+Finally, a summary of which doctors are on formal employment contracts versus visiting arrangements, along with confirmation that all hold current DHA clinical privilege certificates, would complete this phase. Please also confirm whether the Credence HMS license is transferable.
+
+On the compliance side, could you confirm the company's VAT registration number and that all FTA returns are current with no outstanding assessments? Please also confirm UAE Corporate Tax registration and that the FY2024 return has been filed — and if possible, introduce us to your tax consultant so we can verify this directly.
+
+Finally, we would appreciate a full schedule of the employee gratuity liability — all staff by tenure, basic salary, and calculated entitlement under UAE Labour Law. We will need to agree on whether this is settled by the seller at completion or reflected as a price adjustment.</div>
+    <button class="copy-btn" onclick="copyMsg('r2msg', this)">⧉ &nbsp;Copy Message</button>
   </div>
-  <div class="q-card"><div class="q-header"><div class="q-num">1</div><div class="q-title">Lease Agreement</div></div><div class="q-text">"Could you share a copy of the current tenancy contract — including landlord name, lease expiry, annual rent, renewal terms, and whether landlord consent is required for a change of ownership?"</div><div class="q-footer"><span class="q-why">🔴 Red if: Lease expires within 18 months with no renewal guarantee · 🟢 Green if: 3+ years remaining, no consent required</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q1"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">2</div><div class="q-title">Owner Drawings Breakdown</div></div><div class="q-text">"The owner's current account shows AED 7.58M withdrawn in FY2024 and AED 4.81M in FY2023. Could you provide a breakdown — official salary, profit dividends, or personal expenses run through the company?"</div><div class="q-footer"><span class="q-why">This changes normalised EBITDA significantly and is your valuation defence at AED 85M.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q2"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">3</div><div class="q-title">Related Party Transactions</div></div><div class="q-text">"Could you provide a schedule of all transactions with related parties — any payments to companies or individuals connected to the owner or management team?"</div><div class="q-footer"><span class="q-why">Owner-connected suppliers may be inflating costs. If removed post-sale, margins improve.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q3"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">4</div><div class="q-title">Aged Debtor Schedule</div></div><div class="q-text">"Could you share the current accounts receivable aging schedule? Specifically, what percentage of outstanding insurance claims are beyond 90 days?"</div><div class="q-footer"><span class="q-why">Old unpaid insurance claims are a hidden cash flow risk buyer will inherit on day one.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q4"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">5</div><div class="q-title">Insurance Claims Rejection Rate</div></div><div class="q-text">"What is the average insurance claim rejection rate across your payer networks, and what is the average time from service delivery to payment receipt?"</div><div class="q-footer"><span class="q-why">Industry average in Dubai is 8-12%. Above that signals a billing problem.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q5"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">6</div><div class="q-title">Asset Register Reconciliation</div></div><div class="q-text">"The asset register shows AED 26.1M while audited accounts show AED 33.5M. Could you explain the AED 7.4M difference?"</div><div class="q-footer"><span class="q-why">This gap must be resolved before any buyer signs.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q6"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">7</div><div class="q-title">Doctor Contracts</div></div><div class="q-text">"Could you share the staff schedule showing which doctors are on employment contracts, which are part-time, and which are visiting doctors with no exclusivity?"</div><div class="q-footer"><span class="q-why">Visiting doctors can walk away the day after sale. Buyer needs to know how much surgical volume is secured.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q7"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">8</div><div class="q-title">DHA Clinical Privilege Certificates</div></div><div class="q-text">"Could you provide copies of DHA clinical privilege certificates for each of the 36 doctors — confirming privileges match the procedures being performed?"</div><div class="q-footer"><span class="q-why">A doctor performing procedures outside DHA privileges is a serious regulatory violation.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q8"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">9</div><div class="q-title">Hospital Management System</div></div><div class="q-text">"Is the Credence software license transferable to a new owner without additional fees or reapplication?"</div><div class="q-footer"><span class="q-why">Patient records, billing history, and insurance submissions are all in this system.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q9"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">10</div><div class="q-title">Fixed Cost Floor</div></div><div class="q-text">"What would monthly cash requirement be if surgical volume dropped by 40% for 90 days — what are the fixed costs that must be paid regardless of revenue?"</div><div class="q-footer"><span class="q-why">Buyer needs to know worst-case monthly burn during transition period.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q10"></textarea></div></div>
-  <div class="box" style="margin-top:8px;"><div class="box-title">Round 2 Assessment</div><textarea class="notes-area" placeholder="Valuation adjustments, red flags discovered, items to escalate to Round 3..." id="r2decision" onchange="saveState()"></textarea></div>
+
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">1</div><div class="q-title">Lease Agreement</div></div>
+    <div class="q-text">"Could you share a copy of the current tenancy contract for the ground floor and the two first-floor admin offices — including the landlord name, lease expiry date, annual rent, renewal terms, and whether landlord consent is required for a change of ownership?"</div>
+    <div class="q-footer"><span class="q-why">🔴 Red if: Lease expires within 18 months with no renewal guarantee or landlord has consent clause · 🟢 Green if: 3+ years remaining, no consent required</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q1"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">2</div><div class="q-title">Owner Drawings Breakdown</div></div>
+    <div class="q-text">"The owner's current account shows AED 7.58M withdrawn in FY2024 and AED 4.81M in FY2023. Could you provide a breakdown of what these represent — official salary, profit dividends, or personal expenses run through the company?"</div>
+    <div class="q-footer"><span class="q-why">This changes the normalised EBITDA significantly. If mostly personal expenses, true EBITDA is much higher than reported AED 6.3M — this is your valuation defence at AED 85M.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q2"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">3</div><div class="q-title">Related Party Transactions</div></div>
+    <div class="q-text">"Could you provide a schedule of all transactions with related parties — any payments to companies or individuals connected to the owner or management team?"</div>
+    <div class="q-footer"><span class="q-why">Owner-connected suppliers may be inflating costs. If removed post-sale, margins improve — but buyer needs to know upfront.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q3"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">4</div><div class="q-title">Aged Debtor Schedule</div></div>
+    <div class="q-text">"Could you share the current accounts receivable aging schedule? Specifically, what percentage of outstanding insurance claims are beyond 90 days, and what is the total provision for doubtful receivables?"</div>
+    <div class="q-footer"><span class="q-why">Old unpaid insurance claims are a hidden cash flow risk. Buyer will want to know what they're inheriting on day one.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q4"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">5</div><div class="q-title">Insurance Claims Rejection Rate</div></div>
+    <div class="q-text">"What is the average insurance claim rejection rate across your payer networks, and what is the average time from service delivery to payment receipt from the top 5 insurers?"</div>
+    <div class="q-footer"><span class="q-why">Industry average in Dubai is 8-12%. Above that signals a billing problem. Average payment cycle of 90+ days is a working capital strain.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q5"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">6</div><div class="q-title">Asset Register Reconciliation</div></div>
+    <div class="q-text">"The asset register provided shows a gross cost of approximately AED 26.1M, while the audited accounts show AED 33.5M. Could you explain the AED 7.4M difference — were additional assets purchased after the register was last updated, or is there another explanation?"</div>
+    <div class="q-footer"><span class="q-why">This gap must be resolved before any buyer signs. Either assets exist and aren't on the register (good), or there's a discrepancy (problem).</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q6"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">7</div><div class="q-title">Doctor Contracts</div></div>
+    <div class="q-text">"Could you share the current staff schedule showing all 36 doctors — specifically which are on full-time employment contracts, which are part-time, and which are visiting doctors with no exclusivity? Also, are there any performance or volume-based incentive arrangements?"</div>
+    <div class="q-footer"><span class="q-why">Visiting doctors can walk away the day after sale. Buyer needs to know how much of the surgical volume is secured vs at risk.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q7"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">8</div><div class="q-title">DHA Clinical Privilege Certificates</div></div>
+    <div class="q-text">"Could you provide copies of the DHA clinical privilege certificates for each of the 36 doctors — confirming that their privileges match the procedures being performed, particularly for the 9 plastic surgeons performing the surgical volume?"</div>
+    <div class="q-footer"><span class="q-why">A doctor performing procedures outside their DHA privileges is a serious regulatory violation — this would affect the hospital license.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q8"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">9</div><div class="q-title">Hospital Management System</div></div>
+    <div class="q-text">"What hospital management and billing system is currently in use — specifically the Credence software referenced in the asset register — and is the software license transferable to a new owner without additional fees or reapplication?"</div>
+    <div class="q-footer"><span class="q-why">Patient records, billing history, and insurance submissions are all in this system. If it can't transfer, it's a major operational disruption.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q9"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">10</div><div class="q-title">Fixed Cost Floor</div></div>
+    <div class="q-text">"What would the monthly cash requirement be if surgical volume dropped by 40% for 90 days — i.e. what are the fixed costs that must be paid regardless of revenue? This helps us understand the business's resilience."</div>
+    <div class="q-footer"><span class="q-why">Buyer needs to know the worst-case monthly burn during a transition period. This informs how much working capital buffer they need at close.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q10"></textarea></div>
+  </div>
+
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">11</div><div class="q-title">VAT Registration & Filing Status</div></div>
+    <div class="q-text">"Could you confirm the company's VAT registration number and share confirmation that all VAT returns have been filed on time with the Federal Tax Authority? Are there any pending VAT assessments, penalties, or outstanding correspondence from the FTA?"</div>
+    <div class="q-footer"><span class="q-why">Mixed-supply healthcare business — pharmacy and cosmetic procedures are standard-rated at 5%. Any incorrect VAT treatment or unfiled returns becomes buyer's liability in a share sale.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r2q11"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">12</div><div class="q-title">Corporate Tax Registration & FY2024 Filing</div></div>
+    <div class="q-text">"Could you confirm the company is registered for UAE Corporate Tax with the FTA, and that the FY2024 CT return has been filed? It would also be helpful if you could introduce us to your tax consultant so we can verify filing status directly."</div>
+    <div class="q-footer"><span class="q-why">FY2024 was the first CT year — AED 385,563 was paid per audited accounts. Need to confirm the return was actually filed and there are no FTA notices outstanding.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / tax consultant details..." onchange="saveState()" id="r2q12"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">13</div><div class="q-title">Employee Gratuity Liability — Full Schedule</div></div>
+    <div class="q-text">"Could you provide a full schedule of the employee gratuity liability — covering all staff by tenure, basic salary, and calculated entitlement under UAE Labour Law? We also need to understand whether this liability is provisioned in the accounts, and whether the seller intends to settle it from sale proceeds or have it reflected as a deduction from the purchase price."</div>
+    <div class="q-footer"><span class="q-why">🔴 Critical: With 80–100+ staff at varying tenures, gratuity liability is estimated at AED 2M–5M. This is a real debt-like item — as real as the AED 3.5M bank loan. If unresolved, buyer inherits it in full in a share sale.</span><span class="q-flag dealbreaker">Critical</span></div>
+    <div class="q-answer-box"><textarea placeholder="Gratuity schedule received / liability amount / settlement method..." onchange="saveState()" id="r2q13"></textarea></div>
+  </div>
+
+    <div class="box" style="margin-top:8px;">
+    <div class="box-title">Round 2 Assessment</div>
+    <textarea class="notes-area" placeholder="Valuation adjustments, red flags discovered, items to escalate to Round 3..." id="r2decision" onchange="saveState()"></textarea>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ ROUND 3 ══════ -->
@@ -288,64 +528,342 @@ Finally, a summary of which doctors are on formal employment contracts versus vi
   <div class="copy-block">
     <div class="copy-block-title">📋 Ready-to-Send Message — Round 3</div>
     <div class="copy-message" id="r3msg">We are entering the final preparation phase before formal negotiations begin, and things are looking very positive. There are a few important areas we need your input on to structure the deal correctly.
+
 Could you please share the Memorandum of Association and current shareholding structure? We also need confirmation that there are no charges or pledges on the company's assets beyond the bank facility already disclosed.
-For key supplier relationships valued above AED 200,000 annually, copies or a brief summary of those contracts would be helpful. On the regulatory side, could you confirm who holds the named DHA Responsible Pharmacist position and whether they intend to stay?
-We'd also appreciate your view on the preferred deal structure — share sale or asset sale — and whether you'd be open to a portion of the consideration being linked to surgical volumes post-completion. Lastly, please confirm which senior staff you would commit to retaining for 18 months post-completion.</div>
-    <button class="copy-btn" onclick="copyMsg('r3msg',this)">⧉ &nbsp;Copy Message</button>
+
+For key supplier relationships valued above AED 200,000 annually, copies or a brief summary of those contracts would be helpful — buyers want assurance that operations continue smoothly post-acquisition. On the regulatory side, could you confirm who holds the named DHA Responsible Pharmacist position and whether they intend to stay?
+
+We'd also appreciate your view on the preferred deal structure — share sale or asset sale — and whether you'd be open to a portion of the consideration being linked to surgical volumes post-completion. This often allows us to justify a higher total figure for you.
+
+Lastly, please confirm which senior staff you would commit to retaining for 18 months post-completion, and whether you would be willing to introduce the buyer to your key insurance contacts before closing.</div>
+    <button class="copy-btn" onclick="copyMsg('r3msg', this)">⧉ &nbsp;Copy Message</button>
   </div>
-  <div class="q-card"><div class="q-header"><div class="q-num">1</div><div class="q-title">Corporate Documents</div></div><div class="q-text">"Could you share the full corporate documents — MOA, current shareholding structure, and any shareholder agreements?"</div><div class="q-footer"><span class="q-why">Legal counsel needs this to structure the transaction.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q1"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">2</div><div class="q-title">Undisclosed Charges on Assets</div></div><div class="q-text">"Beyond the AED 3.5M bank loan, are there any other charges, mortgages, or pledges registered against the company's assets or shares?"</div><div class="q-footer"><span class="q-why">Any undisclosed charge is a dealbreaker — buyer inherits it.</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q2"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">3</div><div class="q-title">Supplier Contracts</div></div><div class="q-text">"Could you provide copies of all supplier contracts exceeding AED 200,000 annually and confirm which are transferable to a new owner?"</div><div class="q-footer"><span class="q-why">Personal supply arrangements vanish on sale.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q3"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">4</div><div class="q-title">Responsible Pharmacist</div></div><div class="q-text">"Who is the named DHA Responsible Pharmacist and is this person willing to remain with the business post-acquisition?"</div><div class="q-footer"><span class="q-why">UAE law requires a named pharmacist. If they leave and no replacement is approved, the pharmacy closes.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q4"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">5</div><div class="q-title">OT Utilisation Rate</div></div><div class="q-text">"What is the current OT utilisation rate — hours used versus hours available per week for each of the 3 operating theatres?"</div><div class="q-footer"><span class="q-why">Low utilisation = growth upside. High utilisation = limited room without infrastructure investment.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q5"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">6</div><div class="q-title">Deal Structure Preference</div></div><div class="q-text">"What is your preferred transaction structure — a share sale or an asset sale? Are you aware of the UAE corporate tax implications of each structure for both parties?"</div><div class="q-footer"><span class="q-why">Share sale transfers all liabilities. Asset sale is cleaner for buyer.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q6"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">7</div><div class="q-title">Earnout & Warranty</div></div><div class="q-text">"Would you be open to an earnout structure where a portion of the consideration is paid over 24 months tied to surgical volume maintaining 250+ procedures per month?"</div><div class="q-footer"><span class="q-why">Earnout protects the buyer if surgical volume drops post-sale.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q7"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">8</div><div class="q-title">Key Staff Retention</div></div><div class="q-text">"Which senior staff — Operations Manager, Accounts Manager, Insurance Coordinator — are you prepared to contractually commit to retaining for 18 months post-completion?"</div><div class="q-footer"><span class="q-why">Continuity of key staff and insurer relationships is critical in the first 6 months.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q8"></textarea></div></div>
-  <div class="box" style="margin-top:8px;"><div class="box-title">Round 3 — Negotiation Position Notes</div><textarea class="notes-area" placeholder="Deal structure agreed, earnout terms, warranty position, price adjustments, SPA heads of terms..." id="r3decision" onchange="saveState()"></textarea></div>
+
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">1</div><div class="q-title">Corporate Documents</div></div>
+    <div class="q-text">"Could you share the full corporate documents — Memorandum of Association, current shareholding structure, and any shareholder agreements — and confirm that Unity Corporate Management LLC (1% shareholder) has no veto rights or preferential terms that could affect a transfer?"</div>
+    <div class="q-footer"><span class="q-why">Legal counsel needs this to structure the transaction. Hidden shareholders or veto rights can block or delay closing.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q1"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">2</div><div class="q-title">Undisclosed Charges on Assets</div></div>
+    <div class="q-text">"Beyond the AED 3.5M bank loan already disclosed, are there any other charges, mortgages, or pledges registered against the company's assets or shares — including any personal borrowings secured against the business?"</div>
+    <div class="q-footer"><span class="q-why">If hidden security exists, buyer inherits it. This is a legal due diligence essential — any undisclosed charge is a dealbreaker.</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q2"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">3</div><div class="q-title">Supplier Contracts</div></div>
+    <div class="q-text">"Could you provide copies of all supplier contracts exceeding AED 200,000 annually — medical supplies, equipment maintenance, laundry, catering — and confirm which are in the company name and transferable to a new owner?"</div>
+    <div class="q-footer"><span class="q-why">Personal supply arrangements vanish on sale. Company-name contracts protect continuity of operations post-acquisition.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q3"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">4</div><div class="q-title">Responsible Pharmacist</div></div>
+    <div class="q-text">"Who is the named DHA Responsible Pharmacist for the 24/7 pharmacy, and is this person willing to remain with the business post-acquisition? If they plan to leave, what is the plan for DHA-approved replacement?"</div>
+    <div class="q-footer"><span class="q-why">UAE law requires a named pharmacist. If they leave and no replacement is approved, the pharmacy closes — that's a revenue and compliance risk.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q4"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">5</div><div class="q-title">OT Utilisation Rate</div></div>
+    <div class="q-text">"What is the current OT utilisation rate by theatre — hours used versus hours available per week for each of the 3 operating theatres? This helps us model the upside potential and understand current capacity headroom."</div>
+    <div class="q-footer"><span class="q-why">Low utilisation = growth upside (positive for buyer). High utilisation = limited room to grow without infrastructure investment.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q5"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">6</div><div class="q-title">Deal Structure Preference</div></div>
+    <div class="q-text">"What is your preferred transaction structure — a share sale or an asset sale? And are you aware of the UAE corporate tax implications of each structure for both parties?"</div>
+    <div class="q-footer"><span class="q-why">Share sale transfers all liabilities. Asset sale is cleaner for buyer. Tax treatment differs — seller usually prefers share sale, buyer usually prefers asset sale.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q6"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">7</div><div class="q-title">Earnout & Warranty</div></div>
+    <div class="q-text">"Would you be open to an earnout structure where a portion of the consideration is paid over 24 months tied to surgical volume maintaining 250+ procedures per month? And are you willing to provide a 12-month warranty on the accuracy of financial information disclosed?"</div>
+    <div class="q-footer"><span class="q-why">Earnout protects the buyer if surgical volume drops post-sale. Warranty gives legal recourse if disclosed information turns out to be inaccurate.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q7"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">8</div><div class="q-title">Key Staff Retention</div></div>
+    <div class="q-text">"Which senior staff members — Operations Manager, Accounts Manager, Insurance Coordinator — are you prepared to contractually commit to retaining for 18 months post-completion? And would you introduce the buyer to the top 5 insurance TPA relationships before completion?"</div>
+    <div class="q-footer"><span class="q-why">Continuity of key staff and insurer relationships is critical in the first 6 months. Loss of either is the biggest post-acquisition risk.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Seller's response / notes..." onchange="saveState()" id="r3q8"></textarea></div>
+  </div>
+
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">9</div><div class="q-title">Gratuity Settlement — Method & Amount</div></div>
+    <div class="q-text">"Based on the gratuity schedule provided, we would like to confirm the total liability and agree on the settlement method. Our preference is for the full gratuity liability to be settled by the seller from sale proceeds at completion, with a clean certificate from your HR/legal counsel confirming all obligations are discharged. If the seller prefers, we can alternatively structure a deduction from the purchase price at an agreed amount."</div>
+    <div class="q-footer"><span class="q-why">Once the quantum is known from Round 2, this becomes a negotiation item. A AED 3M gratuity liability reduces effective consideration from AED 85M to AED 82M — needs to be agreed and reflected in the SPA.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Agreed settlement method / amount / SPA clause reference..." onchange="saveState()" id="r3q9"></textarea></div>
+  </div>
+
+    <div class="box" style="margin-top:8px;">
+    <div class="box-title">Round 3 — Negotiation Position Notes</div>
+    <textarea class="notes-area" placeholder="Deal structure agreed, earnout terms, warranty position, price adjustments, SPA heads of terms..." id="r3decision" onchange="saveState()"></textarea>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ ROUND 4 ══════ -->
 <div class="panel" id="tab-round4">
   <div class="sec-title">Round 4 — Pre-Signing · Final Confirmations · Week 7–8</div>
   <div class="box" style="background:rgba(240,165,0,0.05);border-color:rgba(240,165,0,0.2);margin-bottom:28px;">
-    <div style="font-size:13px;color:var(--text2);line-height:1.7;"><strong style="color:var(--amber);">Strategy:</strong> Everything is agreed in principle. These are the final bring-down confirmations before contracts are exchanged.</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.7;"><strong style="color:var(--amber);">Strategy:</strong> Everything is agreed in principle. These are the final bring-down confirmations before contracts are exchanged. Nothing new — just verifying nothing has changed since last accounts and all parties are ready to sign.</div>
   </div>
   <div class="copy-block">
     <div class="copy-block-title">📋 Ready-to-Send Message — Round 4</div>
     <div class="copy-message" id="r4msg">We are at the final stage and everything is progressing well. This note is simply to confirm a few closing items before we proceed to contract exchange.
+
 Could you please confirm, through your legal counsel, that all DHA licenses, insurance empanelments, and key supplier agreements are transferable to the buyer without penalty?
+
 We will also need a confirmed picture of the cash and working capital position as of the proposed completion date. Regarding the bank facility, please arrange written confirmation from the bank that all registered charges will be released upon repayment from the sale proceeds.
+
 A brief written confirmation that there have been no material changes to the business — surgical volumes, doctor headcount, or insurance status — since the last accounts provided would also be required as standard.
-Finally, please share your legal counsel's full contact details and confirm they are authorised to exchange contracts within five business days of final agreed terms.</div>
-    <button class="copy-btn" onclick="copyMsg('r4msg',this)">⧉ &nbsp;Copy Message</button>
+
+Finally, please share your legal counsel's full contact details and confirm they are authorised to exchange contracts within five business days of final agreed terms. We look forward to bringing this to a successful conclusion.</div>
+    <button class="copy-btn" onclick="copyMsg('r4msg', this)">⧉ &nbsp;Copy Message</button>
   </div>
-  <div class="q-card"><div class="q-header"><div class="q-num">1</div><div class="q-title">License & Empanelment Transfer Confirmation</div></div><div class="q-text">"Please confirm all DHA licenses, insurance empanelments, and supplier contracts are confirmed as transferable or novatable to the buyer without penalty or re-application."</div><div class="q-footer"><span class="q-why">Last formal confirmation before signing.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Confirmation received / notes..." onchange="saveState()" id="r4q1"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">2</div><div class="q-title">Working Capital at Close</div></div><div class="q-text">"Please confirm the exact cash and net working capital position as of the proposed completion date."</div><div class="q-footer"><span class="q-why">Determines whether buyer needs to inject additional cash on day one.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Working capital figures / notes..." onchange="saveState()" id="r4q2"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">3</div><div class="q-title">Bank Loan Settlement</div></div><div class="q-text">"Please confirm the AED 3.5M bank loan will be repaid in full from sale proceeds at completion, and provide bank confirmation that all charges will be released upon repayment."</div><div class="q-footer"><span class="q-why">Buyer cannot take clean title to assets if a bank charge remains.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Bank confirmation / notes..." onchange="saveState()" id="r4q3"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">4</div><div class="q-title">No Material Adverse Change</div></div><div class="q-text">"Please confirm there have been no material changes to surgical volume, doctor headcount, insurance empanelment status, or revenue performance since the date of the last management accounts provided."</div><div class="q-footer"><span class="q-why">Standard pre-signing confirmation — protects buyer from deterioration between DD and closing.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Confirmation / any changes to note..." onchange="saveState()" id="r4q4"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">5</div><div class="q-title">Seller Legal Counsel</div></div><div class="q-text">"Please confirm your legal counsel's full details and confirm they have authority to exchange contracts within 5 business days of final agreed terms."</div><div class="q-footer"><span class="q-why">Without this, the legal process cannot move.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Legal counsel details..." onchange="saveState()" id="r4q5"></textarea></div></div>
-  <div class="box" style="margin-top:8px;"><div class="box-title">Completion Readiness Checklist</div><textarea class="notes-area" placeholder="SPA status, completion date, escrow arrangements, post-completion actions..." id="r4decision" onchange="saveState()"></textarea></div>
+
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">1</div><div class="q-title">License & Empanelment Transfer Confirmation</div></div>
+    <div class="q-text">"Please confirm that all DHA licenses, insurance empanelments, and supplier contracts have been reviewed by your legal counsel and are confirmed as transferable or novatable to the buyer without penalty or re-application."</div>
+    <div class="q-footer"><span class="q-why">Last formal confirmation before signing — ensures no surprises on day one of ownership.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Confirmation received / notes..." onchange="saveState()" id="r4q1"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">2</div><div class="q-title">Working Capital at Close</div></div>
+    <div class="q-text">"Please confirm the exact cash and net working capital position as of the proposed completion date, and provide a bring-down schedule confirming the current level of insurance receivables, payables, and cash in bank."</div>
+    <div class="q-footer"><span class="q-why">Determines whether buyer needs to inject additional cash on day one or whether the business self-funds from day one.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Working capital figures / notes..." onchange="saveState()" id="r4q2"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">3</div><div class="q-title">Bank Loan Settlement</div></div>
+    <div class="q-text">"Please confirm the AED 3.5M bank loan will be repaid in full from sale proceeds at completion, and provide confirmation from the bank that all charges registered against company assets will be released upon repayment."</div>
+    <div class="q-footer"><span class="q-why">Buyer cannot take clean title to assets if a bank charge remains. This must be confirmed and documented before signing.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Bank confirmation / notes..." onchange="saveState()" id="r4q3"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">4</div><div class="q-title">No Material Adverse Change</div></div>
+    <div class="q-text">"Please confirm there have been no material changes to surgical volume, doctor headcount, insurance empanelment status, or revenue performance since the date of the last management accounts provided."</div>
+    <div class="q-footer"><span class="q-why">Standard pre-signing confirmation — protects buyer from any deterioration between DD and closing.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Confirmation / any changes to note..." onchange="saveState()" id="r4q4"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">5</div><div class="q-title">Seller Legal Counsel</div></div>
+    <div class="q-text">"Please confirm your legal counsel's full details — firm name, lawyer name, contact number and email — and confirm they have authority to exchange contracts within 5 business days of final agreed terms."</div>
+    <div class="q-footer"><span class="q-why">Without this, the legal process cannot move. Lawyers must be introduced so SPA can be exchanged.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Legal counsel details..." onchange="saveState()" id="r4q5"></textarea></div>
+  </div>
+
+  <div class="box" style="margin-top:8px;">
+    <div class="box-title">Completion Readiness Checklist</div>
+    <textarea class="notes-area" placeholder="SPA status, completion date, escrow arrangements, post-completion actions..." id="r4decision" onchange="saveState()"></textarea>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ BUYER Q&A ══════ -->
 <div class="panel" id="tab-buyer">
   <div class="sec-title">Buyer Q&A Preparation — Questions a Buyer Will Ask YOU</div>
   <div class="box" style="background:rgba(224,82,82,0.05);border-color:rgba(224,82,82,0.2);margin-bottom:28px;">
-    <div style="font-size:13px;color:var(--text2);line-height:1.7;"><strong style="color:var(--red);">Purpose:</strong> These are the hard questions any serious buyer — PE firm, hospital group, family office — will fire at you. Your job is to have a prepared, confident answer ready.</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.7;"><strong style="color:var(--red);">Purpose:</strong> These are the hard questions any serious buyer — PE firm, hospital group, family office — will fire at you. Your job is to have a prepared, confident answer ready. Blank answers here = deal risk. Use the notes boxes to prepare your talking points.</div>
   </div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B1</div><div class="q-title">Can you verify the 280 surgeries/month with audited data?</div></div><div class="q-footer"><span class="q-why">This is the most important question. The entire IP revenue reconstruction depends on it.</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Your prepared answer / what you'll say..." onchange="saveState()" id="bq1"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B2</div><div class="q-title">What is the normalised EBITDA after adding back owner drawings?</div></div><div class="q-footer"><span class="q-why">Reported EBITDA AED 6.3M looks low for AED 85M ask. Normalised EBITDA ~AED 13.3M justifies it.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Your answer: Reported EBITDA AED 6.3M + owner drawings AED 7.58M - market salary AED 600K = normalised ~AED 13.3M. At 6.5x = AED 86M." onchange="saveState()" id="bq2"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B3</div><div class="q-title">Why is the asset register AED 7.4M less than the audited books?</div></div><div class="q-footer"><span class="q-why">Any serious buyer will spot this immediately. You need an explanation ready.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Your prepared answer..." onchange="saveState()" id="bq3"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B4</div><div class="q-title">Are insurance empanelments transferable on change of ownership?</div></div><div class="q-footer"><span class="q-why">If they're not, the business loses its primary revenue channel on day one.</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Your prepared answer..." onchange="saveState()" id="bq4"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B5</div><div class="q-title">Who is the key-man and what happens if he leaves?</div></div><div class="q-footer"><span class="q-why">99% owned by one person. Buyer's biggest concern after the numbers.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Your prepared answer..." onchange="saveState()" id="bq5"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B6</div><div class="q-title">Why was the valuation done internally with no named firm?</div></div><div class="q-footer"><span class="q-why">No firm letterhead, no independence declaration — buyer's advisors will flag this immediately.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Your answer: Dec 2025 report was seller's preliminary estimate. Independent valuation from BDO/Nexia being commissioned." onchange="saveState()" id="bq6"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B7</div><div class="q-title">What is the FY2025 revenue trend?</div></div><div class="q-footer"><span class="q-why">FY2024 is now 17+ months old. Buyer wants to know if the business is growing or declining today.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Your prepared answer — obtain FY2025 mgmt accounts first." onchange="saveState()" id="bq7"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B8</div><div class="q-title">What is the DHA license transfer process and timeline?</div></div><div class="q-footer"><span class="q-why">Buyer needs to plan for the 60-90 day DHA process in their completion timeline.</span><span class="q-flag legal">Legal</span></div><div class="q-answer-box"><textarea placeholder="Your answer: Standard DHA process 60-90 days. No interruption to operations during process." onchange="saveState()" id="bq8"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B9</div><div class="q-title">What happened to the AED 7.58M owner drawings — was profit being hidden?</div></div><div class="q-footer"><span class="q-why">A sharp buyer or their FDD team will ask this directly.</span><span class="q-flag important">Important</span></div><div class="q-answer-box"><textarea placeholder="Your answer: Owner drawings are standard practice in owner-managed businesses — salary, dividends, and discretionary expenses. Full breakdown available under NDA." onchange="saveState()" id="bq9"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B10</div><div class="q-title">What is the insurance claims rejection rate?</div></div><div class="q-footer"><span class="q-why">If above industry average (8-12%), buyer will use it to reduce price.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Your prepared answer — obtain from seller in Round 2." onchange="saveState()" id="bq10"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B11</div><div class="q-title">Why is AED 85M the right price when audited net profit is only AED 4.27M?</div></div><div class="q-footer"><span class="q-why">This is the central valuation challenge. Be ready to walk through the normalisation clearly.</span><span class="q-flag dealbreaker">Dealbreaker</span></div><div class="q-answer-box"><textarea placeholder="Your answer: Normalised EBITDA ~AED 13.3M. At 6.5x = AED 86M. Reconstructed revenue AED 53.6M. Replacement cost alone AED 46.5M+." onchange="saveState()" id="bq11"></textarea></div></div>
-  <div class="q-card"><div class="q-header"><div class="q-num">B12</div><div class="q-title">What are the exit options in 5-7 years?</div></div><div class="q-footer"><span class="q-why">PE and family office buyers always think about exit before they enter.</span><span class="q-flag commercial">Commercial</span></div><div class="q-answer-box"><textarea placeholder="Your answer: Strategic sale to GCC hospital group (Burjeel, Apollo, Aster) at 7-8x EBITDA. At Year 5 EBITDA AED 32M = exit AED 225M+." onchange="saveState()" id="bq12"></textarea></div></div>
-  <div class="box" style="margin-top:8px;"><div class="box-title">Additional Buyer Questions / Notes</div><textarea class="notes-area" placeholder="Other questions that came up in buyer conversations..." id="buyerdecision" onchange="saveState()"></textarea></div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B1</div><div class="q-title">Can you verify the 280 surgeries/month with audited data?</div></div>
+    <div class="q-footer"><span class="q-why">This is the most important question. The entire IP revenue reconstruction depends on it.</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your prepared answer / what you'll say..." onchange="saveState()" id="bq1"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B2</div><div class="q-title">What is the normalised EBITDA after adding back owner drawings?</div></div>
+    <div class="q-footer"><span class="q-why">Reported EBITDA AED 6.3M looks low for AED 85M ask. Normalised EBITDA ~AED 13.3M justifies it.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your answer: Reported EBITDA AED 6.3M + owner drawings AED 7.58M - market salary AED 600K = normalised ~AED 13.3M. At 6.5x = AED 86M. Supports the ask." onchange="saveState()" id="bq2"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B3</div><div class="q-title">Why is the asset register AED 7.4M less than the audited books?</div></div>
+    <div class="q-footer"><span class="q-why">Any serious buyer will spot this immediately. You need to have an explanation ready.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your prepared answer..." onchange="saveState()" id="bq3"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B4</div><div class="q-title">Are insurance empanelments transferable on change of ownership?</div></div>
+    <div class="q-footer"><span class="q-why">If they're not, the business loses its primary revenue channel on day one.</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your prepared answer..." onchange="saveState()" id="bq4"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B5</div><div class="q-title">Who is the key-man and what happens if he leaves?</div></div>
+    <div class="q-footer"><span class="q-why">99% owned by one person. Buyer's biggest concern after the numbers.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your prepared answer..." onchange="saveState()" id="bq5"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B6</div><div class="q-title">Why was the valuation done internally with no named firm?</div></div>
+    <div class="q-footer"><span class="q-why">No firm letterhead, no independence declaration — buyer's advisors will flag this immediately.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your answer: Dec 2025 report was seller's preliminary estimate. Independent valuation from BDO/Nexia is being commissioned. AED 85M is supported by EBITDA multiples, revenue multiples, and replacement cost — all validated by our analysis." onchange="saveState()" id="bq6"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B7</div><div class="q-title">What is the FY2025 revenue trend?</div></div>
+    <div class="q-footer"><span class="q-why">FY2024 is now 17+ months old. Buyer wants to know if the business is growing or declining today.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your prepared answer — obtain FY2025 mgmt accounts first." onchange="saveState()" id="bq7"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B8</div><div class="q-title">What is the DHA license transfer process and timeline?</div></div>
+    <div class="q-footer"><span class="q-why">Buyer needs to plan for the 60-90 day DHA process in their completion timeline.</span><span class="q-flag legal">Legal</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your answer: Standard DHA process 60-90 days. License is in company name (to be confirmed). Change of ownership requires DHA notification and approval — no interruption to operations during process." onchange="saveState()" id="bq8"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B9</div><div class="q-title">What happened to the AED 7.58M owner drawings — was profit being hidden?</div></div>
+    <div class="q-footer"><span class="q-why">A sharp buyer or their FDD team will ask this directly. Have a clear, calm answer ready.</span><span class="q-flag important">Important</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your answer: Owner drawings are standard practice in owner-managed businesses — represents combination of salary, dividends, and discretionary expenses. Normalised EBITDA after adding back personal expenses and applying market-rate replacement salary is ~AED 13.3M. Full breakdown available under NDA." onchange="saveState()" id="bq9"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B10</div><div class="q-title">What is the insurance claims rejection rate?</div></div>
+    <div class="q-footer"><span class="q-why">If above industry average (8-12%), buyer will use it to reduce price.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your prepared answer — obtain from seller in Round 2." onchange="saveState()" id="bq10"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B11</div><div class="q-title">Why is AED 85M the right price when audited net profit is only AED 4.27M?</div></div>
+    <div class="q-footer"><span class="q-why">This is the central valuation challenge. Be ready to walk through the normalisation clearly.</span><span class="q-flag dealbreaker">Dealbreaker</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your answer: Reported net profit understates true earnings due to owner drawings. Normalised EBITDA ~AED 13.3M. At 6.5x = AED 86M. Reconstructed revenue (OPD + 280 surgeries/month + pharmacy) = AED 53.6M. Replacement cost alone AED 46.5M+. AED 85M is below blended fair value mid on all three methods." onchange="saveState()" id="bq11"></textarea></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-header"><div class="q-num">B12</div><div class="q-title">What are the exit options in 5-7 years?</div></div>
+    <div class="q-footer"><span class="q-why">PE and family office buyers always think about exit before they enter.</span><span class="q-flag commercial">Commercial</span></div>
+    <div class="q-answer-box"><textarea placeholder="Your answer: Strategic sale to GCC hospital group (Burjeel, Apollo, Aster) at 7-8x EBITDA. At Year 5 EBITDA AED 32M = exit AED 225M+. IPO on DFM/ADX healthcare platform as second option. Medical tourism platform sale as third." onchange="saveState()" id="bq12"></textarea></div>
+  </div>
+
+  <div class="box" style="margin-top:8px;">
+    <div class="box-title">Additional Buyer Questions / Notes</div>
+    <textarea class="notes-area" placeholder="Other questions that came up in buyer conversations..." id="buyerdecision" onchange="saveState()"></textarea>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════ COMPETITIVE INTEL ══════ -->
+<div class="panel" id="tab-competitive">
+
+  <div class="sec-title">Oud Metha Competitor Landscape</div>
+  <div class="box mb40">
+    <div class="box-title">Competitive Positioning in Oud Metha Healthcare Corridor</div>
+    <div class="tscroll">
+    <table class="vtable">
+      <thead><tr><th>Competitor</th><th>Type</th><th>Size</th><th>Price Point</th><th>Key Specialties</th><th>Threat to Asset</th></tr></thead>
+      <tbody>
+        <tr><td>American Hospital Dubai</td><td>Full Hospital</td><td>252 beds, 40+ specialties</td><td>Premium</td><td>Tertiary, Mayo Clinic affiliated</td><td style="color:var(--red);">HIGH — Premium anchor</td></tr>
+        <tr><td>Dr. Sulaiman Al Habib</td><td>Full Hospital</td><td>200 beds</td><td>Premium</td><td>Multi-specialty, KSA-backed</td><td style="color:var(--red);">HIGH — Same road</td></tr>
+        <tr><td>Emirates Specialty Hospital</td><td>Specialty</td><td>205,000 sq ft</td><td>Mid-Premium</td><td>Urology, Spine, Ortho</td><td style="color:var(--amber);">MEDIUM — Different focus</td></tr>
+        <tr><td>Mediclinic Welcare</td><td>Full Hospital</td><td>Large, JCI</td><td>Premium</td><td>Broad multi-specialty</td><td style="color:var(--amber);">MEDIUM</td></tr>
+        <tr><td>Latifa Hospital (Gov)</td><td>Government</td><td>Large</td><td>Subsidised</td><td>Emergency, Maternity</td><td style="color:var(--green);">LOW — Different patient</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div style="margin-top:14px;padding:14px;background:rgba(180,155,100,0.05);border:1px solid var(--border2);border-radius:2px;font-size:12.5px;color:var(--text2);line-height:1.7;">
+      <strong style="color:var(--gold);">Strategic insight:</strong> American Hospital and Al Habib are tertiary care giants — they do not compete aggressively on aesthetic surgery, hair transplant, mid-market OPD, or 24/7 pharmacy. The asset occupies a unique niche in Oud Metha that premium competitors do not serve. Their presence validates the location without cannibalising the patient base.
+    </div>
+  </div>
+
+  <div class="sec-title">Competitive Differentiation</div>
+  <div class="box mb40">
+    <ul class="thesis">
+      <li><div class="thesis-dot">1</div><div><strong>Aesthetic Surgery Leadership.</strong> 9 plastic surgeons and 280 surgeries/month positions this as the aesthetic surgery leader in Oud Metha. No competitor of similar scale competes in liposuction, rhinoplasty, or cosmetic procedures at this volume.</div></li>
+      <li><div class="thesis-dot">2</div><div><strong>Mid-Market Price Point.</strong> American Hospital and Al Habib are premium-priced. This facility serves the insured middle market — the South Asian expatriate majority of Oud Metha's patient catchment — a segment premium competitors structurally cannot capture.</div></li>
+      <li><div class="thesis-dot">3</div><div><strong>24/7 Pharmacy — Exclusive in Segment.</strong> No other mid-market facility in Oud Metha operates a round-the-clock pharmacy. This drives patient retention, repeat visits, and a revenue stream competitors don't capture.</div></li>
+      <li><div class="thesis-dot">4</div><div><strong>Oud Metha Metro Station adjacency.</strong> The facility is directly adjacent to the Oud Metha Metro Station — the single most accessible healthcare location in central Dubai, simultaneously serving Bur Dubai, Karama, Deira, and DIFC catchments.</div></li>
+      <li><div class="thesis-dot">5</div><div><strong>Replacement cost barrier.</strong> Any buyer entering Oud Metha faces AED 150M–200M to build a new hospital from scratch, 18–24 months for DHA licensing, and years to build 25,000 patient relationships. Acquiring this asset at AED 85M is the only viable entry strategy.</div></li>
+    </ul>
+  </div>
+
+  <div class="sec-title">Target Buyer Universe</div>
+  <div class="box mb40">
+    <div class="box-title">Priority Buyer Categories — Ranked by Strategic Fit</div>
+    <div class="tscroll">
+    <table class="vtable">
+      <thead><tr><th>Category</th><th>Example Buyers</th><th>Primary Motivation</th><th>Likely Valuation Lens</th></tr></thead>
+      <tbody>
+        <tr><td>GCC Hospital Groups</td><td>Burjeel Holdings, Saudi German Hospital</td><td>Dubai footprint, no Oud Metha presence</td><td>EBITDA 6–8× → AED 100M+</td></tr>
+        <tr><td>Indian Hospital Groups</td><td>Apollo, Manipal, Fortis</td><td>Indian diaspora patient base, DHA license</td><td>EBITDA 7–9× → AED 117M+</td></tr>
+        <tr><td>UAE Hospital Operators</td><td>Aster DM, Medeor</td><td>Surgical capacity, insurance network synergy</td><td>Strategic synergy premium</td></tr>
+        <tr><td>Insurance Companies</td><td>DAMAN, AXA Gulf</td><td>Vertical integration — already empanelled</td><td>Claims cost reduction value</td></tr>
+        <tr><td>PE / Family Office</td><td>Gulf Capital, Investcorp, UAE UHNWI</td><td>Platform acquisition, IRR-driven</td><td>EBITDA 5–6× → AED 85–100M</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ FINANCIALS ══════ -->
@@ -361,117 +879,170 @@ Finally, please share your legal counsel's full contact details and confirm they
     <div class="fin-kpi"><div class="fin-lbl">Reconstructed Net Profit</div><div class="fin-val g">~AED 14.7M</div><div class="fin-note">Validated by valuation report</div></div>
     <div class="fin-kpi"><div class="fin-lbl">Asking Price</div><div class="fin-val">AED 85M</div><div class="fin-note">Full OpCo + all assets</div></div>
   </div>
+
   <div class="sec-title">Normalised EBITDA Bridge</div>
-  <div class="box"><div class="tscroll"><table class="tracker">
-    <thead><tr><th>Item</th><th>AED</th><th>Note</th></tr></thead>
-    <tbody>
-      <tr><td class="item-name">Reported Net Profit FY2024</td><td style="padding:12px;color:var(--text);">4,273,471</td><td class="item-desc">Audited</td></tr>
-      <tr><td class="item-name">Add: Depreciation</td><td style="padding:12px;color:var(--green);">+1,484,664</td><td class="item-desc">Non-cash</td></tr>
-      <tr><td class="item-name">Add: Finance Cost</td><td style="padding:12px;color:var(--green);">+173,936</td><td class="item-desc">New loan FY2024</td></tr>
-      <tr><td class="item-name">Add: Corporate Tax</td><td style="padding:12px;color:var(--green);">+385,563</td><td class="item-desc">9% CT first year</td></tr>
-      <tr><td class="item-name" style="color:var(--gold);font-weight:500;">Reported EBITDA</td><td style="padding:12px;color:var(--gold);font-weight:500;">6,317,634</td><td class="item-desc">Before normalisation</td></tr>
-      <tr><td class="item-name">Add: Owner Drawings</td><td style="padding:12px;color:var(--green);">+7,580,000</td><td class="item-desc">Personal extraction added back</td></tr>
-      <tr><td class="item-name">Less: Market CEO Salary</td><td style="padding:12px;color:var(--red);">−600,000</td><td class="item-desc">Replacement cost estimate</td></tr>
-      <tr><td class="item-name" style="color:var(--green);font-weight:500;">Normalised EBITDA</td><td style="padding:12px;color:var(--green);font-weight:500;">~13,297,634</td><td class="item-desc">True earnings power</td></tr>
-    </tbody>
-  </table></div></div>
+  <div class="box mb24">
+    <div class="tscroll"><table class="tracker">
+      <thead><tr><th>Item</th><th>AED</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="item-name">Reported Net Profit FY2024</td><td style="color:var(--text);padding:12px;">4,273,471</td><td class="item-desc">Audited</td></tr>
+        <tr><td class="item-name">Add: Depreciation</td><td style="color:var(--green);padding:12px;">+1,484,664</td><td class="item-desc">Non-cash</td></tr>
+        <tr><td class="item-name">Add: Finance Cost</td><td style="color:var(--green);padding:12px;">+173,936</td><td class="item-desc">New loan FY2024</td></tr>
+        <tr><td class="item-name">Add: Corporate Tax</td><td style="color:var(--green);padding:12px;">+385,563</td><td class="item-desc">9% CT first year</td></tr>
+        <tr><td class="item-name" style="color:var(--gold);font-weight:500;">Reported EBITDA</td><td style="color:var(--gold);padding:12px;font-weight:500;">6,317,634</td><td class="item-desc">Before normalisation</td></tr>
+        <tr><td class="item-name">Add: Owner Drawings (normalisation)</td><td style="color:var(--green);padding:12px;">+7,580,000</td><td class="item-desc">Personal extraction added back</td></tr>
+        <tr><td class="item-name">Less: Market CEO Salary</td><td style="color:var(--red);padding:12px;">−600,000</td><td class="item-desc">Replacement cost estimate</td></tr>
+        <tr><td class="item-name" style="color:var(--green);font-weight:500;">Normalised EBITDA</td><td style="color:var(--green);padding:12px;font-weight:500;">~13,297,634</td><td class="item-desc">True earnings power</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
   <div class="sec-title">Valuation Matrix</div>
-  <div class="box"><div class="tscroll"><table class="tracker">
-    <thead><tr><th>Method</th><th>Low</th><th>Mid</th><th>High</th><th>vs AED 85M Ask</th></tr></thead>
-    <tbody>
-      <tr><td class="item-name">EBITDA Multiple (5×–8×)</td><td style="padding:12px;color:var(--text2);">AED 83.7M</td><td style="padding:12px;color:var(--gold);">AED 108.8M</td><td style="padding:12px;color:var(--text2);">AED 133.9M</td><td style="padding:12px;color:var(--green);">✓ Ask below mid</td></tr>
-      <tr><td class="item-name">Revenue Multiple (1.5×–2.5×)</td><td style="padding:12px;color:var(--text2);">AED 80.4M</td><td style="padding:12px;color:var(--gold);">AED 107.2M</td><td style="padding:12px;color:var(--text2);">AED 134.0M</td><td style="padding:12px;color:var(--green);">✓ Ask below mid</td></tr>
-      <tr><td class="item-name">Net Profit Multiple (5×–7×)</td><td style="padding:12px;color:var(--text2);">AED 73.5M</td><td style="padding:12px;color:var(--gold);">AED 88.2M</td><td style="padding:12px;color:var(--text2);">AED 102.9M</td><td style="padding:12px;color:var(--green);">✓ Ask within range</td></tr>
-      <tr><td class="item-name">Replacement Cost (floor)</td><td style="padding:12px;color:var(--text2);">AED 46.5M+</td><td style="padding:12px;color:var(--text3);">—</td><td style="padding:12px;color:var(--text3);">—</td><td style="padding:12px;color:var(--green);">✓ Ask well above floor</td></tr>
-    </tbody>
-  </table></div></div>
+  <div class="box mb24">
+    <div class="tscroll"><table class="tracker">
+      <thead><tr><th>Method</th><th>Low</th><th>Mid</th><th>High</th><th>vs AED 85M Ask</th></tr></thead>
+      <tbody>
+        <tr><td class="item-name">EBITDA Multiple (5×–8×)</td><td style="padding:12px;color:var(--text2);">AED 83.7M</td><td style="padding:12px;color:var(--gold);">AED 108.8M</td><td style="padding:12px;color:var(--text2);">AED 133.9M</td><td style="padding:12px;color:var(--green);">✓ Ask below mid</td></tr>
+        <tr><td class="item-name">Revenue Multiple (1.5×–2.5×)</td><td style="padding:12px;color:var(--text2);">AED 80.4M</td><td style="padding:12px;color:var(--gold);">AED 107.2M</td><td style="padding:12px;color:var(--text2);">AED 134.0M</td><td style="padding:12px;color:var(--green);">✓ Ask below mid</td></tr>
+        <tr><td class="item-name">Net Profit Multiple (5×–7×)</td><td style="padding:12px;color:var(--text2);">AED 73.5M</td><td style="padding:12px;color:var(--gold);">AED 88.2M</td><td style="padding:12px;color:var(--text2);">AED 102.9M</td><td style="padding:12px;color:var(--green);">✓ Ask within range</td></tr>
+        <tr><td class="item-name">Replacement Cost (floor)</td><td style="padding:12px;color:var(--text2);">AED 46.5M+</td><td style="padding:12px;color:var(--text3);">—</td><td style="padding:12px;color:var(--text3);">—</td><td style="padding:12px;color:var(--green);">✓ Ask well above floor</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
   <div class="sec-title">IRR & MOIC at AED 85M Entry</div>
-  <div class="box"><div class="tscroll"><table class="tracker">
-    <thead><tr><th>Scenario</th><th>EBITDA CAGR</th><th>Exit Multiple</th><th>Exit Value</th><th>IRR (5yr)</th><th>MOIC</th></tr></thead>
-    <tbody>
-      <tr><td class="item-name">Conservative</td><td style="padding:12px;color:var(--text2);">8%</td><td style="padding:12px;color:var(--text2);">5×</td><td style="padding:12px;color:var(--text2);">AED 123M</td><td style="padding:12px;color:var(--amber);">7.7%</td><td style="padding:12px;color:var(--amber);">1.4×</td></tr>
-      <tr><td class="item-name">Base Case</td><td style="padding:12px;color:var(--text2);">12%</td><td style="padding:12px;color:var(--text2);">6.5×</td><td style="padding:12px;color:var(--gold);">AED 192M</td><td style="padding:12px;color:var(--gold);">17.7%</td><td style="padding:12px;color:var(--gold);">2.3×</td></tr>
-      <tr><td class="item-name">Upside</td><td style="padding:12px;color:var(--text2);">16%</td><td style="padding:12px;color:var(--text2);">8×</td><td style="padding:12px;color:var(--green);">AED 281M</td><td style="padding:12px;color:var(--green);">27.0%</td><td style="padding:12px;color:var(--green);">3.3×</td></tr>
-    </tbody>
-  </table></div></div>
+  <div class="box">
+    <div class="tscroll"><table class="tracker">
+      <thead><tr><th>Scenario</th><th>EBITDA CAGR</th><th>Exit Multiple</th><th>Exit Value</th><th>IRR (5yr)</th><th>MOIC</th></tr></thead>
+      <tbody>
+        <tr><td class="item-name">Conservative</td><td style="padding:12px;color:var(--text2);">8%</td><td style="padding:12px;color:var(--text2);">5×</td><td style="padding:12px;color:var(--text2);">AED 123M</td><td style="padding:12px;color:var(--amber);">7.7%</td><td style="padding:12px;color:var(--amber);">1.4×</td></tr>
+        <tr><td class="item-name">Base Case</td><td style="padding:12px;color:var(--text2);">12%</td><td style="padding:12px;color:var(--text2);">6.5×</td><td style="padding:12px;color:var(--gold);">AED 192M</td><td style="padding:12px;color:var(--gold);">17.7%</td><td style="padding:12px;color:var(--gold);">2.3×</td></tr>
+        <tr><td class="item-name">Upside</td><td style="padding:12px;color:var(--text2);">16%</td><td style="padding:12px;color:var(--text2);">8×</td><td style="padding:12px;color:var(--green);">AED 281M</td><td style="padding:12px;color:var(--green);">27.0%</td><td style="padding:12px;color:var(--green);">3.3×</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
+      </div>
+    </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
+  </div>
 </div>
 
 <!-- ══════ NOTES ══════ -->
 <div class="panel" id="tab-notes">
   <div class="sec-title">My Private Notes — Strategy, Conversations, Next Steps</div>
-  <div class="box"><div class="box-title">Seller Conversations</div><textarea class="notes-area" style="min-height:150px;" placeholder="Notes from calls and meetings with the seller..." id="note1" onchange="saveState()"></textarea></div>
-  <div class="box"><div class="box-title">Buyer Conversations</div><textarea class="notes-area" style="min-height:150px;" placeholder="Notes from buyer interactions — who's interested, what they asked, pricing feedback..." id="note2" onchange="saveState()"></textarea></div>
-  <div class="box"><div class="box-title">Deal Strategy & Next Actions</div><textarea class="notes-area" style="min-height:150px;" placeholder="What needs to happen next, blockers, timeline, negotiation position..." id="note3" onchange="saveState()"></textarea></div>
-  <div class="box"><div class="box-title">Price & Structure Thoughts</div><textarea class="notes-area" style="min-height:150px;" placeholder="Pricing moves, earnout thoughts, escrow ideas, walk-away numbers..." id="note4" onchange="saveState()"></textarea></div>
+  <div class="box">
+    <div class="box-title">Seller Conversations</div>
+    <textarea class="notes-area" style="min-height:150px;" placeholder="Notes from calls and meetings with the seller..." id="note1" onchange="saveState()"></textarea>
+  </div>
+  <div class="box">
+    <div class="box-title">Buyer Conversations</div>
+    <textarea class="notes-area" style="min-height:150px;" placeholder="Notes from buyer interactions — who's interested, what they asked, pricing feedback..." id="note2" onchange="saveState()"></textarea>
+  </div>
+  <div class="box">
+    <div class="box-title">Deal Strategy & Next Actions</div>
+    <textarea class="notes-area" style="min-height:150px;" placeholder="What needs to happen next, blockers, timeline, negotiation position..." id="note3" onchange="saveState()"></textarea>
+  </div>
+  <div class="box">
+    <div class="box-title">Price & Structure Thoughts</div>
+    <textarea class="notes-area" style="min-height:150px;" placeholder="Pricing moves, earnout thoughts, escrow ideas, walk-away numbers..." id="note4" onchange="saveState()"></textarea>
+  </div>
 
-</div>
-
-<!-- GLOBAL FOOTER — shows on all tabs -->
-<div class="vd-footer">
-  <div class="vd-footer-inner">
-    <div class="vd-footer-mono">VD</div>
-    <div>
-      <div class="vd-footer-name">Vishal Desai</div>
-      <div class="vd-footer-title">Director, Capital Advisory · Off-Market Deal Originator</div>
-      <div class="vd-footer-sub">Education · Hospitality · Healthcare · Real Estate · Digital Infrastructure</div>
-      <div class="vd-footer-contacts">
-        <a class="vd-footer-link" href="https://wa.me/971553898410" target="_blank">📱 WhatsApp</a>
-        <a class="vd-footer-link" href="tel:+971553898410">+971 55 389 8410</a>
+  <div class="vd-sig">
+    <div class="vd-sig-left">
+      <div class="vd-sig-av">VD</div>
+      <div class="vd-sig-info">
+        <span class="vd-sig-name">Vishal Desai</span>
+        <span class="vd-sig-tag">Off-Market Mandates &nbsp;·&nbsp; Education &nbsp;·&nbsp; Hospitality &nbsp;·&nbsp; Healthcare</span>
       </div>
     </div>
+    <div class="vd-sig-right">
+      <span class="vd-sig-phone">+971 55 389 8410</span>
+      <span class="vd-sig-badge">Confidential · Internal</span>
+    </div>
   </div>
-  <div class="vd-footer-disc">Private & Confidential · Internal Use Only · Vishal Desai · Deal Master Tracker</div>
 </div>
 
 <div class="save-indicator" id="saveIndicator">Saved ✓</div>
+
 <script>
-function showTab(id,btn){
+function showTab(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
-  btn.classList.add('active');
+  event.target.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   updateProgress();
 }
+
 function updateProgress(){
-  const allCbs=document.querySelectorAll('.cb');
-  const checked=document.querySelectorAll('.cb:checked').length;
-  const pct=Math.round((checked/allCbs.length)*100);
-  document.getElementById('progressPct').textContent=pct+'%';
-  document.getElementById('progressFill').style.width=pct+'%';
+  const allCbs = document.querySelectorAll('.cb');
+  const checked = document.querySelectorAll('.cb:checked').length;
+  const pct = Math.round((checked/allCbs.length)*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
 }
+
 function saveState(){
-  const state={};
-  document.querySelectorAll('.cb').forEach((cb,i)=>{state['cb_'+i]=cb.checked;});
-  document.querySelectorAll('textarea').forEach(ta=>{if(ta.id) state[ta.id]=ta.value;});
-  try{localStorage.setItem('vd_deal_tracker',JSON.stringify(state));}catch(e){}
-  const ind=document.getElementById('saveIndicator');
+  const state = {};
+  // Save checkboxes
+  document.querySelectorAll('.cb').forEach((cb,i)=>{ state['cb_'+i]=cb.checked; });
+  // Save textareas
+  document.querySelectorAll('textarea').forEach(ta=>{ if(ta.id) state[ta.id]=ta.value; });
+  try{ localStorage.setItem('vd_deal_tracker', JSON.stringify(state)); } catch(e){}
+  // Show save indicator
+  const ind = document.getElementById('saveIndicator');
   ind.classList.add('show');
-  setTimeout(()=>ind.classList.remove('show'),1500);
+  setTimeout(()=>ind.classList.remove('show'), 1500);
   updateProgress();
 }
+
 function loadState(){
   try{
-    const raw=localStorage.getItem('vd_deal_tracker');
+    const raw = localStorage.getItem('vd_deal_tracker');
     if(!raw) return;
-    const state=JSON.parse(raw);
-    document.querySelectorAll('.cb').forEach((cb,i)=>{if(state['cb_'+i]!==undefined) cb.checked=state['cb_'+i];});
-    document.querySelectorAll('textarea').forEach(ta=>{if(ta.id&&state[ta.id]!==undefined) ta.value=state[ta.id];});
-  }catch(e){}
+    const state = JSON.parse(raw);
+    document.querySelectorAll('.cb').forEach((cb,i)=>{ if(state['cb_'+i]!==undefined) cb.checked=state['cb_'+i]; });
+    document.querySelectorAll('textarea').forEach(ta=>{ if(ta.id && state[ta.id]!==undefined) ta.value=state[ta.id]; });
+  } catch(e){}
   updateProgress();
 }
-function copyMsg(id,btn){
-  const text=document.getElementById(id).innerText;
+
+
+function copyMsg(id, btn){
+  const text = document.getElementById(id).innerText;
   navigator.clipboard.writeText(text).then(()=>{
-    btn.textContent='✓  Copied!';btn.classList.add('copied');
-    setTimeout(()=>{btn.innerHTML='⧉ &nbsp;Copy Message';btn.classList.remove('copied');},2500);
+    btn.textContent = '✓  Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{
+      btn.innerHTML = '⧉ &nbsp;Copy Message';
+      btn.classList.remove('copied');
+    }, 2500);
   }).catch(()=>{
-    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-    btn.textContent='✓  Copied!';btn.classList.add('copied');
-    setTimeout(()=>{btn.innerHTML='⧉ &nbsp;Copy Message';btn.classList.remove('copied');},2500);
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓  Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.innerHTML = '⧉ &nbsp;Copy Message';btn.classList.remove('copied');},2500);
   });
 }
-window.onload=function(){loadState();updateProgress();};
+
+window.onload = function(){ loadState(); updateProgress(); };
 </script>
+
 </body>
 </html>
